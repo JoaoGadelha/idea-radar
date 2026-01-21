@@ -64,6 +64,14 @@ export default async function handler(req, res) {
   } catch (error) {
     console.error('[Leads] Error:', error);
 
+    // Erro de limite atingido
+    if (error.message && error.message.includes('Limite de 5 cadastros')) {
+      return res.status(200).json({
+        success: true,
+        message: error.message,
+      });
+    }
+
     // Erro de email duplicado
     if (error.code === '23505') {
       return res.status(200).json({
