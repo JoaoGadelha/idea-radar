@@ -19,11 +19,13 @@ import {
  * Monta o prompt de sistema com contexto dos projetos
  */
 async function buildSystemPrompt(projects, metrics) {
-  // Buscar leads de cada projeto com sugestões
+  // Buscar todos os leads de cada projeto
   const projectLeadsMap = {};
+  const projectAllLeadsMap = {};
   
   for (const project of projects) {
     const leads = await getProjectLeads(project.id);
+    projectAllLeadsMap[project.id] = leads;
     const leadsWithSuggestions = leads.filter(l => l.sugestao && l.sugestao.trim());
     
     if (leadsWithSuggestions.length > 0) {
@@ -31,14 +33,16 @@ async function buildSystemPrompt(projects, metrics) {
     }
   }
 
-  const projectsContext = metrics.map(m => {
+  const projectContexts = metrics.map(m => {
     const hasMetrics = m.sessions !== null;
-    const projectLeads = projectLeadsMap[m.project_id] || [];
+    const allLeads = projectAllLeadsMap[m.project_id] || [];
+    const leadsWithSuggestions = projectLeadsMap[m.project_id] || [];
     
     let contextText = `
 📦 **${m.project_name}**
    URL: ${m.url || 'Não definida'}
-   Status: ${m.status}`;
+   Status: ${m.status}
+   👥 Leads cadastrados: ${allLeads.length}`;
 
     if (!hasMetrics) {
       contextText += `
@@ -61,30 +65,38 @@ async function buildSystemPrompt(projects, metrics) {
     }
 
     // Adicionar sugestões dos leads se houver
-    if (projectLeads.length > 0) {
+    if (leadsWithSuggestions.length > 0) {
       contextText += `
    
-   💬 Sugestões dos Usuários (${projectLeads.length} ${projectLeads.length === 1 ? 'sugestão' : 'sugestões'}):`;
+   💬 Sugestões dos Usuários (${leadsWithSuggestions.length} ${leadsWithSuggestions.length === 1 ? 'sugestão' : 'sugestões'}):`;
       
-      projectLeads.forEach((lead, index) => {
+      leadsWithSuggestions.forEach((lead, index) => {
         contextText += `
    ${index + 1}. "${lead.sugestao}"`;
       });
     }
 
-    return contextText;
-  }).join('\n\n');
+    return { contextText, leadsCount: allLeads.length, suggestionsCount: leadsWithSuggestions.length };
+  });
+  });
 
-  const totalLeads = metrics.reduce((acc, m) => acc + (m.conversions || 0), 0);
+  const projectsContext = projectContexts.map(p => p.contextText).join('\n\n');
+  const totalLeads = projectContexts.reduce((acc, p) => acc + p.leadsCount, 0);
 
   return `Você é um assistente de análise de landing pages. Responda de forma concisa e direta.
 
 Você tem acesso aos dados de ${projects.length} projeto(s) do usuário.
-Total de leads coletados (todos os projetos): ${totalLeads}.
+Total de leads coletados (pessoas interessadas cadastradas): ${totalLeads}.
 
 ${projectsContext}
 
 ---
+
+TERMINOLOGIA IMPORTANTE:
+- **Lead** = pessoa que se cadastrou demonstrando interesse (cada registro na lista de interessados)
+- **Sugestão** = feedback/comentário que um lead deixou (nem todo lead deixa sugestão)
+- Se perguntarem "quantos leads", responda o total de pessoas cadastradas
+- Se perguntarem "quantas sugestões", responda quantas pessoas deixaram feedback
 
 COMPORTAMENTO OBRIGATÓRIO:
 
