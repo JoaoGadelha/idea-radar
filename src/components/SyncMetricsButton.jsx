@@ -22,18 +22,29 @@ export default function SyncMetricsButton({ onSynced }) {
       const data = await response.json();
 
       if (response.ok) {
-        setResult({
-          success: true,
-          message: `✅ ${data.synced} projeto(s) sincronizado(s)!`
-        });
-        onSynced?.();
+        // Verificar se houve erros nos resultados individuais
+        const hasErrors = data.results?.some(r => r.error);
+        const errorMessages = data.results?.filter(r => r.error).map(r => `${r.projectName}: ${r.error}`);
         
-        // Limpa mensagem após 5s
-        setTimeout(() => setResult(null), 5000);
+        if (hasErrors) {
+          setResult({
+            success: false,
+            message: `⚠️ Erros na coleta:\n${errorMessages.join('\n')}`
+          });
+        } else {
+          setResult({
+            success: true,
+            message: `✅ ${data.synced} projeto(s) sincronizado(s)!`
+          });
+          onSynced?.();
+          
+          // Limpa mensagem após 5s
+          setTimeout(() => setResult(null), 5000);
+        }
       } else {
         setResult({
           success: false,
-          message: `❌ ${data.error || 'Erro ao sincronizar'}`
+          message: `❌ ${data.message || data.error || 'Erro ao sincronizar'}`
         });
       }
     } catch (error) {
@@ -51,8 +62,8 @@ export default function SyncMetricsButton({ onSynced }) {
       <div className={styles.warning}>
         <div className={styles.content}>
           <div>
-            <strong>⚡ Modo de Teste</strong>
-            <p>Força a coleta de métricas simuladas para todos os seus projetos</p>
+            <strong>⚡ Coleta Manual de Métricas</strong>
+            <p>Força a coleta de métricas reais do Google Analytics 4</p>
           </div>
           <button
             onClick={handleSync}
