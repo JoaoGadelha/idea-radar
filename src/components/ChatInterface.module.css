@@ -211,3 +211,126 @@
 .send:disabled {
   opacity: 0.5;
 }
+
+/* Modo de edição */
+.message.editing {
+  z-index: 10;
+}
+
+.bubbleEditing {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed) !important;
+  border: 2px solid #a78bfa !important;
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+}
+
+.editContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 280px;
+}
+
+.editInput {
+  width: 100%;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: white;
+  font-size: 15px;
+  resize: none;
+  font-family: inherit;
+}
+
+.editInput:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.editActions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.editCancel,
+.editSubmit {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.editCancel {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.editCancel:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.editSubmit {
+  background: white;
+  border: none;
+  color: #4f46e5;
+}
+
+.editSubmit:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
+}
+
+.editSubmit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Navegação de versões */
+.versionNav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.versionBtn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.versionBtn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.versionBtn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.versionCounter {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  min-width: 32px;
+  text-align: center;
+}
+
+/* Indicador de editável no hover */
+.message[data-role="user"] .bubble:not(.bubbleEditing):hover {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+}
