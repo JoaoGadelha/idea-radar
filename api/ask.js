@@ -64,7 +64,7 @@ async function buildSystemPrompt(projects, metrics) {
     if (projectLeads.length > 0) {
       contextText += `
    
-   💬 Sugestões dos Usuários (${projectLeads.length} ${projectLeads.length === 1 ? 'resposta' : 'respostas'}):`;
+   💬 Sugestões dos Usuários (${projectLeads.length} ${projectLeads.length === 1 ? 'sugestão' : 'sugestões'}):`;
       
       projectLeads.forEach((lead, index) => {
         contextText += `
@@ -75,9 +75,12 @@ async function buildSystemPrompt(projects, metrics) {
     return contextText;
   }).join('\n\n');
 
+  const totalLeads = metrics.reduce((acc, m) => acc + (m.conversions || 0), 0);
+
   return `Você é um assistente de análise de landing pages. Responda de forma concisa e direta.
 
-Você tem acesso aos dados de ${projects.length} projeto(s) do usuário:
+Você tem acesso aos dados de ${projects.length} projeto(s) do usuário.
+Total de leads coletados (todos os projetos): ${totalLeads}.
 
 ${projectsContext}
 
@@ -96,8 +99,9 @@ COMPORTAMENTO OBRIGATÓRIO:
    - Execute a ação que você ofereceu, NÃO pergunte de novo
    - Se ofereceu mostrar sugestões e ele disse "sim", MOSTRE as sugestões
 
-3. **Pedidos para MOSTRAR dados** (ex: "traz as sugestões", "mostra as métricas"):
+3. **Pedidos para MOSTRAR dados** (ex: "traz as sugestões", "mostra as métricas", "quantos leads?"):
    - Mostre APENAS os dados pedidos, formatados de forma limpa
+   - Se perguntar "quantos leads", responda com o total e pergunte se quer ver as sugestões.
    - NÃO faça análise, NÃO dê recomendações
    - Após mostrar, pergunte: "Quer que eu analise?"
 
