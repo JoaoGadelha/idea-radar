@@ -27,6 +27,7 @@ export default function ChatInterface({ projectsCount }) {
   const [loading, setLoading] = useState(false);
   const [retryInfo, setRetryInfo] = useState(null); // { attempt: 1, maxAttempts: 3 }
   const messagesEndRef = useRef(null);
+  const inputRef = useRef(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -35,6 +36,13 @@ export default function ChatInterface({ projectsCount }) {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Focar input quando bot responder
+  useEffect(() => {
+    if (!loading && messages.length > 0) {
+      inputRef.current?.focus();
+    }
+  }, [loading, messages.length]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -172,6 +180,7 @@ export default function ChatInterface({ projectsCount }) {
 
       <form onSubmit={handleSubmit} className={styles.form}>
         <input
+          ref={inputRef}
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
