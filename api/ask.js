@@ -12,30 +12,42 @@ import {
   getLatestMetricsForAllProjects,
   getUserProjects,
   saveAnalysis,
+  getProjectLeads,
 } from '../src/services/database.js';
 
 /**
  * Monta o prompt de sistema com contexto dos projetos
  */
-function buildSystemPrompt(projects, metrics) {
+async function buildSystemPrompt(projects, metrics) {
+  // Buscar leads de cada projeto com sugestões
+  const projectLeadsMap = {};
+  
+  for (const project of projects) {
+    const leads = await getProjectLeads(project.id);
+    const leadsWithSuggestions = leads.filter(l => l.sugestao && l.sugestao.trim());
+    
+    if (leadsWithSuggestions.length > 0) {
+      projectLeadsMap[project.id] = leadsWithSuggestions;
+    }
+  }
+
   const projectsContext = metrics.map(m => {
     const hasMetrics = m.sessions !== null;
+    const projectLeads = projectLeadsMap[m.project_id] || [];
     
+    let contextText = `
+📦 **${m.project_name}**
+   URL: ${m.url || 'Não definida'}
+   Status: ${m.status}`;
+
     if (!hasMetrics) {
-      return `
-📦 **${m.project_name}**
-   URL: ${m.url || 'Não definida'}
-   Status: ${m.status}
+      contextText += `
    ⚠️ Sem métricas coletadas ainda`;
-    }
+    } else {
+      const conversionRate = m.conversion_rate ? `${m.conversion_rate}%` : 'N/A';
+      const bounceRate = m.bounce_rate ? `${m.bounce_rate}%` : 'N/A';
 
-    const conversionRate = m.conversion_rate ? `${m.conversion_rate}%` : 'N/A';
-    const bounceRate = m.bounce_rate ? `${m.bounce_rate}%` : 'N/A';
-
-    return `
-📦 **${m.project_name}**
-   URL: ${m.url || 'Não definida'}
-   Status: ${m.status}
+      contextText += `
    Última atualização: ${m.date}
    
    📊 Métricas:
@@ -46,6 +58,21 @@ function buildSystemPrompt(projects, metrics) {
    - Cliques no CTA: ${m.cta_clicks || 0}
    - Conversões: ${m.conversions || 0}
    - Taxa de conversão: ${conversionRate}`;
+    }
+
+    // Adicionar sugestões dos leads se houver
+    if (projectLeads.length > 0) {
+      contextText += `
+   
+   💬 Sugestões dos Usuários (${projectLeads.length} ${projectLeads.length === 1 ? 'resposta' : 'respostas'}):`;
+      
+      projectLeads.forEach((lead, index) => {
+        contextText += `
+   ${index + 1}. "${lead.sugestao}"`;
+      });
+    }
+
+    return contextText;
   }).join('\n\n');
 
   return `Você é um analista de negócios especializado em validação de ideias e landing pages.
@@ -62,12 +89,14 @@ Seu trabalho é:
 3. Explicar POR QUE alguns estão melhores que outros
 4. Sugerir ações concretas para melhorar os fracos
 5. Recomendar onde o usuário deve focar energia
+6. **IMPORTANTE:** Quando houver sugestões dos usuários, analise os padrões, objeções comuns, funcionalidades pedidas e sentimento geral
 
 REGRAS:
 - Seja direto e objetivo, sem enrolação
 - Use números para embasar suas análises
 - Quando um projeto estiver claramente ruim, diga sem rodeios
 - Quando um projeto tiver potencial, destaque e sugira próximos passos
+- Se houver sugestões dos usuários, faça uma análise qualitativa: identifique padrões, principais objeções, funcionalidades mais pedidas, e sentimento geral
 - Responda sempre em português do Brasil
 - Se não houver dados suficientes, diga claramente o que falta
 
@@ -110,7 +139,7 @@ export default async function handler(req, res) {
     }
 
     // Montar prompt
-    const systemPrompt = buildSystemPrompt(projects, metrics);
+    const systemPrompt = await buildSystemPrompt(projects, metrics);
     const fullPrompt = `${systemPrompt}\n\n---\n\nPergunta do usuário: ${question.trim()}`;
 
     // Chamar LLM

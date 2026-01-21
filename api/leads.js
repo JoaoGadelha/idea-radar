@@ -1,7 +1,7 @@
 /**
  * API: Webhook para captura de leads das landing pages
  * POST /api/leads
- * Body: { projectId: string, email: string, source?: string }
+ * Body: { projectId: string, email: string, nome?: string, telefone?: string, sugestao?: string, source?: string }
  * 
  * Este endpoint é chamado pelas landing pages para registrar leads
  * Não requer autenticação (é público)
@@ -23,7 +23,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { projectId, email, source } = req.body;
+  const { projectId, email, nome, telefone, sugestao, source } = req.body;
 
   if (!projectId) {
     return res.status(400).json({ error: 'projectId is required' });
@@ -42,13 +42,24 @@ export default async function handler(req, res) {
     }
 
     // Salvar lead
-    const lead = await saveLead(projectId, email.toLowerCase().trim(), source || null);
+    const lead = await saveLead(
+      projectId, 
+      email.toLowerCase().trim(), 
+      source || null,
+      nome?.trim() || null,
+      telefone?.trim() || null,
+      sugestao?.trim() || null
+    );
 
-    console.log(`[Leads] New lead for project ${projectId}: ${email}`);
+    console.log(`[Leads] New lead for project ${projectId}: ${nome || email}`);
 
     return res.status(201).json({
       success: true,
       message: 'Lead captured successfully',
+      lead: {
+        id: lead.id,
+        email: lead.email
+      }
     });
   } catch (error) {
     console.error('[Leads] Error:', error);

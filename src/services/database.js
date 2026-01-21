@@ -179,18 +179,18 @@ export async function getLatestMetricsForAllProjects(userId) {
 
 // ==================== LEADS ====================
 
-export async function saveLead(projectId, email, source = null) {
+export async function saveLead(projectId, email, source = null, nome = null, telefone = null, sugestao = null) {
   const result = await sql`
-    INSERT INTO leads (project_id, email, source)
-    VALUES (${projectId}, ${email}, ${source})
-    RETURNING id, email, source, created_at
+    INSERT INTO leads (project_id, email, source, nome, telefone, sugestao, created_at)
+    VALUES (${projectId}, ${email}, ${source}, ${nome}, ${telefone}, ${sugestao}, NOW())
+    RETURNING id, email, nome, telefone, sugestao, source, created_at
   `;
   return result.rows[0];
 }
 
 export async function getProjectLeads(projectId) {
   const result = await sql`
-    SELECT id, email, source, created_at
+    SELECT id, email, nome, telefone, sugestao, source, created_at
     FROM leads
     WHERE project_id = ${projectId}
     ORDER BY created_at DESC
