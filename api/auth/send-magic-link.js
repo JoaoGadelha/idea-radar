@@ -83,6 +83,15 @@ export default async function handler(req, res) {
       subject: '🔑 Seu link de acesso - IdeaRadar',
       html,
       text,
+      headers: {
+        'X-Entity-Ref-ID': '123456789'
+      },
+      tags: [
+        {
+          name: 'category',
+          value: 'magic_link'
+        }
+      ]
     });
 
     console.log(`[Auth] Magic link sent to: ${normalizedEmail}`);
