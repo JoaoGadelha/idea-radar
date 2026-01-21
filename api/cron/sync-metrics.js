@@ -110,30 +110,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-/**
- * Gera métricas simuladas (fallback)
- */
-function generateMockMetrics() {
-  const date = new Date().toISOString().split('T')[0];
-  const sessions = Math.floor(Math.random() * 500) + 50;
-  const users = Math.floor(sessions * 0.85);
-  const bounceRate = (Math.random() * 50 + 20).toFixed(2);
-  const avgSessionDuration = Math.floor(Math.random() * 120 + 30);
-  const ctaClicks = Math.floor(sessions * 0.15);
-  const conversions = Math.floor(ctaClicks * 0.25);
-  const conversionRate = ((conversions / sessions) * 100).toFixed(2);
-
-  return {
-    date,
-    sessions,
-    users,
-    bounceRate,
-    avgSessionDuration,
-    ctaClicks,
-    conversions,
-    conversionRate,
-  };
-}
+  try {
     // Buscar projetos ativos (filtrar por userId se for chamada manual)
     let projectsQuery = `
       SELECT id, name, url, ga_property_id
