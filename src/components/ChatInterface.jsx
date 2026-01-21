@@ -2,6 +2,17 @@ import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import styles from './ChatInterface.module.css';
 
+// Parser simples de markdown
+function parseMarkdown(text) {
+  return text
+    // Bold: **texto**
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    // Italic: *texto*
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    // Code: `texto`
+    .replace(/`(.+?)`/g, '<code>$1</code>');
+}
+
 export default function ChatInterface({ projectsCount }) {
   const { token } = useAuth();
   const [messages, setMessages] = useState([
@@ -117,7 +128,10 @@ export default function ChatInterface({ projectsCount }) {
             <div className={styles.bubble}>
               <div className={styles.content}>
                 {msg.content.split('\n').map((line, i) => (
-                  <p key={i}>{line}</p>
+                  <p 
+                    key={i} 
+                    dangerouslySetInnerHTML={{ __html: parseMarkdown(line) }}
+                  />
                 ))}
               </div>
             </div>
