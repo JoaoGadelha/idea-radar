@@ -78,7 +78,7 @@ export default async function handler(req, res) {
     }
 
     await resend.emails.send({
-      from: 'IdeaRadar <noreply@idearadar.app>',
+      from: 'IdeaRadar <onboarding@resend.dev>',
       to: normalizedEmail,
       subject: '🔑 Seu link de acesso - IdeaRadar',
       html,
