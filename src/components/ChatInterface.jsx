@@ -10,7 +10,9 @@ function parseMarkdown(text) {
     // Italic: *texto*
     .replace(/\*(.+?)\*/g, '<em>$1</em>')
     // Code: `texto`
-    .replace(/`(.+?)`/g, '<code>$1</code>');
+    .replace(/`(.+?)`/g, '<code>$1</code>')
+    // Quote: "texto" (aspas duplas viram blockquote)
+    .replace(/"([^"]{20,})"/g, '<blockquote>"$1"</blockquote>');
 }
 
 export default function ChatInterface({ projectsCount }) {
