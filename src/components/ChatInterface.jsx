@@ -12,6 +12,7 @@ export default function ChatInterface({ projectsCount }) {
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [retryInfo, setRetryInfo] = useState(null); // { attempt: 1, maxAttempts: 3 }
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -33,38 +34,60 @@ export default function ChatInterface({ projectsCount }) {
     // Adiciona mensagem do usuário
     setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
     setLoading(true);
+    setRetryInfo(null);
 
-    try {
-      const response = await fetch('/api/ask', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ question: userMessage })
-      });
+    const maxAttempts = 3;
+    let lastError = null;
 
-      const data = await response.json();
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+      try {
+        if (attempt > 1) {
+          setRetryInfo({ attempt, maxAttempts });
+        }
 
-      if (response.ok) {
-        setMessages(prev => [...prev, { 
-          role: 'assistant', 
-          content: data.answer 
-        }]);
-      } else {
-        setMessages(prev => [...prev, { 
-          role: 'assistant', 
-          content: `⚠️ Erro: ${data.message || data.error}` 
-        }]);
+        const response = await fetch('/api/ask', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ question: userMessage })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          setMessages(prev => [...prev, { 
+            role: 'assistant', 
+            content: data.answer 
+          }]);
+          setRetryInfo(null);
+          setLoading(false);
+          return; // Sucesso!
+        } else {
+          lastError = data.message || data.error;
+          // Se for erro de autenticação ou validação, não retenta
+          if (response.status === 401 || response.status === 400) {
+            break;
+          }
+        }
+      } catch (error) {
+        lastError = 'Erro de conexão';
       }
-    } catch (error) {
-      setMessages(prev => [...prev, { 
-        role: 'assistant', 
-        content: '⚠️ Erro ao processar sua pergunta. Tente novamente.' 
-      }]);
-    } finally {
-      setLoading(false);
+
+      // Se não for última tentativa, espera antes de retentar
+      if (attempt < maxAttempts) {
+        await new Promise(resolve => setTimeout(resolve, 1500));
+      }
     }
+
+    // Falhou após todas tentativas
+    setMessages(prev => [...prev, { 
+      role: 'assistant', 
+      content: `⚠️ Erro: ${lastError || 'Não foi possível processar sua pergunta.'}` 
+    }]);
+    setRetryInfo(null);
+    setLoading(false);
   };
 
   const suggestions = [
@@ -83,6 +106,11 @@ export default function ChatInterface({ projectsCount }) {
             className={styles.message}
             data-role={msg.role}
           >
+              {retryInfo && (
+                <div className={styles.retryInfo}>
+                  🔄 Tentativa {retryInfo.attempt}/{retryInfo.maxAttempts}...
+                </div>
+              )}
             <div className={styles.avatar}>
               {msg.role === 'user' ? '👤' : '🤖'}
             </div>
