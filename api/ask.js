@@ -78,7 +78,6 @@ async function buildSystemPrompt(projects, metrics) {
 
     return { contextText, leadsCount: allLeads.length, suggestionsCount: leadsWithSuggestions.length };
   });
-  });
 
   const projectsContext = projectContexts.map(p => p.contextText).join('\n\n');
   const totalLeads = projectContexts.reduce((acc, p) => acc + p.leadsCount, 0);
