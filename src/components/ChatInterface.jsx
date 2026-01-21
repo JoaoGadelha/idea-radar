@@ -11,8 +11,8 @@ function parseMarkdown(text) {
     .replace(/\*(.+?)\*/g, '<em>$1</em>')
     // Code: `texto`
     .replace(/`(.+?)`/g, '<code>$1</code>')
-    // Quote: "texto" (aspas duplas viram blockquote)
-    .replace(/"([^"]{20,})"/g, '<blockquote>"$1"</blockquote>');
+    // Quote: "texto" (aspas duplas viram blockquote com estilo inline)
+    .replace(/"([^"]{20,})"/g, '<div style="margin: 8px 0; padding: 12px 16px; background: rgba(99, 102, 241, 0.1); border-left: 4px solid #6366f1; border-radius: 0 8px 8px 0; font-style: italic; color: #a5b4fc;">"$1"</div>');
 }
 
 export default function ChatInterface({ projectsCount }) {
