@@ -76,21 +76,38 @@ export async function callLLM(prompt, options = {}) {
       finalPrompt = `${prompt}\n\nIMPORTANTE: Responda APENAS com JSON válido, sem texto adicional antes ou depois.`;
     }
 
-    // Gerar conteúdo com retry simples
+    // Gerar conteúdo com retry para erros temporários
     let result;
-    let retries = 2;
+    let lastError;
+    const maxRetries = 3;
     
-    while (retries >= 0) {
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
       try {
         result = await geminiModel.generateContent(finalPrompt);
         break;
       } catch (error) {
-        if (retries === 0 || !error.message?.includes('429')) {
+        lastError = error;
+        const isRetryable = 
+          error.message?.includes('429') || // Rate limit
+          error.message?.includes('500') || // Server error
+          error.message?.includes('503') || // Service unavailable
+          error.message?.includes('timeout') ||
+          error.message?.includes('ECONNRESET') ||
+          error.message?.includes('network');
+        
+        if (attempt === maxRetries || !isRetryable) {
           throw error;
         }
-        retries--;
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // Espera exponencial: 1s, 2s, 4s
+        const delay = Math.pow(2, attempt - 1) * 1000;
+        console.log(`[LLM] Tentativa ${attempt} falhou, retrying em ${delay}ms...`);
+        await new Promise(resolve => setTimeout(resolve, delay));
       }
+    }
+
+    if (!result) {
+      throw lastError || new Error('Failed to get response after retries');
     }
 
     const response = result.response;
