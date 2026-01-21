@@ -180,6 +180,31 @@ export async function getLatestMetricsForAllProjects(userId) {
 // ==================== LEADS ====================
 
 export async function saveLead(projectId, email, source = null, nome = null, telefone = null, sugestao = null) {
+  // Verificar limite de 5 registros por email
+  const emailCount = await sql`
+    SELECT COUNT(*) as total
+    FROM leads
+    WHERE project_id = ${projectId} AND email = ${email}
+  `;
+  
+  if (parseInt(emailCount.rows[0].total, 10) >= 5) {
+    throw new Error('Limite de 5 cadastros por email atingido');
+  }
+  
+  // Verificar limite de 5 registros por telefone (se fornecido)
+  if (telefone) {
+    const phoneCount = await sql`
+      SELECT COUNT(*) as total
+      FROM leads
+      WHERE project_id = ${projectId} AND telefone = ${telefone}
+    `;
+    
+    if (parseInt(phoneCount.rows[0].total, 10) >= 5) {
+      throw new Error('Limite de 5 cadastros por telefone atingido');
+    }
+  }
+  
+  // Se passou nas verificações, inserir normalmente
   const result = await sql`
     INSERT INTO leads (project_id, email, source, nome, telefone, sugestao, created_at)
     VALUES (${projectId}, ${email}, ${source}, ${nome}, ${telefone}, ${sugestao}, NOW())
