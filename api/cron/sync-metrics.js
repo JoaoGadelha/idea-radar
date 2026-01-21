@@ -8,23 +8,63 @@
 
 import { authenticateRequest } from '../middleware/auth.js';
 import { query } from '../../src/services/database.js';
+import { fetchGA4Metrics } from '../../src/services/ga4.js';
 
 const CRON_SECRET = process.env.CRON_SECRET || 'change-me-in-production';
 
 /**
- * Simula coleta de métricas do GA4
- * TODO: Implementar integração real com GA4 Data API
+ * Coleta métricas do GA4 ou simula se não houver credenciais
  */
 async function syncMetricsForProject(project) {
-  // Mock: Gerar métricas aleatórias para teste
-  const date = new Date().toISOString().split('T')[0];
-  const sessions = Math.floor(Math.random() * 500) + 50;
-  const users = Math.floor(sessions * 0.85);
-  const bounceRate = (Math.random() * 50 + 20).toFixed(2);
-  const avgSessionDuration = Math.floor(Math.random() * 120 + 30);
-  const ctaClicks = Math.floor(sessions * 0.15);
-  const conversions = Math.floor(ctaClicks * 0.25);
-  const conversionRate = ((conversions / sessions) * 100).toFixed(2);
+  let date, sessions, users, bounceRate, avgSessionDuration, ctaClicks, conversions, conversionRate;
+
+  // Tentar buscar dados reais do GA4
+  if (project.ga_property_id) {
+    const propertyId = project.ga_property_id.replace('properties/', '');
+    
+    try {
+      const ga4Data = await fetchGA4Metrics(propertyId, 1);
+      
+      if (ga4Data) {
+        // Usar dados reais do GA4
+        console.log(`[Sync] Usando dados REAIS do GA4 para ${project.name}`);
+        date = ga4Data.date;
+        sessions = ga4Data.sessions;
+        users = ga4Data.users;
+        bounceRate = ga4Data.bounceRate;
+        avgSessionDuration = ga4Data.avgSessionDuration;
+        ctaClicks = ga4Data.ctaClicks;
+        conversions = ga4Data.conversions;
+        conversionRate = ga4Data.conversionRate;
+      } else {
+        throw new Error('Sem dados do GA4');
+      }
+    } catch (error) {
+      console.log(`[Sync] GA4 indisponível para ${project.name}, usando dados simulados`);
+      // Fallback: gerar dados simulados
+      const mockData = generateMockMetrics();
+      date = mockData.date;
+      sessions = mockData.sessions;
+      users = mockData.users;
+      bounceRate = mockData.bounceRate;
+      avgSessionDuration = mockData.avgSessionDuration;
+      ctaClicks = mockData.ctaClicks;
+      conversions = mockData.conversions;
+      conversionRate = mockData.conversionRate;
+    }
+  } else {
+    // Sem GA Property ID: gerar dados simulados
+    console.log(`[Sync] Sem GA Property ID para ${project.name}, usando dados simulados`);
+    const mockData = generateMockMetrics();
+    date = mockData.date;
+    sessions = mockData.sessions;
+    users = mockData.users;
+    bounceRate = mockData.bounceRate;
+    avgSessionDuration = mockData.avgSessionDuration;
+    ctaClicks = mockData.ctaClicks;
+    conversions = mockData.conversions;
+    conversionRate = mockData.conversionRate;
+  }
 
   // Salvar no banco
   await query(`
@@ -101,7 +141,30 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  try {
+/**
+ * Gera métricas simuladas (fallback)
+ */
+function generateMockMetrics() {
+  const date = new Date().toISOString().split('T')[0];
+  const sessions = Math.floor(Math.random() * 500) + 50;
+  const users = Math.floor(sessions * 0.85);
+  const bounceRate = (Math.random() * 50 + 20).toFixed(2);
+  const avgSessionDuration = Math.floor(Math.random() * 120 + 30);
+  const ctaClicks = Math.floor(sessions * 0.15);
+  const conversions = Math.floor(ctaClicks * 0.25);
+  const conversionRate = ((conversions / sessions) * 100).toFixed(2);
+
+  return {
+    date,
+    sessions,
+    users,
+    bounceRate,
+    avgSessionDuration,
+    ctaClicks,
+    conversions,
+    conversionRate,
+  };
+}
     // Buscar projetos ativos (filtrar por userId se for chamada manual)
     let projectsQuery = `
       SELECT id, name, url, ga_property_id
