@@ -12,6 +12,7 @@
   "dependencies": {
     "@google-analytics/data": "^5.2.1",
     "@google/generative-ai": "^0.21.0",
+    "@joaogadelha/react-chat": "github:JoaoGadelha/react-chat",
     "@neondatabase/serverless": "^1.0.2",
     "@vercel/postgres": "^0.10.0",
     "jsonwebtoken": "^9.0.2",

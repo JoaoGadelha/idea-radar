@@ -1,5 +1,5 @@
 import { useAuth } from '../contexts/AuthContext';
-import { Chat } from './Chat';
+import Chat from '@joaogadelha/react-chat';
 
 /**
  * ChatInterface - Wrapper do componente Chat para o projeto IdeaRadar
