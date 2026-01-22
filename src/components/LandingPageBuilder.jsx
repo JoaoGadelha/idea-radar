@@ -41,18 +41,23 @@ export default function LandingPageBuilder({ onClose, onSave }) {
     const scrollToTop = () => {
       if (previewRef.current) previewRef.current.scrollTop = 0;
       if (inputsRef.current) inputsRef.current.scrollTop = 0;
+      window.scrollTo(0, 0); // Também forçar window
     };
     
     // Executar várias vezes para garantir após renders
     scrollToTop();
-    const t1 = setTimeout(scrollToTop, 50);
-    const t2 = setTimeout(scrollToTop, 150);
-    const t3 = setTimeout(scrollToTop, 300);
+    const t1 = setTimeout(scrollToTop, 0);
+    const t2 = setTimeout(scrollToTop, 50);
+    const t3 = setTimeout(scrollToTop, 150);
+    const t4 = setTimeout(scrollToTop, 300);
+    const t5 = setTimeout(scrollToTop, 500);
     
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);
       clearTimeout(t3);
+      clearTimeout(t4);
+      clearTimeout(t5);
     };
   }, []);
 
