@@ -28,6 +28,33 @@ const TEMPLATES = [
     preview: 'linear-gradient(135deg, #00d9ff 0%, #a855f7 100%)',
     rating: 4,
     bestFor: 'Tech, Gaming, Startups'
+  },
+  {
+    id: 'gradient',
+    name: 'Gradient',
+    description: 'Colorido e moderno',
+    features: ['Mesh gradients', 'Vibrante', 'Muito arredondado'],
+    preview: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f5576c 100%)',
+    rating: 5,
+    bestFor: 'Lifestyle, Criativo'
+  },
+  {
+    id: 'brutalist',
+    name: 'Brutalist',
+    description: 'Ousado e geométrico',
+    features: ['Borders grossos', 'Cantos retos', 'Cores puras'],
+    preview: 'linear-gradient(45deg, #ffff00 0%, #ffff00 50%, #000000 50%, #000000 100%)',
+    rating: 4,
+    bestFor: 'Fashion, Arte'
+  },
+  {
+    id: 'soft',
+    name: 'Soft',
+    description: 'Suave e amigável',
+    features: ['Cores pastel', 'Muito arredondado', 'Soft shadows'],
+    preview: 'linear-gradient(135deg, #ff6b9d 0%, #84a9ff 100%)',
+    rating: 5,
+    bestFor: 'Educação, Saúde'
   }
 ];
 

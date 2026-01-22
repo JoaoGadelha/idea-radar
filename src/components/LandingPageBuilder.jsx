@@ -152,11 +152,17 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
                 {formData.template === 'claude' && '🎨'}
                 {formData.template === 'stripe' && '⚡'}
                 {formData.template === 'vercel' && '🌙'}
+                {formData.template === 'gradient' && '🌈'}
+                {formData.template === 'brutalist' && '⬛'}
+                {formData.template === 'soft' && '🧸'}
               </span>
               <span className={styles.templateName}>
                 {formData.template === 'claude' && 'Claude - Profissional'}
                 {formData.template === 'stripe' && 'Stripe - Minimalista'}
                 {formData.template === 'vercel' && 'Vercel - Dark Mode'}
+                {formData.template === 'gradient' && 'Gradient - Colorido'}
+                {formData.template === 'brutalist' && 'Brutalist - Ousado'}
+                {formData.template === 'soft' && 'Soft - Suave'}
               </span>
               <span className={styles.templateChange}>Alterar →</span>
             </button>

@@ -1,6 +1,9 @@
 import claudeStyles from './LandingPagePreview.module.css';
 import stripeStyles from './LandingPagePreview.stripe.module.css';
 import vercelStyles from './LandingPagePreview.vercel.module.css';
+import gradientStyles from './LandingPagePreview.gradient.module.css';
+import brutalistStyles from './LandingPagePreview.brutalist.module.css';
+import softStyles from './LandingPagePreview.soft.module.css';
 
 export default function LandingPagePreview({
   headline,
@@ -18,11 +21,13 @@ export default function LandingPagePreview({
   collectPhone = false,
 }) {
   // Seleciona o CSS baseado no template
-  const styles = template === 'stripe' 
-    ? stripeStyles 
-    : template === 'vercel' 
-    ? vercelStyles 
-    : claudeStyles;
+  const styles = 
+    template === 'stripe' ? stripeStyles :
+    template === 'vercel' ? vercelStyles :
+    template === 'gradient' ? gradientStyles :
+    template === 'brutalist' ? brutalistStyles :
+    template === 'soft' ? softStyles :
+    claudeStyles;
   return (
     <div className={styles.preview}>
       {/* Navigation - Clean minimal nav */}

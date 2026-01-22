@@ -23,6 +23,24 @@
 - **Conversão:** ★★★★☆
 - **Características:** Fundo escuro, acentos neon, gradientes vibrantes
 
+### 4. "Gradient" (Colorido)
+- **Estilo:** Gradientes vibrantes, moderno, energético
+- **Inspiração:** Spotify, Instagram, Figma
+- **Conversão:** ★★★★★
+- **Características:** Fundos coloridos, mesh gradients, playful
+
+### 5. "Brutalist" (Ousado)
+- **Estilo:** Brutalista, geométrico, tipografia bold
+- **Inspiração:** Gumroad, Balenciaga, Y2K aesthetic
+- **Conversão:** ★★★★☆
+- **Características:** Borders grossos, sem sombras, contraste alto
+
+### 6. "Soft" (Suave)
+- **Estilo:** Pastel, amigável, orgânico
+- **Inspiração:** Mailchimp, Dropbox, Notion (antigo)
+- **Conversão:** ★★★★★
+- **Características:** Cores pastel, bordas muito arredondadas, soft shadows
+
 ---
 
 # Template 1: "Claude" (Atual)
@@ -554,6 +572,194 @@ Minimalismo Extremo + Tipografia Gigante + Preto/Branco = Stripe
 
 ---
 
+# Template 4: "Gradient" (Colorido)
+
+## 🎨 Paleta de Cores
+
+### Gradientes Primários
+```css
+--gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);  /* Roxo */
+--gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);  /* Rosa */
+--gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);  /* Azul */
+--gradient-mesh: radial-gradient(at 40% 20%, #667eea 0%, transparent 50%),
+                 radial-gradient(at 80% 0%, #f5576c 0%, transparent 50%),
+                 radial-gradient(at 0% 100%, #4facfe 0%, transparent 50%);
+```
+
+### Cores de Texto
+```css
+--text-primary: #1a1a2e;
+--text-secondary: #4a5568;
+--text-on-gradient: #ffffff;
+```
+
+## 📐 Espaçamentos
+```css
+padding: 5rem 0;
+gap: 4rem;
+border-radius: 20px;  /* Bem arredondado */
+```
+
+## 🎨 Border Radius (Grandes)
+```css
+--radius-sm: 12px;
+--radius-md: 20px;
+--radius-lg: 28px;
+--radius-xl: 32px;
+```
+
+## ⚠️ REGRAS GRADIENT
+
+### ✅ SEMPRE usar:
+- Múltiplos gradientes coloridos
+- Mesh gradients no fundo
+- Bordas muito arredondadas (20px+)
+- Texto branco em fundos coloridos
+- Cores vibrantes e alegres
+- Sombras coloridas nos CTAs
+
+### ❌ NUNCA usar:
+- Cores apagadas
+- Preto/branco dominante
+- Bordas retas
+- Layouts muito sérios
+
+## 🎯 Fórmula Visual
+```
+Gradientes Vibrantes + Muito Arredondado + Colorido = Gradient
+```
+
+---
+
+# Template 5: "Brutalist" (Ousado)
+
+## 🎨 Paleta de Cores
+
+### Cores Primárias
+```css
+--primary: #000000;
+--accent-yellow: #ffff00;   /* Amarelo puro */
+--accent-cyan: #00ffff;     /* Ciano puro */
+--accent-magenta: #ff00ff;  /* Magenta puro */
+```
+
+### Backgrounds
+```css
+--bg-white: #ffffff;
+--bg-yellow: #ffff00;
+--bg-grid: repeating-linear-gradient(0deg, #000 0px, #000 1px, transparent 1px, transparent 20px);
+```
+
+## 📐 Espaçamentos
+```css
+padding: 4rem 0;
+gap: 3rem;
+border: 3px solid #000000;  /* Borders grossos */
+```
+
+## 🎨 Border Radius (ZERO)
+```css
+--radius: 0px;  /* Sem arredondamento */
+```
+
+## 🔤 Tipografia
+```css
+font-size: 4rem;
+font-weight: 900;  /* Black/Ultra-bold */
+text-transform: uppercase;
+```
+
+## ⚠️ REGRAS BRUTALIST
+
+### ✅ SEMPRE usar:
+- Borders pretos grossos (3px+)
+- Border-radius: 0 (cantos retos)
+- Tipografia BOLD e uppercase
+- Cores primárias puras (amarelo, ciano, magenta)
+- Sem sombras
+- Grid backgrounds
+- Contraste extremo
+
+### ❌ NUNCA usar:
+- Gradientes suaves
+- Bordas arredondadas
+- Sombras sutis
+- Cores pastel
+- Glassmorphism
+
+## 🎯 Fórmula Visual
+```
+Borders Grossos + Cantos Retos + Cores Puras + Bold = Brutalist
+```
+
+---
+
+# Template 6: "Soft" (Suave)
+
+## 🎨 Paleta de Cores
+
+### Cores Pastel
+```css
+--primary: #ff6b9d;         /* Rosa suave */
+--secondary: #c44569;       /* Rosa escuro */
+--accent-blue: #84a9ff;     /* Azul pastel */
+--accent-purple: #b8a0ff;   /* Roxo pastel */
+--accent-green: #98d8c8;    /* Verde pastel */
+```
+
+### Backgrounds
+```css
+--bg-cream: #fef9f3;        /* Creme */
+--bg-pink: #fff5f8;         /* Rosa clarinho */
+--bg-blue: #f0f5ff;         /* Azul clarinho */
+```
+
+## 📐 Espaçamentos
+```css
+padding: 5rem 0;
+gap: 3rem;
+border-radius: 24px;  /* Muito arredondado */
+```
+
+## 🎨 Border Radius (EXTREMOS)
+```css
+--radius-sm: 16px;
+--radius-md: 24px;
+--radius-lg: 32px;
+--radius-xl: 40px;
+```
+
+## ✨ Efeitos (Suaves)
+```css
+box-shadow: 0 8px 32px rgba(255, 107, 157, 0.15);  /* Sombra rosa suave */
+filter: drop-shadow(0 4px 12px rgba(132, 169, 255, 0.2));
+```
+
+## ⚠️ REGRAS SOFT
+
+### ✅ SEMPRE usar:
+- Cores pastel
+- Bordas muito arredondadas (24px+)
+- Sombras suaves e coloridas
+- Backgrounds claros (creme, rosa, azul)
+- Tipografia suave (400-600 weight)
+- Espaçamento generoso
+- Ilustrações orgânicas
+
+### ❌ NUNCA usar:
+- Preto puro
+- Cores saturadas
+- Cantos retos
+- Sombras duras
+- Contraste extremo
+
+## 🎯 Fórmula Visual
+```
+Pastel + Muito Arredondado + Soft Shadows + Amigável = Soft
+```
+
+---
+
 # Template 3: "Vercel" (Dark Mode)
 
 ## 🎨 Paleta de Cores
@@ -760,16 +966,16 @@ Dark Mode + Cores Neon + Glow Effects + Futurista = Vercel
 
 ## 📊 Comparação dos Templates
 
-| Característica | Claude | Stripe | Vercel |
-|----------------|--------|--------|--------|
-| **Background** | Branco/Cinza claro | Branco puro | Preto |
-| **Cor Principal** | Roxo #6366f1 | Preto #000000 | Ciano #00d9ff |
-| **Tipografia** | 3rem (48px) | 4.5rem (72px) | 3.5rem (56px) |
-| **Espaçamento** | Generoso (5rem) | Extremo (8rem) | Moderado (6rem) |
-| **Border Radius** | Grande (8-16px) | Pequeno (4-8px) | Médio (6-12px) |
-| **Efeito Signature** | Glassmorphism | Minimalismo | Glow/Neon |
-| **Conversão** | ★★★★★ | ★★★★★ | ★★★★☆ |
-| **Melhor Para** | SaaS B2B | Fintech, Dev Tools | Tech, Gaming |
+| Característica | Claude | Stripe | Vercel | Gradient | Brutalist | Soft |
+|----------------|--------|--------|--------|----------|-----------|------|
+| **Background** | Branco/Cinza claro | Branco puro | Preto | Gradientes coloridos | Branco/Amarelo | Pastel claro |
+| **Cor Principal** | Roxo #6366f1 | Preto #000000 | Ciano #00d9ff | Multi-color | Preto #000 | Rosa #ff6b9d |
+| **Tipografia** | 3rem (48px) | 4.5rem (72px) | 3.5rem (56px) | 3.5rem (56px) | 4rem (64px) | 3rem (48px) |
+| **Espaçamento** | Generoso (5rem) | Extremo (8rem) | Moderado (6rem) | Moderado (5rem) | Compacto (4rem) | Generoso (5rem) |
+| **Border Radius** | Grande (8-16px) | Pequeno (4-8px) | Médio (6-12px) | Enorme (20-32px) | Zero (0px) | Extremo (24-40px) |
+| **Efeito Signature** | Glassmorphism | Minimalismo | Glow/Neon | Mesh Gradients | Borders grossos | Soft shadows |
+| **Conversão** | ★★★★★ | ★★★★★ | ★★★★☆ | ★★★★★ | ★★★★☆ | ★★★★★ |
+| **Melhor Para** | SaaS B2B | Fintech, Dev Tools | Tech, Gaming | Lifestyle, Criativo | Fashion, Arte | Educação, Saúde |
 
 ---
 
@@ -777,3 +983,6 @@ Dark Mode + Cores Neon + Glow Effects + Futurista = Vercel
 > - **Claude:** Empresas, profissionais, SaaS tradicional
 > - **Stripe:** Desenvolvedores, fintechs, produtos premium
 > - **Vercel:** Startups tech, produtos inovadores, público jovem
+> - **Gradient:** Lifestyle, produtos criativos, público moderno
+> - **Brutalist:** Fashion, arte, produtos ousados
+> - **Soft:** Educação, saúde, produtos amigáveis

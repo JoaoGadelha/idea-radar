@@ -1,0 +1,717 @@
+/* ========================================
+   BRUTALIST TEMPLATE - BOLD E GEOMÉTRICO
+   Tipografia forte, bordas duras, sem gradientes
+   ======================================== */
+
+/* Reset e base */
+.preview {
+  font-family: 'Arial Black', 'Arial', sans-serif;
+  color: #000000;
+  line-height: 1.4;
+  overflow-x: hidden;
+  background: #ffffff;
+}
+
+.preview * {
+  box-sizing: border-box;
+}
+
+/* ========================================
+   NAVIGATION
+   ======================================== */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #ffffff;
+  border-bottom: 3px solid #000000;
+  padding: 1rem 0;
+}
+
+.navContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logoText {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #000000;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+.navCta {
+  padding: 0.75rem 1.5rem;
+  border: 3px solid #000000;
+  border-radius: 0;
+  font-weight: 900;
+  font-size: 0.875rem;
+  color: #000000;
+  background: #ffff00;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: 4px 4px 0 #000000;
+}
+
+.navCta:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #000000;
+}
+
+.navCta:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #000000;
+}
+
+/* ========================================
+   HERO SECTION
+   ======================================== */
+.hero {
+  padding: 4rem 0;
+  background: #ffffff;
+  border-bottom: 3px solid #000000;
+}
+
+.heroContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.heroContent {
+  max-width: 540px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border: 3px solid #000000;
+  border-radius: 0;
+  font-size: 0.75rem;
+  font-weight: 900;
+  margin-bottom: 1.5rem;
+  background: #00ffff;
+  color: #000000;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  box-shadow: 3px 3px 0 #000000;
+}
+
+.headline {
+  font-size: 4rem;
+  font-weight: 900;
+  line-height: 0.95;
+  margin: 0 0 1rem;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: #000000;
+}
+
+.subheadline {
+  font-size: 1.125rem;
+  font-family: 'Arial', sans-serif;
+  font-weight: 400;
+  color: #000000;
+  margin: 0 0 1.5rem;
+  line-height: 1.5;
+}
+
+.valueList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.valueList li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 1rem;
+  font-family: 'Arial', sans-serif;
+  font-weight: 700;
+  color: #000000;
+}
+
+.checkIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 3px solid #000000;
+  border-radius: 0;
+  font-size: 0.75rem;
+  font-weight: 900;
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+  background: #ff00ff;
+  color: #000000;
+}
+
+.ctaGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.emailInputGroup {
+  display: flex;
+  gap: 0.5rem;
+  background: #ffffff;
+  padding: 0.375rem;
+  border: 3px solid #000000;
+  border-radius: 0;
+  box-shadow: 6px 6px 0 #000000;
+}
+
+.heroEmailInput {
+  flex: 1;
+  padding: 0.875rem 1rem;
+  border: none;
+  background: transparent;
+  font-size: 1rem;
+  font-family: 'Arial', sans-serif;
+  outline: none;
+  min-width: 0;
+  font-weight: 700;
+}
+
+.heroEmailInput::placeholder {
+  color: #999999;
+  font-weight: 400;
+}
+
+.heroCta {
+  padding: 0.875rem 1.5rem;
+  border: 3px solid #000000;
+  border-radius: 0;
+  font-weight: 900;
+  font-size: 1rem;
+  color: #000000;
+  background: #ffff00;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.heroCta:hover {
+  background: #00ffff;
+}
+
+.ctaHint {
+  font-size: 0.875rem;
+  font-family: 'Arial', sans-serif;
+  font-weight: 400;
+  color: #666666;
+  margin: 0;
+}
+
+/* Hero Visual */
+.heroVisual {
+  position: relative;
+}
+
+.heroImage {
+  width: 100%;
+  height: auto;
+  border: 3px solid #000000;
+  border-radius: 0;
+  box-shadow: 8px 8px 0 #000000;
+}
+
+.heroPlaceholder {
+  aspect-ratio: 16/10;
+  border: 3px dashed #000000;
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: #f0f0f0;
+}
+
+.heroPlaceholder span {
+  font-size: 3rem;
+  opacity: 0.6;
+}
+
+.heroPlaceholder p {
+  font-size: 0.875rem;
+  font-family: 'Arial', sans-serif;
+  font-weight: 700;
+  color: #000000;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+/* ========================================
+   SOCIAL PROOF BAR
+   ======================================== */
+.socialProof {
+  background: #000000;
+  padding: 2rem 0;
+  color: #ffffff;
+}
+
+.socialProofContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+}
+
+.proofItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.proofNumber {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #ffff00;
+  text-transform: uppercase;
+}
+
+.proofLabel {
+  font-size: 0.75rem;
+  font-family: 'Arial', sans-serif;
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.proofDivider {
+  width: 2px;
+  height: 40px;
+  background: #ffffff;
+}
+
+/* ========================================
+   HOW IT WORKS SECTION
+   ======================================== */
+.howItWorks {
+  padding: 5rem 0;
+  background: #f0f0f0;
+  border-bottom: 3px solid #000000;
+}
+
+.sectionContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.sectionTag {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  color: #000000;
+  padding: 0.5rem 1rem;
+  background: #00ffff;
+  border: 3px solid #000000;
+  box-shadow: 3px 3px 0 #000000;
+}
+
+.sectionTitle {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #000000;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+.stepsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.stepCard {
+  position: relative;
+  padding: 2rem;
+  background: #ffffff;
+  border: 3px solid #000000;
+  border-radius: 0;
+  text-align: center;
+  transition: all 0.15s ease;
+  box-shadow: 6px 6px 0 #000000;
+}
+
+.stepCard:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0 #000000;
+}
+
+.stepCard:active {
+  transform: translate(2px, 2px);
+  box-shadow: 4px 4px 0 #000000;
+}
+
+.stepIcon {
+  width: 4rem;
+  height: 4rem;
+  border: 3px solid #000000;
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  background: #ff00ff;
+}
+
+.stepIcon span {
+  font-size: 2rem;
+}
+
+.stepContent {
+  text-align: center;
+}
+
+.stepNumber {
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  color: #000000;
+}
+
+.stepTitle {
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: #000000;
+  margin: 0 0 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+.stepDescription {
+  font-size: 0.9375rem;
+  font-family: 'Arial', sans-serif;
+  font-weight: 400;
+  color: #000000;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.stepConnector {
+  display: none;
+}
+
+/* ========================================
+   FAQ SECTION
+   ======================================== */
+.faq {
+  padding: 5rem 0;
+  background: #ffffff;
+  border-bottom: 3px solid #000000;
+}
+
+.faqGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.faqCard {
+  padding: 1.5rem;
+  background: #ffffff;
+  border: 3px solid #000000;
+  border-radius: 0;
+  transition: all 0.15s ease;
+  box-shadow: 4px 4px 0 #000000;
+}
+
+.faqCard:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #000000;
+}
+
+.faqQuestion {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.faqIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 3px solid #000000;
+  border-radius: 0;
+  background: #ffff00;
+  color: #000000;
+  font-size: 0.75rem;
+  font-weight: 900;
+  flex-shrink: 0;
+}
+
+.faqQuestion h3 {
+  font-size: 1rem;
+  font-weight: 900;
+  color: #000000;
+  margin: 0;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.faqAnswer {
+  font-size: 0.9375rem;
+  font-family: 'Arial', sans-serif;
+  font-weight: 400;
+  color: #000000;
+  margin: 0;
+  padding-left: 2.25rem;
+  line-height: 1.5;
+}
+
+/* ========================================
+   CTA FINAL SECTION
+   ======================================== */
+.ctaFinal {
+  padding: 5rem 0;
+  color: #000000;
+  background: #ffff00;
+  border-bottom: 3px solid #000000;
+}
+
+.ctaFinalContainer {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  text-align: center;
+}
+
+.ctaFinalContent {
+  margin-bottom: 2rem;
+}
+
+.ctaFinalHeadline {
+  font-size: 3rem;
+  font-weight: 900;
+  margin: 0 0 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+.ctaFinalSubheadline {
+  font-size: 1.125rem;
+  font-family: 'Arial', sans-serif;
+  font-weight: 400;
+  margin: 0;
+}
+
+.ctaFinalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.ctaFinalInput {
+  padding: 1rem 1.25rem;
+  border: 3px solid #000000;
+  border-radius: 0;
+  background: #ffffff;
+  color: #000000;
+  font-size: 1rem;
+  font-family: 'Arial', sans-serif;
+  font-weight: 700;
+  outline: none;
+  transition: all 0.15s ease;
+  box-shadow: 4px 4px 0 #000000;
+}
+
+.ctaFinalInput::placeholder {
+  color: #999999;
+  font-weight: 400;
+}
+
+.ctaFinalInput:focus {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #000000;
+}
+
+.ctaFinalButton {
+  padding: 1rem 2rem;
+  border: 3px solid #000000;
+  border-radius: 0;
+  background: #000000;
+  color: #ffff00;
+  font-size: 1rem;
+  font-weight: 900;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: 4px 4px 0 #000000;
+}
+
+.ctaFinalButton:hover {
+  background: #00ffff;
+  color: #000000;
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #000000;
+}
+
+.ctaFinalButton:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #000000;
+}
+
+.ctaFinalDisclaimer {
+  font-size: 0.875rem;
+  font-family: 'Arial', sans-serif;
+  font-weight: 400;
+  margin: 1.5rem 0 0;
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+.footer {
+  padding: 2rem 0;
+  background: #000000;
+  color: #ffffff;
+}
+
+.footerContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footerBrand {
+  font-size: 1.125rem;
+  font-weight: 900;
+  color: #ffff00;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+.footerCopy {
+  font-size: 0.875rem;
+  font-family: 'Arial', sans-serif;
+  font-weight: 400;
+  color: #ffffff;
+  margin: 0;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 1024px) {
+  .heroContainer {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .heroContent {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .valueList li {
+    justify-content: center;
+  }
+
+  .ctaGroup {
+    align-items: center;
+  }
+
+  .emailInputGroup {
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .stepsGrid {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .faqGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .headline {
+    font-size: 2.5rem;
+  }
+
+  .subheadline {
+    font-size: 1rem;
+  }
+
+  .emailInputGroup {
+    flex-direction: column;
+  }
+
+  .heroCta {
+    width: 100%;
+  }
+
+  .socialProofContainer {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .proofDivider {
+    width: 60px;
+    height: 2px;
+  }
+
+  .sectionTitle {
+    font-size: 1.75rem;
+  }
+
+  .ctaFinalHeadline {
+    font-size: 2rem;
+  }
+
+  .footerContainer {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+}
