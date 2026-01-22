@@ -1,19 +1,21 @@
 import { neon } from '@neondatabase/serverless';
-import jwt from 'jsonwebtoken';
+import { authenticateRequest } from '../middleware/auth.js';
 
-const JWT_SECRET = process.env.JWT_SECRET;
 const sql = neon(process.env.DATABASE_URL);
 
 export default async function handler(req, res) {
-  try {
-    // Verificar autenticação
-    const token = req.headers.authorization?.replace('Bearer ', '');
-    if (!token) {
-      return res.status(401).json({ error: 'Não autenticado' });
-    }
+  const authResult = await authenticateRequest(req);
 
-    const decoded = jwt.verify(token, JWT_SECRET);
-    const userId = decoded.userId;
+  if (!authResult.authenticated) {
+    return res.status(401).json({
+      error: 'Unauthorized',
+      message: authResult.error,
+    });
+  }
+
+  const userId = authResult.userId;
+
+  try {
 
     // GET - Listar landing pages do usuário
     if (req.method === 'GET') {

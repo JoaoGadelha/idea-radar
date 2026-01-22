@@ -2,9 +2,7 @@ import { createGeminiProvider } from '@joaogadelha/ai-providers';
 import { createPrompt } from '@joaogadelha/prompt-builder';
 import { extractJson } from '@joaogadelha/response-parser';
 import { createRateLimiter, presets } from '@joaogadelha/rate-limiter';
-import jwt from 'jsonwebtoken';
-
-const JWT_SECRET = process.env.JWT_SECRET;
+import { authenticateRequest } from '../middleware/auth.js';
 
 // Rate limiters para Gemini 2.5 Flash (grátis)
 const dailyLimiter = createRateLimiter({
@@ -29,15 +27,18 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  try {
-    // Verificar autenticação
-    const token = req.headers.authorization?.replace('Bearer ', '');
-    if (!token) {
-      return res.status(401).json({ error: 'Não autenticado' });
-    }
+  const authResult = await authenticateRequest(req);
 
-    const decoded = jwt.verify(token, JWT_SECRET);
-    const userId = decoded.userId;
+  if (!authResult.authenticated) {
+    return res.status(401).json({
+      error: 'Unauthorized',
+      message: authResult.error,
+    });
+  }
+
+  const userId = authResult.userId;
+
+  try {
 
     const { projectData, brief } = req.body;
 
