@@ -83,7 +83,7 @@ export default function LandingPagePreview({
 
       {/* Hero Section - Split layout with image */}
       <section className={styles.hero}>
-        <div className={styles.heroContainer}>
+        <div className={`${styles.heroContainer} ${!heroImage ? styles.heroContainerCentered : ''}`}>
           <div className={styles.heroContent}>
             {/* Badge de pré-lançamento */}
             <div 
@@ -148,25 +148,15 @@ export default function LandingPagePreview({
           </div>
 
           {/* Hero Image */}
-          <div className={styles.heroVisual}>
-            {heroImage ? (
+          {heroImage && (
+            <div className={styles.heroVisual}>
               <img 
                 src={heroImage} 
                 alt="Hero" 
                 className={styles.heroImage}
               />
-            ) : (
-              <div 
-                className={styles.heroPlaceholder}
-                style={{ 
-                  background: `linear-gradient(135deg, ${primaryColor}20 0%, ${primaryColor}40 100%)` 
-                }}
-              >
-                <span>🖼️</span>
-                <p>Imagem gerada por IA</p>
-              </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </section>
 
@@ -330,8 +320,6 @@ export default function LandingPagePreview({
               {loading ? 'Enviando...' : (ctaText || 'Garantir meu acesso')} →
             </button>
           </form>
-            </button>
-          </div>
 
           <p className={styles.ctaFinalDisclaimer}>
             🔒 Seus dados estão seguros. Sem spam, só novidades.

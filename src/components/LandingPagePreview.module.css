@@ -78,6 +78,21 @@
   align-items: center;
 }
 
+.heroContainerCentered {
+  grid-template-columns: 1fr;
+  max-width: 800px;
+  text-align: center;
+}
+
+.heroContainerCentered .heroContent {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.heroContainerCentered .valueList {
+  align-items: center;
+}
+
 .heroContent {
   max-width: 540px;
 }

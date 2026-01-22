@@ -29,6 +29,8 @@ export default function LandingPageBuilder({ onClose, onSave }) {
     collect_name: true,
     collect_phone: false,
     collect_suggestions: true,
+    hero_image_type: 'none', // 'none', 'url', 'upload', 'ai'
+    hero_image_url: '',
   });
 
   // Retorna a cor efetiva (fixa ou customizável)
@@ -173,6 +175,7 @@ export default function LandingPageBuilder({ onClose, onSave }) {
           collect_name: formData.collect_name,
           collect_phone: formData.collect_phone,
           collect_suggestions: formData.collect_suggestions,
+          hero_image: formData.hero_image_type === 'url' ? formData.hero_image_url : null,
           status: 'draft',
         }),
       });
@@ -274,6 +277,64 @@ export default function LandingPageBuilder({ onClose, onSave }) {
               </span>
               <span className={styles.templateChange}>Alterar →</span>
             </button>
+          </div>
+
+          <div className={styles.inputGroup}>
+            <label>Imagem Hero</label>
+            <div className={styles.radioGroup}>
+              <label className={styles.radioLabel}>
+                <input
+                  type="radio"
+                  name="hero_image_type"
+                  value="none"
+                  checked={formData.hero_image_type === 'none'}
+                  onChange={(e) => setFormData({ ...formData, hero_image_type: e.target.value, hero_image_url: '' })}
+                />
+                <span>Sem imagem (texto centralizado)</span>
+              </label>
+              <label className={styles.radioLabel}>
+                <input
+                  type="radio"
+                  name="hero_image_type"
+                  value="url"
+                  checked={formData.hero_image_type === 'url'}
+                  onChange={(e) => setFormData({ ...formData, hero_image_type: e.target.value })}
+                />
+                <span>URL externa</span>
+              </label>
+              <label className={styles.radioLabel}>
+                <input
+                  type="radio"
+                  name="hero_image_type"
+                  value="upload"
+                  checked={formData.hero_image_type === 'upload'}
+                  onChange={(e) => setFormData({ ...formData, hero_image_type: e.target.value })}
+                  disabled
+                />
+                <span>Upload (em breve)</span>
+              </label>
+              <label className={styles.radioLabel}>
+                <input
+                  type="radio"
+                  name="hero_image_type"
+                  value="ai"
+                  checked={formData.hero_image_type === 'ai'}
+                  onChange={(e) => setFormData({ ...formData, hero_image_type: e.target.value })}
+                  disabled
+                />
+                <span>Gerar com IA (em breve)</span>
+              </label>
+            </div>
+            
+            {formData.hero_image_type === 'url' && (
+              <input
+                type="url"
+                value={formData.hero_image_url}
+                onChange={(e) => setFormData({ ...formData, hero_image_url: e.target.value })}
+                placeholder="https://exemplo.com/imagem.jpg"
+                className={styles.urlInput}
+              />
+            )}
           </div>
 
           {!hasFixedColor() && (
