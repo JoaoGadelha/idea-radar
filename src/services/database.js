@@ -148,7 +148,7 @@ export async function getProjectMetrics(projectId, days = 30) {
     SELECT *
     FROM metrics
     WHERE project_id = ${projectId}
-      AND date >= CURRENT_DATE - ${days}
+      AND date >= CURRENT_DATE - CAST(${days} AS INTEGER)
     ORDER BY date DESC
   `;
   return result.rows;

@@ -16,6 +16,7 @@
     "@joaogadelha/prompt-builder": "file:./ai-toolkit/packages/prompt-builder",
     "@joaogadelha/rate-limiter": "file:./ai-toolkit/packages/rate-limiter",
     "@joaogadelha/react-chat": "file:./ai-toolkit/packages/react-chat",
+    "@joaogadelha/response-parser": "file:./ai-toolkit/packages/response-parser",
     "@neondatabase/serverless": "^1.0.2",
     "@vercel/postgres": "^0.10.0",
     "jsonwebtoken": "^9.0.2",
