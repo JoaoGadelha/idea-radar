@@ -12,7 +12,7 @@ const TEMPLATES_WITH_FIXED_COLOR = {
   // 'green-eco': '#00cc66',
 };
 
-export default function LandingPageBuilder({ projectId, onClose, onSave }) {
+export default function LandingPageBuilder({ onClose, onSave }) {
   const { token } = useAuth();
   const [loading, setLoading] = useState(false);
   const [variations, setVariations] = useState([]);
@@ -64,13 +64,18 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
   };
 
   const handleGenerate = async () => {
+    if (!formData.title || !formData.brief) {
+      alert('Preencha o título e a descrição do projeto');
+      return;
+    }
+
     setLoading(true);
     try {
-      // Buscar dados do projeto
-      const projectRes = await fetch(`/api/projects/${projectId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const { project } = await projectRes.json();
+      // Usar dados do formulário diretamente
+      const projectData = {
+        name: formData.title,
+        description: formData.brief,
+      };
 
       // Gerar variações
       const res = await fetch('/api/landing-pages/generate', {
@@ -80,7 +85,7 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          projectData: project,
+          projectData,
           brief: formData.brief,
         }),
       });
@@ -106,6 +111,7 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
     if (!selectedVariation) return;
 
     try {
+      // Criar projeto + landing page em uma única chamada
       const res = await fetch('/api/landing-pages', {
         method: 'POST',
         headers: {
@@ -113,14 +119,23 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          project_id: projectId,
+          // Dados para criar projeto automaticamente
+          project_name: formData.title,
+          project_description: formData.brief,
+          // Dados da landing page
           slug: formData.slug,
           title: formData.title || selectedVariation.headline,
           headline: selectedVariation.headline,
           subheadline: selectedVariation.subheadline,
           description: selectedVariation.description,
           cta_text: selectedVariation.cta_text,
+          value_proposition: selectedVariation.value_proposition,
+          how_it_works: selectedVariation.how_it_works,
+          faq_items: selectedVariation.faq_items,
+          cta_headline: selectedVariation.cta_headline,
+          cta_subheadline: selectedVariation.cta_subheadline,
           primary_color: getEffectiveColor(),
+          template: formData.template,
           collect_name: formData.collect_name,
           collect_phone: formData.collect_phone,
           collect_suggestions: formData.collect_suggestions,

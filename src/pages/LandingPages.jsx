@@ -6,15 +6,12 @@ import { useAuth } from '../contexts/AuthContext';
 export default function LandingPages() {
   const { token } = useAuth();
   const [landingPages, setLandingPages] = useState([]);
-  const [projects, setProjects] = useState([]);
   const [showBuilder, setShowBuilder] = useState(false);
-  const [selectedProjectId, setSelectedProjectId] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (token) {
       fetchLandingPages();
-      fetchProjects();
     }
   }, [token]);
 
@@ -32,27 +29,15 @@ export default function LandingPages() {
     }
   };
 
-  const fetchProjects = async () => {
-    try {
-      const res = await fetch('/api/projects', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const { projects } = await res.json();
-      setProjects(projects || []);
-    } catch (error) {
-      console.error('Erro ao buscar projetos:', error);
-    }
-  };
-
-  const handleCreate = (projectId) => {
-    setSelectedProjectId(projectId);
+  const handleCreate = () => {
     setShowBuilder(true);
   };
 
   const handleSave = (landingPage) => {
     setLandingPages([landingPage, ...landingPages]);
     setShowBuilder(false);
-    setSelectedProjectId(null);
+    // Recarregar para pegar dados atualizados do projeto
+    fetchLandingPages();
   };
 
   const handleDelete = async (id) => {
@@ -73,10 +58,8 @@ export default function LandingPages() {
   if (showBuilder) {
     return (
       <LandingPageBuilder
-        projectId={selectedProjectId}
         onClose={() => {
           setShowBuilder(false);
-          setSelectedProjectId(null);
         }}
         onSave={handleSave}
       />
@@ -87,27 +70,12 @@ export default function LandingPages() {
     <div className={styles.container}>
       <div className={styles.header}>
         <h1>Landing Pages</h1>
-        {projects.length > 0 && (
-          <div className={styles.projectSelector}>
-            <select
-              value={selectedProjectId || ''}
-              onChange={(e) => setSelectedProjectId(e.target.value || null)}
-              className={styles.select}
-            >
-              <option value="">Escolha um projeto</option>
-              {projects.map(p => (
-                <option key={p.id} value={p.id}>{p.name}</option>
-              ))}
-            </select>
-            <button 
-              className={styles.createButton}
-              onClick={() => handleCreate(selectedProjectId)}
-              disabled={!selectedProjectId}
-            >
-              + Nova Landing Page
-            </button>
-          </div>
-        )}
+        <button 
+          className={styles.createButton}
+          onClick={handleCreate}
+        >
+          + Nova Landing Page
+        </button>
       </div>
 
       {loading ? (
@@ -117,29 +85,12 @@ export default function LandingPages() {
           <div className={styles.emptyIcon}>🚀</div>
           <h2>Nenhuma landing page criada</h2>
           <p>Crie landing pages para validar suas ideias e coletar leads</p>
-          {projects.length === 0 ? (
-            <p className={styles.hint}>Primeiro, crie um projeto na aba "Análise de Projetos"</p>
-          ) : (
-            <>
-              <select
-                value={selectedProjectId || ''}
-                onChange={(e) => setSelectedProjectId(e.target.value || null)}
-                className={styles.emptySelect}
-              >
-                <option value="">Escolha um projeto</option>
-                {projects.map(p => (
-                  <option key={p.id} value={p.id}>{p.name}</option>
-                ))}
-              </select>
-              <button 
-                className={styles.emptyButton}
-                onClick={() => handleCreate(selectedProjectId)}
-                disabled={!selectedProjectId}
-              >
-                + Criar Primeira Landing Page
-              </button>
-            </>
-          )}
+          <button 
+            className={styles.emptyButton}
+            onClick={handleCreate}
+          >
+            + Criar Primeira Landing Page
+          </button>
         </div>
       ) : (
         <div className={styles.list}>

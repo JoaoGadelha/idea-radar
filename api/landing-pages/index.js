@@ -32,9 +32,13 @@ export default async function handler(req, res) {
       return res.status(200).json({ landingPages });
     }
 
-    // POST - Criar nova landing page
+    // POST - Criar nova landing page (com projeto automático se necessário)
     if (req.method === 'POST') {
       const {
+        // Dados para criar projeto automaticamente
+        project_name,
+        project_description,
+        // Dados da landing page
         project_id,
         slug,
         title,
@@ -42,7 +46,13 @@ export default async function handler(req, res) {
         subheadline,
         description,
         cta_text,
+        value_proposition,
+        how_it_works,
+        faq_items,
+        cta_headline,
+        cta_subheadline,
         primary_color,
+        template,
         logo_url,
         hero_image_url,
         collect_name,
@@ -71,6 +81,17 @@ export default async function handler(req, res) {
         });
       }
 
+      // Criar projeto automaticamente se não tiver project_id
+      let finalProjectId = project_id;
+      if (!finalProjectId && project_name) {
+        const [newProject] = await sql`
+          INSERT INTO projects (user_id, name, description)
+          VALUES (${userId}, ${project_name}, ${project_description || null})
+          RETURNING id
+        `;
+        finalProjectId = newProject.id;
+      }
+
       // Criar landing page
       const [landingPage] = await sql`
         INSERT INTO landing_pages (
@@ -82,7 +103,13 @@ export default async function handler(req, res) {
           subheadline,
           description,
           cta_text,
+          value_proposition,
+          how_it_works,
+          faq_items,
+          cta_headline,
+          cta_subheadline,
           primary_color,
+          template,
           logo_url,
           hero_image_url,
           collect_name,
@@ -93,14 +120,20 @@ export default async function handler(req, res) {
           status
         ) VALUES (
           ${userId},
-          ${project_id || null},
+          ${finalProjectId || null},
           ${slug},
           ${title},
           ${headline},
           ${subheadline || null},
           ${description},
           ${cta_text || 'Quero ser notificado!'},
+          ${value_proposition ? JSON.stringify(value_proposition) : null},
+          ${how_it_works ? JSON.stringify(how_it_works) : null},
+          ${faq_items ? JSON.stringify(faq_items) : null},
+          ${cta_headline || null},
+          ${cta_subheadline || null},
           ${primary_color || '#667eea'},
+          ${template || 'claude'},
           ${logo_url || null},
           ${hero_image_url || null},
           ${collect_name !== undefined ? collect_name : true},
@@ -114,6 +147,7 @@ export default async function handler(req, res) {
       `;
 
       return res.status(201).json({ landingPage });
+    }
     }
 
     return res.status(405).json({ error: 'Method not allowed' });
