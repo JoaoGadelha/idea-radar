@@ -185,6 +185,24 @@
   text-align: left;
   font-weight: 500;
   color: #1a1a2e;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.fixedColorBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.125rem 0.5rem;
+  border-radius: 100px;
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: white;
+  margin-left: 0.25rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .templateChange {

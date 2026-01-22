@@ -4,6 +4,14 @@ import LandingPagePreview from './LandingPagePreview';
 import TemplateSelector from './TemplateSelector';
 import { useAuth } from '../contexts/AuthContext';
 
+// Templates com cor fixa (não permitem customização)
+const TEMPLATES_WITH_FIXED_COLOR = {
+  soft: '#ff9e9e',
+  // Futuros templates com cores fixas:
+  // 'blue-corporate': '#0066cc',
+  // 'green-eco': '#00cc66',
+};
+
 export default function LandingPageBuilder({ projectId, onClose, onSave }) {
   const { token } = useAuth();
   const [loading, setLoading] = useState(false);
@@ -20,6 +28,16 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
     collect_phone: false,
     collect_suggestions: true,
   });
+
+  // Retorna a cor efetiva (fixa ou customizável)
+  const getEffectiveColor = () => {
+    return TEMPLATES_WITH_FIXED_COLOR[formData.template] || formData.primary_color;
+  };
+
+  // Verifica se o template atual tem cor fixa
+  const hasFixedColor = () => {
+    return formData.template in TEMPLATES_WITH_FIXED_COLOR;
+  };
 
   const handleGenerate = async () => {
     setLoading(true);
@@ -78,7 +96,7 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
           subheadline: selectedVariation.subheadline,
           description: selectedVariation.description,
           cta_text: selectedVariation.cta_text,
-          primary_color: formData.primary_color,
+          primary_color: getEffectiveColor(),
           collect_name: formData.collect_name,
           collect_phone: formData.collect_phone,
           collect_suggestions: formData.collect_suggestions,
@@ -163,27 +181,37 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
                 {formData.template === 'gradient' && 'Gradient - Colorido'}
                 {formData.template === 'brutalist' && 'Brutalist - Ousado'}
                 {formData.template === 'soft' && 'Soft - Suave'}
+                {hasFixedColor() && (
+                  <span 
+                    className={styles.fixedColorBadge}
+                    style={{ backgroundColor: getEffectiveColor() }}
+                  >
+                    Cor Fixa
+                  </span>
+                )}
               </span>
               <span className={styles.templateChange}>Alterar →</span>
             </button>
           </div>
 
-          <div className={styles.inputGroup}>
-            <label>Cor primária</label>
-            <div className={styles.colorPicker}>
-              <input
-                type="color"
-                value={formData.primary_color}
-                onChange={(e) => setFormData({ ...formData, primary_color: e.target.value })}
-              />
-              <input
-                type="text"
-                value={formData.primary_color}
-                onChange={(e) => setFormData({ ...formData, primary_color: e.target.value })}
-                placeholder="#667eea"
-              />
+          {!hasFixedColor() && (
+            <div className={styles.inputGroup}>
+              <label>Cor primária</label>
+              <div className={styles.colorPicker}>
+                <input
+                  type="color"
+                  value={formData.primary_color}
+                  onChange={(e) => setFormData({ ...formData, primary_color: e.target.value })}
+                />
+                <input
+                  type="text"
+                  value={formData.primary_color}
+                  onChange={(e) => setFormData({ ...formData, primary_color: e.target.value.trim() })}
+                  placeholder="#667eea"
+                />
+              </div>
             </div>
-          </div>
+          )}
 
           <div className={styles.checkboxGroup}>
             <label>
@@ -264,7 +292,7 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
               ctaHeadline={variations[selectedIndex].cta_headline}
               ctaSubheadline={variations[selectedIndex].cta_subheadline}
               heroImage={variations[selectedIndex].hero_image}
-              primaryColor={formData.primary_color}
+              primaryColor={getEffectiveColor()}
               template={formData.template}
               collectName={formData.collect_name}
               collectPhone={formData.collect_phone}
