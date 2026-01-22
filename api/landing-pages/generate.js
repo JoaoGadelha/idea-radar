@@ -40,11 +40,12 @@ export default async function handler(req, res) {
 
   try {
 
-    const { projectData, brief } = req.body;
-
-    if (!projectData) {
-      return res.status(400).json({ error: 'Dados do projeto são obrigatórios' });
-    }
+    // VALORES HARDCODED
+    const projectData = {
+      name: 'Gerador de Sugestões',
+      description: 'Plataforma minimalista para geração de sugestões criativas'
+    };
+    const brief = 'Temática minimalista branco com elementos verdes, design clean e moderno';
 
     // Verificar rate limits
     await perMinuteLimiter.consume(userId, 1);
