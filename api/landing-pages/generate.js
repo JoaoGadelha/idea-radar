@@ -48,8 +48,8 @@ export default async function handler(req, res) {
     const brief = 'Temática minimalista branco com elementos verdes, design clean e moderno';
 
     // Verificar rate limits
-    await perMinuteLimiter.consume(userId, 1);
-    await dailyLimiter.consume(userId, 4000); // ~4k tokens por geração
+    await perMinuteLimiter.acquire();
+    await dailyLimiter.acquire();
 
     // Construir prompt estruturado
     const prompt = createPrompt()
