@@ -66,7 +66,7 @@
    HERO SECTION
    ======================================== */
 .hero {
-  padding: 8rem 0 6rem;
+  padding: 4rem 0 5rem;
   background: radial-gradient(ellipse at top, #111111 0%, #000000 100%);
   position: relative;
 }
