@@ -156,18 +156,24 @@ export default function LandingPagePreview({
                   src={heroImage} 
                   alt="Hero" 
                   className={styles.heroImage}
-                />
-              ) : (
-                <div 
-                  className={styles.heroPlaceholder}
-                  style={{ 
-                    background: `linear-gradient(135deg, ${primaryColor}20 0%, ${primaryColor}40 100%)` 
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.nextElementSibling.style.display = 'flex';
                   }}
-                >
-                  <span style={{ fontSize: '3rem' }}>🖼️</span>
-                  <p style={{ margin: '1rem 0 0', opacity: 0.7 }}>Imagem hero</p>
-                </div>
-              )}
+                />
+              ) : null}
+              <div 
+                className={styles.heroPlaceholder}
+                style={{ 
+                  background: `linear-gradient(135deg, ${primaryColor}20 0%, ${primaryColor}40 100%)`,
+                  display: heroImage ? 'none' : 'flex'
+                }}
+              >
+                <span style={{ fontSize: '3rem' }}>🖼️</span>
+                <p style={{ margin: '1rem 0 0', opacity: 0.7, textAlign: 'center', padding: '0 1rem' }}>
+                  {heroImageType === 'url' ? 'Insira uma URL válida para sua imagem' : 'Imagem hero'}
+                </p>
+              </div>
             </div>
           )}
         </div>
