@@ -142,7 +142,7 @@ export default function LandingPageBuilder({ onClose, onSave }) {
           title: formData.title || selectedVariation.headline,
           headline: selectedVariation.headline,
           subheadline: selectedVariation.subheadline,
-          description: selectedVariation.description,
+          description: formData.brief, // Usar o brief como description
           cta_text: selectedVariation.cta_text,
           value_proposition: selectedVariation.value_proposition,
           how_it_works: selectedVariation.how_it_works,
