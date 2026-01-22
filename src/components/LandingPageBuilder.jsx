@@ -39,6 +39,16 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
     return formData.template in TEMPLATES_WITH_FIXED_COLOR;
   };
 
+  // DEV: Preencher com exemplo do Termômetro de Clima Digital
+  const handleDevPopulate = () => {
+    setFormData({
+      ...formData,
+      title: 'Termômetro de Clima Digital',
+      slug: 'termometro-clima-digital',
+      brief: 'Projeto Termômetro de Clima Digital: esta landing page apresenta uma plataforma interativa criada para medir, em tempo real, o nível de engajamento e satisfação do público em relação a uma nova campanha digital. A ideia do projeto é funcionar como um "termômetro" simbólico, no qual os usuários respondem a microinterações rápidas — como enquetes, reações visuais e perguntas de pulso emocional — que alimentam um indicador dinâmico exibido na tela. A página tem foco em design limpo, linguagem acessível e chamadas claras para participação, transformando a coleta de percepção em uma experiência leve e visualmente atrativa. Os dados coletados são consolidados para ajudar marcas a entenderem a temperatura do interesse do público, ajustando estratégias de comunicação de forma ágil e orientada por insights reais.',
+    });
+  };
+
   const handleGenerate = async () => {
     setLoading(true);
     try {
@@ -121,7 +131,16 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
     <div className={styles.container}>
       <div className={styles.header}>
         <h2>Nova Landing Page</h2>
-        <button onClick={onClose} className={styles.closeBtn}>✕</button>
+        <div className={styles.headerActions}>
+          <button 
+            onClick={handleDevPopulate} 
+            className={styles.devBtn}
+            title="Preencher com exemplo"
+          >
+            🧪 DEV
+          </button>
+          <button onClick={onClose} className={styles.closeBtn}>✕</button>
+        </div>
       </div>
 
       <div className={styles.content}>

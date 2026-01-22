@@ -47,13 +47,14 @@ export default async function handler(req, res) {
   const userId = authResult.userId;
 
   try {
+    // Receber dados do request
+    const { projectData, brief } = req.body;
 
-    // VALORES HARDCODED
-    const projectData = {
-      name: 'RoomGenius',
-      description: 'Ferramenta de IA para transformar ambientes com novas decorações'
-    };
-    const brief = 'Produto: Ferramenta que usa IA para transformar fotos de ambientes (sala, quarto, cozinha) com novas decorações. O usuário envia uma foto do ambiente e escolhe um estilo (minimalista, escandinavo, industrial, etc). A IA gera uma nova imagem mostrando como o ambiente ficaria decorado naquele estilo. Objetivo da landing page: Capturar emails de pessoas interessadas em testar a ferramenta antes do lançamento oficial. Público-alvo: Pessoas que querem reformar/decorar seus ambientes e buscam inspiração visual antes de investir. Tom: Moderno, prático, inspirador.';
+    if (!projectData || !brief) {
+      return res.status(400).json({
+        error: 'Missing required fields: projectData and brief',
+      });
+    }
 
     // Verificar rate limits
     await perMinuteLimiter.acquire();
