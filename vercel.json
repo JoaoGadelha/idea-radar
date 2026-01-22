@@ -1,5 +1,5 @@
 {
-  "buildCommand": "git submodule update --init --remote && npm install && vite build",
+  "buildCommand": "git config --global url.\"https://$GITHUB_TOKEN@github.com/\".insteadOf \"https://github.com/\" && git submodule update --init --remote && npm install && vite build",
   "outputDirectory": "dist",
   "framework": "vite",
   "rewrites": [
