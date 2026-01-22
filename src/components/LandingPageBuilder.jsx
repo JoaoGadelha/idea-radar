@@ -6,7 +6,8 @@ import { useAuth } from '../contexts/AuthContext';
 export default function LandingPageBuilder({ projectId, onClose, onSave }) {
   const { token } = useAuth();
   const [loading, setLoading] = useState(false);
-  const [currentVariation, setCurrentVariation] = useState(null);
+  const [variations, setVariations] = useState([]);
+  const [selectedIndex, setSelectedIndex] = useState(0);
   const [formData, setFormData] = useState({
     title: 'RoomGenius',
     slug: 'roomgenius',
@@ -45,7 +46,8 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
       }
 
       const data = await res.json();
-      setCurrentVariation(data.variation);
+      setVariations(prev => [...prev, data.variation]);
+      setSelectedIndex(variations.length);
     } catch (error) {
       console.error('Erro ao gerar:', error);
       alert(error.message);
@@ -55,7 +57,8 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
   };
 
   const handleSave = async () => {
-    if (!currentVariation) return;
+    const selectedVariation = variations[selectedIndex];
+    if (!selectedVariation) return;
 
     try {
       const res = await fetch('/api/landing-pages', {
@@ -67,11 +70,11 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
         body: JSON.stringify({
           project_id: projectId,
           slug: formData.slug,
-          title: formData.title || currentVariation.headline,
-          headline: currentVariation.headline,
-          subheadline: currentVariation.subheadline,
-          description: currentVariation.description,
-          cta_text: currentVariation.cta_text,
+          title: formData.title || selectedVariation.headline,
+          headline: selectedVariation.headline,
+          subheadline: selectedVariation.subheadline,
+          description: selectedVariation.description,
+          cta_text: selectedVariation.cta_text,
           primary_color: formData.primary_color,
           collect_name: formData.collect_name,
           collect_phone: formData.collect_phone,
@@ -184,10 +187,10 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
             disabled={loading}
             className={styles.generateBtn}
           >
-            {loading ? '🤖 Gerando...' : currentVariation ? '🔄 Gerar outra versão' : '✨ Gerar com IA'}
+            {loading ? '🤖 Gerando...' : variations.length > 0 ? '🔄 Gerar outra versão' : '✨ Gerar com IA'}
           </button>
 
-          {currentVariation && (
+          {variations.length > 0 && (
             <button
               onClick={handleSave}
               disabled={!formData.slug}
@@ -196,21 +199,41 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
               💾 Salvar Landing Page
             </button>
           )}
-        </div>
+          {/* Thumbnails */}
+          {variations.length > 0 && (
+            <div className={styles.thumbnailSection}>
+              <label>Variações geradas ({variations.length})</label>
+              <div className={styles.thumbnails}>
+                {variations.map((variation, idx) => (
+                  <div
+                    key={idx}
+                    className={`${styles.thumbnail} ${idx === selectedIndex ? styles.selected : ''}`}
+                    onClick={() => setSelectedIndex(idx)}
+                  >
+                    <div className={styles.thumbnailNumber}>#{idx + 1}</div>
+                    <div className={styles.thumbnailContent}>
+                      <strong>{variation.headline}</strong>
+                      <p>{variation.subheadline?.substring(0, 60)}...</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}        </div>
 
         {/* Preview */}
         <div className={styles.preview}>
-          {currentVariation ? (
+          {variations.length > 0 ? (
             <LandingPagePreview
-              headline={currentVariation.headline}
-              subheadline={currentVariation.subheadline}
-              description={currentVariation.description}
-              ctaText={currentVariation.cta_text}
-              valueProposition={currentVariation.value_proposition}
-              howItWorks={currentVariation.how_it_works}
-              faqItems={currentVariation.faq_items}
-              ctaHeadline={currentVariation.cta_headline}
-              ctaSubheadline={currentVariation.cta_subheadline}
+              headline={variations[selectedIndex].headline}
+              subheadline={variations[selectedIndex].subheadline}
+              description={variations[selectedIndex].description}
+              ctaText={variations[selectedIndex].cta_text}
+              valueProposition={variations[selectedIndex].value_proposition}
+              howItWorks={variations[selectedIndex].how_it_works}
+              faqItems={variations[selectedIndex].faq_items}
+              ctaHeadline={variations[selectedIndex].cta_headline}
+              ctaSubheadline={variations[selectedIndex].cta_subheadline}
               primaryColor={formData.primary_color}
               collectName={formData.collect_name}
               collectPhone={formData.collect_phone}
