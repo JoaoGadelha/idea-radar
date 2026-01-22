@@ -89,14 +89,10 @@ export default async function handler(req, res) {
       .build();
 
     // Chamar Gemini
-    const response = await gemini.generateText({
-      prompt,
-      maxTokens: 2000,
-      temperature: 0.9, // Mais criativo para variações diferentes
-    });
+    const response = await gemini.generate(prompt);
 
     // Extrair JSON da resposta
-    const variations = parseJSON(response.text);
+    const variations = parseJSON(response);
 
     if (!Array.isArray(variations) || variations.length === 0) {
       throw new Error('Formato de resposta inválido');
