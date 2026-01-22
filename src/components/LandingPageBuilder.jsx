@@ -36,18 +36,24 @@ export default function LandingPageBuilder({ onClose, onSave }) {
     return TEMPLATES_WITH_FIXED_COLOR[formData.template] || formData.primary_color;
   };
 
-  // Scroll to top on mount
+  // Scroll to top on mount - múltiplos timers para garantir
   useEffect(() => {
-    // Usar setTimeout para garantir que o DOM está completamente renderizado
-    const timer = setTimeout(() => {
-      if (previewRef.current) {
-        previewRef.current.scrollTop = 0;
-      }
-      if (inputsRef.current) {
-        inputsRef.current.scrollTop = 0;
-      }
-    }, 50);
-    return () => clearTimeout(timer);
+    const scrollToTop = () => {
+      if (previewRef.current) previewRef.current.scrollTop = 0;
+      if (inputsRef.current) inputsRef.current.scrollTop = 0;
+    };
+    
+    // Executar várias vezes para garantir após renders
+    scrollToTop();
+    const t1 = setTimeout(scrollToTop, 50);
+    const t2 = setTimeout(scrollToTop, 150);
+    const t3 = setTimeout(scrollToTop, 300);
+    
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+    };
   }, []);
 
   // Scroll preview to top when variations change
