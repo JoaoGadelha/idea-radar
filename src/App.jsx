@@ -3,6 +3,7 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Login from './pages/Login';
 import Verify from './pages/Verify';
 import Dashboard from './pages/Dashboard';
+import PublicLandingPage from './pages/PublicLandingPage';
 
 function ProtectedRoute({ children }) {
   const { token, loading } = useAuth();
@@ -30,6 +31,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/verify" element={<Verify />} />
+        <Route path="/l/:slug" element={<PublicLandingPage />} />
         <Route
           path="/"
           element={
