@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styles from './LandingPageBuilder.module.css';
 import LandingPagePreview from './LandingPagePreview';
 import TemplateSelector from './TemplateSelector';
@@ -18,10 +18,11 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
   const [variations, setVariations] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [showTemplateSelector, setShowTemplateSelector] = useState(false);
+  const previewRef = useRef(null);
   const [formData, setFormData] = useState({
-    title: 'RoomGenius',
-    slug: 'roomgenius',
-    brief: 'Ferramenta de IA que transforma fotos de ambientes com novas decorações. Usuário envia foto do ambiente e escolhe estilo de decoração (minimalista, escandinavo, industrial). IA gera imagem mostrando como ficaria decorado. Público: pessoas que querem reformar e buscam inspiração.',
+    title: '',
+    slug: '',
+    brief: '',
     primary_color: '#10b981',
     template: 'claude', // Template padrão
     collect_name: true,
@@ -33,6 +34,13 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
   const getEffectiveColor = () => {
     return TEMPLATES_WITH_FIXED_COLOR[formData.template] || formData.primary_color;
   };
+
+  // Scroll preview to top whenever variations change
+  useEffect(() => {
+    if (previewRef.current) {
+      previewRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [variations, selectedIndex]);
 
   // Verifica se o template atual tem cor fixa
   const hasFixedColor = () => {
@@ -130,8 +138,8 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h2>Nova Landing Page</h2>
-        <div className={styles.headerActions}>
+        <div className={styles.headerLeft}>
+          <h2>Nova Landing Page</h2>
           <button 
             onClick={handleDevPopulate} 
             className={styles.devBtn}
@@ -139,8 +147,8 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
           >
             🧪 DEV
           </button>
-          <button onClick={onClose} className={styles.closeBtn}>✕</button>
         </div>
+        <button onClick={onClose} className={styles.closeBtn}>✕</button>
       </div>
 
       <div className={styles.content}>
@@ -299,7 +307,7 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
           )}        </div>
 
         {/* Preview */}
-        <div className={styles.preview}>
+        <div className={styles.preview} ref={previewRef}>
           {variations.length > 0 ? (
             <LandingPagePreview
               headline={variations[selectedIndex].headline}
@@ -316,6 +324,16 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
               collectName={formData.collect_name}
               collectPhone={formData.collect_phone}
             />
+          ) : loading ? (
+            <div className={styles.emptyPreview}>
+              <div className={styles.loadingSpinner}>⏳</div>
+              <p>Gerando sua landing page...</p>
+            </div>
+          ) : loading ? (
+            <div className={styles.emptyPreview}>
+              <div className={styles.loadingSpinner}>⏳</div>
+              <p>Gerando sua landing page...</p>
+            </div>
           ) : (
             <div className={styles.emptyPreview}>
               <p>👈 Preencha os campos e clique em "Gerar com IA"</p>
