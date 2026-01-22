@@ -19,6 +19,7 @@ export default function LandingPageBuilder({ onClose, onSave }) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [showTemplateSelector, setShowTemplateSelector] = useState(false);
   const previewRef = useRef(null);
+  const inputsRef = useRef(null);
   const [formData, setFormData] = useState({
     title: '',
     slug: '',
@@ -35,15 +36,22 @@ export default function LandingPageBuilder({ onClose, onSave }) {
     return TEMPLATES_WITH_FIXED_COLOR[formData.template] || formData.primary_color;
   };
 
-  // Scroll preview to top on mount and whenever variations change
+  // Scroll to top on mount
   useEffect(() => {
-    if (previewRef.current) {
-      previewRef.current.scrollTo({ top: 0, behavior: 'instant' });
-    }
+    // Usar requestAnimationFrame para garantir que o DOM está pronto
+    requestAnimationFrame(() => {
+      if (previewRef.current) {
+        previewRef.current.scrollTop = 0;
+      }
+      if (inputsRef.current) {
+        inputsRef.current.scrollTop = 0;
+      }
+    });
   }, []);
 
+  // Scroll preview to top when variations change
   useEffect(() => {
-    if (previewRef.current) {
+    if (variations.length > 0 && previewRef.current) {
       previewRef.current.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, [variations, selectedIndex]);
@@ -76,6 +84,8 @@ export default function LandingPageBuilder({ onClose, onSave }) {
         name: formData.title,
         description: formData.brief,
       };
+
+      console.log('[LandingPageBuilder] Enviando para API:', { projectData, brief: formData.brief });
 
       // Gerar variações
       const res = await fetch('/api/landing-pages/generate', {
@@ -174,7 +184,7 @@ export default function LandingPageBuilder({ onClose, onSave }) {
 
       <div className={styles.content}>
         {/* Input Section */}
-        <div className={styles.inputs}>
+        <div className={styles.inputs} ref={inputsRef}>
           <div className={styles.inputGroup}>
             <label>Título da LP</label>
             <input
