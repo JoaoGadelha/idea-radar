@@ -40,6 +40,18 @@ export default function ChatInterface({ projectsCount }) {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  // Auto-resize textarea
+  const adjustTextareaHeight = () => {
+    if (inputRef.current) {
+      inputRef.current.style.height = 'auto';
+      inputRef.current.style.height = Math.min(inputRef.current.scrollHeight, 150) + 'px';
+    }
+  };
+
+  useEffect(() => {
+    adjustTextareaHeight();
+  }, [input]);
+
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
@@ -338,14 +350,20 @@ export default function ChatInterface({ projectsCount }) {
       )}
 
       <form onSubmit={handleSubmit} className={styles.form}>
-        <input
+        <textarea
           ref={inputRef}
-          type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Pergunte sobre seus projetos..."
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+              e.preventDefault();
+              handleSubmit(e);
+            }
+          }}
+          placeholder="Pergunte sobre seus projetos... (Shift+Enter para nova linha)"
           className={styles.input}
           disabled={loading}
+          rows={1}
         />
         <button 
           type="submit" 
