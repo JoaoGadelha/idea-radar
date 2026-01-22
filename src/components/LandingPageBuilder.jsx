@@ -101,23 +101,6 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
       </div>
 
       <div className={styles.content}>
-        {/* Thumbnails Sidebar */}
-        <div className={styles.thumbnails}>
-          {variations.map((variation, index) => (
-            <button
-              key={variation.id}
-              className={`${styles.thumbnail} ${index === selectedIndex ? styles.active : ''}`}
-              onClick={() => setSelectedIndex(index)}
-              title={variation.headline}
-            >
-              <div className={styles.thumbnailNumber}>v{index + 1}</div>
-              <div className={styles.thumbnailPreview}>
-                <div className={styles.miniHeadline}>{variation.headline.slice(0, 20)}...</div>
-              </div>
-            </button>
-          ))}
-        </div>
-
         {/* Input Section */}
         <div className={styles.inputs}>
           <div className={styles.inputGroup}>
