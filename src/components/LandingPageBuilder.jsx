@@ -92,8 +92,6 @@ export default function LandingPageBuilder({ onClose, onSave }) {
         description: formData.brief,
       };
 
-      console.log('[LandingPageBuilder] Enviando para API:', { projectData, brief: formData.brief });
-
       // Gerar variações
       const res = await fetch('/api/landing-pages/generate', {
         method: 'POST',
