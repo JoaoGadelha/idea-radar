@@ -434,7 +434,8 @@ export default function LandingPageBuilder({ onClose, onSave }) {
               faqItems={variations[selectedIndex].faq_items}
               ctaHeadline={variations[selectedIndex].cta_headline}
               ctaSubheadline={variations[selectedIndex].cta_subheadline}
-              heroImage={variations[selectedIndex].hero_image}
+              heroImage={formData.hero_image_type === 'url' ? formData.hero_image_url : variations[selectedIndex].hero_image}
+              heroImageType={formData.hero_image_type}
               primaryColor={getEffectiveColor()}
               template={formData.template}
               collectName={formData.collect_name}

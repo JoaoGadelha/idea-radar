@@ -17,6 +17,7 @@ export default function LandingPagePreview({
   ctaSubheadline,
   primaryColor = '#6366f1',
   heroImage,
+  heroImageType = 'none',
   template = 'claude',
   collectName = true,
   collectPhone = false,
@@ -83,7 +84,7 @@ export default function LandingPagePreview({
 
       {/* Hero Section - Split layout with image */}
       <section className={styles.hero}>
-        <div className={`${styles.heroContainer} ${!heroImage ? styles.heroContainerCentered : ''}`}>
+        <div className={`${styles.heroContainer} ${heroImageType === 'none' ? styles.heroContainerCentered : ''}`}>
           <div className={styles.heroContent}>
             {/* Badge de pré-lançamento */}
             <div 
@@ -148,13 +149,25 @@ export default function LandingPagePreview({
           </div>
 
           {/* Hero Image */}
-          {heroImage && (
+          {heroImageType !== 'none' && (
             <div className={styles.heroVisual}>
-              <img 
-                src={heroImage} 
-                alt="Hero" 
-                className={styles.heroImage}
-              />
+              {heroImage ? (
+                <img 
+                  src={heroImage} 
+                  alt="Hero" 
+                  className={styles.heroImage}
+                />
+              ) : (
+                <div 
+                  className={styles.heroPlaceholder}
+                  style={{ 
+                    background: `linear-gradient(135deg, ${primaryColor}20 0%, ${primaryColor}40 100%)` 
+                  }}
+                >
+                  <span style={{ fontSize: '3rem' }}>🖼️</span>
+                  <p style={{ margin: '1rem 0 0', opacity: 0.7 }}>Imagem hero</p>
+                </div>
+              )}
             </div>
           )}
         </div>
