@@ -35,7 +35,13 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
     return TEMPLATES_WITH_FIXED_COLOR[formData.template] || formData.primary_color;
   };
 
-  // Scroll preview to top whenever variations change
+  // Scroll preview to top on mount and whenever variations change
+  useEffect(() => {
+    if (previewRef.current) {
+      previewRef.current.scrollTo({ top: 0, behavior: 'instant' });
+    }
+  }, []);
+
   useEffect(() => {
     if (previewRef.current) {
       previewRef.current.scrollTo({ top: 0, behavior: 'smooth' });
