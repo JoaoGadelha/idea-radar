@@ -38,10 +38,24 @@ export default function LandingPageBuilder({ onClose, onSave }) {
 
   // Scroll to top on mount - múltiplos timers para garantir
   useEffect(() => {
+    console.log('[Scroll Debug] Component mounted');
+    
     const scrollToTop = () => {
+      console.log('[Scroll Debug] Tentando scroll to top', {
+        previewScrollTop: previewRef.current?.scrollTop,
+        inputsScrollTop: inputsRef.current?.scrollTop,
+        windowScrollY: window.scrollY
+      });
+      
       if (previewRef.current) previewRef.current.scrollTop = 0;
       if (inputsRef.current) inputsRef.current.scrollTop = 0;
-      window.scrollTo(0, 0); // Também forçar window
+      window.scrollTo(0, 0);
+      
+      console.log('[Scroll Debug] Após scroll', {
+        previewScrollTop: previewRef.current?.scrollTop,
+        inputsScrollTop: inputsRef.current?.scrollTop,
+        windowScrollY: window.scrollY
+      });
     };
     
     // Executar várias vezes para garantir após renders
