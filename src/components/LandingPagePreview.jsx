@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import claudeStyles from './LandingPagePreview.module.css';
 import stripeStyles from './LandingPagePreview.stripe.module.css';
 import vercelStyles from './LandingPagePreview.vercel.module.css';
@@ -19,8 +20,44 @@ export default function LandingPagePreview({
   template = 'claude',
   collectName = true,
   collectPhone = false,
-  isInteractive = false, // Nova prop para habilitar formulário funcional
+  isInteractive = false,
+  projectId = null, // ID do projeto para salvar leads
+  landingPageId = null, // ID da landing page
 }) {
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '' });
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!isInteractive || !projectId) return;
+
+    setLoading(true);
+    try {
+      const res = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          projectId,
+          email: formData.email,
+          nome: collectName ? formData.name : null,
+          telefone: collectPhone ? formData.phone : null,
+          source: `landing-page-${landingPageId || 'unknown'}`,
+        }),
+      });
+
+      if (!res.ok) throw new Error('Erro ao enviar');
+
+      setSubmitted(true);
+      setFormData({ name: '', email: '', phone: '' });
+    } catch (error) {
+      console.error('Erro ao enviar lead:', error);
+      alert('Erro ao enviar. Tente novamente.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Seleciona o CSS baseado no template
   const styles = 
     template === 'stripe' ? stripeStyles :
@@ -81,21 +118,31 @@ export default function LandingPagePreview({
 
             {/* CTA Group */}
             <div className={styles.ctaGroup}>
-              <div className={styles.emailInputGroup}>
-                <input 
-                  type="email" 
-                  placeholder="seu@email.com" 
-                  className={styles.heroEmailInput}
-                  disabled={!isInteractive}
-                />
-                <button 
-                  className={styles.heroCta}
-                  style={{ backgroundColor: primaryColor }}
-                  disabled={!isInteractive}
-                >
-                  {ctaText || 'Quero testar'}
-                </button>
-              </div>
+              {submitted ? (
+                <div className={styles.successMessage}>
+                  ✅ Obrigado! Você está na lista. Avisaremos em breve!
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className={styles.emailInputGroup}>
+                  <input 
+                    type="email" 
+                    placeholder="seu@email.com" 
+                    className={styles.heroEmailInput}
+                    disabled={!isInteractive || loading}
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    required={isInteractive}
+                  />
+                  <button 
+                    type="submit"
+                    className={styles.heroCta}
+                    style={{ backgroundColor: primaryColor }}
+                    disabled={!isInteractive || loading}
+                  >
+                    {loading ? '...' : (ctaText || 'Quero testar')}
+                  </button>
+                </form>
+              )}
               <p className={styles.ctaHint}>✉️ Sem spam. Avisamos quando lançar.</p>
             </div>
           </div>
@@ -243,34 +290,46 @@ export default function LandingPagePreview({
             </p>
           </div>
 
-          <div className={styles.ctaFinalForm}>
+          <form onSubmit={handleSubmit} className={styles.ctaFinalForm}>
             {collectName && (
               <input 
                 type="text" 
                 placeholder="Seu nome" 
                 className={styles.ctaFinalInput}
-                disabled={!isInteractive}
+                disabled={!isInteractive || loading}
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                required={isInteractive && collectName}
               />
             )}
             <input 
               type="email" 
               placeholder="seu@email.com" 
               className={styles.ctaFinalInput}
-              disabled={!isInteractive}
+              disabled={!isInteractive || loading}
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              required={isInteractive}
             />
             {collectPhone && (
               <input 
                 type="tel" 
                 placeholder="(00) 00000-0000" 
                 className={styles.ctaFinalInput}
-                disabled={!isInteractive}
+                disabled={!isInteractive || loading}
+                value={formData.phone}
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                required={isInteractive && collectPhone}
               />
             )}
             <button 
+              type="submit"
               className={styles.ctaFinalButton}
-              disabled={!isInteractive}
+              disabled={!isInteractive || loading}
             >
-              {ctaText || 'Garantir meu acesso'} →
+              {loading ? 'Enviando...' : (ctaText || 'Garantir meu acesso')} →
+            </button>
+          </form>
             </button>
           </div>
 

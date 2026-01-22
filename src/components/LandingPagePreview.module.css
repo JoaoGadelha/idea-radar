@@ -196,6 +196,27 @@
   margin: 0;
 }
 
+.successMessage {
+  padding: 1rem 1.5rem;
+  background: #10b981;
+  color: white;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Hero Visual */
 .heroVisual {
   position: relative;

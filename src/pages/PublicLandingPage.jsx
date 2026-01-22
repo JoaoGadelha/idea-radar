@@ -71,6 +71,8 @@ export default function PublicLandingPage() {
         collectName={landingPage.collect_name}
         collectPhone={landingPage.collect_phone}
         isInteractive={true}
+        projectId={landingPage.project_id}
+        landingPageId={landingPage.id}
       />
     </div>
   );
