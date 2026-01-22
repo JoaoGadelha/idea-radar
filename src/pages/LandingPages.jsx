@@ -20,8 +20,14 @@ export default function LandingPages() {
       const res = await fetch('/api/landing-pages', {
         headers: { Authorization: `Bearer ${token}` },
       });
-      const { landingPages } = await res.json();
-      setLandingPages(landingPages || []);
+      
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      
+      const data = await res.json();
+      console.log('[LandingPages] Fetched:', data);
+      setLandingPages(data.landingPages || []);
     } catch (error) {
       console.error('Erro ao buscar landing pages:', error);
     } finally {
