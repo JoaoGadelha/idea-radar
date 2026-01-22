@@ -1,4 +1,6 @@
-import styles from './LandingPagePreview.module.css';
+import claudeStyles from './LandingPagePreview.module.css';
+import stripeStyles from './LandingPagePreview.stripe.module.css';
+import vercelStyles from './LandingPagePreview.vercel.module.css';
 
 export default function LandingPagePreview({
   headline,
@@ -11,9 +13,16 @@ export default function LandingPagePreview({
   ctaSubheadline,
   primaryColor = '#6366f1',
   heroImage,
+  template = 'claude',
   collectName = true,
   collectPhone = false,
 }) {
+  // Seleciona o CSS baseado no template
+  const styles = template === 'stripe' 
+    ? stripeStyles 
+    : template === 'vercel' 
+    ? vercelStyles 
+    : claudeStyles;
   return (
     <div className={styles.preview}>
       {/* Navigation - Clean minimal nav */}
