@@ -1,0 +1,4 @@
+[submodule "ai-toolkit"]
+	path = ai-toolkit
+	url = https://github.com/JoaoGadelha/ai-toolkit.git
+	branch = main

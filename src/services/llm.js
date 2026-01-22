@@ -1,37 +1,26 @@
 /**
  * LLM Service - IdeaRadar
  * 
- * Baseado no Alfred - Usa Google Gemini 2.5 Flash
- * para análise de métricas e projetos
+ * Refatorado para usar ai-toolkit
+ * Usa Google Gemini 2.5 Flash para análise de métricas e projetos
  */
 
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { createGeminiProvider } from '@joaogadelha/ai-providers';
+import { createRateLimiter, presets } from '@joaogadelha/rate-limiter';
 
-// Configuração do cliente Google Gemini
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY || '');
-const GEMINI_MAX_CALLS_PER_DAY = parseInt(process.env.GEMINI_MAX_CALLS_PER_DAY || '1500', 10);
+// Configuração
 const DISABLE_GEMINI = process.env.DISABLE_GEMINI === 'true';
+const GEMINI_MAX_CALLS_PER_DAY = parseInt(process.env.GEMINI_MAX_CALLS_PER_DAY || '1500', 10);
 
-// Contador simples de rate limit (em produção, usar Redis ou banco)
-let dailyCalls = 0;
-let lastReset = Date.now();
+// Rate limiter - combina limite diário + limite por minuto do Gemini
+const dailyLimiter = createRateLimiter({
+  strategy: 'fixed-window',
+  maxRequests: GEMINI_MAX_CALLS_PER_DAY,
+  windowMs: 24 * 60 * 60 * 1000, // 24 horas
+  throwOnLimit: true
+});
 
-function checkDailyLimit() {
-  const now = Date.now();
-  const oneDayMs = 24 * 60 * 60 * 1000;
-  
-  if (now - lastReset > oneDayMs) {
-    dailyCalls = 0;
-    lastReset = now;
-  }
-  
-  if (dailyCalls >= GEMINI_MAX_CALLS_PER_DAY) {
-    return { allowed: false, remaining: 0 };
-  }
-  
-  dailyCalls++;
-  return { allowed: true, remaining: GEMINI_MAX_CALLS_PER_DAY - dailyCalls };
-}
+const minuteLimiter = presets.gemini(); // 60 RPM do Gemini Free Tier
 
 /**
  * Chama o modelo Gemini com um prompt
@@ -56,18 +45,18 @@ export async function callLLM(prompt, options = {}) {
   } = options;
 
   try {
-    const limitResult = checkDailyLimit();
-    if (!limitResult.allowed) {
-      throw new Error('Gemini daily limit reached. Try again tomorrow.');
-    }
+    // Aplicar rate limiting
+    await dailyLimiter.acquire();
+    await minuteLimiter.acquire();
 
-    // Inicializar o modelo
-    const geminiModel = genAI.getGenerativeModel({ 
+    // Criar provider Gemini
+    const provider = createGeminiProvider({
+      apiKey: process.env.GOOGLE_AI_API_KEY || '',
       model,
       generationConfig: {
         temperature,
-        maxOutputTokens: maxTokens,
-      },
+        maxTokens,
+      }
     });
 
     // Adicionar instrução para JSON se necessário
@@ -76,14 +65,14 @@ export async function callLLM(prompt, options = {}) {
       finalPrompt = `${prompt}\n\nIMPORTANTE: Responda APENAS com JSON válido, sem texto adicional antes ou depois.`;
     }
 
-    // Gerar conteúdo com retry para erros temporários
+    // Gerar conteúdo com retry automático
     let result;
     let lastError;
     const maxRetries = 3;
     
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
       try {
-        result = await geminiModel.generateContent(finalPrompt);
+        result = await provider.generate(finalPrompt);
         break;
       } catch (error) {
         lastError = error;
@@ -110,12 +99,15 @@ export async function callLLM(prompt, options = {}) {
       throw lastError || new Error('Failed to get response after retries');
     }
 
-    const response = result.response;
-    const text = response.text();
-
-    return text;
+    return result;
   } catch (error) {
     console.error('[LLM Error]', error.message);
+    
+    // Mensagem mais amigável para limite diário
+    if (error.message?.includes('Rate limit exceeded')) {
+      throw new Error('Gemini daily limit reached. Try again tomorrow.');
+    }
+    
     throw new Error(`LLM call failed: ${error.message}`);
   }
 }
