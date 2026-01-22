@@ -86,7 +86,7 @@ export default async function handler(req, res) {
       if (!finalProjectId && project_name) {
         const [newProject] = await sql`
           INSERT INTO projects (user_id, name, url)
-          VALUES (${userId}, ${project_name}, ${`https://idea-radar.com/l/${slug}`})
+          VALUES (${userId}, ${project_name}, ${`https://idea-radar-react.vercel.app/l/${slug}`})
           RETURNING id
         `;
         finalProjectId = newProject.id;
