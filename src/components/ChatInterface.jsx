@@ -18,11 +18,13 @@ function parseMarkdown(text) {
 
 export default function ChatInterface({ projectsCount }) {
   const { token } = useAuth();
-  // Cada mensagem agora tem: role, versions: [content1, content2...], activeVersion: index
+  // Estrutura: cada mensagem do usuário pode ter múltiplas versões, cada uma com sua própria thread de respostas
+  // versions: [{ content: "texto", followUps: [mensagens que vieram depois] }]
+  // Para mensagens do assistant, versions é simples: [{ content: "texto" }]
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
-      versions: [`Olá! 👋 Sou seu analista de projetos com IA. Tenho acesso aos dados de **${projectsCount} projeto(s)** seus.\n\nPergunte-me coisas como:\n• "Como estão meus projetos?"\n• "Qual projeto está melhor?"\n• "Por que o projeto X está ruim?"\n• "Onde devo investir meu tempo?"`],
+      versions: [{ content: `Olá! 👋 Sou seu analista de projetos com IA. Tenho acesso aos dados de **${projectsCount} projeto(s)** seus.\n\nPergunte-me coisas como:\n• "Como estão meus projetos?"\n• "Qual projeto está melhor?"\n• "Por que o projeto X está ruim?"\n• "Onde devo investir meu tempo?"` }],
       activeVersion: 0
     }
   ]);
@@ -113,7 +115,7 @@ export default function ChatInterface({ projectsCount }) {
         if (response.ok) {
           setMessages(prev => [...prev, { 
             role: 'assistant', 
-            versions: [data.answer],
+            versions: [{ content: data.answer }],
             activeVersion: 0
           }]);
           setRetryInfo(null);
@@ -136,7 +138,7 @@ export default function ChatInterface({ projectsCount }) {
 
     setMessages(prev => [...prev, { 
       role: 'assistant', 
-      versions: [`⚠️ Erro: ${lastError || 'Não foi possível processar sua pergunta.'}`],
+      versions: [{ content: `⚠️ Erro: ${lastError || 'Não foi possível processar sua pergunta.'}` }],
       activeVersion: 0
     }]);
     setRetryInfo(null);
@@ -153,7 +155,7 @@ export default function ChatInterface({ projectsCount }) {
     
     setMessages(prev => [...prev, { 
       role: 'user', 
-      versions: [userMessage],
+      versions: [{ content: userMessage }],
       activeVersion: 0
     }]);
 
@@ -165,7 +167,7 @@ export default function ChatInterface({ projectsCount }) {
     if (msg.role !== 'user' || loading) return;
     
     setEditingIndex(index);
-    setEditText(msg.versions[msg.activeVersion]);
+    setEditText(msg.versions[msg.activeVersion].content);
   };
 
   const handleCancelEdit = () => {
@@ -179,13 +181,30 @@ export default function ChatInterface({ projectsCount }) {
     const editedText = editText.trim();
     const editIndex = editingIndex;
     
-    // Adicionar nova versão à mensagem editada
+    // Salvar mensagens subsequentes na versão atual, e criar nova versão
     setMessages(prev => {
-      const newMessages = prev.slice(0, editIndex + 1);
-      const editedMsg = { ...newMessages[editIndex] };
-      editedMsg.versions = [...editedMsg.versions, editedText];
-      editedMsg.activeVersion = editedMsg.versions.length - 1;
-      newMessages[editIndex] = editedMsg;
+      const editedMsg = { ...prev[editIndex] };
+      const currentVersionIdx = editedMsg.activeVersion;
+      
+      // Pegar todas as mensagens que vieram depois desta
+      const followUpMessages = prev.slice(editIndex + 1);
+      
+      // Salvar essas mensagens na versão atual (se ainda não tiver followUps salvos)
+      const updatedVersions = [...editedMsg.versions];
+      updatedVersions[currentVersionIdx] = {
+        ...updatedVersions[currentVersionIdx],
+        followUps: followUpMessages
+      };
+      
+      // Criar nova versão com a pergunta editada
+      updatedVersions.push({ content: editedText });
+      
+      editedMsg.versions = updatedVersions;
+      editedMsg.activeVersion = updatedVersions.length - 1;
+      
+      // Retornar apenas até a mensagem editada (remove mensagens subsequentes)
+      const newMessages = prev.slice(0, editIndex);
+      newMessages.push(editedMsg);
       return newMessages;
     });
 
@@ -207,15 +226,41 @@ export default function ChatInterface({ projectsCount }) {
 
   const navigateVersion = (msgIndex, direction) => {
     setMessages(prev => {
-      const newMessages = [...prev];
-      const msg = { ...newMessages[msgIndex] };
-      const newVersion = msg.activeVersion + direction;
+      const msg = { ...prev[msgIndex] };
+      const currentVersionIdx = msg.activeVersion;
+      const newVersionIdx = currentVersionIdx + direction;
       
-      if (newVersion >= 0 && newVersion < msg.versions.length) {
-        msg.activeVersion = newVersion;
-        newMessages[msgIndex] = msg;
+      if (newVersionIdx < 0 || newVersionIdx >= msg.versions.length) {
+        return prev;
       }
       
+      // Se é uma mensagem de usuário, precisamos gerenciar os followUps
+      if (msg.role === 'user') {
+        // Salvar as mensagens subsequentes atuais na versão atual
+        const currentFollowUps = prev.slice(msgIndex + 1);
+        const updatedVersions = [...msg.versions];
+        updatedVersions[currentVersionIdx] = {
+          ...updatedVersions[currentVersionIdx],
+          followUps: currentFollowUps
+        };
+        
+        msg.versions = updatedVersions;
+        msg.activeVersion = newVersionIdx;
+        
+        // Restaurar os followUps da nova versão (se existirem)
+        const newVersionFollowUps = msg.versions[newVersionIdx].followUps || [];
+        
+        const newMessages = prev.slice(0, msgIndex);
+        newMessages.push(msg);
+        newMessages.push(...newVersionFollowUps);
+        
+        return newMessages;
+      }
+      
+      // Para mensagens do assistant, apenas muda a versão
+      msg.activeVersion = newVersionIdx;
+      const newMessages = [...prev];
+      newMessages[msgIndex] = msg;
       return newMessages;
     });
   };
@@ -233,7 +278,7 @@ export default function ChatInterface({ projectsCount }) {
         {messages.map((msg, index) => {
           const isEditing = editingIndex === index;
           const hasMultipleVersions = msg.versions.length > 1;
-          const currentContent = msg.versions[msg.activeVersion];
+          const currentContent = msg.versions[msg.activeVersion].content;
           
           return (
             <div 
