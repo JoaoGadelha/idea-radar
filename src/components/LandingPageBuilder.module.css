@@ -403,7 +403,9 @@
 .preview {
   flex: 1;
   overflow-y: auto;
+  overflow-anchor: none; /* Prevenir auto-scroll do browser */
   background: #f3f4f6;
+  scroll-behavior: smooth;
 }
 
 .emptyPreview {

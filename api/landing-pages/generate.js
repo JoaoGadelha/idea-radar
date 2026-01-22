@@ -194,6 +194,9 @@ export default async function handler(req, res) {
 
     // Gerar hero image com Gemini 2.5 Flash Image
     let heroImageBase64 = null;
+    // TODO: Corrigir configuração da API de imagem do Gemini
+    // Temporáriamente desabilitado devido a erro de configuração
+    /*
     if (variation.hero_image_prompt) {
       try {
         // Prompt otimizado para hero de landing page
@@ -221,6 +224,7 @@ export default async function handler(req, res) {
         // Continua sem imagem se falhar
       }
     }
+    */
 
     // Validar e normalizar estrutura completa
     const validVariation = {

@@ -85,8 +85,8 @@ export default async function handler(req, res) {
       let finalProjectId = project_id;
       if (!finalProjectId && project_name) {
         const [newProject] = await sql`
-          INSERT INTO projects (user_id, name, description)
-          VALUES (${userId}, ${project_name}, ${project_description || null})
+          INSERT INTO projects (user_id, name, url)
+          VALUES (${userId}, ${project_name}, ${`https://idea-radar.com/l/${slug}`})
           RETURNING id
         `;
         finalProjectId = newProject.id;
