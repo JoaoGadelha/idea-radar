@@ -42,10 +42,10 @@ export default async function handler(req, res) {
 
     // VALORES HARDCODED
     const projectData = {
-      name: 'Gerador de Sugestões',
-      description: 'Plataforma minimalista para geração de sugestões criativas'
+      name: 'RoomGenius',
+      description: 'Ferramenta de IA para transformar ambientes com novas decorações'
     };
-    const brief = 'Temática minimalista branco com elementos verdes, design clean e moderno';
+    const brief = 'Produto: Ferramenta que usa IA para transformar fotos de ambientes (sala, quarto, cozinha) com novas decorações. O usuário envia uma foto do ambiente e escolhe um estilo (minimalista, escandinavo, industrial, etc). A IA gera uma nova imagem mostrando como o ambiente ficaria decorado naquele estilo. Objetivo da landing page: Capturar emails de pessoas interessadas em testar a ferramenta antes do lançamento oficial. Público-alvo: Pessoas que querem reformar/decorar seus ambientes e buscam inspiração visual antes de investir. Tom: Moderno, prático, inspirador.';
 
     // Verificar rate limits
     await perMinuteLimiter.acquire();

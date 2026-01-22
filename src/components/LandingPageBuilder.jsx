@@ -9,9 +9,9 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
   const [variations, setVariations] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [formData, setFormData] = useState({
-    title: 'Gerador de Sugestões',
-    slug: 'gerador-sugestoes',
-    brief: 'Temática minimalista branco com elementos verdes, design clean e moderno',
+    title: 'RoomGenius',
+    slug: 'roomgenius',
+    brief: 'Ferramenta de IA que transforma fotos de ambientes com novas decorações. Usuário envia foto do ambiente e escolhe estilo de decoração (minimalista, escandinavo, industrial). IA gera imagem mostrando como ficaria decorado. Público: pessoas que querem reformar e buscam inspiração.',
     primary_color: '#10b981',
     collect_name: true,
     collect_phone: false,
@@ -147,12 +147,12 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
           </div>
 
           <div className={styles.inputGroup}>
-            <label>Brief adicional (opcional)</label>
+            <label>Descreva sua ideia de produto/serviço</label>
             <textarea
               value={formData.brief}
               onChange={(e) => setFormData({ ...formData, brief: e.target.value })}
-              placeholder="Ex: Foque em profissionais de TI, tom descontraído..."
-              rows={3}
+              placeholder="Ex: App de delivery vegano para universitários, Curso online de Python para iniciantes, Consultoria financeira para MEIs..."
+              rows="5"
             />
           </div>
 
