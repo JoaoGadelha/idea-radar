@@ -67,14 +67,14 @@ export default async function handler(req, res) {
         ${brief ? `Brief adicional: ${brief}` : ''}
       `)
       .section('Tarefa', [
-        'Gere 3 variações diferentes de landing page para este projeto',
-        'Cada variação deve ter um ângulo/abordagem diferente',
+        'Gere UMA landing page para este projeto',
         'Foque em conversão e clareza',
         'Use linguagem persuasiva mas não exagerada',
+        'Seja criativo e varie a abordagem a cada geração',
       ])
       .section('Formato JSON', [
-        'Retorne um array com 3 objetos',
-        'Cada objeto deve ter: headline, subheadline, description, cta_text',
+        'Retorne UM ÚNICO objeto (não array)',
+        'O objeto deve ter: headline, subheadline, description, cta_text',
         'headline: máximo 60 caracteres, impactante',
         'subheadline: máximo 100 caracteres, complementa o headline',
         'description: 2-3 parágrafos, máximo 500 caracteres',
@@ -92,23 +92,23 @@ export default async function handler(req, res) {
     const response = await gemini.generate(prompt);
 
     // Extrair JSON da resposta
-    const variations = parseJSON(response);
+    const variation = parseJSON(response);
 
-    if (!Array.isArray(variations) || variations.length === 0) {
+    if (!variation || typeof variation !== 'object') {
       throw new Error('Formato de resposta inválido');
     }
 
     // Validar estrutura
-    const validVariations = variations.slice(0, 3).map((v, index) => ({
-      id: `temp_${Date.now()}_${index}`,
-      headline: v.headline?.slice(0, 60) || 'Título não disponível',
-      subheadline: v.subheadline?.slice(0, 100) || '',
-      description: v.description?.slice(0, 500) || 'Descrição não disponível',
-      cta_text: v.cta_text?.slice(0, 30) || 'Saiba mais',
-    }));
+    const validVariation = {
+      id: `temp_${Date.now()}`,
+      headline: variation.headline?.slice(0, 60) || 'Título não disponível',
+      subheadline: variation.subheadline?.slice(0, 100) || '',
+      description: variation.description?.slice(0, 500) || 'Descrição não disponível',
+      cta_text: variation.cta_text?.slice(0, 30) || 'Saiba mais',
+    };
 
     return res.status(200).json({
-      variations: validVariations,
+      variation: validVariation,
       metadata: {
         model: 'gemini-2.0-flash-exp',
         generated_at: new Date().toISOString(),

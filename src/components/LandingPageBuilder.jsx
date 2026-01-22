@@ -6,8 +6,7 @@ import { useAuth } from '../contexts/AuthContext';
 export default function LandingPageBuilder({ projectId, onClose, onSave }) {
   const { token } = useAuth();
   const [loading, setLoading] = useState(false);
-  const [variations, setVariations] = useState([]);
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [currentVariation, setCurrentVariation] = useState(null);
   const [formData, setFormData] = useState({
     title: 'RoomGenius',
     slug: 'roomgenius',
@@ -17,8 +16,6 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
     collect_phone: false,
     collect_suggestions: true,
   });
-
-  const currentVariation = variations[selectedIndex];
 
   const handleGenerate = async () => {
     setLoading(true);
@@ -48,8 +45,7 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
       }
 
       const data = await res.json();
-      setVariations(data.variations);
-      setSelectedIndex(0);
+      setCurrentVariation(data.variation);
     } catch (error) {
       console.error('Erro ao gerar:', error);
       alert(error.message);
@@ -205,16 +201,16 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
             disabled={loading}
             className={styles.generateBtn}
           >
-            {loading ? '🤖 Gerando...' : variations.length > 0 ? '🔄 Gerar novamente' : '✨ Gerar com IA'}
+            {loading ? '🤖 Gerando...' : currentVariation ? '🔄 Gerar outra versão' : '✨ Gerar com IA'}
           </button>
 
-          {variations.length > 0 && (
+          {currentVariation && (
             <button
               onClick={handleSave}
               disabled={!formData.slug}
               className={styles.saveBtn}
             >
-              💾 Salvar versão v{selectedIndex + 1}
+              💾 Salvar Landing Page
             </button>
           )}
         </div>
