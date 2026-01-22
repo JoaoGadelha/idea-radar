@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import styles from './LandingPages.module.css';
 import LandingPageBuilder from '../components/LandingPageBuilder';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function LandingPages() {
+  const { token } = useAuth();
   const [landingPages, setLandingPages] = useState([]);
   const [projects, setProjects] = useState([]);
   const [showBuilder, setShowBuilder] = useState(false);
@@ -10,18 +12,19 @@ export default function LandingPages() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchLandingPages();
-    fetchProjects();
-  }, []);
+    if (token) {
+      fetchLandingPages();
+      fetchProjects();
+    }
+  }, [token]);
 
   const fetchLandingPages = async () => {
     try {
-      const token = localStorage.getItem('token');
       const res = await fetch('/api/landing-pages', {
         headers: { Authorization: `Bearer ${token}` },
       });
       const { landingPages } = await res.json();
-      setLandingPages(landingPages);
+      setLandingPages(landingPages || []);
     } catch (error) {
       console.error('Erro ao buscar landing pages:', error);
     } finally {
@@ -31,12 +34,11 @@ export default function LandingPages() {
 
   const fetchProjects = async () => {
     try {
-      const token = localStorage.getItem('token');
       const res = await fetch('/api/projects', {
         headers: { Authorization: `Bearer ${token}` },
       });
       const { projects } = await res.json();
-      setProjects(projects);
+      setProjects(projects || []);
     } catch (error) {
       console.error('Erro ao buscar projetos:', error);
     }
@@ -57,7 +59,6 @@ export default function LandingPages() {
     if (!confirm('Tem certeza que deseja deletar esta landing page?')) return;
 
     try {
-      const token = localStorage.getItem('token');
       await fetch(`/api/landing-pages/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },

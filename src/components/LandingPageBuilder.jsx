@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import styles from './LandingPageBuilder.module.css';
 import LandingPagePreview from './LandingPagePreview';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function LandingPageBuilder({ projectId, onClose, onSave }) {
+  const { token } = useAuth();
   const [loading, setLoading] = useState(false);
   const [variations, setVariations] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -21,8 +23,6 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
   const handleGenerate = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem('token');
-      
       // Buscar dados do projeto
       const projectRes = await fetch(`/api/projects/${projectId}`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -62,8 +62,6 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
     if (!currentVariation) return;
 
     try {
-      const token = localStorage.getItem('token');
-      
       const res = await fetch('/api/landing-pages', {
         method: 'POST',
         headers: {
