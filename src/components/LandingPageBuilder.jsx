@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styles from './LandingPageBuilder.module.css';
 import LandingPagePreview from './LandingPagePreview';
+import TemplateSelector from './TemplateSelector';
 import { useAuth } from '../contexts/AuthContext';
 
 export default function LandingPageBuilder({ projectId, onClose, onSave }) {
@@ -8,11 +9,13 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
   const [loading, setLoading] = useState(false);
   const [variations, setVariations] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [showTemplateSelector, setShowTemplateSelector] = useState(false);
   const [formData, setFormData] = useState({
     title: 'RoomGenius',
     slug: 'roomgenius',
     brief: 'Ferramenta de IA que transforma fotos de ambientes com novas decorações. Usuário envia foto do ambiente e escolhe estilo de decoração (minimalista, escandinavo, industrial). IA gera imagem mostrando como ficaria decorado. Público: pessoas que querem reformar e buscam inspiração.',
     primary_color: '#10b981',
+    template: 'claude', // Template padrão
     collect_name: true,
     collect_phone: false,
     collect_suggestions: true,
@@ -139,6 +142,27 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
           </div>
 
           <div className={styles.inputGroup}>
+            <label>Template Visual</label>
+            <button
+              type="button"
+              className={styles.templateButton}
+              onClick={() => setShowTemplateSelector(true)}
+            >
+              <span className={styles.templateIcon}>
+                {formData.template === 'claude' && '🎨'}
+                {formData.template === 'stripe' && '⚡'}
+                {formData.template === 'vercel' && '🌙'}
+              </span>
+              <span className={styles.templateName}>
+                {formData.template === 'claude' && 'Claude - Profissional'}
+                {formData.template === 'stripe' && 'Stripe - Minimalista'}
+                {formData.template === 'vercel' && 'Vercel - Dark Mode'}
+              </span>
+              <span className={styles.templateChange}>Alterar →</span>
+            </button>
+          </div>
+
+          <div className={styles.inputGroup}>
             <label>Cor primária</label>
             <div className={styles.colorPicker}>
               <input
@@ -235,6 +259,7 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
               ctaSubheadline={variations[selectedIndex].cta_subheadline}
               heroImage={variations[selectedIndex].hero_image}
               primaryColor={formData.primary_color}
+              template={formData.template}
               collectName={formData.collect_name}
               collectPhone={formData.collect_phone}
             />
@@ -245,6 +270,15 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
           )}
         </div>
       </div>
+
+      {/* Template Selector Modal */}
+      {showTemplateSelector && (
+        <TemplateSelector
+          currentTemplate={formData.template}
+          onTemplateChange={(template) => setFormData({ ...formData, template })}
+          onClose={() => setShowTemplateSelector(false)}
+        />
+      )}
     </div>
   );
 }

@@ -154,6 +154,45 @@
   color: #6b7280;
 }
 
+/* Template Button */
+.templateButton {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: all 0.2s ease;
+  font-size: 0.9375rem;
+}
+
+.templateButton:hover {
+  border-color: #6366f1;
+  background: rgba(99, 102, 241, 0.02);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.1);
+}
+
+.templateIcon {
+  font-size: 1.25rem;
+}
+
+.templateName {
+  flex: 1;
+  text-align: left;
+  font-weight: 500;
+  color: #1a1a2e;
+}
+
+.templateChange {
+  color: #6366f1;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
 .colorPicker {
   display: flex;
   gap: 0.5rem;
