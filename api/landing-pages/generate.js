@@ -1,6 +1,6 @@
 import { createGeminiProvider } from '@joaogadelha/ai-providers';
 import { createPrompt } from '@joaogadelha/prompt-builder';
-import { extractJson } from '@joaogadelha/response-parser';
+import { parseJSON } from '@joaogadelha/response-parser';
 import { createRateLimiter, presets } from '@joaogadelha/rate-limiter';
 import { authenticateRequest } from '../middleware/auth.js';
 
@@ -95,7 +95,7 @@ export default async function handler(req, res) {
     });
 
     // Extrair JSON da resposta
-    const variations = extractJson(response.text);
+    const variations = parseJSON(response.text);
 
     if (!Array.isArray(variations) || variations.length === 0) {
       throw new Error('Formato de resposta inválido');
