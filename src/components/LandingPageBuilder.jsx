@@ -227,17 +227,16 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
             <LandingPagePreview
               headline={variations[selectedIndex].headline}
               subheadline={variations[selectedIndex].subheadline}
-              description={variations[selectedIndex].description}
               ctaText={variations[selectedIndex].cta_text}
               valueProposition={variations[selectedIndex].value_proposition}
               howItWorks={variations[selectedIndex].how_it_works}
               faqItems={variations[selectedIndex].faq_items}
               ctaHeadline={variations[selectedIndex].cta_headline}
               ctaSubheadline={variations[selectedIndex].cta_subheadline}
+              heroImage={variations[selectedIndex].hero_image}
               primaryColor={formData.primary_color}
               collectName={formData.collect_name}
               collectPhone={formData.collect_phone}
-              collectSuggestions={formData.collect_suggestions}
             />
           ) : (
             <div className={styles.emptyPreview}>

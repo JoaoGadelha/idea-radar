@@ -9,67 +9,166 @@ export default function LandingPagePreview({
   faqItems = [],
   ctaHeadline,
   ctaSubheadline,
-  primaryColor = '#667eea',
-  logoUrl,
-  heroImageUrl,
+  primaryColor = '#6366f1',
+  heroImage,
   collectName = true,
   collectPhone = false,
-  collectSuggestions = true,
 }) {
   return (
     <div className={styles.preview}>
-      {/* Hero Section */}
-      <section 
-        className={styles.hero}
-        style={{ 
-          background: `linear-gradient(135deg, ${primaryColor} 0%, ${adjustColor(primaryColor, -20)} 100%)` 
-        }}
-      >
-        <div className={styles.heroContent}>
-          {logoUrl && (
-            <img src={logoUrl} alt="Logo" className={styles.logo} />
-          )}
-          
-          <h1 className={styles.headline}>{headline}</h1>
-          
-          {subheadline && (
-            <p className={styles.subheadline}>{subheadline}</p>
-          )}
-
-          {valueProposition.length > 0 && (
-            <ul className={styles.valueList}>
-              {valueProposition.map((benefit, idx) => (
-                <li key={idx}>{benefit}</li>
-              ))}
-            </ul>
-          )}
-
+      {/* Navigation - Clean minimal nav */}
+      <nav className={styles.nav}>
+        <div className={styles.navContainer}>
+          <div className={styles.logoText}>✨ Brand</div>
           <button 
-            className={styles.ctaButton}
-            style={{ backgroundColor: adjustColor(primaryColor, 20) }}
+            className={styles.navCta}
+            style={{ backgroundColor: primaryColor }}
           >
-            {ctaText}
+            {ctaText || 'Começar'}
           </button>
         </div>
+      </nav>
 
-        {heroImageUrl && (
-          <div className={styles.heroImage}>
-            <img src={heroImageUrl} alt="Hero" />
+      {/* Hero Section - Split layout with image */}
+      <section className={styles.hero}>
+        <div className={styles.heroContainer}>
+          <div className={styles.heroContent}>
+            {/* Badge de pré-lançamento */}
+            <div 
+              className={styles.badge}
+              style={{ backgroundColor: `${primaryColor}15`, color: primaryColor }}
+            >
+              🚀 Em breve
+            </div>
+
+            <h1 className={styles.headline}>{headline}</h1>
+            
+            {subheadline && (
+              <p className={styles.subheadline}>{subheadline}</p>
+            )}
+
+            {/* Value Props como checklist */}
+            {valueProposition.length > 0 && (
+              <ul className={styles.valueList}>
+                {valueProposition.map((benefit, idx) => (
+                  <li key={idx}>
+                    <span 
+                      className={styles.checkIcon}
+                      style={{ color: primaryColor }}
+                    >
+                      ✓
+                    </span>
+                    {benefit}
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            {/* CTA Group */}
+            <div className={styles.ctaGroup}>
+              <div className={styles.emailInputGroup}>
+                <input 
+                  type="email" 
+                  placeholder="seu@email.com" 
+                  className={styles.heroEmailInput}
+                  disabled
+                />
+                <button 
+                  className={styles.heroCta}
+                  style={{ backgroundColor: primaryColor }}
+                >
+                  {ctaText || 'Quero testar'}
+                </button>
+              </div>
+              <p className={styles.ctaHint}>✉️ Sem spam. Avisamos quando lançar.</p>
+            </div>
           </div>
-        )}
+
+          {/* Hero Image */}
+          <div className={styles.heroVisual}>
+            {heroImage ? (
+              <img 
+                src={heroImage} 
+                alt="Hero" 
+                className={styles.heroImage}
+              />
+            ) : (
+              <div 
+                className={styles.heroPlaceholder}
+                style={{ 
+                  background: `linear-gradient(135deg, ${primaryColor}20 0%, ${primaryColor}40 100%)` 
+                }}
+              >
+                <span>🖼️</span>
+                <p>Imagem gerada por IA</p>
+              </div>
+            )}
+          </div>
+        </div>
       </section>
 
-      {/* Como Funciona Section */}
+      {/* Social Proof Bar */}
+      <section className={styles.socialProof}>
+        <div className={styles.socialProofContainer}>
+          <div className={styles.proofItem}>
+            <span className={styles.proofNumber}>500+</span>
+            <span className={styles.proofLabel}>Na lista de espera</span>
+          </div>
+          <div className={styles.proofDivider}></div>
+          <div className={styles.proofItem}>
+            <span className={styles.proofNumber}>4.9★</span>
+            <span className={styles.proofLabel}>Avaliação beta testers</span>
+          </div>
+          <div className={styles.proofDivider}></div>
+          <div className={styles.proofItem}>
+            <span className={styles.proofNumber}>30s</span>
+            <span className={styles.proofLabel}>Tempo médio</span>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works Section */}
       {howItWorks.length > 0 && (
         <section className={styles.howItWorks}>
-          <div className={styles.container}>
-            <h2 className={styles.sectionTitle}>Como funciona</h2>
-            <div className={styles.steps}>
+          <div className={styles.sectionContainer}>
+            <div className={styles.sectionHeader}>
+              <span 
+                className={styles.sectionTag}
+                style={{ color: primaryColor }}
+              >
+                COMO FUNCIONA
+              </span>
+              <h2 className={styles.sectionTitle}>
+                Simples como <span style={{ color: primaryColor }}>1, 2, 3</span>
+              </h2>
+            </div>
+
+            <div className={styles.stepsGrid}>
               {howItWorks.map((step, idx) => (
-                <div key={idx} className={styles.step}>
-                  <div className={styles.stepNumber}>{idx + 1}</div>
-                  <h3>{step.title}</h3>
-                  <p>{step.description}</p>
+                <div key={idx} className={styles.stepCard}>
+                  <div 
+                    className={styles.stepIcon}
+                    style={{ backgroundColor: `${primaryColor}15` }}
+                  >
+                    <span>{step.icon || ['📸', '✨', '🎉'][idx]}</span>
+                  </div>
+                  <div className={styles.stepContent}>
+                    <div 
+                      className={styles.stepNumber}
+                      style={{ color: primaryColor }}
+                    >
+                      Passo {idx + 1}
+                    </div>
+                    <h3 className={styles.stepTitle}>{step.title}</h3>
+                    <p className={styles.stepDescription}>{step.description}</p>
+                  </div>
+                  {idx < howItWorks.length - 1 && (
+                    <div className={styles.stepConnector}>
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke={primaryColor} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -80,13 +179,30 @@ export default function LandingPagePreview({
       {/* FAQ Section */}
       {faqItems.length > 0 && (
         <section className={styles.faq}>
-          <div className={styles.container}>
-            <h2 className={styles.sectionTitle}>Perguntas frequentes</h2>
-            <div className={styles.faqList}>
+          <div className={styles.sectionContainer}>
+            <div className={styles.sectionHeader}>
+              <span 
+                className={styles.sectionTag}
+                style={{ color: primaryColor }}
+              >
+                DÚVIDAS?
+              </span>
+              <h2 className={styles.sectionTitle}>Perguntas frequentes</h2>
+            </div>
+
+            <div className={styles.faqGrid}>
               {faqItems.map((item, idx) => (
-                <div key={idx} className={styles.faqItem}>
-                  <h3>{item.question}</h3>
-                  <p>{item.answer}</p>
+                <div key={idx} className={styles.faqCard}>
+                  <div className={styles.faqQuestion}>
+                    <span 
+                      className={styles.faqIcon}
+                      style={{ color: primaryColor }}
+                    >
+                      ?
+                    </span>
+                    <h3>{item.question}</h3>
+                  </div>
+                  <p className={styles.faqAnswer}>{item.answer}</p>
                 </div>
               ))}
             </div>
@@ -94,108 +210,71 @@ export default function LandingPagePreview({
         </section>
       )}
 
-      {/* CTA Final Section */}
+      {/* Final CTA Section */}
       <section 
         className={styles.ctaFinal}
         style={{ 
-          background: `linear-gradient(135deg, ${primaryColor} 0%, ${adjustColor(primaryColor, -20)} 100%)` 
+          background: `linear-gradient(135deg, ${primaryColor} 0%, ${adjustColor(primaryColor, -30)} 100%)` 
         }}
       >
-        <div className={styles.container}>
-          <h2 className={styles.ctaFinalHeadline}>{ctaHeadline || 'Pronto para começar?'}</h2>
-          <p className={styles.ctaFinalSubheadline}>{ctaSubheadline || 'Experimente agora mesmo!'}</p>
-          
-          <form className={styles.ctaForm}>
+        <div className={styles.ctaFinalContainer}>
+          <div className={styles.ctaFinalContent}>
+            <h2 className={styles.ctaFinalHeadline}>
+              {ctaHeadline || 'Pronto para começar?'}
+            </h2>
+            <p className={styles.ctaFinalSubheadline}>
+              {ctaSubheadline || 'Junte-se aos primeiros a experimentar.'}
+            </p>
+          </div>
+
+          <div className={styles.ctaFinalForm}>
+            {collectName && (
+              <input 
+                type="text" 
+                placeholder="Seu nome" 
+                className={styles.ctaFinalInput}
+                disabled
+              />
+            )}
             <input 
               type="email" 
               placeholder="seu@email.com" 
-              className={styles.emailInput}
+              className={styles.ctaFinalInput}
               disabled
             />
-            <button 
-              type="submit"
-              className={styles.ctaSubmitButton}
-              style={{ backgroundColor: adjustColor(primaryColor, 20) }}
-            >
-              {ctaText}
-            </button>
-          </form>
-        </div>
-      </section>
-
-      {/* Form Section (Legacy - manter para compatibilidade) */}
-      <section className={styles.formSection}>
-        <div className={styles.container}>
-          <div className={styles.formCard}>
-            <h2>Manifeste seu interesse</h2>
-            <form className={styles.form}>
-              <div className={styles.formGroup}>
-                <label>Email *</label>
-                <input 
-                  type="email" 
-                  placeholder="seu@email.com" 
-                  required 
-                  disabled
-                />
-              </div>
-
-              {collectName && (
-                <div className={styles.formGroup}>
-                  <label>Nome</label>
-                  <input 
-                    type="text" 
-                    placeholder="Seu nome" 
-                    disabled
-                  />
-                </div>
-              )}
-
-              {collectPhone && (
-                <div className={styles.formGroup}>
-                  <label>Telefone</label>
-                  <input 
-                    type="tel" 
-                    placeholder="(00) 00000-0000" 
-                    disabled
-                  />
-                </div>
-              )}
-
-              {collectSuggestions && (
-                <div className={styles.formGroup}>
-                  <label>Sugestões ou comentários</label>
-                  <textarea 
-                    placeholder="O que você gostaria de ver neste produto?" 
-                    rows={3}
-                    disabled
-                  />
-                </div>
-              )}
-
-              <button 
-                type="submit" 
-                className={styles.ctaButton}
-                style={{ background: primaryColor }}
+            {collectPhone && (
+              <input 
+                type="tel" 
+                placeholder="(00) 00000-0000" 
+                className={styles.ctaFinalInput}
                 disabled
-              >
-                {ctaText}
-              </button>
-            </form>
+              />
+            )}
+            <button className={styles.ctaFinalButton}>
+              {ctaText || 'Garantir meu acesso'} →
+            </button>
           </div>
+
+          <p className={styles.ctaFinalDisclaimer}>
+            🔒 Seus dados estão seguros. Sem spam, só novidades.
+          </p>
         </div>
       </section>
 
       {/* Footer */}
       <footer className={styles.footer}>
-        <div className={styles.container}>
-          <p>© 2026 - Todos os direitos reservados</p>
+        <div className={styles.footerContainer}>
+          <div className={styles.footerBrand}>✨ Brand</div>
+          <p className={styles.footerCopy}>
+            © 2026 - Todos os direitos reservados
+          </p>
         </div>
       </footer>
     </div>
   );
 }
 
-// Helper para escurecer cor
+// Helper para ajustar cor
 function adjustColor(color, amount) {
   const hex = color.replace('#', '');
   const num = parseInt(hex, 16);

@@ -1,4 +1,4 @@
-import { createGeminiProvider } from '@joaogadelha/ai-providers';
+import { createGeminiProvider, ASPECT_RATIOS } from '@joaogadelha/ai-providers';
 import { createPrompt } from '@joaogadelha/prompt-builder';
 import { parseJSON } from '@joaogadelha/response-parser';
 import { createRateLimiter, presets } from '@joaogadelha/rate-limiter';
@@ -17,9 +17,17 @@ const perMinuteLimiter = createRateLimiter({
   max: 15, // 15 RPM
 });
 
+// Provider para texto
 const gemini = createGeminiProvider({
   apiKey: process.env.GEMINI_API_KEY || process.env.GOOGLE_AI_API_KEY,
   model: 'gemini-2.0-flash-exp',
+});
+
+// Provider para imagens
+const geminiImage = createGeminiProvider({
+  apiKey: process.env.GEMINI_API_KEY || process.env.GOOGLE_AI_API_KEY,
+  imageModel: 'gemini-2.0-flash-exp-image',
+  imageConfig: { aspectRatio: ASPECT_RATIOS.LANDSCAPE }
 });
 
 export default async function handler(req, res) {
@@ -51,75 +59,129 @@ export default async function handler(req, res) {
     await perMinuteLimiter.acquire();
     await dailyLimiter.acquire();
 
-    // Construir prompt estruturado
+    // Prompt profissional inspirado em landing pages de alta conversão
     const prompt = createPrompt()
-      .role('Você é um especialista em copywriting e marketing digital para landing pages de validação de ideias')
-      .personality('criativo, persuasivo, objetivo, focado em conversão')
+      .role('Você é um copywriter sênior especializado em landing pages de alta conversão')
+      .personality('estratégico, persuasivo, empático com o usuário, focado em resultados')
       .responsibilities([
-        'Criar headlines impactantes que capturam atenção',
-        'Escrever copy clara e persuasiva',
-        'Desenvolver CTAs que convertem',
-        'Estruturar seções de landing page de alta conversão',
+        'Criar copy que conecta emocionalmente com a dor/desejo do usuário',
+        'Estruturar argumentos de forma progressiva (AIDA: Atenção, Interesse, Desejo, Ação)',
+        'Usar gatilhos mentais sutis e éticos (escassez, prova social, autoridade)',
+        'Antecipar e resolver objeções antes que o usuário as levante',
       ])
       .context(`
-        Projeto: ${projectData.name}
-        ${projectData.description ? `Descrição: ${projectData.description}` : ''}
-        ${brief ? `Ideia do produto/serviço: ${brief}` : ''}
+        ## SOBRE O PRODUTO
+        Nome: ${projectData.name}
+        ${projectData.description ? `O que é: ${projectData.description}` : ''}
         
-        IMPORTANTE: Esta é uma landing page para VALIDAR a ideia antes de desenvolver o produto.
-        O objetivo é capturar emails de interessados e termometrar o mercado.
+        ## BRIEFING DETALHADO
+        ${brief || 'Produto digital inovador'}
+        
+        ## CONTEXTO IMPORTANTE
+        Esta é uma landing page de PRÉ-LANÇAMENTO para VALIDAR a ideia.
+        O produto ainda não existe - queremos medir interesse real do mercado.
+        O objetivo é capturar emails de early adopters genuinamente interessados.
       `)
-      .section('Estrutura da Landing Page', [
-        'A landing page deve ter as seguintes seções:',
+      .section('HERO SECTION - Primeira Impressão', [
+        'Esta é a seção mais importante. O usuário decide em 3 segundos se fica ou sai.',
         '',
-        '1. HERO SECTION (acima da dobra):',
-        '   - headline: Título principal (máx 60 caracteres, impactante)',
-        '   - subheadline: Complemento do título (máx 100 caracteres)',
-        '   - value_proposition: 3 benefícios principais em formato de lista',
-        '   - cta_text: Texto do botão principal (ex: "Quero ser notificado", "Garantir acesso")',
+        'headline: Use uma das fórmulas comprovadas:',
+        '  - "[Resultado desejado] sem [dor/obstáculo comum]"',
+        '  - "O jeito mais [adjetivo] de [benefício principal]"',
+        '  - "Para [público] que querem [resultado] em [tempo/facilidade]"',
+        '  LIMITE: 60 caracteres. Seja específico, não genérico.',
         '',
-        '2. COMO FUNCIONA (explicar o produto):',
-        '   - how_it_works: Array com 3 passos simples de como o produto funciona',
-        '   - Cada passo deve ter: título curto e descrição breve',
+        'subheadline: Expanda a promessa do headline.',
+        '  - Explique O QUE é e COMO funciona em uma frase.',
+        '  - Adicione credibilidade se possível.',
+        '  LIMITE: 120 caracteres.',
         '',
-        '3. FAQ (responder objeções):',
-        '   - faq_items: Array com 4-5 perguntas frequentes',
-        '   - Cada item: pergunta e resposta que antecipa dúvidas/objeções',
+        'value_proposition: 3 benefícios TRANSFORMACIONAIS (não features).',
+        '  - Foque no RESULTADO que o usuário terá, não no que o produto faz.',
+        '  - Use linguagem do usuário, não jargões técnicos.',
+        '  - Exemplo ruim: "IA avançada" | Exemplo bom: "Visualize antes de gastar"',
         '',
-        '4. CTA FINAL (conversão):',
-        '   - cta_headline: Título da seção final (urgência/ação)',
-        '   - cta_subheadline: Reforço do valor',
+        'cta_text: Verbo de ação + benefício implícito.',
+        '  - Evite "Cadastrar" ou "Enviar". Use "Quero testar primeiro", "Garantir meu acesso".',
+        '  LIMITE: 25 caracteres.',
+        '',
+        'hero_image_prompt: Descrição para gerar uma imagem que representa o RESULTADO.',
+        '  - Mostre o "depois", não o "antes".',
+        '  - Deve ser aspiracional mas realista.',
+        '  - Inclua pessoas felizes usando/aproveitando o resultado se fizer sentido.',
+        '  - Seja específico: cores, cenário, estilo visual.',
       ])
-      .section('Formato JSON Obrigatório', [
-        'Retorne UM objeto JSON com EXATAMENTE esta estrutura:',
+      .section('COMO FUNCIONA - Simplicidade', [
+        'Mostre que é FÁCIL. O usuário tem medo de complexidade.',
+        '',
+        'how_it_works: EXATAMENTE 3 passos simples.',
+        '  - Cada passo deve ter: icon (emoji), title (máx 30 chars), description (máx 80 chars)',
+        '  - Passo 1: O que o usuário FAZ primeiro (ação simples)',
+        '  - Passo 2: O que o PRODUTO faz (mágica acontece)',
+        '  - Passo 3: O RESULTADO que o usuário obtém (transformação)',
+        '',
+        'Exemplo de estrutura:',
+        '  1. "Envie sua foto" - ação do usuário',
+        '  2. "IA transforma" - produto trabalha',
+        '  3. "Veja o resultado" - benefício entregue',
+      ])
+      .section('FAQ - Eliminar Objeções', [
+        'Cada pergunta deve atacar uma objeção ou medo comum.',
+        '',
+        'faq_items: 4-5 perguntas estratégicas:',
+        '  1. Sobre PREÇO/CUSTO: "É grátis? Quanto vai custar?"',
+        '  2. Sobre FACILIDADE: "Preciso de conhecimento técnico?"',
+        '  3. Sobre TEMPO: "Quanto tempo demora para ver resultados?"',
+        '  4. Sobre CONFIANÇA: "Por que devo confiar nisso?"',
+        '  5. Sobre DISPONIBILIDADE: "Quando vai estar disponível?"',
+        '',
+        'Respostas devem ser:',
+        '  - Honestas (é pré-lançamento, não prometa demais)',
+        '  - Curtas (máx 2 frases)',
+        '  - Que reforcem benefícios sutilmente',
+      ])
+      .section('CTA FINAL - Urgência Ética', [
+        'Último empurrão para conversão.',
+        '',
+        'cta_headline: Crie senso de oportunidade, não pressão.',
+        '  - "Seja um dos primeiros a experimentar"',
+        '  - "Garanta seu lugar na lista de espera"',
+        '  - NÃO use: "ÚLTIMA CHANCE", "OFERTA LIMITADA" (fake urgency)',
+        '',
+        'cta_subheadline: Reduza o risco percebido.',
+        '  - "Sem compromisso. Avisamos quando estiver pronto."',
+        '  - "Só precisa do email. Sem spam, prometemos."',
+      ])
+      .section('FORMATO JSON OBRIGATÓRIO', [
+        'Retorne APENAS um objeto JSON válido:',
         '{',
         '  "headline": "string (máx 60 chars)",',
-        '  "subheadline": "string (máx 100 chars)",',
+        '  "subheadline": "string (máx 120 chars)",',
         '  "value_proposition": ["benefício 1", "benefício 2", "benefício 3"],',
-        '  "cta_text": "string (máx 30 chars)",',
+        '  "cta_text": "string (máx 25 chars)",',
+        '  "hero_image_prompt": "descrição detalhada para gerar imagem hero",',
         '  "how_it_works": [',
-        '    { "title": "Passo 1", "description": "Descrição curta" },',
-        '    { "title": "Passo 2", "description": "Descrição curta" },',
-        '    { "title": "Passo 3", "description": "Descrição curta" }',
+        '    { "icon": "📸", "title": "string", "description": "string" },',
+        '    { "icon": "✨", "title": "string", "description": "string" },',
+        '    { "icon": "🎉", "title": "string", "description": "string" }',
         '  ],',
         '  "faq_items": [',
-        '    { "question": "Pergunta?", "answer": "Resposta clara" }',
+        '    { "question": "Pergunta?", "answer": "Resposta." }',
         '  ],',
-        '  "cta_headline": "Chamada final para ação",',
-        '  "cta_subheadline": "Reforço do benefício"',
+        '  "cta_headline": "string",',
+        '  "cta_subheadline": "string"',
         '}',
       ])
       .rules([
-        'NÃO use jargões técnicos desnecessários',
-        'NÃO prometa o que o produto não pode entregar',
-        'SEMPRE mantenha tom profissional e inspirador',
-        'SEMPRE foque em benefícios claros e tangíveis',
-        'Use linguagem que gera urgência mas sem pressão excessiva',
-        'FAQ deve antecipar e resolver objeções comuns',
+        'ESCREVA EM PORTUGUÊS DO BRASIL',
+        'Use linguagem conversacional, como se falasse com um amigo',
+        'Seja específico - evite generalidades como "o melhor", "revolucionário"',
+        'Mantenha promessas realistas - é um pré-lançamento',
+        'Foque em 1 benefício principal, não tente cobrir tudo',
       ])
       .build();
 
-    // Chamar Gemini
+    // Chamar Gemini para gerar copy
     const response = await gemini.generate(prompt);
 
     // Extrair JSON da resposta
@@ -129,19 +191,51 @@ export default async function handler(req, res) {
       throw new Error('Formato de resposta inválido');
     }
 
+    // Gerar hero image com Gemini 2.5 Flash Image
+    let heroImageBase64 = null;
+    if (variation.hero_image_prompt) {
+      try {
+        // Prompt otimizado para hero de landing page
+        const imagePrompt = `
+          Professional hero image for a landing page.
+          ${variation.hero_image_prompt}
+          
+          Style requirements:
+          - Modern, clean, professional aesthetic
+          - Bright, optimistic lighting
+          - High-quality, polished look
+          - Suitable for a tech/SaaS landing page
+          - No text, logos, or watermarks
+          - 16:9 aspect ratio composition
+          - Vibrant but not oversaturated colors
+        `.trim();
+
+        const imageResult = await geminiImage.generateImage(imagePrompt, {
+          aspectRatio: '16:9'
+        });
+        
+        heroImageBase64 = `data:${imageResult.mimeType};base64,${imageResult.data}`;
+      } catch (imageError) {
+        console.error('Erro ao gerar hero image:', imageError.message);
+        // Continua sem imagem se falhar
+      }
+    }
+
     // Validar e normalizar estrutura completa
     const validVariation = {
       id: `temp_${Date.now()}`,
       // Hero Section
       headline: variation.headline?.slice(0, 60) || 'Título não disponível',
-      subheadline: variation.subheadline?.slice(0, 100) || '',
+      subheadline: variation.subheadline?.slice(0, 120) || '',
       value_proposition: Array.isArray(variation.value_proposition) 
         ? variation.value_proposition.slice(0, 3) 
         : ['Benefício 1', 'Benefício 2', 'Benefício 3'],
-      cta_text: variation.cta_text?.slice(0, 30) || 'Quero ser notificado',
+      cta_text: variation.cta_text?.slice(0, 25) || 'Quero testar',
+      hero_image: heroImageBase64,
       // Como Funciona
       how_it_works: Array.isArray(variation.how_it_works)
-        ? variation.how_it_works.slice(0, 3).map(step => ({
+        ? variation.how_it_works.slice(0, 3).map((step, idx) => ({
+            icon: step.icon || ['📸', '✨', '🎉'][idx] || '✓',
             title: step.title || 'Passo',
             description: step.description || ''
           }))
@@ -154,8 +248,8 @@ export default async function handler(req, res) {
           }))
         : [],
       // CTA Final
-      cta_headline: variation.cta_headline || 'Pronto para começar?',
-      cta_subheadline: variation.cta_subheadline || 'Cadastre-se e seja avisado quando lançarmos',
+      cta_headline: variation.cta_headline || 'Seja um dos primeiros',
+      cta_subheadline: variation.cta_subheadline || 'Cadastre-se e avisamos quando estiver pronto',
     };
 
     return res.status(200).json({
