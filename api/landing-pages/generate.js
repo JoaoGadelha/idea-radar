@@ -18,7 +18,7 @@ const perMinuteLimiter = createRateLimiter({
 });
 
 const gemini = createGeminiProvider({
-  apiKey: process.env.GEMINI_API_KEY,
+  apiKey: process.env.GEMINI_API_KEY || process.env.GOOGLE_AI_API_KEY,
   model: 'gemini-2.0-flash-exp',
 });
 
