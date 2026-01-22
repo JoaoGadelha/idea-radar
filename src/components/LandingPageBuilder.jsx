@@ -206,6 +206,11 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
               subheadline={currentVariation.subheadline}
               description={currentVariation.description}
               ctaText={currentVariation.cta_text}
+              valueProposition={currentVariation.value_proposition}
+              howItWorks={currentVariation.how_it_works}
+              faqItems={currentVariation.faq_items}
+              ctaHeadline={currentVariation.cta_headline}
+              ctaSubheadline={currentVariation.cta_subheadline}
               primaryColor={formData.primary_color}
               collectName={formData.collect_name}
               collectPhone={formData.collect_phone}

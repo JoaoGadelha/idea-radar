@@ -3,8 +3,12 @@ import styles from './LandingPagePreview.module.css';
 export default function LandingPagePreview({
   headline,
   subheadline,
-  description,
+  valueProposition = [],
   ctaText,
+  howItWorks = [],
+  faqItems = [],
+  ctaHeadline,
+  ctaSubheadline,
   primaryColor = '#667eea',
   logoUrl,
   heroImageUrl,
@@ -31,6 +35,21 @@ export default function LandingPagePreview({
           {subheadline && (
             <p className={styles.subheadline}>{subheadline}</p>
           )}
+
+          {valueProposition.length > 0 && (
+            <ul className={styles.valueList}>
+              {valueProposition.map((benefit, idx) => (
+                <li key={idx}>{benefit}</li>
+              ))}
+            </ul>
+          )}
+
+          <button 
+            className={styles.ctaButton}
+            style={{ backgroundColor: adjustColor(primaryColor, 20) }}
+          >
+            {ctaText}
+          </button>
         </div>
 
         {heroImageUrl && (
@@ -40,18 +59,71 @@ export default function LandingPagePreview({
         )}
       </section>
 
-      {/* Description Section */}
-      <section className={styles.description}>
-        <div className={styles.container}>
-          <div className={styles.descriptionContent}>
-            {description.split('\n').map((paragraph, index) => (
-              <p key={index}>{paragraph}</p>
-            ))}
+      {/* Como Funciona Section */}
+      {howItWorks.length > 0 && (
+        <section className={styles.howItWorks}>
+          <div className={styles.container}>
+            <h2 className={styles.sectionTitle}>Como funciona</h2>
+            <div className={styles.steps}>
+              {howItWorks.map((step, idx) => (
+                <div key={idx} className={styles.step}>
+                  <div className={styles.stepNumber}>{idx + 1}</div>
+                  <h3>{step.title}</h3>
+                  <p>{step.description}</p>
+                </div>
+              ))}
+            </div>
           </div>
+        </section>
+      )}
+
+      {/* FAQ Section */}
+      {faqItems.length > 0 && (
+        <section className={styles.faq}>
+          <div className={styles.container}>
+            <h2 className={styles.sectionTitle}>Perguntas frequentes</h2>
+            <div className={styles.faqList}>
+              {faqItems.map((item, idx) => (
+                <div key={idx} className={styles.faqItem}>
+                  <h3>{item.question}</h3>
+                  <p>{item.answer}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* CTA Final Section */}
+      <section 
+        className={styles.ctaFinal}
+        style={{ 
+          background: `linear-gradient(135deg, ${primaryColor} 0%, ${adjustColor(primaryColor, -20)} 100%)` 
+        }}
+      >
+        <div className={styles.container}>
+          <h2 className={styles.ctaFinalHeadline}>{ctaHeadline || 'Pronto para começar?'}</h2>
+          <p className={styles.ctaFinalSubheadline}>{ctaSubheadline || 'Experimente agora mesmo!'}</p>
+          
+          <form className={styles.ctaForm}>
+            <input 
+              type="email" 
+              placeholder="seu@email.com" 
+              className={styles.emailInput}
+              disabled
+            />
+            <button 
+              type="submit"
+              className={styles.ctaSubmitButton}
+              style={{ backgroundColor: adjustColor(primaryColor, 20) }}
+            >
+              {ctaText}
+            </button>
+          </form>
         </div>
       </section>
 
-      {/* Form Section */}
+      {/* Form Section (Legacy - manter para compatibilidade) */}
       <section className={styles.formSection}>
         <div className={styles.container}>
           <div className={styles.formCard}>

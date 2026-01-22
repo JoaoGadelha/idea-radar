@@ -53,38 +53,69 @@ export default async function handler(req, res) {
 
     // Construir prompt estruturado
     const prompt = createPrompt()
-      .role('Você é um especialista em copywriting e marketing digital')
-      .personality('criativo, persuasivo, objetivo')
+      .role('Você é um especialista em copywriting e marketing digital para landing pages de validação de ideias')
+      .personality('criativo, persuasivo, objetivo, focado em conversão')
       .responsibilities([
         'Criar headlines impactantes que capturam atenção',
-        'Escrever descrições claras e persuasivas',
-        'Sugerir CTAs que convertem',
-        'Adaptar tom e linguagem ao público-alvo',
+        'Escrever copy clara e persuasiva',
+        'Desenvolver CTAs que convertem',
+        'Estruturar seções de landing page de alta conversão',
       ])
       .context(`
         Projeto: ${projectData.name}
         ${projectData.description ? `Descrição: ${projectData.description}` : ''}
-        ${brief ? `Brief adicional: ${brief}` : ''}
+        ${brief ? `Ideia do produto/serviço: ${brief}` : ''}
+        
+        IMPORTANTE: Esta é uma landing page para VALIDAR a ideia antes de desenvolver o produto.
+        O objetivo é capturar emails de interessados e termometrar o mercado.
       `)
-      .section('Tarefa', [
-        'Gere UMA landing page para este projeto',
-        'Foque em conversão e clareza',
-        'Use linguagem persuasiva mas não exagerada',
-        'Seja criativo e varie a abordagem a cada geração',
+      .section('Estrutura da Landing Page', [
+        'A landing page deve ter as seguintes seções:',
+        '',
+        '1. HERO SECTION (acima da dobra):',
+        '   - headline: Título principal (máx 60 caracteres, impactante)',
+        '   - subheadline: Complemento do título (máx 100 caracteres)',
+        '   - value_proposition: 3 benefícios principais em formato de lista',
+        '   - cta_text: Texto do botão principal (ex: "Quero ser notificado", "Garantir acesso")',
+        '',
+        '2. COMO FUNCIONA (explicar o produto):',
+        '   - how_it_works: Array com 3 passos simples de como o produto funciona',
+        '   - Cada passo deve ter: título curto e descrição breve',
+        '',
+        '3. FAQ (responder objeções):',
+        '   - faq_items: Array com 4-5 perguntas frequentes',
+        '   - Cada item: pergunta e resposta que antecipa dúvidas/objeções',
+        '',
+        '4. CTA FINAL (conversão):',
+        '   - cta_headline: Título da seção final (urgência/ação)',
+        '   - cta_subheadline: Reforço do valor',
       ])
-      .section('Formato JSON', [
-        'Retorne UM ÚNICO objeto (não array)',
-        'O objeto deve ter: headline, subheadline, description, cta_text',
-        'headline: máximo 60 caracteres, impactante',
-        'subheadline: máximo 100 caracteres, complementa o headline',
-        'description: 2-3 parágrafos, máximo 500 caracteres',
-        'cta_text: máximo 30 caracteres, ação clara',
+      .section('Formato JSON Obrigatório', [
+        'Retorne UM objeto JSON com EXATAMENTE esta estrutura:',
+        '{',
+        '  "headline": "string (máx 60 chars)",',
+        '  "subheadline": "string (máx 100 chars)",',
+        '  "value_proposition": ["benefício 1", "benefício 2", "benefício 3"],',
+        '  "cta_text": "string (máx 30 chars)",',
+        '  "how_it_works": [',
+        '    { "title": "Passo 1", "description": "Descrição curta" },',
+        '    { "title": "Passo 2", "description": "Descrição curta" },',
+        '    { "title": "Passo 3", "description": "Descrição curta" }',
+        '  ],',
+        '  "faq_items": [',
+        '    { "question": "Pergunta?", "answer": "Resposta clara" }',
+        '  ],',
+        '  "cta_headline": "Chamada final para ação",',
+        '  "cta_subheadline": "Reforço do benefício"',
+        '}',
       ])
       .rules([
         'NÃO use jargões técnicos desnecessários',
         'NÃO prometa o que o produto não pode entregar',
-        'SEMPRE mantenha tom profissional',
-        'SEMPRE foque em benefícios, não features',
+        'SEMPRE mantenha tom profissional e inspirador',
+        'SEMPRE foque em benefícios claros e tangíveis',
+        'Use linguagem que gera urgência mas sem pressão excessiva',
+        'FAQ deve antecipar e resolver objeções comuns',
       ])
       .build();
 
@@ -98,13 +129,33 @@ export default async function handler(req, res) {
       throw new Error('Formato de resposta inválido');
     }
 
-    // Validar estrutura
+    // Validar e normalizar estrutura completa
     const validVariation = {
       id: `temp_${Date.now()}`,
+      // Hero Section
       headline: variation.headline?.slice(0, 60) || 'Título não disponível',
       subheadline: variation.subheadline?.slice(0, 100) || '',
-      description: variation.description?.slice(0, 500) || 'Descrição não disponível',
-      cta_text: variation.cta_text?.slice(0, 30) || 'Saiba mais',
+      value_proposition: Array.isArray(variation.value_proposition) 
+        ? variation.value_proposition.slice(0, 3) 
+        : ['Benefício 1', 'Benefício 2', 'Benefício 3'],
+      cta_text: variation.cta_text?.slice(0, 30) || 'Quero ser notificado',
+      // Como Funciona
+      how_it_works: Array.isArray(variation.how_it_works)
+        ? variation.how_it_works.slice(0, 3).map(step => ({
+            title: step.title || 'Passo',
+            description: step.description || ''
+          }))
+        : [],
+      // FAQ
+      faq_items: Array.isArray(variation.faq_items)
+        ? variation.faq_items.slice(0, 5).map(item => ({
+            question: item.question || '',
+            answer: item.answer || ''
+          }))
+        : [],
+      // CTA Final
+      cta_headline: variation.cta_headline || 'Pronto para começar?',
+      cta_subheadline: variation.cta_subheadline || 'Cadastre-se e seja avisado quando lançarmos',
     };
 
     return res.status(200).json({
