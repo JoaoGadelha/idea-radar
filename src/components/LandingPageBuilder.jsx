@@ -9,10 +9,10 @@ export default function LandingPageBuilder({ projectId, onClose, onSave }) {
   const [variations, setVariations] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [formData, setFormData] = useState({
-    title: '',
-    slug: '',
-    brief: '',
-    primary_color: '#667eea',
+    title: 'Gerador de Sugestões',
+    slug: 'gerador-sugestoes',
+    brief: 'Temática minimalista branco com elementos verdes, design clean e moderno',
+    primary_color: '#10b981',
     collect_name: true,
     collect_phone: false,
     collect_suggestions: true,
