@@ -5,10 +5,12 @@ import ProjectsList from '../components/ProjectsList';
 import ChatInterface from '../components/ChatInterface';
 import AddProjectModal from '../components/AddProjectModal';
 import SyncMetricsButton from '../components/SyncMetricsButton';
+import LandingPages from './LandingPages';
 import styles from './Dashboard.module.css';
 
 export default function Dashboard() {
   const { token } = useAuth();
+  const [activeTab, setActiveTab] = useState('analysis'); // 'analysis' or 'landing-pages'
   const [projects, setProjects] = useState([]);
   const [loadingProjects, setLoadingProjects] = useState(true);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -52,32 +54,50 @@ export default function Dashboard() {
     <div className={styles.container}>
       <Header onAddProject={() => setShowAddModal(true)} />
       
+      {/* Tabs de navegação */}
+      <div className={styles.tabs}>
+        <button 
+          className={`${styles.tab} ${activeTab === 'analysis' ? styles.tabActive : ''}`}
+          onClick={() => setActiveTab('analysis')}
+        >
+          📊 Análise de Projetos
+        </button>
+        <button 
+          className={`${styles.tab} ${activeTab === 'landing-pages' ? styles.tabActive : ''}`}
+          onClick={() => setActiveTab('landing-pages')}
+        >
+          🚀 Landing Pages
+        </button>
+      </div>
+      
       <div className={styles.content}>
-        {/* Sidebar com projetos */}
-        <aside className={styles.sidebar}>
-          <div className={styles.sidebarHeader}>
-            <h2>Seus Projetos</h2>
-            <button 
-              className={styles.addButton}
-              onClick={() => setShowAddModal(true)}
-            >
-              + Novo
-            </button>
-          </div>
+        {activeTab === 'analysis' ? (
+          <>
+            {/* Sidebar com projetos */}
+            <aside className={styles.sidebar}>
+              <div className={styles.sidebarHeader}>
+                <h2>Seus Projetos</h2>
+                <button 
+                  className={styles.addButton}
+                  onClick={() => setShowAddModal(true)}
+                >
+                  + Novo
+                </button>
+              </div>
 
-          {loadingProjects ? (
-            <div className={styles.loading}>Carregando...</div>
-          ) : (
-            <ProjectsList 
-              projects={projects}
-              onProjectDeleted={handleProjectDeleted}
-            />
-          )}
-        </aside>
+              {loadingProjects ? (
+                <div className={styles.loading}>Carregando...</div>
+              ) : (
+                <ProjectsList 
+                  projects={projects}
+                  onProjectDeleted={handleProjectDeleted}
+                />
+              )}
+            </aside>
 
-        {/* Área principal - Chat */}
-        <main className={styles.main}>
-          <SyncMetricsButton onSynced={handleMetricsSynced} />
+            {/* Área principal - Chat */}
+            <main className={styles.main}>
+              <SyncMetricsButton onSynced={handleMetricsSynced} />
           
           {projects.length === 0 ? (
             <div className={styles.empty}>
@@ -94,7 +114,12 @@ export default function Dashboard() {
           ) : (
             <ChatInterface projectsCount={projects.length} />
           )}
-        </main>
+            </main>
+          </>
+        ) : (
+          /* Aba de Landing Pages */
+          <LandingPages />
+        )}
       </div>
 
       {showAddModal && (
