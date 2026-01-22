@@ -19,6 +19,7 @@ export default function LandingPagePreview({
   template = 'claude',
   collectName = true,
   collectPhone = false,
+  isInteractive = false, // Nova prop para habilitar formulário funcional
 }) {
   // Seleciona o CSS baseado no template
   const styles = 
@@ -85,11 +86,12 @@ export default function LandingPagePreview({
                   type="email" 
                   placeholder="seu@email.com" 
                   className={styles.heroEmailInput}
-                  disabled
+                  disabled={!isInteractive}
                 />
                 <button 
                   className={styles.heroCta}
                   style={{ backgroundColor: primaryColor }}
+                  disabled={!isInteractive}
                 >
                   {ctaText || 'Quero testar'}
                 </button>
@@ -247,24 +249,27 @@ export default function LandingPagePreview({
                 type="text" 
                 placeholder="Seu nome" 
                 className={styles.ctaFinalInput}
-                disabled
+                disabled={!isInteractive}
               />
             )}
             <input 
               type="email" 
               placeholder="seu@email.com" 
               className={styles.ctaFinalInput}
-              disabled
+              disabled={!isInteractive}
             />
             {collectPhone && (
               <input 
                 type="tel" 
                 placeholder="(00) 00000-0000" 
                 className={styles.ctaFinalInput}
-                disabled
+                disabled={!isInteractive}
               />
             )}
-            <button className={styles.ctaFinalButton}>
+            <button 
+              className={styles.ctaFinalButton}
+              disabled={!isInteractive}
+            >
               {ctaText || 'Garantir meu acesso'} →
             </button>
           </div>

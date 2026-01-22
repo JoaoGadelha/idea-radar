@@ -70,6 +70,7 @@ export default function PublicLandingPage() {
         template="claude"
         collectName={landingPage.collect_name}
         collectPhone={landingPage.collect_phone}
+        isInteractive={true}
       />
     </div>
   );
