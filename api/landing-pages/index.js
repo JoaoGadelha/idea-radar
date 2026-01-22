@@ -92,7 +92,7 @@ export default async function handler(req, res) {
         finalProjectId = newProject.id;
       }
 
-      // Criar landing page
+      // Criar landing page (usando apenas colunas que existem na tabela original)
       const [landingPage] = await sql`
         INSERT INTO landing_pages (
           user_id,
@@ -103,13 +103,7 @@ export default async function handler(req, res) {
           subheadline,
           description,
           cta_text,
-          value_proposition,
-          how_it_works,
-          faq_items,
-          cta_headline,
-          cta_subheadline,
           primary_color,
-          template,
           logo_url,
           hero_image_url,
           collect_name,
@@ -127,13 +121,7 @@ export default async function handler(req, res) {
           ${subheadline || null},
           ${description},
           ${cta_text || 'Quero ser notificado!'},
-          ${value_proposition ? JSON.stringify(value_proposition) : null},
-          ${how_it_works ? JSON.stringify(how_it_works) : null},
-          ${faq_items ? JSON.stringify(faq_items) : null},
-          ${cta_headline || null},
-          ${cta_subheadline || null},
           ${primary_color || '#667eea'},
-          ${template || 'claude'},
           ${logo_url || null},
           ${hero_image_url || null},
           ${collect_name !== undefined ? collect_name : true},
@@ -147,7 +135,6 @@ export default async function handler(req, res) {
       `;
 
       return res.status(201).json({ landingPage });
-    }
     }
 
     return res.status(405).json({ error: 'Method not allowed' });

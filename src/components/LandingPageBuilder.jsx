@@ -38,15 +38,16 @@ export default function LandingPageBuilder({ onClose, onSave }) {
 
   // Scroll to top on mount
   useEffect(() => {
-    // Usar requestAnimationFrame para garantir que o DOM está pronto
-    requestAnimationFrame(() => {
+    // Usar setTimeout para garantir que o DOM está completamente renderizado
+    const timer = setTimeout(() => {
       if (previewRef.current) {
         previewRef.current.scrollTop = 0;
       }
       if (inputsRef.current) {
         inputsRef.current.scrollTop = 0;
       }
-    });
+    }, 50);
+    return () => clearTimeout(timer);
   }, []);
 
   // Scroll preview to top when variations change
