@@ -413,9 +413,11 @@ export default function LandingPagePreview({
       <section 
         className={styles.ctaFinal}
         data-cta-final
-        style={{ 
-          background: `linear-gradient(135deg, ${primaryColor} 0%, ${adjustColor(primaryColor, -30)} 100%)` 
-        }}
+        style={
+          template === 'vercel' || template === 'gradient' || template === 'soft'
+            ? {} // Templates com cor fixa usam gradiente do CSS
+            : { background: `linear-gradient(135deg, ${primaryColor} 0%, ${adjustColor(primaryColor, -30)} 100%)` }
+        }
       >
         <div className={styles.ctaFinalContainer}>
           <div className={styles.ctaFinalContent}>
