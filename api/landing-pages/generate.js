@@ -226,7 +226,7 @@ export default async function handler(req, res) {
         const geminiImage = createGeminiProvider({
           apiKey: process.env.GEMINI_API_KEY || process.env.GOOGLE_AI_API_KEY,
           model: 'gemini-2.0-flash-exp', // modelo de texto
-          imageModel: 'imagen-3.0-generate-001', // modelo de imagem
+          // imageModel usa o padrão: 'gemini-2.5-flash-image' (barato e rápido)
         });
 
         // Prompt otimizado para hero de landing page
