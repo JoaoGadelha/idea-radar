@@ -32,9 +32,11 @@ export default function LandingPagePreview({
   aboutTitle = '',
   aboutParagraphs = [],
   aboutImage = null,
+  aboutImageType = 'ai',
   productTitle = '',
   productParagraphs = [],
   productImage = null,
+  productImageType = 'ai',
 }) {
   const [formData, setFormData] = useState({ email: '', phone: '', suggestions: '' });
   const [loading, setLoading] = useState(false);
@@ -244,44 +246,46 @@ export default function LandingPagePreview({
       {aboutTitle && aboutParagraphs?.length > 0 && (
         <section className={styles.about}>
           <div className={styles.aboutContainer}>
-            <div 
-              className={styles.aboutImage}
-              onMouseEnter={() => onRegenerateAboutImage && setShowRegenerateAboutBtn(true)}
-              onMouseLeave={() => setShowRegenerateAboutBtn(false)}
-              style={{ position: 'relative' }}
-            >
-              {aboutImage ? (
-                <img src={aboutImage} alt="About" className={styles.aboutImg} />
-              ) : (
-                <div className={styles.aboutPlaceholder}>
-                  <span style={{ fontSize: '4rem' }}>💡</span>
-                </div>
-              )}
-              
-              {showRegenerateAboutBtn && (
-                <button
-                  onClick={onRegenerateAboutImage}
-                  style={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    padding: '12px 24px',
-                    backgroundColor: primaryColor,
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '8px',
-                    cursor: 'pointer',
-                    fontWeight: '600',
-                    fontSize: '14px',
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-                    zIndex: 10,
-                  }}
-                >
-                  {aboutImage ? '🔄 Regenerar Imagem' : '🎨 Gerar Imagem'}
-                </button>
-              )}
-            </div>
+            {aboutImageType !== 'none' && (
+              <div 
+                className={styles.aboutImage}
+                onMouseEnter={() => onRegenerateAboutImage && setShowRegenerateAboutBtn(true)}
+                onMouseLeave={() => setShowRegenerateAboutBtn(false)}
+                style={{ position: 'relative' }}
+              >
+                {aboutImage ? (
+                  <img src={aboutImage} alt="About" className={styles.aboutImg} />
+                ) : (
+                  <div className={styles.aboutPlaceholder}>
+                    <span style={{ fontSize: '4rem' }}>💡</span>
+                  </div>
+                )}
+                
+                {showRegenerateAboutBtn && (
+                  <button
+                    onClick={onRegenerateAboutImage}
+                    style={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      padding: '12px 24px',
+                      backgroundColor: primaryColor,
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '8px',
+                      cursor: 'pointer',
+                      fontWeight: '600',
+                      fontSize: '14px',
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+                      zIndex: 10,
+                    }}
+                  >
+                    {aboutImage ? '🔄 Regenerar Imagem' : '🎨 Gerar Imagem'}
+                  </button>
+                )}
+              </div>
+            )}
             <div className={styles.aboutContent}>
               <h2 className={styles.aboutTitle}>{aboutTitle}</h2>
               {aboutParagraphs.map((paragraph, idx) => (
@@ -302,44 +306,46 @@ export default function LandingPagePreview({
                 <p key={idx} className={styles.productParagraph}>{paragraph}</p>
               ))}
             </div>
-            <div 
-              className={styles.productImage}
-              onMouseEnter={() => onRegenerateProductImage && setShowRegenerateProductBtn(true)}
-              onMouseLeave={() => setShowRegenerateProductBtn(false)}
-              style={{ position: 'relative' }}
-            >
-              {productImage ? (
-                <img src={productImage} alt="Product" className={styles.productImg} />
-              ) : (
-                <div className={styles.productPlaceholder}>
-                  <span style={{ fontSize: '4rem' }}>📱</span>
-                </div>
-              )}
-              
-              {showRegenerateProductBtn && (
-                <button
-                  onClick={onRegenerateProductImage}
-                  style={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    padding: '12px 24px',
-                    backgroundColor: primaryColor,
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '8px',
-                    cursor: 'pointer',
-                    fontWeight: '600',
-                    fontSize: '14px',
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-                    zIndex: 10,
-                  }}
-                >
-                  {productImage ? '🔄 Regenerar Imagem' : '🎨 Gerar Imagem'}
-                </button>
-              )}
-            </div>
+            {productImageType !== 'none' && (
+              <div 
+                className={styles.productImage}
+                onMouseEnter={() => onRegenerateProductImage && setShowRegenerateProductBtn(true)}
+                onMouseLeave={() => setShowRegenerateProductBtn(false)}
+                style={{ position: 'relative' }}
+              >
+                {productImage ? (
+                  <img src={productImage} alt="Product" className={styles.productImg} />
+                ) : (
+                  <div className={styles.productPlaceholder}>
+                    <span style={{ fontSize: '4rem' }}>📱</span>
+                  </div>
+                )}
+                
+                {showRegenerateProductBtn && (
+                  <button
+                    onClick={onRegenerateProductImage}
+                    style={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      padding: '12px 24px',
+                      backgroundColor: primaryColor,
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '8px',
+                      cursor: 'pointer',
+                      fontWeight: '600',
+                      fontSize: '14px',
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+                      zIndex: 10,
+                    }}
+                  >
+                    {productImage ? '🔄 Regenerar Imagem' : '🎨 Gerar Imagem'}
+                  </button>
+                )}
+              </div>
+            )}
           </div>
         </section>
       )}

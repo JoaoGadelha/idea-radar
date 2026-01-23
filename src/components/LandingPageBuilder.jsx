@@ -809,9 +809,11 @@ export default function LandingPageBuilder({ onClose, onSave }) {
               aboutTitle={variations[selectedIndex].about_title}
               aboutParagraphs={variations[selectedIndex].about_paragraphs}
               aboutImage={formData.about_image_type === 'url' ? formData.about_image_url : variations[selectedIndex].about_image}
+              aboutImageType={formData.about_image_type}
               productTitle={variations[selectedIndex].product_title}
               productParagraphs={variations[selectedIndex].product_paragraphs}
               productImage={formData.product_image_type === 'url' ? formData.product_image_url : variations[selectedIndex].product_image}
+              productImageType={formData.product_image_type}
             />
           ) : (
             <div className={styles.emptyPreview}>
