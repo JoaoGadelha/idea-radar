@@ -96,12 +96,12 @@ export default function LandingPagePreview({
       <section className={styles.hero}>
         <div className={`${styles.heroContainer} ${heroImageType === 'none' ? styles.heroContainerCentered : ''}`}>
           <div className={styles.heroContent}>
-            {/* Badge de pré-lançamento */}
+            {/* Badge */}
             <div 
               className={styles.badge}
               style={{ backgroundColor: `${primaryColor}15`, color: primaryColor }}
             >
-              🚀 Em breve
+              ✨ Novidade
             </div>
 
             <h1 className={styles.headline}>{headline}</h1>
