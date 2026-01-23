@@ -164,6 +164,29 @@ export default async function handler(req, res) {
         '  - Inclua pessoas felizes usando/aproveitando o resultado se fizer sentido.',
         '  - Seja específico: cores, cenário, estilo visual.',
       ])
+      .section('SOBRE O PRODUTO - Storytelling e Propósito', [
+        'Explique a RAZÃO DE EXISTIR do produto de forma narrativa e emocional.',
+        '',
+        'about_title: Título que conecta com o problema ou dor.',
+        '  - "Por que criamos isso?"',
+        '  - "O problema que ninguém resolve"',
+        '  - "A história por trás de [produto]"',
+        '  LIMITE: 60 caracteres.',
+        '',
+        'about_paragraphs: 2-3 parágrafos explicando:',
+        '  1. A DOR/PROBLEMA que existe (contexto emocional)',
+        '  2. Por que soluções atuais FALHAM ou são frustrantes',
+        '  3. Como este produto resolve de forma ÚNICA e simples',
+        '  - Cada parágrafo: 2-3 frases (máx 200 caracteres)',
+        '  - Tom conversacional, não corporativo',
+        '  - Use "você" para conectar diretamente',
+        '',
+        'about_image_prompt: Descrição para imagem conceitual/emocional.',
+        '  - Represente o PROBLEMA ou a SOLUÇÃO visualmente',
+        '  - Pode ser metafórico (ex: pessoa frustrada vs pessoa aliviada)',
+        '  - Estilo: moderno, clean, cores suaves',
+        '  - Evite texto na imagem',
+      ])
       .section('COMO FUNCIONA - Simplicidade', [
         'Mostre que é FÁCIL. O usuário tem medo de complexidade.',
         '',
@@ -264,6 +287,9 @@ export default async function handler(req, res) {
         '  "value_proposition": ["benefício 1", "benefício 2", "benefício 3"],',
         '  "cta_text": "string (máx 25 chars)",',
         '  "hero_image_prompt": "descrição detalhada para gerar imagem hero",',
+        '  "about_title": "string (máx 60 chars)",',
+        '  "about_paragraphs": ["parágrafo 1", "parágrafo 2", "parágrafo 3 (opcional)"],',
+        '  "about_image_prompt": "descrição detalhada para gerar imagem conceitual",',
         '  "how_it_works": [',
         '    { "icon": "📸", "title": "string", "description": "string" },',
         '    { "icon": "✨", "title": "string", "description": "string" },',
@@ -344,6 +370,13 @@ export default async function handler(req, res) {
       cta_text: variation.cta_text?.slice(0, 25) || 'Quero testar',
       hero_image: heroImageBase64,
       hero_image_prompt: variation.hero_image_prompt || '',
+      // About Section
+      about_title: variation.about_title?.slice(0, 60) || '',
+      about_paragraphs: Array.isArray(variation.about_paragraphs)
+        ? variation.about_paragraphs.slice(0, 3).map(p => p?.slice(0, 200) || '')
+        : [],
+      about_image_prompt: variation.about_image_prompt || '',
+      about_image: null, // Will be generated later if needed
       // Como Funciona
       how_it_works: Array.isArray(variation.how_it_works)
         ? variation.how_it_works.slice(0, 3).map((step, idx) => ({

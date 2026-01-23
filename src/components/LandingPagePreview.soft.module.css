@@ -323,8 +323,70 @@
   background: rgba(255, 107, 157, 0.15);
 }
 
-/* ========================================
-   HOW IT WORKS SECTION
+/* ========================================   ABOUT SECTION - Gentle Pastel Story
+   ======================================== */
+.about {
+  padding: 6rem 0;
+  background: linear-gradient(135deg, rgba(255, 179, 198, 0.1) 0%, rgba(255, 218, 229, 0.1) 100%);
+}
+
+.aboutContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.aboutImage {
+  border-radius: 32px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(255, 107, 157, 0.15);
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+.aboutImg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.aboutPlaceholder {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(255, 179, 198, 0.2) 0%, rgba(255, 218, 229, 0.2) 100%);
+}
+
+.aboutContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.aboutTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+  background: linear-gradient(135deg, #ffb3c6 0%, #ff6b9d 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.aboutParagraph {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* ========================================   HOW IT WORKS SECTION
    ======================================== */
 .howItWorks {
   padding: 5rem 0;

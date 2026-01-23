@@ -325,6 +325,73 @@
 }
 
 /* ========================================
+   ABOUT SECTION - Bold Geometric Story
+   ======================================== */
+.about {
+  padding: 6rem 0;
+  background: #ffff00;
+  border-top: 8px solid #000000;
+  border-bottom: 8px solid #000000;
+}
+
+.aboutContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.aboutImage {
+  border: 8px solid #000000;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 16px 16px 0 rgba(0, 0, 0, 1);
+}
+
+.aboutImg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.aboutPlaceholder {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+}
+
+.aboutContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.aboutTitle {
+  font-size: 3rem;
+  font-weight: 900;
+  line-height: 1.1;
+  color: #000000;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  font-family: 'Arial Black', sans-serif;
+}
+
+.aboutParagraph {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: #000000;
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  font-weight: 700;
+}
+
+/* ========================================
    HOW IT WORKS SECTION
    ======================================== */
 .howItWorks {

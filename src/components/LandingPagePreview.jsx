@@ -27,6 +27,9 @@ export default function LandingPagePreview({
   onRegenerateImage = null, // Callback para regenerar imagem
   showcaseType = 'none',
   showcaseData = {},
+  aboutTitle = '',
+  aboutParagraphs = [],
+  aboutImage = null,
 }) {
   const [formData, setFormData] = useState({ email: '', phone: '', suggestions: '' });
   const [loading, setLoading] = useState(false);
@@ -230,6 +233,29 @@ export default function LandingPagePreview({
           </div>
         </div>
       </section>
+
+      {/* About Section - Story/Problem/Solution */}
+      {aboutTitle && aboutParagraphs?.length > 0 && (
+        <section className={styles.about}>
+          <div className={styles.aboutContainer}>
+            <div className={styles.aboutImage}>
+              {aboutImage ? (
+                <img src={aboutImage} alt="About" className={styles.aboutImg} />
+              ) : (
+                <div className={styles.aboutPlaceholder}>
+                  <span style={{ fontSize: '4rem' }}>💡</span>
+                </div>
+              )}
+            </div>
+            <div className={styles.aboutContent}>
+              <h2 className={styles.aboutTitle}>{aboutTitle}</h2>
+              {aboutParagraphs.map((paragraph, idx) => (
+                <p key={idx} className={styles.aboutParagraph}>{paragraph}</p>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Showcase Section - Renderiza baseado no tipo */}
       {showcaseType !== 'none' && (

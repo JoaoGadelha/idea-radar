@@ -551,6 +551,9 @@ export default function LandingPageBuilder({ onClose, onSave }) {
               onRegenerateImage={() => handleRegenerateImage(selectedIndex)}
               showcaseType={variations[selectedIndex].showcase_type}
               showcaseData={variations[selectedIndex].showcase_data}
+              aboutTitle={variations[selectedIndex].about_title}
+              aboutParagraphs={variations[selectedIndex].about_paragraphs}
+              aboutImage={variations[selectedIndex].about_image}
             />
           ) : (
             <div className={styles.emptyPreview}>
