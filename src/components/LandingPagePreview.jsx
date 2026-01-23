@@ -139,16 +139,16 @@ export default function LandingPagePreview({
                     type="email" 
                     placeholder="seu@email.com" 
                     className={styles.heroEmailInput}
-                    disabled={!isInteractive || loading}
+                    disabled={loading}
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    required={isInteractive}
+                    required
                   />
                   <button 
                     type="submit"
                     className={styles.heroCta}
                     style={{ backgroundColor: primaryColor }}
-                    disabled={!isInteractive || loading}
+                    disabled={loading}
                   >
                     {loading ? '...' : (ctaText || 'Quero testar')}
                   </button>
@@ -315,36 +315,36 @@ export default function LandingPagePreview({
                 type="text" 
                 placeholder="Seu nome" 
                 className={styles.ctaFinalInput}
-                disabled={!isInteractive || loading}
+                disabled={loading}
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                required={isInteractive && collectName}
+                required={collectName}
               />
             )}
             <input 
               type="email" 
               placeholder="seu@email.com" 
               className={styles.ctaFinalInput}
-              disabled={!isInteractive || loading}
+              disabled={loading}
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              required={isInteractive}
+              required
             />
             {collectPhone && (
               <input 
                 type="tel" 
                 placeholder="(00) 00000-0000" 
                 className={styles.ctaFinalInput}
-                disabled={!isInteractive || loading}
+                disabled={loading}
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                required={isInteractive && collectPhone}
+                required={collectPhone}
               />
             )}
             <button 
               type="submit"
               className={styles.ctaFinalButton}
-              disabled={!isInteractive || loading}
+              disabled={loading}
             >
               {loading ? 'Enviando...' : (ctaText || 'Garantir meu acesso')} →
             </button>
