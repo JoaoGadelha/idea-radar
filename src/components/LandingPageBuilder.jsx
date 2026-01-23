@@ -7,9 +7,8 @@ import { useAuth } from '../contexts/AuthContext';
 // Templates com cor fixa (não permitem customização)
 const TEMPLATES_WITH_FIXED_COLOR = {
   soft: '#ff9e9e',
-  // Futuros templates com cores fixas:
-  // 'blue-corporate': '#0066cc',
-  // 'green-eco': '#00cc66',
+  gradient: '#667eea',
+  vercel: '#00d9ff',
 };
 
 export default function LandingPageBuilder({ onClose, onSave }) {
