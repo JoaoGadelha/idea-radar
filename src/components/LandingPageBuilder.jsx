@@ -127,9 +127,9 @@ export default function LandingPageBuilder({ onClose, onSave }) {
   const handleDevPopulate = () => {
     setFormData({
       ...formData,
-      title: 'Termômetro de Clima Digital',
-      slug: 'termometro-clima-digital',
-      brief: 'Projeto Termômetro de Clima Digital: esta landing page apresenta uma plataforma interativa criada para medir, em tempo real, o nível de engajamento e satisfação do público em relação a uma nova campanha digital. A ideia do projeto é funcionar como um "termômetro" simbólico, no qual os usuários respondem a microinterações rápidas — como enquetes, reações visuais e perguntas de pulso emocional — que alimentam um indicador dinâmico exibido na tela. A página tem foco em design limpo, linguagem acessível e chamadas claras para participação, transformando a coleta de percepção em uma experiência leve e visualmente atrativa. Os dados coletados são consolidados para ajudar marcas a entenderem a temperatura do interesse do público, ajustando estratégias de comunicação de forma ágil e orientada por insights reais.',
+      title: 'Aurora Verde',
+      slug: 'aurora-verde',
+      brief: 'Projeto Aurora Verde: uma plataforma digital que ajuda pessoas que moram em cidades a cultivar plantas em pequenos espaços, como apartamentos e varandas, usando recomendações personalizadas baseadas no espaço disponível, luminosidade e rotina do usuário. A ideia é oferecer um diagnóstico rápido, conteúdos práticos e sugestões de kits de cultivo, medindo o interesse do público por meio de uma landing page simples com proposta clara, benefícios tangíveis e chamada para cadastro antecipado, permitindo validar se existe demanda real antes de investir no desenvolvimento completo da solução.',
     });
   };
 
