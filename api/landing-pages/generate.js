@@ -358,6 +358,41 @@ export default async function handler(req, res) {
       }
     }
 
+    // Gerar about image se tiver prompt
+    let aboutImageBase64 = null;
+    if (variation.about_image_prompt && heroImageType === 'ai') {
+      try {
+        // Criar provider de imagem
+        const geminiImage = createGeminiProvider({
+          apiKey: process.env.GEMINI_API_KEY || process.env.GOOGLE_AI_API_KEY,
+          model: 'gemini-2.0-flash-exp', // modelo de texto
+          // imageModel usa o padrão: 'gemini-2.5-flash-image' (barato e rápido)
+        });
+
+        // Prompt otimizado para about section (conceitual/emocional)
+        const aboutImagePrompt = `
+          Conceptual image for an "about" section in a landing page, square 1:1 format.
+          ${variation.about_image_prompt}
+          
+          Style requirements:
+          - Square 1:1 aspect ratio
+          - Modern, clean, professional aesthetic
+          - Emotional and relatable
+          - Soft, welcoming lighting
+          - Can be abstract or metaphorical
+          - Represents a problem or solution visually
+          - No text, logos, or watermarks
+          - Soft, pastel or neutral colors
+        `.trim();
+
+        const aboutImageResult = await geminiImage.generateImage(aboutImagePrompt);
+        aboutImageBase64 = `data:${aboutImageResult.mimeType};base64,${aboutImageResult.data}`;
+      } catch (imageError) {
+        console.error('Erro ao gerar about image:', imageError.message);
+        // Continua sem imagem se falhar
+      }
+    }
+
     // Validar e normalizar estrutura completa
     const validVariation = {
       id: `temp_${Date.now()}`,
@@ -376,7 +411,7 @@ export default async function handler(req, res) {
         ? variation.about_paragraphs.slice(0, 3).map(p => p?.slice(0, 200) || '')
         : [],
       about_image_prompt: variation.about_image_prompt || '',
-      about_image: null, // Will be generated later if needed
+      about_image: aboutImageBase64,
       // Como Funciona
       how_it_works: Array.isArray(variation.how_it_works)
         ? variation.how_it_works.slice(0, 3).map((step, idx) => ({
