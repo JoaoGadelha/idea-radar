@@ -308,52 +308,180 @@ A LLM faz o trabalho pesado de análise.
 **Descrição:**  
 Nova aba/seção que traz periodicamente sugestões de ideias de produtos/microsaas baseadas em tendências de mercado.
 
+**Público-alvo:**  
+Desenvolvedores/indie hackers que querem lançar múltiplas landing pages rapidamente (50+ por semana) para termometrar ideias antes de implementar. Foco em quem faz vibe coding e quer automatizar o processo de validação em larga escala.
+
 **Como funciona:**
-1. Sistema coleta textos de fontes configuradas pelo usuário:
-   - Subreddits específicos (ex: r/SaaS, r/Entrepreneur, r/webdev)
-   - Sites de notícias tech (TechCrunch, Product Hunt, etc)
-   - Trending topics em communities
-   - Outras fontes customizáveis
 
-2. LLM analisa os textos e identifica:
-   - Problemas recorrentes sendo discutidos
-   - Produtos/serviços que estão "bombando"
-   - Gaps de mercado
-   - Padrões de demanda
+1. **Coleta de dados** (APIs + RSS feeds):
+   - Reddit API (adaptar a rate limits)
+   - Product Hunt API
+   - Google Trends API
+   - RSS de sites tech (TechCrunch, Hacker News, etc)
+   - **Nota:** Precisamos experimentar e adaptar aos bloqueios. Rate limits variam por plataforma, vamos ajustando até encontrar sweet spot de frequência vs volume de dados.
 
-3. Gera sugestões estruturadas:
-   - "Uma coisa que está bombando é aplicativo de X"
-   - Análise do porquê (motivos, contexto de mercado)
-   - Sugestão de produto/microsaas relacionado
-   - Links para fontes/discussões relevantes
+2. **Summarização em 2 etapas** (economia de tokens):
+   - **Etapa 1:** LLM resume cada fonte individualmente (Reddit thread → resumo 200 palavras)
+     * Por quê: Reduz 10.000 tokens (thread completa) para 300 tokens (resumo)
+     * Qual LLM: Gemini Flash (rápido e barato para processamento em massa)
+   - **Etapa 2:** LLM analisa todos os resumos juntos e identifica padrões
+     * Por quê: Analisa 30 resumos (9k tokens) em vez de 30 threads completas (300k tokens)
+     * Qual LLM: Gemini Flash (mesma, custo-benefício ótimo)
+   - **Economia:** ~97% menos tokens, viabiliza análise em escala
 
-**Configurações do usuário:**
-- [ ] Áreas de interesse (SaaS, Apps, E-commerce, etc)
-- [ ] Fontes específicas para monitorar (subreddits, sites)
-- [ ] Frequência de análise (diária, semanal)
-- [ ] Filtros de relevância (evitar ruído)
-- [ ] Notificações quando encontrar ideias promissoras
+3. **Sistema de Score de Confiança** (validação cruzada):
+   ```
+   Score = (Reddit_mentions × 0.3) + 
+           (ProductHunt_launches × 0.3) + 
+           (GoogleTrends_growth × 0.4)
+   
+   Exemplo:
+   - Reddit: 15 threads discutindo "ferramenta X" (score: 4.5)
+   - Product Hunt: 3 lançamentos similares este mês (score: 3.0)
+   - Google Trends: +40% de busca em 30 dias (score: 4.0)
+   = Score final: 11.5/15 (Alta confiança)
+   ```
+   - Mostrar **Top 10 da semana** ordenado por score
+   - Badge visual: 🔥 Alta (>10), ⚡ Média (5-10), 💡 Emergente (<5)
+
+4. **Filtros Personalizados**:
+   - [ ] **Tipo de projeto:**
+     * 💰 Cash grab / validação rápida (MVP em 1-3 dias)
+     * 🚀 Projeto médio (1-2 semanas de dev)
+     * 🏢 Projeto sério / next Stripe (meses de dev)
+   
+   - [ ] **Barra de Dificuldade/Temperatura:**
+     ```
+     [❄️ Fácil] ----🌡️---- [🔥 Difícil]
+        ^                    ^
+     IA faz 80%      Requer arquitetura complexa
+     ```
+     * Fácil: Vibe coding integral, CRUD + LLM
+     * Médio: Integrações, APIs externas, design custom
+     * Difícil: Infra complexa, real-time, ML/AI avançado
+   
+   - [ ] **Foco da ideia:**
+     * 🎯 Dores recorrentes (problemas sendo discutidos repetidamente)
+     * 📈 Hypes/tendências (o que está bombando agora)
+     * 🔍 Gaps de mercado (nichos sem solução adequada)
+   
+   - [ ] **Nicho/Interesse:** SaaS, Apps, E-commerce, Dev Tools, etc
+   - [ ] **Frequência:** Diária, semanal, quinzenal
+
+5. **Features Complementares:**
+   
+   **A. Sintetizador de Textos → Descrição de Projeto**
+   - Usuário cola artigo do Medium, thread do Reddit, ou qualquer texto
+   - LLM extrai: problema, solução, público-alvo, proposta de valor
+   - Gera descrição estruturada do projeto (brief)
+   - **Botão direto:** "Gerar Landing Page com essa ideia"
+   - Fluxo completo: Texto → Brief → LP gerada → Deploy
+   
+   **B. Integração com Gerador de LP**
+   - Quando encontrar ideia promissora com score alto
+   - Botão: "Gerar LP para validar essa ideia"
+   - Usa o brief gerado automaticamente
+   - Loop fechado: Ideia → LP → Métricas → Análise
+
+**Diferencial vs Concorrentes:**
+- **Exploding Topics / TrendHunter:** Apenas mostram tendências
+- **IdeaRadar:** Tendências + Geração de LP + Análise de métricas + IA
+- **Foco:** Lançamento em volume (50 LPs/semana) com automação máxima
+- **Tudo em um lugar:** Descoberta → Validação → Análise
 
 **Tecnologias necessárias:**
-- Web scraping (Reddit API, RSS feeds, etc)
-- Cron jobs para coleta periódica
-- Storage para conteúdo coletado
-- LLM com context window grande (Gemini 2.0 Flash)
-- Sistema de ranking/score de ideias
+- APIs oficiais (Reddit, Product Hunt, Google Trends)
+- RSS feeds (TechCrunch, Hacker News)
+- Cron jobs (Vercel Cron ou similar)
+- PostgreSQL (storage de dados coletados + scores)
+- Gemini Flash (summarização + análise, custo-benefício ótimo)
+- Sistema de cache (evitar reprocessar mesmas fontes)
 
 **Casos de uso:**
-- Usuário quer montar microsaas mas não tem ideia
-- Validar se ideia atual está em alta
-- Descobrir nichos emergentes antes da concorrência
-- Acompanhar tendências do mercado
+1. Dev indie quer lançar 10 ideias/semana para ver qual valida
+2. Criador de conteúdo quer acompanhar nichos emergentes
+3. Validar se ideia atual está em alta ou já saturada
+4. Descobrir problemas recorrentes que ninguém resolveu ainda
 
-**MVP dessa feature:**
-1. Configurar 2-3 fontes fixas (Reddit + Product Hunt)
-2. Coleta semanal automática
-3. Análise básica via LLM
-4. Interface simples mostrando top 5 ideias da semana
+**Schema do Banco (adicional):**
+```sql
+-- Fontes de conteúdo rastreadas
+CREATE TABLE content_sources (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  type VARCHAR(50), -- reddit, producthunt, rss, trends
+  identifier VARCHAR(255), -- subreddit name, RSS URL, etc
+  last_scraped_at TIMESTAMP,
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMP DEFAULT NOW()
+);
 
-**Estimativa:** ~20-30h de desenvolvimento
+-- Conteúdo coletado (raw)
+CREATE TABLE collected_content (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  source_id UUID REFERENCES content_sources(id),
+  title TEXT,
+  content TEXT,
+  url VARCHAR(500),
+  summary TEXT, -- Resumo gerado pela LLM (etapa 1)
+  metadata JSONB, -- upvotes, comments, author, etc
+  collected_at TIMESTAMP DEFAULT NOW()
+);
+
+-- Ideias identificadas pela LLM
+CREATE TABLE idea_suggestions (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  title VARCHAR(255),
+  description TEXT,
+  category VARCHAR(100), -- SaaS, App, E-commerce, etc
+  difficulty_score INT, -- 1-10 (1=fácil, 10=difícil)
+  confidence_score DECIMAL(5,2), -- 0-15 (validação cruzada)
+  problem TEXT,
+  solution_suggestion TEXT,
+  target_audience TEXT,
+  sources JSONB, -- Links para threads/artigos que geraram a ideia
+  reddit_mentions INT DEFAULT 0,
+  producthunt_launches INT DEFAULT 0,
+  google_trends_growth DECIMAL(5,2),
+  project_type VARCHAR(50), -- cash_grab, medium, serious
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- Associação usuário <> ideias salvas
+CREATE TABLE user_saved_ideas (
+  user_id UUID REFERENCES users(id),
+  idea_id UUID REFERENCES idea_suggestions(id),
+  status VARCHAR(50), -- interested, testing, validated, rejected
+  notes TEXT,
+  created_at TIMESTAMP DEFAULT NOW(),
+  PRIMARY KEY (user_id, idea_id)
+);
+```
+
+**MVP Simplificado (10-15h):**
+1. ✅ 2 fontes fixas: Reddit API + Product Hunt API
+2. ✅ Coleta semanal (cron job)
+3. ✅ Summarização em 2 etapas (economia de tokens)
+4. ✅ Score básico (Reddit + Product Hunt apenas)
+5. ✅ Filtro por dificuldade (fácil/médio/difícil)
+6. ✅ Interface: Top 5 da semana com score e badges
+7. ✅ Botão "Gerar LP" integrado
+8. ✅ Sintetizador de texto manual (cola texto → brief)
+
+**Roadmap completo (20-30h):**
+- [ ] Google Trends integration (validação cruzada completa)
+- [ ] RSS feeds (mais fontes)
+- [ ] Filtros avançados (nicho, tipo de projeto, temperatura)
+- [ ] Sistema de notificações (ideias com score >12)
+- [ ] Histórico de ideias (trending nos últimos 30 dias)
+- [ ] Exportar brief para ferramentas externas
+
+**Notas Importantes:**
+- **Custo-benefício:** Gemini Flash é ótimo para isso (barato + rápido + bom o suficiente)
+- **Foco calibrável:** Balance entre "dores recorrentes" vs "hypes" via filtros
+- **Automação máxima:** Quanto menos cliques, melhor (público-alvo é preguiçoso e quer escala)
+- **Adaptabilidade:** Rate limits e bloqueios variam, sistema precisa ser resiliente
+
+**Estimativa:** MVP em 10-15h | Completo em 20-30h
 
 ---
 
