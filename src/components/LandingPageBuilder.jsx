@@ -123,13 +123,13 @@ export default function LandingPageBuilder({ onClose, onSave }) {
     setShowImproveModal(false);
   };
 
-  // DEV: Preencher com exemplo do Termômetro de Clima Digital
+  // DEV: Preencher com exemplo do SkillSwap
   const handleDevPopulate = () => {
     setFormData({
       ...formData,
-      title: 'Aurora Verde',
-      slug: 'aurora-verde',
-      brief: 'Projeto Aurora Verde: uma plataforma digital que ajuda pessoas que moram em cidades a cultivar plantas em pequenos espaços, como apartamentos e varandas, usando recomendações personalizadas baseadas no espaço disponível, luminosidade e rotina do usuário. A ideia é oferecer um diagnóstico rápido, conteúdos práticos e sugestões de kits de cultivo, medindo o interesse do público por meio de uma landing page simples com proposta clara, benefícios tangíveis e chamada para cadastro antecipado, permitindo validar se existe demanda real antes de investir no desenvolvimento completo da solução.',
+      title: 'SkillSwap',
+      slug: 'skillswap',
+      brief: 'O projeto consiste no desenvolvimento de um aplicativo chamado SkillSwap, voltado para a troca de habilidades entre pessoas interessadas em aprender e ensinar diferentes conhecimentos sem a utilização de dinheiro. A plataforma permite que usuários criem perfis informando quais habilidades dominam e quais desejam aprender, possibilitando a conexão entre indivíduos com interesses complementares. Por meio de um sistema de busca e matching, os usuários podem encontrar parceiros para troca de conhecimento, comunicar-se via chat, agendar sessões e avaliar as experiências após cada interação. O aplicativo utiliza um sistema de créditos baseado no tempo dedicado ao ensino, incentivando a colaboração contínua e a construção de uma comunidade de aprendizagem colaborativa, segura e escalável.',
     });
   };
 
