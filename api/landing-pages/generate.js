@@ -35,7 +35,7 @@ export default async function handler(req, res) {
 
   try {
     // Receber dados do request
-    const { projectData, brief } = req.body;
+    const { projectData, brief, generateHeroImage = false } = req.body;
 
     if (!projectData || !brief) {
       return res.status(400).json({
@@ -210,7 +210,7 @@ export default async function handler(req, res) {
     // Gerar hero image com Gemini se solicitado
     let heroImageBase64 = null;
     
-    if (variation.hero_image_prompt) {
+    if (generateHeroImage && variation.hero_image_prompt) {
       try {
         console.log('🖼️ [Generate] Gerando hero image com IA...');
         

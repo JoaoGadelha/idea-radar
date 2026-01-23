@@ -162,6 +162,7 @@ export default function LandingPageBuilder({ onClose, onSave }) {
         body: JSON.stringify({
           projectData,
           brief: formData.brief,
+          generateHeroImage: formData.hero_image_type === 'ai', // Adicionar flag
         }),
       });
 
