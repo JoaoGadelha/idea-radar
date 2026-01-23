@@ -18,6 +18,8 @@ export default function LandingPageBuilder({ onClose, onSave }) {
   const [variations, setVariations] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [showTemplateSelector, setShowTemplateSelector] = useState(false);
+  const [showImproveModal, setShowImproveModal] = useState(false);
+  const [missingFields, setMissingFields] = useState([]);
   const previewRef = useRef(null);
   const inputsRef = useRef(null);
   const [formData, setFormData] = useState({
@@ -133,6 +135,24 @@ export default function LandingPageBuilder({ onClose, onSave }) {
       const data = await res.json();
       setVariations(prev => [...prev, data.variation]);
       setSelectedIndex(variations.length);
+
+      // Verificar campos faltando
+      const variation = data.variation;
+      const missing = [];
+      if (!variation.value_proposition || variation.value_proposition.length === 0) {
+        missing.push('Benefícios/Proposta de Valor');
+      }
+      if (!variation.how_it_works || variation.how_it_works.length === 0) {
+        missing.push('Como Funciona');
+      }
+      if (!variation.faq_items || variation.faq_items.length === 0) {
+        missing.push('Perguntas Frequentes (FAQ)');
+      }
+
+      setMissingFields(missing);
+      if (missing.length > 0) {
+        setShowImproveModal(true);
+      }
     } catch (error) {
       console.error('Erro ao gerar:', error);
       alert(error.message);
@@ -240,6 +260,15 @@ export default function LandingPageBuilder({ onClose, onSave }) {
               placeholder="Ex: App de delivery vegano para universitários, Curso online de Python para iniciantes, Consultoria financeira para MEIs..."
               rows="5"
             />
+            {missingFields.length > 0 && (
+              <button
+                type="button"
+                onClick={() => setShowImproveModal(true)}
+                className={styles.improveBtn}
+              >
+                💡 Melhorar descrição ({missingFields.length} {missingFields.length === 1 ? 'seção faltando' : 'seções faltando'})
+              </button>
+            )}
           </div>
 
           <div className={styles.inputGroup}>
@@ -456,6 +485,59 @@ export default function LandingPageBuilder({ onClose, onSave }) {
           onTemplateChange={(template) => setFormData({ ...formData, template })}
           onClose={() => setShowTemplateSelector(false)}
         />
+      )}
+
+      {/* Improve Description Modal */}
+      {showImproveModal && (
+        <div className={styles.modalOverlay} onClick={() => setShowImproveModal(false)}>
+          <div className={styles.improveModal} onClick={(e) => e.stopPropagation()}>
+            <button onClick={() => setShowImproveModal(false)} className={styles.closeBtn}>✕</button>
+            
+            <div className={styles.improveModalContent}>
+              <h3>💡 Melhore sua landing page</h3>
+              <p>A IA não conseguiu gerar algumas seções. Para um resultado completo, adicione mais detalhes sobre:</p>
+              
+              <ul className={styles.missingList}>
+                {missingFields.map((field, idx) => (
+                  <li key={idx}>
+                    <span className={styles.missingIcon}>❌</span>
+                    {field}
+                  </li>
+                ))}
+              </ul>
+
+              <div className={styles.improveSuggestions}>
+                <strong>Dicas para melhorar a descrição:</strong>
+                <ul>
+                  {missingFields.includes('Benefícios/Proposta de Valor') && (
+                    <li>📌 Descreva os principais benefícios e diferenciais do seu produto</li>
+                  )}
+                  {missingFields.includes('Como Funciona') && (
+                    <li>🔄 Explique o passo a passo de como usar ou adquirir</li>
+                  )}
+                  {missingFields.includes('Perguntas Frequentes (FAQ)') && (
+                    <li>❓ Mencione possíveis dúvidas que seu público pode ter</li>
+                  )}
+                </ul>
+              </div>
+
+              <div className={styles.improveModalActions}>
+                <button 
+                  className={styles.improveCloseBtn}
+                  onClick={() => setShowImproveModal(false)}
+                >
+                  Entendi, vou melhorar
+                </button>
+                <button 
+                  className={styles.improveContinueBtn}
+                  onClick={() => setShowImproveModal(false)}
+                >
+                  Continuar assim mesmo
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

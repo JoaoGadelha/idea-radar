@@ -440,6 +440,156 @@
   cursor: not-allowed;
 }
 
+/* Improve Button */
+.improveBtn {
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.improveBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(251, 191, 36, 0.4);
+}
+
+/* Improve Modal */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1001;
+}
+
+.improveModal {
+  background: white;
+  border-radius: 0.75rem;
+  max-width: 600px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.improveModalContent {
+  padding: 2rem;
+}
+
+.improveModalContent h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 1rem;
+}
+
+.improveModalContent > p {
+  color: #6b7280;
+  margin: 0 0 1.5rem;
+  line-height: 1.6;
+}
+
+.missingList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+  background: #fef3c7;
+  border-left: 4px solid #f59e0b;
+  border-radius: 0.375rem;
+  padding: 1rem;
+}
+
+.missingList li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  font-weight: 600;
+  color: #92400e;
+}
+
+.missingIcon {
+  font-size: 1.125rem;
+}
+
+.improveSuggestions {
+  background: #f0f9ff;
+  border-left: 4px solid #0ea5e9;
+  border-radius: 0.375rem;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.improveSuggestions strong {
+  display: block;
+  color: #0c4a6e;
+  margin-bottom: 0.75rem;
+}
+
+.improveSuggestions ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.improveSuggestions li {
+  padding: 0.5rem 0;
+  color: #0369a1;
+  line-height: 1.5;
+}
+
+.improveModalActions {
+  display: flex;
+  gap: 0.75rem;
+  flex-direction: column;
+}
+
+.improveCloseBtn,
+.improveContinueBtn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.improveCloseBtn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.improveCloseBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.improveContinueBtn {
+  background: transparent;
+  color: #6b7280;
+  border: 1px solid #d1d5db;
+}
+
+.improveContinueBtn:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+}
+
 /* Preview Section - Resto do espaço */
 .preview {
   flex: 1;
