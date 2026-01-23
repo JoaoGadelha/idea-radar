@@ -640,7 +640,7 @@
   border: 1px solid #333333;
   border-radius: 6px;
   background: #111111;
-  color: white;
+  color: #ffffff !important;
   font-size: 1rem;
   outline: none;
   transition: all 0.15s;
@@ -653,6 +653,7 @@
 .ctaFinalInput:focus {
   border-color: #666666;
   background: #1a1a1a;
+  color: #ffffff !important;
 }
 
 .ctaFinalButton {
