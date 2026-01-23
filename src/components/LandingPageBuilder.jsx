@@ -6,7 +6,7 @@ import { useAuth } from '../contexts/AuthContext';
 
 // Templates com cor fixa (não permitem customização)
 const TEMPLATES_WITH_FIXED_COLOR = {
-  soft: '#ff9e9e',
+  soft: '#ffb3c6',
   gradient: '#667eea',
   vercel: '#00d9ff',
 };
