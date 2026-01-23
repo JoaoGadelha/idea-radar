@@ -25,8 +25,6 @@ export default function LandingPagePreview({
   projectId = null, // ID do projeto para salvar leads
   landingPageId = null, // ID da landing page
   onRegenerateImage = null, // Callback para regenerar imagem
-  problemStatement = '', // Nova prop
-  socialProof = '', // Nova prop
 }) {
   const [formData, setFormData] = useState({ email: '', phone: '', suggestions: '' });
   const [loading, setLoading] = useState(false);
@@ -211,54 +209,8 @@ export default function LandingPagePreview({
         </div>
       </section>
 
-      {/* Problema/Dor Section */}
-      {problemStatement && (
-        <section className={styles.problemSection}>
-          <div className={styles.container}>
-            <div className={styles.problemBox}>
-              <div className={styles.problemIcon}>😔</div>
-              <p className={styles.problemText}>{problemStatement}</p>
-            </div>
-          </div>
-        </section>
-      )}
-
       {/* Social Proof Bar */}
-      {socialProof && (
-        <section className={styles.socialProof}>
-          <div className={styles.socialProofContainer}>
-            <div className={styles.proofBadge} style={{ borderLeft: `4px solid ${primaryColor}` }}>
-              <span className={styles.proofIcon}>✨</span>
-              <span className={styles.proofText}>{socialProof}</span>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Value Proposition - Feature Grid (movido para depois do problema) */}
-      {valueProposition.length > 0 && (
-        <section className={styles.features}>
-          <div className={styles.container}>
-            <h2 className={styles.sectionTitle}>Por que escolher?</h2>
-            <div className={styles.featureGrid}>
-              {valueProposition.map((benefit, idx) => (
-                <div key={idx} className={styles.featureCard}>
-                  <div 
-                    className={styles.featureIcon}
-                    style={{ color: primaryColor }}
-                  >
-                    ✓
-                  </div>
-                  <p className={styles.featureText}>{benefit}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Old Social Proof (remover depois se preferir o novo) */}
-      <section className={styles.socialProofOld} style={{ display: 'none' }}>
+      <section className={styles.socialProof}>
         <div className={styles.socialProofContainer}>
           <div className={styles.proofItem}>
             <span className={styles.proofNumber}>500+</span>

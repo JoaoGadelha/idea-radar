@@ -73,13 +73,6 @@ export default function PublicLandingPage() {
         isInteractive={true}
         projectId={landingPage.project_id}
         landingPageId={landingPage.id}
-        problemStatement={landingPage.problem_statement}
-        socialProof={landingPage.social_proof}
-        valueProposition={landingPage.value_proposition || []}
-        howItWorks={landingPage.how_it_works || []}
-        faqItems={landingPage.faq_items || []}
-        ctaHeadline={landingPage.cta_headline}
-        ctaSubheadline={landingPage.cta_subheadline}
       />
     </div>
   );
