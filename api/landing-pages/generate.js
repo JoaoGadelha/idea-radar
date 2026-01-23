@@ -56,6 +56,13 @@ export default async function handler(req, res) {
       });
     }
 
+    // DEBUG: Log para verificar dados recebidos
+    console.log('📝 [Generate] Dados recebidos:', {
+      projectName: projectData.name,
+      briefLength: brief.length,
+      briefPreview: brief.substring(0, 100) + '...'
+    });
+
     // Verificar rate limits
     await perMinuteLimiter.acquire();
     await dailyLimiter.acquire();

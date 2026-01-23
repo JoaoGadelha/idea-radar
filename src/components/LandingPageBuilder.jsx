@@ -147,6 +147,11 @@ export default function LandingPageBuilder({ onClose, onSave }) {
         description: formData.brief,
       };
 
+      console.log('📤 [Generate] Enviando dados:', {
+        title: formData.title,
+        briefPreview: formData.brief.substring(0, 100) + '...'
+      });
+
       // Gerar variações
       const res = await fetch('/api/landing-pages/generate', {
         method: 'POST',
