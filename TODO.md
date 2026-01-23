@@ -320,14 +320,26 @@ Desenvolvedores/indie hackers que querem lançar múltiplas landing pages rapida
    - RSS de sites tech (TechCrunch, Hacker News, etc)
    - **Nota:** Precisamos experimentar e adaptar aos bloqueios. Rate limits variam por plataforma, vamos ajustando até encontrar sweet spot de frequência vs volume de dados.
 
-2. **Summarização em 2 etapas** (economia de tokens):
-   - **Etapa 1:** LLM resume cada fonte individualmente (Reddit thread → resumo 200 palavras)
-     * Por quê: Reduz 10.000 tokens (thread completa) para 300 tokens (resumo)
-     * Qual LLM: Gemini Flash (rápido e barato para processamento em massa)
-   - **Etapa 2:** LLM analisa todos os resumos juntos e identifica padrões
-     * Por quê: Analisa 30 resumos (9k tokens) em vez de 30 threads completas (300k tokens)
-     * Qual LLM: Gemini Flash (mesma, custo-benefício ótimo)
-   - **Economia:** ~97% menos tokens, viabiliza análise em escala
+2. **Summarização em 2 etapas** (economia de tokens + custo):
+   - **Etapa 1 (Resumir):** LLM fraca/barata resume cada fonte individualmente
+     * Tarefa: Reddit thread (10k tokens) → resumo (200 palavras / 300 tokens)
+     * Qual LLM: **GPT-3.5, Gemini Flash Lite, ou Claude Haiku** (tarefa simples, só condensar texto)
+     * Custo: ~$0.0005 por thread
+     * Por quê LLM fraca: Resumir é tarefa mecânica, não precisa raciocínio complexo
+   
+   - **Etapa 2 (Análise):** LLM forte analisa todos os resumos e identifica padrões
+     * Tarefa: 30 resumos (9k tokens) → análise de padrões + scoring + identificação de ideias
+     * Qual LLM: **Gemini Flash 2.0, GPT-4o-mini, ou Claude Sonnet** (requer raciocínio)
+     * Custo: ~$0.002 por análise completa
+     * Por quê LLM forte: Precisa avaliar múltiplas dimensões, atribuir scores, evitar falsos positivos (hype vs dor real)
+   
+   - **Economia total:**
+     ```
+     Abordagem ingênua: 30 threads × GPT-4 = ~$0.90
+     Abordagem otimizada: (30 × GPT-3.5) + (1 × GPT-4) = ~$0.018
+     Redução: 98% de custo + 97% menos tokens
+     ```
+   - **Bonus:** Etapa 1 pode rodar em paralelo (resumir 30 threads simultaneamente)
 
 3. **Sistema de Score de Confiança** (validação cruzada):
    ```
