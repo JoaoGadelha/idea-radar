@@ -34,8 +34,18 @@ export default function LandingPageBuilder({ onClose, onSave }) {
     template: 'claude', // Template padrão
     collect_phone: false,
     collect_suggestions: true,
-    hero_image_type: 'none', // 'none', 'url', 'upload', 'ai'
+    hero_image_type: 'ai', // 'none', 'url', 'upload', 'ai'
     hero_image_url: '',
+    about_image_type: 'ai', // 'none', 'url', 'upload', 'ai'
+    about_image_url: '',
+    product_image_type: 'ai', // 'none', 'url', 'upload', 'ai'
+    product_image_url: '',
+  });
+  
+  const [imageAccordionOpen, setImageAccordionOpen] = useState({
+    hero: true,
+    about: false,
+    product: false,
   });
 
   // Retorna a cor efetiva (fixa ou customizável)
@@ -296,7 +306,9 @@ export default function LandingPageBuilder({ onClose, onSave }) {
         body: JSON.stringify({
           projectData,
           brief: formData.brief,
-          generateHeroImage: true, // Sempre gerar imagens AI (hero, about, product)
+          generateHeroImage: formData.hero_image_type === 'ai',
+          generateAboutImage: formData.about_image_type === 'ai',
+          generateProductImage: formData.product_image_type === 'ai',
         }),
       });
 
@@ -480,61 +492,213 @@ export default function LandingPageBuilder({ onClose, onSave }) {
             </button>
           </div>
 
+          {/* Seção de Imagens com Accordions */}
           <div className={styles.inputGroup}>
-            <label>Imagem Hero</label>
-            <div className={styles.radioGroup}>
-              <label className={styles.radioLabel}>
-                <input
-                  type="radio"
-                  name="hero_image_type"
-                  value="none"
-                  checked={formData.hero_image_type === 'none'}
-                  onChange={(e) => setFormData({ ...formData, hero_image_type: e.target.value, hero_image_url: '' })}
-                />
-                <span>Sem imagem (texto centralizado)</span>
-              </label>
-              <label className={styles.radioLabel}>
-                <input
-                  type="radio"
-                  name="hero_image_type"
-                  value="url"
-                  checked={formData.hero_image_type === 'url'}
-                  onChange={(e) => setFormData({ ...formData, hero_image_type: e.target.value })}
-                />
-                <span>URL externa</span>
-              </label>
-              <label className={styles.radioLabel}>
-                <input
-                  type="radio"
-                  name="hero_image_type"
-                  value="upload"
-                  checked={formData.hero_image_type === 'upload'}
-                  onChange={(e) => setFormData({ ...formData, hero_image_type: e.target.value })}
-                  disabled
-                />
-                <span>Upload (em breve)</span>
-              </label>
-              <label className={styles.radioLabel}>
-                <input
-                  type="radio"
-                  name="hero_image_type"
-                  value="ai"
-                  checked={formData.hero_image_type === 'ai'}
-                  onChange={(e) => setFormData({ ...formData, hero_image_type: e.target.value })}
-                />
-                <span>🤖 Gerar com IA</span>
-              </label>
-            </div>
+            <label>Imagens</label>
             
-            {formData.hero_image_type === 'url' && (
-              <input
-                type="url"
-                value={formData.hero_image_url}
-                onChange={(e) => setFormData({ ...formData, hero_image_url: e.target.value })}
-                placeholder="https://exemplo.com/imagem.jpg"
-                className={styles.urlInput}
-              />
-            )}
+            {/* Accordion Hero */}
+            <div className={styles.accordion}>
+              <button
+                type="button"
+                className={`${styles.accordionHeader} ${imageAccordionOpen.hero ? styles.accordionOpen : ''}`}
+                onClick={() => setImageAccordionOpen({ ...imageAccordionOpen, hero: !imageAccordionOpen.hero })}
+              >
+                <span>Hero</span>
+                <span className={styles.accordionIcon}>{imageAccordionOpen.hero ? '▼' : '▶'}</span>
+              </button>
+              {imageAccordionOpen.hero && (
+                <div className={styles.accordionContent}>
+                  <div className={styles.radioGroup}>
+                    <label className={styles.radioLabel}>
+                      <input
+                        type="radio"
+                        name="hero_image_type"
+                        value="none"
+                        checked={formData.hero_image_type === 'none'}
+                        onChange={(e) => setFormData({ ...formData, hero_image_type: e.target.value, hero_image_url: '' })}
+                      />
+                      <span>Sem imagem (texto centralizado)</span>
+                    </label>
+                    <label className={styles.radioLabel}>
+                      <input
+                        type="radio"
+                        name="hero_image_type"
+                        value="url"
+                        checked={formData.hero_image_type === 'url'}
+                        onChange={(e) => setFormData({ ...formData, hero_image_type: e.target.value })}
+                      />
+                      <span>URL externa</span>
+                    </label>
+                    <label className={styles.radioLabel}>
+                      <input
+                        type="radio"
+                        name="hero_image_type"
+                        value="upload"
+                        checked={formData.hero_image_type === 'upload'}
+                        onChange={(e) => setFormData({ ...formData, hero_image_type: e.target.value })}
+                        disabled
+                      />
+                      <span>Upload (em breve)</span>
+                    </label>
+                    <label className={styles.radioLabel}>
+                      <input
+                        type="radio"
+                        name="hero_image_type"
+                        value="ai"
+                        checked={formData.hero_image_type === 'ai'}
+                        onChange={(e) => setFormData({ ...formData, hero_image_type: e.target.value })}
+                      />
+                      <span>🤖 Gerar com IA</span>
+                    </label>
+                  </div>
+                  {formData.hero_image_type === 'url' && (
+                    <input
+                      type="url"
+                      value={formData.hero_image_url}
+                      onChange={(e) => setFormData({ ...formData, hero_image_url: e.target.value })}
+                      placeholder="https://exemplo.com/imagem.jpg"
+                      className={styles.urlInput}
+                    />
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Accordion About (Missão) */}
+            <div className={styles.accordion}>
+              <button
+                type="button"
+                className={`${styles.accordionHeader} ${imageAccordionOpen.about ? styles.accordionOpen : ''}`}
+                onClick={() => setImageAccordionOpen({ ...imageAccordionOpen, about: !imageAccordionOpen.about })}
+              >
+                <span>Missão</span>
+                <span className={styles.accordionIcon}>{imageAccordionOpen.about ? '▼' : '▶'}</span>
+              </button>
+              {imageAccordionOpen.about && (
+                <div className={styles.accordionContent}>
+                  <div className={styles.radioGroup}>
+                    <label className={styles.radioLabel}>
+                      <input
+                        type="radio"
+                        name="about_image_type"
+                        value="none"
+                        checked={formData.about_image_type === 'none'}
+                        onChange={(e) => setFormData({ ...formData, about_image_type: e.target.value, about_image_url: '' })}
+                      />
+                      <span>Sem imagem</span>
+                    </label>
+                    <label className={styles.radioLabel}>
+                      <input
+                        type="radio"
+                        name="about_image_type"
+                        value="url"
+                        checked={formData.about_image_type === 'url'}
+                        onChange={(e) => setFormData({ ...formData, about_image_type: e.target.value })}
+                      />
+                      <span>URL externa</span>
+                    </label>
+                    <label className={styles.radioLabel}>
+                      <input
+                        type="radio"
+                        name="about_image_type"
+                        value="upload"
+                        checked={formData.about_image_type === 'upload'}
+                        onChange={(e) => setFormData({ ...formData, about_image_type: e.target.value })}
+                        disabled
+                      />
+                      <span>Upload (em breve)</span>
+                    </label>
+                    <label className={styles.radioLabel}>
+                      <input
+                        type="radio"
+                        name="about_image_type"
+                        value="ai"
+                        checked={formData.about_image_type === 'ai'}
+                        onChange={(e) => setFormData({ ...formData, about_image_type: e.target.value })}
+                      />
+                      <span>🤖 Gerar com IA</span>
+                    </label>
+                  </div>
+                  {formData.about_image_type === 'url' && (
+                    <input
+                      type="url"
+                      value={formData.about_image_url}
+                      onChange={(e) => setFormData({ ...formData, about_image_url: e.target.value })}
+                      placeholder="https://exemplo.com/imagem.jpg"
+                      className={styles.urlInput}
+                    />
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Accordion Product */}
+            <div className={styles.accordion}>
+              <button
+                type="button"
+                className={`${styles.accordionHeader} ${imageAccordionOpen.product ? styles.accordionOpen : ''}`}
+                onClick={() => setImageAccordionOpen({ ...imageAccordionOpen, product: !imageAccordionOpen.product })}
+              >
+                <span>Descrição do Produto</span>
+                <span className={styles.accordionIcon}>{imageAccordionOpen.product ? '▼' : '▶'}</span>
+              </button>
+              {imageAccordionOpen.product && (
+                <div className={styles.accordionContent}>
+                  <div className={styles.radioGroup}>
+                    <label className={styles.radioLabel}>
+                      <input
+                        type="radio"
+                        name="product_image_type"
+                        value="none"
+                        checked={formData.product_image_type === 'none'}
+                        onChange={(e) => setFormData({ ...formData, product_image_type: e.target.value, product_image_url: '' })}
+                      />
+                      <span>Sem imagem</span>
+                    </label>
+                    <label className={styles.radioLabel}>
+                      <input
+                        type="radio"
+                        name="product_image_type"
+                        value="url"
+                        checked={formData.product_image_type === 'url'}
+                        onChange={(e) => setFormData({ ...formData, product_image_type: e.target.value })}
+                      />
+                      <span>URL externa</span>
+                    </label>
+                    <label className={styles.radioLabel}>
+                      <input
+                        type="radio"
+                        name="product_image_type"
+                        value="upload"
+                        checked={formData.product_image_type === 'upload'}
+                        onChange={(e) => setFormData({ ...formData, product_image_type: e.target.value })}
+                        disabled
+                      />
+                      <span>Upload (em breve)</span>
+                    </label>
+                    <label className={styles.radioLabel}>
+                      <input
+                        type="radio"
+                        name="product_image_type"
+                        value="ai"
+                        checked={formData.product_image_type === 'ai'}
+                        onChange={(e) => setFormData({ ...formData, product_image_type: e.target.value })}
+                      />
+                      <span>🤖 Gerar com IA</span>
+                    </label>
+                  </div>
+                  {formData.product_image_type === 'url' && (
+                    <input
+                      type="url"
+                      value={formData.product_image_url}
+                      onChange={(e) => setFormData({ ...formData, product_image_url: e.target.value })}
+                      placeholder="https://exemplo.com/imagem.jpg"
+                      className={styles.urlInput}
+                    />
+                  )}
+                </div>
+              )}
+            </div>
           </div>
 
           {!hasFixedColor() && (
@@ -644,10 +808,10 @@ export default function LandingPageBuilder({ onClose, onSave }) {
               showcaseData={variations[selectedIndex].showcase_data}
               aboutTitle={variations[selectedIndex].about_title}
               aboutParagraphs={variations[selectedIndex].about_paragraphs}
-              aboutImage={variations[selectedIndex].about_image}
+              aboutImage={formData.about_image_type === 'url' ? formData.about_image_url : variations[selectedIndex].about_image}
               productTitle={variations[selectedIndex].product_title}
               productParagraphs={variations[selectedIndex].product_paragraphs}
-              productImage={variations[selectedIndex].product_image}
+              productImage={formData.product_image_type === 'url' ? formData.product_image_url : variations[selectedIndex].product_image}
             />
           ) : (
             <div className={styles.emptyPreview}>

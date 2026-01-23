@@ -74,8 +74,9 @@ export default async function handler(req, res) {
     const { 
       projectData, 
       brief, 
-      generateHeroImage = false, 
+      generateHeroImage = false,
       generateAboutImage = false,
+      generateProductImage = false,
       regenerateImageOnly = false,
       regenerateAboutImageOnly = false
     } = req.body;
@@ -517,7 +518,7 @@ export default async function handler(req, res) {
 
     // Gerar about image se tiver prompt
     let aboutImageBase64 = null;
-    if (variation.about_image_prompt && generateHeroImage) {
+    if (variation.about_image_prompt && generateAboutImage) {
       console.log('[ABOUT IMAGE] Iniciando geração...');
       try {
         // Criar provider de imagem
@@ -554,12 +555,12 @@ export default async function handler(req, res) {
         // Continua sem imagem se falhar
       }
     } else {
-      console.log('[ABOUT IMAGE] Pulado (prompt não fornecido ou generateHeroImage=false)');
+      console.log('[ABOUT IMAGE] Pulado (prompt não fornecido ou generateAboutImage=false)');
     }
 
     // Gerar product image se tiver prompt
     let productImageBase64 = null;
-    if (variation.product_image_prompt && generateHeroImage) {
+    if (variation.product_image_prompt && generateProductImage) {
       console.log('[PRODUCT IMAGE] Iniciando geração...');
       try {
         const geminiImage = createGeminiProvider({
@@ -593,7 +594,7 @@ export default async function handler(req, res) {
         // Continua sem imagem se falhar
       }
     } else {
-      console.log('[PRODUCT IMAGE] Pulado (prompt não fornecido ou generateHeroImage=false)');
+      console.log('[PRODUCT IMAGE] Pulado (prompt não fornecido ou generateProductImage=false)');
     }
 
     // Validar e normalizar estrutura completa
