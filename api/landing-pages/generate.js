@@ -231,21 +231,21 @@ export default async function handler(req, res) {
 
         // Prompt otimizado para hero de landing page
         const imagePrompt = `
-          Professional hero image for a landing page.
+          Professional hero image for a landing page in wide 16:9 horizontal format.
           ${variation.hero_image_prompt}
           
           Style requirements:
+          - Wide landscape 16:9 aspect ratio (horizontal orientation)
           - Modern, clean, professional aesthetic
           - Bright, optimistic lighting
           - High-quality, polished look
           - Suitable for a tech/SaaS landing page
           - No text, logos, or watermarks
-          - Landscape composition
           - Vibrant but not oversaturated colors
         `.trim();
 
         const imageResult = await geminiImage.generateImage(imagePrompt, {
-          aspectRatio: ASPECT_RATIOS.WIDE // 16:9 - ideal para hero
+          aspectRatio: '16:9'  // Será convertido para aspect_ratio no provider
         });
         
         heroImageBase64 = `data:${imageResult.mimeType};base64,${imageResult.data}`;
