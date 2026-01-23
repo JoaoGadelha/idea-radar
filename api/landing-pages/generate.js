@@ -37,6 +37,8 @@ export default async function handler(req, res) {
     // Receber dados do request
     const { projectData, brief, generateHeroImage = false } = req.body;
 
+    console.log('🎨 [Generate] generateHeroImage flag:', generateHeroImage);
+
     if (!projectData || !brief) {
       return res.status(400).json({
         error: 'Missing required fields: projectData and brief',
@@ -210,6 +212,12 @@ export default async function handler(req, res) {
     // Gerar hero image com Gemini se solicitado
     let heroImageBase64 = null;
     
+    console.log('🎨 [Debug] Verificando geração de imagem:', {
+      generateHeroImage,
+      hasPrompt: !!variation.hero_image_prompt,
+      prompt: variation.hero_image_prompt?.substring(0, 100)
+    });
+    
     if (generateHeroImage && variation.hero_image_prompt) {
       try {
         console.log('🖼️ [Generate] Gerando hero image com IA...');
@@ -241,11 +249,23 @@ export default async function handler(req, res) {
         });
         
         heroImageBase64 = `data:${imageResult.mimeType};base64,${imageResult.data}`;
-        console.log('✅ [Generate] Hero image gerada com sucesso');
+        console.log('✅ [Generate] Hero image gerada com sucesso:', {
+          mimeType: imageResult.mimeType,
+          sizeKB: Math.round(imageResult.data.length / 1024),
+          preview: heroImageBase64.substring(0, 50) + '...'
+        });
       } catch (imageError) {
-        console.error('❌ [Generate] Erro ao gerar hero image:', imageError.message);
+        console.error('❌ [Generate] Erro ao gerar hero image:', {
+          message: imageError.message,
+          stack: imageError.stack?.split('\n')[0]
+        });
         // Continua sem imagem se falhar
       }
+    } else {
+      console.log('⏭️ [Generate] Pulando geração de imagem:', {
+        generateHeroImage,
+        hasPrompt: !!variation.hero_image_prompt
+      });
     }
 
     // Validar e normalizar estrutura completa
