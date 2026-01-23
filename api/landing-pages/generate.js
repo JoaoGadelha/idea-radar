@@ -47,7 +47,8 @@ export default async function handler(req, res) {
     console.log('📝 [Generate] Dados recebidos:', {
       projectName: projectData.name,
       briefLength: brief.length,
-      briefPreview: brief.substring(0, 100) + '...'
+      briefPreview: brief.substring(0, 100) + '...',
+      briefCompleto: brief // ADICIONADO: ver brief inteiro
     });
 
     // Verificar rate limits
@@ -205,6 +206,11 @@ export default async function handler(req, res) {
         'Foque em 1 benefício principal, não tente cobrir tudo',
       ])
       .build();
+
+    // DEBUG: Logar prompt completo
+    console.log('========== PROMPT ENVIADO AO GEMINI ==========');
+    console.log(prompt);
+    console.log('========== FIM DO PROMPT ==========');
 
     // Chamar Gemini para gerar copy
     console.log('🤖 [Generate] Chamando gemini.generate() com modelo FRESCO (sem histórico)');
