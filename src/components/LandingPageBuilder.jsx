@@ -440,7 +440,6 @@ export default function LandingPageBuilder({ onClose, onSave }) {
               template={formData.template}
               collectName={formData.collect_name}
               collectPhone={formData.collect_phone}
-              isInteractive={true}
             />
           ) : loading ? (
             <div className={styles.emptyPreview}>
