@@ -218,12 +218,12 @@ export default function LandingPagePreview({
         <div className={styles.socialProofContainer}>
           <div className={styles.proofItem}>
             <span className={styles.proofNumber}>500+</span>
-            <span className={styles.proofLabel}>Na lista de espera</span>
+            <span className={styles.proofLabel}>Pessoas interessadas</span>
           </div>
           <div className={styles.proofDivider}></div>
           <div className={styles.proofItem}>
             <span className={styles.proofNumber}>4.9★</span>
-            <span className={styles.proofLabel}>Avaliação beta testers</span>
+            <span className={styles.proofLabel}>Avaliação média</span>
           </div>
           <div className={styles.proofDivider}></div>
           <div className={styles.proofItem}>
