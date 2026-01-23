@@ -224,13 +224,20 @@ export default async function handler(req, res) {
       throw new Error('Formato de resposta inválido');
     }
 
-    // Gerar hero image com Gemini 2.5 Flash Image
+    // Gerar hero image com Gemini se solicitado
     let heroImageBase64 = null;
-    // TODO: Corrigir configuração da API de imagem do Gemini
-    // Temporáriamente desabilitado devido a erro de configuração
-    /*
+    
     if (variation.hero_image_prompt) {
       try {
+        console.log('🖼️ [Generate] Gerando hero image com IA...');
+        
+        // Criar provider de imagem
+        const geminiImage = createGeminiProvider({
+          apiKey: process.env.GEMINI_API_KEY || process.env.GOOGLE_AI_API_KEY,
+          model: 'gemini-2.0-flash-exp', // modelo de texto
+          imageModel: 'imagen-3.0-generate-001', // modelo de imagem
+        });
+
         // Prompt otimizado para hero de landing page
         const imagePrompt = `
           Professional hero image for a landing page.
@@ -242,21 +249,21 @@ export default async function handler(req, res) {
           - High-quality, polished look
           - Suitable for a tech/SaaS landing page
           - No text, logos, or watermarks
-          - 16:9 aspect ratio composition
+          - Landscape composition
           - Vibrant but not oversaturated colors
         `.trim();
 
         const imageResult = await geminiImage.generateImage(imagePrompt, {
-          aspectRatio: '16:9'
+          aspectRatio: ASPECT_RATIOS.LANDSCAPE // 4:3
         });
         
         heroImageBase64 = `data:${imageResult.mimeType};base64,${imageResult.data}`;
+        console.log('✅ [Generate] Hero image gerada com sucesso');
       } catch (imageError) {
-        console.error('Erro ao gerar hero image:', imageError.message);
+        console.error('❌ [Generate] Erro ao gerar hero image:', imageError.message);
         // Continua sem imagem se falhar
       }
     }
-    */
 
     // Validar e normalizar estrutura completa
     const validVariation = {
