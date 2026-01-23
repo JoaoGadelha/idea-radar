@@ -360,7 +360,7 @@ export default async function handler(req, res) {
 
     // Gerar about image se tiver prompt
     let aboutImageBase64 = null;
-    if (variation.about_image_prompt && heroImageType === 'ai') {
+    if (variation.about_image_prompt && generateHeroImage) {
       try {
         // Criar provider de imagem
         const geminiImage = createGeminiProvider({
