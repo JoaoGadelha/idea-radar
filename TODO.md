@@ -497,4 +497,496 @@ CREATE TABLE user_saved_ideas (
 
 ---
 
+### A/B Testing Automático
+**Status:** 💭 Conceito  
+**Prioridade:** 🔥 Alta (justifica plano pago)
+
+**Descrição:**  
+Gera automaticamente 3 variações de cada landing page com diferentes headlines, CTAs e esquemas de cores.
+
+**Como funciona:**
+- Input: 1 descrição de projeto
+- Output: 3 LPs simultâneas (Variação A, B, C)
+- Variáveis testadas:
+  * Headlines (3 abordagens diferentes: problema, solução, benefício)
+  * CTAs (3 verbos/urgências: "Comece agora", "Teste grátis", "Reserve seu acesso")
+  * Cores (esquemas: quente, frio, neutro)
+- Métricas comparativas lado a lado
+- IA declara "vencedor" após 48-72h de tráfego
+
+**Monetização:**
+- ❌ **Free Plan:** Sem A/B testing
+- ✅ **Pro Plan:** Até 3 variações por LP
+- ✅ **Enterprise:** Variações ilimitadas + testes multivariados
+
+**Tecnologias necessárias:**
+- Mesma stack atual (geração de LP)
+- Sistema de split de tráfego (subdomain ou query param: `?v=a`, `?v=b`, `?v=c`)
+- Tracking separado por variação (GA4 custom dimensions ou eventos)
+- Dashboard comparativo (taxa de conversão A vs B vs C)
+
+**Estimativa:** 8-12h (geração múltipla + tracking + dashboard)
+
+---
+
+### Budget Allocator (IA Sugere Onde Gastar)
+**Status:** 💭 Conceito  
+**Prioridade:** 🚀 Muito Alta (feature killer se funcionar bem)
+
+**Descrição:**  
+IA analisa métricas de todas as LPs e sugere alocação otimizada de budget de marketing.
+
+**Como funciona:**
+1. Usuário define budget mensal (ex: $500)
+2. IA analisa histórico de conversão × custo de aquisição
+3. Calcula ROI projetado por projeto
+4. Retorna sugestões:
+   ```
+   💰 Budget de $500 - Sugestão de Alocação:
+   
+   🎯 LP "RoomGenius": $300 (60%)
+      - Conversão atual: 3.2%
+      - CAC: $2.50
+      - ROI projetado: 280%
+   
+   ⚡ LP "FitnessTracker": $150 (30%)
+      - Conversão atual: 1.8%
+      - CAC: $4.20
+      - ROI projetado: 140%
+   
+   ❌ LP "CryptoNews": $0 (ignorar)
+      - Conversão: 0.3%
+      - CAC: $18.00
+      - ROI projetado: -40%
+   
+   💸 Sobra: $50 → Testar nova ideia
+   ```
+
+**Inputs necessários:**
+- Métricas de conversão (já temos)
+- Custo de aquisição por canal (usuário informa ou integra com Meta/Google Ads)
+- Valor projetado por lead (LTV estimado)
+
+**Tecnologias necessárias:**
+- Gemini Flash 2.0 (análise de dados + recomendações)
+- Integração opcional: Meta Ads API, Google Ads API
+- Fórmulas: ROI = ((LTV × Conversão × Visitas) - Budget) / Budget
+
+**Estimativa:** 12-15h (incluindo integrações de ads opcionais)
+
+---
+
+### LP Graveyard (Post-Mortem Automático)
+**Status:** 💭 Conceito  
+**Prioridade:** 🔥 Alta (aprendizado acumulado)
+
+**Descrição:**  
+Quando uma LP falha ou é arquivada, IA gera análise post-mortem e armazena lições aprendidas.
+
+**Como funciona:**
+1. Usuário marca LP como "arquivada" ou sistema detecta <0.5% de conversão após 500 visitas
+2. IA analisa métricas completas:
+   - Taxa de rejeição vs média
+   - Tempo na página vs expectativa
+   - Scroll depth (chegaram no CTA?)
+   - Taxa de conversão vs benchmarks
+3. Gera relatório estruturado:
+   ```markdown
+   ## 🪦 Post-Mortem: LP "CryptoNews"
+   
+   ### Causa da Morte
+   - Taxa de rejeição: 78% (esperado: <60%)
+   - Conversão: 0.3% (esperado: >2%)
+   
+   ### O Que Aprendemos
+   1. Headline genérica não gerou curiosidade
+   2. Proposta de valor não ficou clara nos primeiros 3 segundos
+   3. CTA enterrado (scroll depth médio: 40%)
+   4. Nicho muito competitivo (3 concorrentes diretos)
+   
+   ### Não Repita
+   - ❌ Headlines vagas tipo "A melhor ferramenta de..."
+   - ❌ CTA abaixo da dobra em mobile
+   - ❌ Validar nichos sem pesquisa de concorrentes
+   
+   ### Tente da Próxima
+   - ✅ Headline com benefício específico
+   - ✅ CTA acima da dobra + sticky button
+   - ✅ Pesquisar concorrentes antes de gerar LP
+   ```
+4. Armazena em biblioteca de lições (fica acessível para consulta futura)
+
+**Schema do Banco:**
+```sql
+CREATE TABLE lp_postmortems (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  project_id UUID REFERENCES projects(id),
+  reason VARCHAR(100), -- low_conversion, high_bounce, manual_archive
+  metrics_snapshot JSONB, -- métricas finais
+  llm_analysis TEXT, -- análise completa da IA
+  lessons_learned JSONB, -- array de lições estruturadas
+  created_at TIMESTAMP DEFAULT NOW()
+);
+```
+
+**Tecnologias necessárias:**
+- Gemini Flash 2.0 (análise post-mortem)
+- Benchmark database (médias da indústria)
+- UI: Página "Cemitério" com post-mortems organizados por data
+
+**Estimativa:** 6-8h
+
+---
+
+### Competitor LP Tracker
+**Status:** 💭 Conceito  
+**Prioridade:** 🔥 Alta (validação de mercado)
+
+**Descrição:**  
+Monitora landing pages de concorrentes diretos (mesma ideia/nicho) para detectar saturação ou validação.
+
+**Como funciona:**
+1. Usuário cadastra LP concorrente (URL manual ou IA sugere via busca)
+2. Sistema monitora semanalmente:
+   - Mudanças no copy (headline, CTA)
+   - Novos concorrentes no mesmo nicho
+   - Presença de selo "Product Hunt #1" ou badges de validação
+3. Alertas:
+   ```
+   ⚠️ 3 concorrentes diretos detectados para "RoomGenius"
+   
+   1. RoomAI.com (lançado há 2 semanas)
+      - Headline similar: "Organize sua casa com IA"
+      - Tem badge Product Hunt
+   
+   2. SmartRoomDesign.io (lançado há 1 mês)
+      - Copy focado em "economia de tempo"
+      
+   3. AIHomeHelper.app (lançado há 5 dias)
+      - Posicionamento idêntico
+   
+   💡 Insight: Seu nicho está validando RÁPIDO.
+      → Acelere MVP ou pivote para diferencial único
+   ```
+
+**Casos de uso:**
+- ✅ **3+ concorrentes surgindo:** Ideia validada, mercado existe
+- ⚠️ **Saturação rápida:** Precisa de diferencial forte
+- ❌ **Zero concorrentes após 2 meses:** Talvez não seja dor real
+
+**Tecnologias necessárias:**
+- Web scraping (Puppeteer ou Playwright)
+- Diff checker (detectar mudanças no HTML)
+- Product Hunt API (verificar se concorrente lançou)
+- Google Custom Search API (buscar concorrentes similares)
+- Cron job semanal
+
+**Schema do Banco:**
+```sql
+CREATE TABLE competitor_trackers (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  project_id UUID REFERENCES projects(id),
+  competitor_url VARCHAR(500),
+  last_headline TEXT,
+  last_cta TEXT,
+  last_checked_at TIMESTAMP,
+  change_log JSONB, -- histórico de mudanças detectadas
+  created_at TIMESTAMP DEFAULT NOW()
+);
+```
+
+**Estimativa:** 10-12h (scraping + diff + alertas)
+
+---
+
+### Auto-Translator (Multi-idioma Instantâneo)
+**Status:** 💭 Conceito  
+**Prioridade:** 🚀 Muito Alta (expande mercado globalmente)
+
+**Descrição:**  
+1 clique → LP traduzida para 5+ idiomas (EN, ES, FR, DE, PT-BR) com adaptação cultural.
+
+**Como funciona:**
+1. Gera LP em português (ou idioma base)
+2. Botão "🌍 Traduzir para 5 idiomas"
+3. IA traduz não apenas palavras, mas adapta:
+   - Headlines (idiomaticamente corretas)
+   - CTAs (verbos culturalmente adequados)
+   - Exemplos (contextualizados por país)
+4. Deploy automático: `projeto.com/en`, `projeto.com/es`, etc
+5. Tracking separado por idioma (qual mercado converte melhor)
+
+**Exemplos de adaptação:**
+```
+PT: "Teste grátis por 7 dias"
+EN: "Start your free 7-day trial"
+ES: "Prueba gratis durante 7 días"
+FR: "Essayez gratuitement pendant 7 jours"
+DE: "7 Tage kostenlos testen"
+```
+
+**Monetização:**
+- ❌ **Free Plan:** Apenas 1 idioma
+- ✅ **Pro Plan:** Até 3 idiomas
+- ✅ **Enterprise:** Idiomas ilimitados
+
+**Tecnologias necessárias:**
+- Google Translate API ou Gemini (tradução + adaptação cultural)
+- Subdirectories ou subdomains (`/en`, `/es`, etc)
+- hreflang tags (SEO multi-idioma)
+- Dashboard: "Qual idioma converte melhor?"
+
+**Estimativa:** 8-10h (tradução + deploy multi-idioma + tracking)
+
+---
+
+### Email Nurture Sequences (IA Gera Sequência)
+**Status:** 💭 Conceito  
+**Prioridade:** ⚡ Média-Alta
+
+**Descrição:**  
+Quando LP captura email, IA gera sequência de nutrição automaticamente (3-5 emails) baseada na proposta de valor.
+
+**Como funciona:**
+1. LP captura email → armazena lead
+2. IA analisa copy da LP e gera sequência:
+   ```
+   Email 1 (imediato): Boas-vindas + reforço de benefício
+   Email 2 (dia 2): Case de uso / prova social
+   Email 3 (dia 5): Objeção comum resolvida
+   Email 4 (dia 7): Urgência suave (beta limitado)
+   Email 5 (dia 10): Última chamada ou pivot para produto
+   ```
+3. Integração com Resend (já usado para magic links)
+4. Tracking: taxa de abertura, cliques, conversão email → produto
+
+**Tecnologias necessárias:**
+- Gemini Flash 2.0 (geração de copy dos emails)
+- Resend API (envio automatizado)
+- Cron jobs ou delayed jobs (agendar emails)
+- Schema: tabela `email_sequences` + `email_sends`
+
+**Estimativa:** 12-15h (geração + agendamento + tracking)
+
+---
+
+### SEO Auto-Boost
+**Status:** 💭 Conceito  
+**Prioridade:** ⚡ Média
+
+**Descrição:**  
+IA analisa LP e sugere/aplica melhorias automáticas de SEO (meta tags, structured data, alt texts).
+
+**Como funciona:**
+1. Após gerar LP, IA analisa:
+   - Meta title e description ausentes ou ruins
+   - Imagens sem alt text
+   - Headings mal estruturados (falta H1, múltiplos H1s)
+   - Schema.org markup ausente
+2. Gera sugestões ou aplica automaticamente:
+   ```
+   ✅ Meta title: "RoomGenius - Organize Sua Casa com IA em Minutos"
+   ✅ Meta description: "Transforme qualquer cômodo com sugestões de decoração personalizadas. Teste grátis."
+   ✅ Alt texts: "Sala de estar organizada com sofá azul e plantas"
+   ✅ Schema: {"@type": "SoftwareApplication", "name": "RoomGenius", ...}
+   ```
+3. Preview: "Google Search Preview" antes de publicar
+
+**Tecnologias necessárias:**
+- Gemini Flash (análise + geração de meta tags)
+- Schema.org templates
+- Open Graph + Twitter Card tags
+
+**Estimativa:** 6-8h
+
+---
+
+### Social Proof Aggregator
+**Status:** 💭 Conceito  
+**Prioridade:** ⚡ Média
+
+**Descrição:**  
+Coleta automaticamente menções da LP em redes sociais (Twitter, Reddit, Product Hunt) e exibe como social proof.
+
+**Como funciona:**
+1. Usuário publica LP em Product Hunt / Twitter
+2. Sistema monitora menções via APIs:
+   - Twitter API: busca URL da LP
+   - Reddit API: busca posts linkando LP
+   - Product Hunt API: comentários e upvotes
+3. Widget na LP: "🔥 12 pessoas estão discutindo isso no Twitter"
+4. Ou: carrossel de comentários reais (com permissão)
+
+**Tecnologias necessárias:**
+- Twitter API v2
+- Reddit API
+- Product Hunt API
+- Cron job (verificar menções diariamente)
+
+**Estimativa:** 8-10h
+
+---
+
+### Heatmap Lite (Scroll + Click Tracking)
+**Status:** 💭 Conceito  
+**Prioridade:** 💡 Baixa-Média
+
+**Descrição:**  
+Tracking básico de scroll depth e cliques para entender comportamento sem ferramentas externas caras.
+
+**Como funciona:**
+- JavaScript snippet na LP rastreia:
+  * Scroll depth (25%, 50%, 75%, 100%)
+  * Cliques em botões, links, imagens
+  * Tempo até primeiro scroll
+  * Rage clicks (cliques frustrados)
+- Armazena eventos no banco
+- Dashboard mostra:
+  ```
+  📊 Heatmap Resumido:
+  - 80% dos usuários não passam de 50% da página
+  - CTA principal teve apenas 120 cliques (de 1500 visitas)
+  → Sugestão: Mover CTA para cima
+  ```
+
+**Tecnologias necessárias:**
+- JavaScript tracking snippet
+- Endpoint `/api/track-event` (armazenar eventos)
+- Visualização: mapa de calor simplificado
+
+**Estimativa:** 10-12h
+
+---
+
+### Collaboration Mode (Equipes)
+**Status:** 💭 Conceito  
+**Prioridade:** 💡 Baixa (feature empresarial)
+
+**Descrição:**  
+Permite adicionar membros à conta para colaborar em projetos (comentários, edições, análises).
+
+**Como funciona:**
+- Convite por email
+- Roles: Owner, Editor, Viewer
+- Comentários em projetos específicos
+- Histórico de mudanças (quem editou o quê)
+
+**Monetização:**
+- ❌ **Free/Pro:** Sem colaboração
+- ✅ **Enterprise:** Equipes ilimitadas
+
+**Estimativa:** 15-20h (sistema de convites + roles + UI)
+
+---
+
+### Webhook Automations
+**Status:** 💭 Conceito  
+**Prioridade:** 💡 Baixa-Média
+
+**Descrição:**  
+Permite configurar webhooks para eventos (novo lead, LP gerada, métrica atingida).
+
+**Como funciona:**
+- Usuário configura webhook URL
+- Eventos disponíveis:
+  * `lead.captured` → envia para CRM externo
+  * `lp.generated` → notifica Slack/Discord
+  * `metric.milestone` → alerta quando atingir 100 conversões
+- Payload JSON com dados do evento
+
+**Tecnologias necessárias:**
+- Sistema de retry (caso webhook falhe)
+- Logs de entregas
+
+**Estimativa:** 8-10h
+
+---
+
+### Kill or Scale Decision Engine
+**Status:** 💭 Conceito  
+**Prioridade:** 🔥 Alta (feature core do produto)
+
+**Descrição:**  
+Após X dias/visitas, IA analisa métricas e declara veredicto: "Kill" (abandone) ou "Scale" (invista mais).
+
+**Como funciona:**
+1. Critérios configuráveis:
+   - Mínimo: 500 visitas ou 7 dias
+   - Taxa de conversão <1% = Kill
+   - Taxa de conversão >2% = Scale
+2. IA analisa contexto adicional:
+   - Nicho tem concorrentes? (via Competitor Tracker)
+   - Tendência crescente ou decrescente?
+   - Custo de aquisição viável?
+3. Veredicto final:
+   ```
+   ⚖️ VEREDICTO: LP "RoomGenius"
+   
+   🚀 SCALE (95% de confiança)
+   
+   Motivos:
+   - Conversão: 3.2% (acima da média de 2%)
+   - Tendência: +15% de visitas semanais
+   - 2 concorrentes surgiram (valida mercado)
+   - CAC viável: $2.50 vs LTV estimado $45
+   
+   Próximos passos:
+   1. Investir $200 em Meta Ads
+   2. Construir MVP em 2 semanas
+   3. Configurar email nurture
+   ```
+
+**Tecnologias necessárias:**
+- Gemini Flash 2.0 (análise contextual)
+- Integração com todas as features anteriores (métricas, concorrentes, budget)
+- UI: Badge grande no dashboard (🚀 SCALE ou 🪦 KILL)
+
+**Estimativa:** 10-12h (lógica de decisão + prompt engineering + UI)
+
+---
+
+### 📝 Notas sobre Expansão de Features
+
+**Visão Geral:**  
+O IdeaRadar evoluiu de um dashboard simples de análise de LPs para uma **plataforma completa de validação de ideias em escala**.
+
+**Público-alvo refinado:**  
+Indie hackers, vibe coders e criadores que lançam **50+ LPs por semana** para termometrar o mercado antes de investir tempo em desenvolvimento.
+
+**Diferencial competitivo:**  
+Enquanto concorrentes (Exploding Topics, TrendHunter) apenas mostram tendências, o IdeaRadar oferece:
+1. 🔍 Descoberta (Radar de Ideias)
+2. 🚀 Geração (LP Builder com A/B testing)
+3. 📊 Análise (Métricas + IA)
+4. ⚖️ Decisão (Kill or Scale Engine)
+5. 🌍 Escala (Multi-idioma, Budget Allocator)
+
+**Monetização sustentável:**
+- **Free:** 5 LPs/dia, 1 idioma, sem A/B testing
+- **Pro ($29/mês):** 50 LPs/dia, 3 idiomas, A/B testing, email nurture
+- **Enterprise ($99/mês):** Ilimitado, equipes, webhooks, API access
+
+**Roadmap de implementação sugerido:**
+1. **MVP Core** (já temos)
+2. **Quick Wins** (8-12h cada):
+   - LP Graveyard
+   - SEO Auto-Boost
+   - Auto-Translator
+3. **High Impact** (10-15h cada):
+   - A/B Testing Automático
+   - Kill or Scale Decision Engine
+   - Competitor LP Tracker
+4. **Advanced** (15-20h cada):
+   - Budget Allocator
+   - Email Nurture Sequences
+   - Radar de Ideias (content intelligence)
+5. **Enterprise** (quando houver tração):
+   - Collaboration Mode
+   - Webhook Automations
+   - Heatmap Lite
+
+**Estimativa total:** 120-150h de desenvolvimento para plataforma completa
+
+---
+
 > 💡 Próximo passo: Criar estrutura do projeto e começar pelo auth + CRUD de projetos
