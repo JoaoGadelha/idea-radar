@@ -649,24 +649,31 @@
   padding: 1rem 1.25rem;
   border: 1px solid #333333;
   border-radius: 6px;
-  background: #111111 !important;
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
+  background: #ffffff !important;
+  color: #000000 !important;
   font-size: 1rem;
   outline: none;
   transition: all 0.15s;
+  -webkit-text-fill-color: #000000 !important;
+}
+
+.ctaFinalInput:-webkit-autofill,
+.ctaFinalInput:-webkit-autofill:hover,
+.ctaFinalInput:-webkit-autofill:focus {
+  -webkit-text-fill-color: #000000 !important;
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+  box-shadow: 0 0 0 1000px #ffffff inset !important;
 }
 
 .ctaFinalInput::placeholder {
-  color: #666666 !important;
-  -webkit-text-fill-color: #666666 !important;
+  color: #999999;
 }
 
 .ctaFinalInput:focus {
-  border-color: #666666;
-  background: #1a1a1a !important;
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
+  border-color: #000000;
+  background: #ffffff !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
 }
 
 .ctaFinalButton {
