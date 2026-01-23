@@ -62,6 +62,8 @@ export default async function handler(req, res) {
 
     // Limpar histórico antes de usar (garantia extra)
     gemini.clearHistory();
+    
+    console.log('🔄 [Generate] Provider criado - usando modelo fresco (versão com fix de contexto)');
 
     // Prompt profissional inspirado em landing pages de alta conversão
     const prompt = createPrompt()
@@ -205,7 +207,9 @@ export default async function handler(req, res) {
       .build();
 
     // Chamar Gemini para gerar copy
+    console.log('🤖 [Generate] Chamando gemini.generate() com modelo FRESCO (sem histórico)');
     const response = await gemini.generate(prompt);
+    console.log('✅ [Generate] Resposta recebida, primeiros 200 chars:', response.substring(0, 200));
 
     // Extrair JSON da resposta
     const variation = parseJSON(response);
