@@ -37,13 +37,9 @@ export default async function handler(req, res) {
     // Receber dados do request
     const { projectData, brief, generateHeroImage = false, regenerateImageOnly = false } = req.body;
 
-    console.log('🎨 [Generate] generateHeroImage flag:', generateHeroImage);
-    console.log('🎨 [Generate] regenerateImageOnly flag:', regenerateImageOnly);
-
     // Se for apenas regenerar imagem, fazer processo simplificado
     if (regenerateImageOnly && generateHeroImage) {
       try {
-        console.log('🖼️ [Generate] Regenerando apenas hero image...');
         
         const geminiImage = createGeminiProvider({
           apiKey: process.env.GEMINI_API_KEY || process.env.GOOGLE_AI_API_KEY,
@@ -67,15 +63,13 @@ export default async function handler(req, res) {
         const imageResult = await geminiImage.generateImage(imagePrompt);
         const heroImageBase64 = `data:${imageResult.mimeType};base64,${imageResult.data}`;
         
-        console.log('✅ [Generate] Nova hero image gerada com sucesso');
-        
         return res.json({
           variation: {
             hero_image: heroImageBase64,
           },
         });
       } catch (error) {
-        console.error('❌ [Generate] Erro ao regenerar imagem:', error);
+        console.error('Erro ao regenerar imagem:', error.message);
         return res.status(500).json({ error: 'Erro ao regenerar imagem' });
       }
     }
@@ -253,16 +247,8 @@ export default async function handler(req, res) {
     // Gerar hero image com Gemini se solicitado
     let heroImageBase64 = null;
     
-    console.log('🎨 [Debug] Verificando geração de imagem:', {
-      generateHeroImage,
-      hasPrompt: !!variation.hero_image_prompt,
-      prompt: variation.hero_image_prompt?.substring(0, 100)
-    });
-    
     if (generateHeroImage && variation.hero_image_prompt) {
       try {
-        console.log('🖼️ [Generate] Gerando hero image com IA...');
-        
         // Criar provider de imagem
         const geminiImage = createGeminiProvider({
           apiKey: process.env.GEMINI_API_KEY || process.env.GOOGLE_AI_API_KEY,
@@ -285,27 +271,12 @@ export default async function handler(req, res) {
           - Vibrant but not oversaturated colors
         `.trim();
 
-        // Testar sem aspect_ratio para verificar se a API aceita
         const imageResult = await geminiImage.generateImage(imagePrompt);
-        
         heroImageBase64 = `data:${imageResult.mimeType};base64,${imageResult.data}`;
-        console.log('✅ [Generate] Hero image gerada com sucesso:', {
-          mimeType: imageResult.mimeType,
-          sizeKB: Math.round(imageResult.data.length / 1024),
-          preview: heroImageBase64.substring(0, 50) + '...'
-        });
       } catch (imageError) {
-        console.error('❌ [Generate] Erro ao gerar hero image:', {
-          message: imageError.message,
-          stack: imageError.stack?.split('\n')[0]
-        });
+        console.error('Erro ao gerar hero image:', imageError.message);
         // Continua sem imagem se falhar
       }
-    } else {
-      console.log('⏭️ [Generate] Pulando geração de imagem:', {
-        generateHeroImage,
-        hasPrompt: !!variation.hero_image_prompt
-      });
     }
 
     // Validar e normalizar estrutura completa
@@ -319,6 +290,7 @@ export default async function handler(req, res) {
         : ['Benefício 1', 'Benefício 2', 'Benefício 3'],
       cta_text: variation.cta_text?.slice(0, 25) || 'Quero testar',
       hero_image: heroImageBase64,
+      hero_image_prompt: variation.hero_image_prompt || '',
       // Como Funciona
       how_it_works: Array.isArray(variation.how_it_works)
         ? variation.how_it_works.slice(0, 3).map((step, idx) => ({
