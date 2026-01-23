@@ -581,18 +581,19 @@
   padding: 1rem 2rem;
   border: none;
   border-radius: 100px;
-  background: white;
-  color: #ff6b9d;
+  background: linear-gradient(135deg, #ffb3c6 0%, #ff6b9d 100%);
+  color: white;
   font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 16px rgba(255, 107, 157, 0.3);
 }
 
 .ctaFinalButton:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 6px 24px rgba(255, 107, 157, 0.5);
+  filter: brightness(1.05);
 }
 
 .ctaFinalDisclaimer {
