@@ -31,7 +31,17 @@ export default function LandingPagePreview({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!isInteractive || !projectId) return;
+    if (!isInteractive) return;
+
+    // Se não tiver projectId, apenas simula sucesso (preview)
+    if (!projectId) {
+      setLoading(true);
+      setTimeout(() => {
+        setSubmitted(true);
+        setLoading(false);
+      }, 500);
+      return;
+    }
 
     setLoading(true);
     try {
