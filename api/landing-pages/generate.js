@@ -60,6 +60,11 @@ export default async function handler(req, res) {
       model: 'gemini-2.0-flash-exp',
     });
 
+    // Resetar histórico antes de usar
+    if (gemini.resetHistory) {
+      gemini.resetHistory();
+    }
+
     // Prompt profissional inspirado em landing pages de alta conversão
     const prompt = createPrompt()
       .role('Você é um copywriter sênior especializado em landing pages de alta conversão')
