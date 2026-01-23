@@ -10,24 +10,33 @@ async function generateImageWithRetry(geminiImage, prompt, maxRetries = 3) {
   
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
-      console.log(`Tentativa ${attempt}/${maxRetries} de gerar imagem`);
+      console.log(`[IMAGE GENERATION] Tentativa ${attempt}/${maxRetries}`);
+      console.log(`[IMAGE GENERATION] Prompt: ${prompt.substring(0, 100)}...`);
+      
       const imageResult = await geminiImage.generateImage(prompt);
+      
+      console.log(`[IMAGE GENERATION] ✅ Sucesso na tentativa ${attempt}`);
+      console.log(`[IMAGE GENERATION] MimeType: ${imageResult.mimeType}`);
+      console.log(`[IMAGE GENERATION] Data size: ${imageResult.data?.length || 0} chars`);
+      
       return `data:${imageResult.mimeType};base64,${imageResult.data}`;
     } catch (error) {
       lastError = error;
-      console.error(`Erro na tentativa ${attempt}:`, error.message);
+      console.error(`[IMAGE GENERATION] ❌ Erro na tentativa ${attempt}:`, error.message);
+      console.error(`[IMAGE GENERATION] Stack:`, error.stack);
       
       if (attempt < maxRetries) {
         // Aguardar antes de tentar novamente (exponential backoff)
         const delayMs = Math.min(1000 * Math.pow(2, attempt - 1), 5000);
-        console.log(`Aguardando ${delayMs}ms antes de tentar novamente...`);
+        console.log(`[IMAGE GENERATION] ⏳ Aguardando ${delayMs}ms antes de tentar novamente...`);
         await new Promise(resolve => setTimeout(resolve, delayMs));
       }
     }
   }
   
   // Se chegou aqui, todas as tentativas falharam
-  console.error(`Falha após ${maxRetries} tentativas:`, lastError?.message);
+  console.error(`[IMAGE GENERATION] ⛔ Falha após ${maxRetries} tentativas:`, lastError?.message);
+  console.error(`[IMAGE GENERATION] Final error:`, lastError);
   return null;
 }
 
@@ -472,6 +481,7 @@ export default async function handler(req, res) {
     let heroImageBase64 = null;
     
     if (generateHeroImage && variation.hero_image_prompt) {
+      console.log('[HERO IMAGE] Iniciando geração...');
       try {
         // Criar provider de imagem
         const geminiImage = createGeminiProvider({
@@ -496,15 +506,19 @@ export default async function handler(req, res) {
         `.trim();
 
         heroImageBase64 = await generateImageWithRetry(geminiImage, imagePrompt);
+        console.log('[HERO IMAGE] Resultado:', heroImageBase64 ? 'Sucesso' : 'Falhou (null)');
       } catch (imageError) {
-        console.error('Erro fatal ao gerar hero image:', imageError.message);
+        console.error('[HERO IMAGE] Erro fatal ao gerar hero image:', imageError.message);
         // Continua sem imagem se falhar
       }
+    } else {
+      console.log('[HERO IMAGE] Pulado (generateHeroImage ou prompt não fornecido)');
     }
 
     // Gerar about image se tiver prompt
     let aboutImageBase64 = null;
     if (variation.about_image_prompt && generateHeroImage) {
+      console.log('[ABOUT IMAGE] Iniciando geração...');
       try {
         // Criar provider de imagem
         const geminiImage = createGeminiProvider({
@@ -534,15 +548,19 @@ export default async function handler(req, res) {
         `.trim();
 
         aboutImageBase64 = await generateImageWithRetry(geminiImage, aboutImagePrompt);
+        console.log('[ABOUT IMAGE] Resultado:', aboutImageBase64 ? 'Sucesso' : 'Falhou (null)');
       } catch (imageError) {
-        console.error('Erro fatal ao gerar about image:', imageError.message);
+        console.error('[ABOUT IMAGE] Erro fatal ao gerar about image:', imageError.message);
         // Continua sem imagem se falhar
       }
+    } else {
+      console.log('[ABOUT IMAGE] Pulado (prompt não fornecido ou generateHeroImage=false)');
     }
 
     // Gerar product image se tiver prompt
     let productImageBase64 = null;
     if (variation.product_image_prompt && generateHeroImage) {
+      console.log('[PRODUCT IMAGE] Iniciando geração...');
       try {
         const geminiImage = createGeminiProvider({
           apiKey: process.env.GEMINI_API_KEY || process.env.GOOGLE_AI_API_KEY,
@@ -569,10 +587,13 @@ export default async function handler(req, res) {
         `.trim();
 
         productImageBase64 = await generateImageWithRetry(geminiImage, productImagePrompt);
+        console.log('[PRODUCT IMAGE] Resultado:', productImageBase64 ? 'Sucesso' : 'Falhou (null)');
       } catch (imageError) {
-        console.error('Erro fatal ao gerar product image:', imageError.message);
+        console.error('[PRODUCT IMAGE] Erro fatal ao gerar product image:', imageError.message);
         // Continua sem imagem se falhar
       }
+    } else {
+      console.log('[PRODUCT IMAGE] Pulado (prompt não fornecido ou generateHeroImage=false)');
     }
 
     // Validar e normalizar estrutura completa
