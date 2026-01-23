@@ -216,11 +216,14 @@ export default async function handler(req, res) {
         '  "scenarios": [',
         '    {',
         '      "persona": "Tipo de usuário (ex: Lojista)",',
+        '      "avatar": "Emoji representativo da persona (👨‍🏫, 👩‍🎨, 👨‍💻, 🧑‍🍳)",',
         '      "problem": "Dor específica (ex: Perdia muito tempo no estoque)",',
         '      "solution": "Como resolveu (ex: Agora controla tudo pelo celular em 5min)"',
         '    }',
         '  ]',
-        '  Crie 2-3 cenários de uso.',
+        '  Crie EXATAMENTE 3 cenários de uso com personas diferentes.',
+        '  Escolha emojis que representem bem cada persona.',
+        '  Cada cenário deve mostrar transformação clara (antes frustrante → depois fácil).',
         '',
         'Se showcase_type = "none":',
         '  Deixe showcase_data como objeto vazio {}',
@@ -385,6 +388,7 @@ export default async function handler(req, res) {
           return {
             scenarios: data.scenarios.slice(0, 3).map(sc => ({
               persona: sc.persona || '',
+              avatar: sc.avatar || '👤',
               problem: sc.problem || '',
               solution: sc.solution || ''
             }))

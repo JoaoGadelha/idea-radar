@@ -307,6 +307,7 @@ export default function LandingPagePreview({
                 <div className={styles.useCasesGrid}>
                   {showcaseData.scenarios.map((scenario, idx) => (
                     <div key={idx} className={styles.useCaseCard}>
+                      <div className={styles.useCaseAvatar}>{scenario.avatar}</div>
                       <div className={styles.useCasePersona} style={{ color: primaryColor }}>
                         {scenario.persona}
                       </div>
