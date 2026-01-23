@@ -300,4 +300,61 @@ A LLM faz o trabalho pesado de análise.
 
 ---
 
+## 🔮 Ideias Futuras / Backlog
+
+### Radar de Ideias (Content Intelligence)
+**Status:** 💭 Conceito
+
+**Descrição:**  
+Nova aba/seção que traz periodicamente sugestões de ideias de produtos/microsaas baseadas em tendências de mercado.
+
+**Como funciona:**
+1. Sistema coleta textos de fontes configuradas pelo usuário:
+   - Subreddits específicos (ex: r/SaaS, r/Entrepreneur, r/webdev)
+   - Sites de notícias tech (TechCrunch, Product Hunt, etc)
+   - Trending topics em communities
+   - Outras fontes customizáveis
+
+2. LLM analisa os textos e identifica:
+   - Problemas recorrentes sendo discutidos
+   - Produtos/serviços que estão "bombando"
+   - Gaps de mercado
+   - Padrões de demanda
+
+3. Gera sugestões estruturadas:
+   - "Uma coisa que está bombando é aplicativo de X"
+   - Análise do porquê (motivos, contexto de mercado)
+   - Sugestão de produto/microsaas relacionado
+   - Links para fontes/discussões relevantes
+
+**Configurações do usuário:**
+- [ ] Áreas de interesse (SaaS, Apps, E-commerce, etc)
+- [ ] Fontes específicas para monitorar (subreddits, sites)
+- [ ] Frequência de análise (diária, semanal)
+- [ ] Filtros de relevância (evitar ruído)
+- [ ] Notificações quando encontrar ideias promissoras
+
+**Tecnologias necessárias:**
+- Web scraping (Reddit API, RSS feeds, etc)
+- Cron jobs para coleta periódica
+- Storage para conteúdo coletado
+- LLM com context window grande (Gemini 2.0 Flash)
+- Sistema de ranking/score de ideias
+
+**Casos de uso:**
+- Usuário quer montar microsaas mas não tem ideia
+- Validar se ideia atual está em alta
+- Descobrir nichos emergentes antes da concorrência
+- Acompanhar tendências do mercado
+
+**MVP dessa feature:**
+1. Configurar 2-3 fontes fixas (Reddit + Product Hunt)
+2. Coleta semanal automática
+3. Análise básica via LLM
+4. Interface simples mostrando top 5 ideias da semana
+
+**Estimativa:** ~20-30h de desenvolvimento
+
+---
+
 > 💡 Próximo passo: Criar estrutura do projeto e começar pelo auth + CRUD de projetos
