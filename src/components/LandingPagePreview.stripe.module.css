@@ -649,21 +649,24 @@
   padding: 1rem 1.25rem;
   border: 1px solid #333333;
   border-radius: 6px;
-  background: #111111;
+  background: #111111 !important;
   color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
   font-size: 1rem;
   outline: none;
   transition: all 0.15s;
 }
 
 .ctaFinalInput::placeholder {
-  color: #666666;
+  color: #666666 !important;
+  -webkit-text-fill-color: #666666 !important;
 }
 
 .ctaFinalInput:focus {
   border-color: #666666;
-  background: #1a1a1a;
+  background: #1a1a1a !important;
   color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
 }
 
 .ctaFinalButton {
