@@ -244,9 +244,8 @@ export default async function handler(req, res) {
           - Vibrant but not oversaturated colors
         `.trim();
 
-        const imageResult = await geminiImage.generateImage(imagePrompt, {
-          aspectRatio: '16:9'  // Será convertido para aspect_ratio no provider
-        });
+        // Testar sem aspect_ratio para verificar se a API aceita
+        const imageResult = await geminiImage.generateImage(imagePrompt);
         
         heroImageBase64 = `data:${imageResult.mimeType};base64,${imageResult.data}`;
         console.log('✅ [Generate] Hero image gerada com sucesso:', {
