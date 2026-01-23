@@ -149,7 +149,6 @@ export default function LandingPagePreview({
               >
                 {ctaText || 'Quero testar'}
               </button>
-              <p className={styles.ctaHint}>✉️ Sem spam. Avisamos quando lançar.</p>
             </div>
           </div>
 
