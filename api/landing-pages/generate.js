@@ -164,6 +164,32 @@ export default async function handler(req, res) {
         '  - Inclua pessoas felizes usando/aproveitando o resultado se fizer sentido.',
         '  - Seja específico: cores, cenário, estilo visual.',
       ])
+      .section('PROBLEMA/DOR - Empatia e Contexto', [
+        'Antes de apresentar a solução, mostre que você ENTENDE a frustração atual.',
+        '',
+        'problem_statement: Descreva a situação atual frustrante em 2-3 frases.',
+        '  - Use "você" para criar conexão pessoal',
+        '  - Mostre o custo emocional/financeiro/temporal da dor',
+        '  - Espelhe a linguagem que o público-alvo usa',
+        '  - Exemplo: "Hoje você gasta horas procurando X, e ainda assim não tem certeza se Y..."',
+        '  LIMITE: 200 caracteres.',
+        '',
+        'Estrutura recomendada:',
+        '  - Frase 1: Situação atual (o que fazem hoje)',
+        '  - Frase 2: Consequência negativa (o que perdem/sofrem)',
+      ])
+      .section('PROVA SOCIAL - Credibilidade Inicial', [
+        'Mesmo em pré-lançamento, é possível criar confiança.',
+        '',
+        'social_proof: Escolha UMA das opções:',
+        '  - Se tiver beta testers: "+50 pessoas já testaram e aprovaram"',
+        '  - Se tiver lista de espera: "+200 pessoas na lista de espera"',
+        '  - Se for criador conhecido: "Criado por [quem] que já [credencial]"',
+        '  - Se tiver validação externa: "Apoiado por [incubadora/aceleradora]"',
+        '  - Padrão genérico: "Validado por especialistas em [área]"',
+        '  LIMITE: 80 caracteres.',
+        '  IMPORTANTE: Seja honesto. Se não tiver nada, use algo aspiracional mas real.',
+      ])
       .section('COMO FUNCIONA - Simplicidade', [
         'Mostre que é FÁCIL. O usuário tem medo de complexidade.',
         '',
@@ -213,6 +239,8 @@ export default async function handler(req, res) {
         '  "value_proposition": ["benefício 1", "benefício 2", "benefício 3"],',
         '  "cta_text": "string (máx 25 chars)",',
         '  "hero_image_prompt": "descrição detalhada para gerar imagem hero",',
+        '  "problem_statement": "string descrevendo dor atual (máx 200 chars)",',
+        '  "social_proof": "string de prova social (máx 80 chars)",',
         '  "how_it_works": [',
         '    { "icon": "📸", "title": "string", "description": "string" },',
         '    { "icon": "✨", "title": "string", "description": "string" },',
@@ -291,6 +319,9 @@ export default async function handler(req, res) {
       cta_text: variation.cta_text?.slice(0, 25) || 'Quero testar',
       hero_image: heroImageBase64,
       hero_image_prompt: variation.hero_image_prompt || '',
+      // Problema e Prova Social
+      problem_statement: variation.problem_statement?.slice(0, 200) || '',
+      social_proof: variation.social_proof?.slice(0, 80) || '',
       // Como Funciona
       how_it_works: Array.isArray(variation.how_it_works)
         ? variation.how_it_works.slice(0, 3).map((step, idx) => ({

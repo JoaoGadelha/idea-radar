@@ -549,6 +549,8 @@ export default function LandingPageBuilder({ onClose, onSave }) {
               collectPhone={formData.collect_phone}
               collectSuggestions={formData.collect_suggestions}
               onRegenerateImage={() => handleRegenerateImage(selectedIndex)}
+              problemStatement={variations[selectedIndex].problem_statement}
+              socialProof={variations[selectedIndex].social_proof}
             />
           ) : (
             <div className={styles.emptyPreview}>

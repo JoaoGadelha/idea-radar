@@ -267,16 +267,82 @@
 }
 
 /* ========================================
-   SOCIAL PROOF BAR
+   PROBLEMA/DOR SECTION
+   ======================================== */
+.problemSection {
+  padding: 3rem 0;
+  background: #fef2f2;
+}
+
+.problemBox {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  border-left: 4px solid #ef4444;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.problemIcon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.problemText {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: #475569;
+  margin: 0;
+}
+
+/* ========================================
+   SOCIAL PROOF BAR (NOVO ESTILO)
    ======================================== */
 .socialProof {
-  background: #f8fafc;
   padding: 2rem 0;
-  border-top: 1px solid #e2e8f0;
-  border-bottom: 1px solid #e2e8f0;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
 }
 
 .socialProofContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.proofBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.proofIcon {
+  font-size: 1.5rem;
+}
+
+.proofText {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+/* Esconder social proof antigo */
+.socialProofOld {
+  display: none;
+}
+
+/* OLD SOCIAL PROOF BAR (deprecated)
+   ======================================== */
+.socialProofOld .socialProofContainer {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
