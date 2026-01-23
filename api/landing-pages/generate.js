@@ -60,10 +60,8 @@ export default async function handler(req, res) {
       model: 'gemini-2.0-flash-exp',
     });
 
-    // Resetar histórico antes de usar
-    if (gemini.resetHistory) {
-      gemini.resetHistory();
-    }
+    // Limpar histórico antes de usar (garantia extra)
+    gemini.clearHistory();
 
     // Prompt profissional inspirado em landing pages de alta conversão
     const prompt = createPrompt()
