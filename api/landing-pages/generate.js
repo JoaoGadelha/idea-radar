@@ -71,17 +71,27 @@ export default async function handler(req, res) {
         'Antecipar e resolver objeções antes que o usuário as levante',
       ])
       .context(`
+        ## IMPORTANTE: IGNORE QUALQUER CONTEXTO ANTERIOR
+        Você está criando uma landing page APENAS com base nas informações abaixo.
+        NÃO use informações de projetos anteriores ou exemplos genéricos.
+        
         ## SOBRE O PRODUTO
         Nome: ${projectData.name}
-        ${projectData.description ? `O que é: ${projectData.description}` : ''}
+        ${projectData.description ? `Descrição: ${projectData.description}` : ''}
         
-        ## BRIEFING DETALHADO
+        ## BRIEFING DETALHADO DO CLIENTE
         ${brief || 'Produto digital inovador'}
         
-        ## CONTEXTO IMPORTANTE
+        ## CONTEXTO DA LANDING PAGE
         Esta é uma landing page de PRÉ-LANÇAMENTO para VALIDAR a ideia.
         O produto ainda não existe - queremos medir interesse real do mercado.
         O objetivo é capturar emails de early adopters genuinamente interessados.
+        
+        ## INSTRUÇÕES CRÍTICAS
+        - Use APENAS as informações do briefing acima
+        - NÃO invente features que não foram mencionadas
+        - NÃO use exemplos de outros produtos (como apps de fotos, design de interiores, etc)
+        - Seja 100% fiel ao conceito descrito no briefing
       `)
       .section('HERO SECTION - Primeira Impressão', [
         'Esta é a seção mais importante. O usuário decide em 3 segundos se fica ou sai.',
