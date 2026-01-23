@@ -385,9 +385,8 @@ export default function LandingPageBuilder({ onClose, onSave }) {
                   value="ai"
                   checked={formData.hero_image_type === 'ai'}
                   onChange={(e) => setFormData({ ...formData, hero_image_type: e.target.value })}
-                  disabled
                 />
-                <span>Gerar com IA (em breve)</span>
+                <span>🤖 Gerar com IA</span>
               </label>
             </div>
             
