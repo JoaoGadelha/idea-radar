@@ -26,7 +26,6 @@ export default function LandingPageBuilder({ onClose, onSave }) {
     brief: '',
     primary_color: '#10b981',
     template: 'claude', // Template padrão
-    collect_name: true,
     collect_phone: false,
     collect_suggestions: true,
     hero_image_type: 'none', // 'none', 'url', 'upload', 'ai'
@@ -172,7 +171,6 @@ export default function LandingPageBuilder({ onClose, onSave }) {
           cta_subheadline: selectedVariation.cta_subheadline,
           primary_color: getEffectiveColor(),
           template: formData.template,
-          collect_name: formData.collect_name,
           collect_phone: formData.collect_phone,
           collect_suggestions: formData.collect_suggestions,
           hero_image: formData.hero_image_type === 'url' ? formData.hero_image_url : null,
@@ -360,14 +358,6 @@ export default function LandingPageBuilder({ onClose, onSave }) {
             <label>
               <input
                 type="checkbox"
-                checked={formData.collect_name}
-                onChange={(e) => setFormData({ ...formData, collect_name: e.target.checked })}
-              />
-              Coletar nome
-            </label>
-            <label>
-              <input
-                type="checkbox"
                 checked={formData.collect_phone}
                 onChange={(e) => setFormData({ ...formData, collect_phone: e.target.checked })}
               />
@@ -379,7 +369,7 @@ export default function LandingPageBuilder({ onClose, onSave }) {
                 checked={formData.collect_suggestions}
                 onChange={(e) => setFormData({ ...formData, collect_suggestions: e.target.checked })}
               />
-              Coletar sugestões
+              Coletar sugestões/feedback
             </label>
           </div>
 
@@ -438,8 +428,8 @@ export default function LandingPageBuilder({ onClose, onSave }) {
               heroImageType={formData.hero_image_type}
               primaryColor={getEffectiveColor()}
               template={formData.template}
-              collectName={formData.collect_name}
               collectPhone={formData.collect_phone}
+              collectSuggestions={formData.collect_suggestions}
             />
           ) : loading ? (
             <div className={styles.emptyPreview}>

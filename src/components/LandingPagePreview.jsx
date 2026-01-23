@@ -19,13 +19,13 @@ export default function LandingPagePreview({
   heroImage,
   heroImageType = 'none',
   template = 'claude',
-  collectName = true,
   collectPhone = false,
+  collectSuggestions = false,
   isInteractive = false,
   projectId = null, // ID do projeto para salvar leads
   landingPageId = null, // ID da landing page
 }) {
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '' });
+  const [formData, setFormData] = useState({ email: '', phone: '', suggestions: '' });
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
@@ -39,7 +39,7 @@ export default function LandingPagePreview({
       if (!projectId) {
         await new Promise(resolve => setTimeout(resolve, 800));
         setSubmitted(true);
-        setFormData({ name: '', email: '', phone: '' });
+        setFormData({ email: '', phone: '', suggestions: '' });
         setLoading(false);
         return;
       }
@@ -51,8 +51,8 @@ export default function LandingPagePreview({
         body: JSON.stringify({
           projectId,
           email: formData.email,
-          nome: collectName ? formData.name : null,
           telefone: collectPhone ? formData.phone : null,
+          sugestoes: collectSuggestions ? formData.suggestions : null,
           source: `landing-page-${landingPageId || 'unknown'}`,
         }),
       });
@@ -60,7 +60,7 @@ export default function LandingPagePreview({
       if (!res.ok) throw new Error('Erro ao enviar');
 
       setSubmitted(true);
-      setFormData({ name: '', email: '', phone: '' });
+      setFormData({ email: '', phone: '', suggestions: '' });
     } catch (error) {
       console.error('Erro ao enviar lead:', error);
       alert('Erro ao enviar. Tente novamente.');
@@ -129,31 +129,19 @@ export default function LandingPagePreview({
 
             {/* CTA Group */}
             <div className={styles.ctaGroup}>
-              {submitted ? (
-                <div className={styles.successMessage}>
-                  ✅ Obrigado! Você está na lista. Avisaremos em breve!
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className={styles.emailInputGroup}>
-                  <input 
-                    type="email" 
-                    placeholder="seu@email.com" 
-                    className={styles.heroEmailInput}
-                    disabled={loading}
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    required
-                  />
-                  <button 
-                    type="submit"
-                    className={styles.heroCta}
-                    style={{ backgroundColor: primaryColor }}
-                    disabled={loading}
-                  >
-                    {loading ? '...' : (ctaText || 'Quero testar')}
-                  </button>
-                </form>
-              )}
+              <button 
+                type="button"
+                className={styles.heroCta}
+                style={{ backgroundColor: primaryColor }}
+                onClick={() => {
+                  const ctaSection = document.querySelector('[data-cta-final]');
+                  if (ctaSection) {
+                    ctaSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }
+                }}
+              >
+                {ctaText || 'Quero testar'}
+              </button>
               <p className={styles.ctaHint}>✉️ Sem spam. Avisamos quando lançar.</p>
             </div>
           </div>
@@ -295,6 +283,7 @@ export default function LandingPagePreview({
       {/* Final CTA Section */}
       <section 
         className={styles.ctaFinal}
+        data-cta-final
         style={{ 
           background: `linear-gradient(135deg, ${primaryColor} 0%, ${adjustColor(primaryColor, -30)} 100%)` 
         }}
@@ -309,46 +298,52 @@ export default function LandingPagePreview({
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className={styles.ctaFinalForm}>
-            {collectName && (
+          {submitted ? (
+            <div className={styles.successMessage} style={{ color: 'white', fontSize: '1.25rem', textAlign: 'center', padding: '2rem' }}>
+              ✅ Obrigado! Você está na lista. Avisaremos em breve!
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className={styles.ctaFinalForm}>
               <input 
-                type="text" 
-                placeholder="Seu nome" 
+                type="email" 
+                placeholder="seu@email.com" 
                 className={styles.ctaFinalInput}
                 disabled={loading}
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                required={collectName}
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                required
               />
-            )}
-            <input 
-              type="email" 
-              placeholder="seu@email.com" 
-              className={styles.ctaFinalInput}
-              disabled={loading}
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              required
-            />
-            {collectPhone && (
-              <input 
-                type="tel" 
-                placeholder="(00) 00000-0000" 
-                className={styles.ctaFinalInput}
+              {collectPhone && (
+                <input 
+                  type="tel" 
+                  placeholder="(00) 00000-0000" 
+                  className={styles.ctaFinalInput}
+                  disabled={loading}
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  required={collectPhone}
+                />
+              )}
+              {collectSuggestions && (
+                <textarea 
+                  placeholder="Tem alguma sugestão ou feedback?" 
+                  className={styles.ctaFinalInput}
+                  style={{ minHeight: '100px', resize: 'vertical' }}
+                  disabled={loading}
+                  value={formData.suggestions}
+                  onChange={(e) => setFormData({ ...formData, suggestions: e.target.value })}
+                  rows={3}
+                />
+              )}
+              <button 
+                type="submit"
+                className={styles.ctaFinalButton}
                 disabled={loading}
-                value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                required={collectPhone}
-              />
-            )}
-            <button 
-              type="submit"
-              className={styles.ctaFinalButton}
-              disabled={loading}
-            >
-              {loading ? 'Enviando...' : (ctaText || 'Garantir meu acesso')} →
-            </button>
-          </form>
+              >
+                {loading ? 'Enviando...' : (ctaText || 'Garantir meu acesso')} →
+              </button>
+            </form>
+          )}
 
           <p className={styles.ctaFinalDisclaimer}>
             🔒 Seus dados estão seguros. Sem spam, só novidades.

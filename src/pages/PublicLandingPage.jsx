@@ -68,8 +68,8 @@ export default function PublicLandingPage() {
         primaryColor={landingPage.primary_color}
         heroImage={landingPage.hero_image_url}
         template="claude"
-        collectName={landingPage.collect_name}
         collectPhone={landingPage.collect_phone}
+        collectSuggestions={landingPage.collect_suggestions}
         isInteractive={true}
         projectId={landingPage.project_id}
         landingPageId={landingPage.id}
