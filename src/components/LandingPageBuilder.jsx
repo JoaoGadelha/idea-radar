@@ -20,6 +20,11 @@ export default function LandingPageBuilder({ onClose, onSave }) {
   const [showTemplateSelector, setShowTemplateSelector] = useState(false);
   const [showImproveModal, setShowImproveModal] = useState(false);
   const [missingFields, setMissingFields] = useState([]);
+  const [improveData, setImproveData] = useState({
+    benefits: '',
+    howItWorks: '',
+    faq: '',
+  });
   const previewRef = useRef(null);
   const inputsRef = useRef(null);
   const [formData, setFormData] = useState({
@@ -88,6 +93,34 @@ export default function LandingPageBuilder({ onClose, onSave }) {
   // Verifica se o template atual tem cor fixa
   const hasFixedColor = () => {
     return formData.template in TEMPLATES_WITH_FIXED_COLOR;
+  };
+
+  // Incorporar dados do modal ao brief
+  const handleIncorporateImproveData = () => {
+    let additionalInfo = '';
+
+    if (improveData.benefits.trim()) {
+      additionalInfo += `\n\n[beneficios]\n${improveData.benefits.trim()}`;
+    }
+
+    if (improveData.howItWorks.trim()) {
+      additionalInfo += `\n\n[como-funciona]\n${improveData.howItWorks.trim()}`;
+    }
+
+    if (improveData.faq.trim()) {
+      additionalInfo += `\n\n[perguntas-frequentes]\n${improveData.faq.trim()}`;
+    }
+
+    if (additionalInfo) {
+      setFormData({
+        ...formData,
+        brief: formData.brief + additionalInfo
+      });
+    }
+
+    // Limpar dados do modal e fechar
+    setImproveData({ benefits: '', howItWorks: '', faq: '' });
+    setShowImproveModal(false);
   };
 
   // DEV: Preencher com exemplo do Termômetro de Clima Digital
@@ -495,7 +528,7 @@ export default function LandingPageBuilder({ onClose, onSave }) {
             
             <div className={styles.improveModalContent}>
               <h3>💡 Melhore sua landing page</h3>
-              <p>A IA não conseguiu gerar algumas seções. Para um resultado completo, adicione mais detalhes sobre:</p>
+              <p>A IA não conseguiu gerar algumas seções. Preencha abaixo para complementar sua descrição:</p>
               
               <ul className={styles.missingList}>
                 {missingFields.map((field, idx) => (
@@ -506,27 +539,59 @@ export default function LandingPageBuilder({ onClose, onSave }) {
                 ))}
               </ul>
 
-              <div className={styles.improveSuggestions}>
-                <strong>Dicas para melhorar a descrição:</strong>
-                <ul>
-                  {missingFields.includes('Benefícios/Proposta de Valor') && (
-                    <li>📌 Descreva os principais benefícios e diferenciais do seu produto</li>
-                  )}
-                  {missingFields.includes('Como Funciona') && (
-                    <li>🔄 Explique o passo a passo de como usar ou adquirir</li>
-                  )}
-                  {missingFields.includes('Perguntas Frequentes (FAQ)') && (
-                    <li>❓ Mencione possíveis dúvidas que seu público pode ter</li>
-                  )}
-                </ul>
+              <div className={styles.improveFields}>
+                {missingFields.includes('Benefícios/Proposta de Valor') && (
+                  <div className={styles.improveField}>
+                    <label>
+                      <strong>📌 Benefícios/Proposta de Valor</strong>
+                      <small>Liste os principais benefícios, um por linha</small>
+                    </label>
+                    <textarea
+                      value={improveData.benefits}
+                      onChange={(e) => setImproveData({ ...improveData, benefits: e.target.value })}
+                      placeholder="Ex:&#10;- Economia de até 50% no tempo&#10;- Interface intuitiva e fácil de usar&#10;- Resultados em 24 horas"
+                      rows={4}
+                    />
+                  </div>
+                )}
+
+                {missingFields.includes('Como Funciona') && (
+                  <div className={styles.improveField}>
+                    <label>
+                      <strong>🔄 Como Funciona</strong>
+                      <small>Descreva o passo a passo, pode numerar</small>
+                    </label>
+                    <textarea
+                      value={improveData.howItWorks}
+                      onChange={(e) => setImproveData({ ...improveData, howItWorks: e.target.value })}
+                      placeholder="Ex:&#10;1. Faça seu cadastro em 2 minutos&#10;2. Configure suas preferências&#10;3. Comece a usar imediatamente"
+                      rows={4}
+                    />
+                  </div>
+                )}
+
+                {missingFields.includes('Perguntas Frequentes (FAQ)') && (
+                  <div className={styles.improveField}>
+                    <label>
+                      <strong>❓ Perguntas Frequentes</strong>
+                      <small>Liste perguntas e respostas que seu público pode ter</small>
+                    </label>
+                    <textarea
+                      value={improveData.faq}
+                      onChange={(e) => setImproveData({ ...improveData, faq: e.target.value })}
+                      placeholder="Ex:&#10;1. Quanto custa? R$ 49/mês&#10;2. Tem período de teste? Sim, 7 dias grátis&#10;3. Posso cancelar quando quiser? Sim, sem multa"
+                      rows={5}
+                    />
+                  </div>
+                )}
               </div>
 
               <div className={styles.improveModalActions}>
                 <button 
                   className={styles.improveCloseBtn}
-                  onClick={() => setShowImproveModal(false)}
+                  onClick={handleIncorporateImproveData}
                 >
-                  Entendi, vou melhorar
+                  ✅ Adicionar e gerar novamente
                 </button>
                 <button 
                   className={styles.improveContinueBtn}
