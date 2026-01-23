@@ -648,3 +648,188 @@
     transform: rotate(360deg);
   }
 }
+
+/* Seções Customizáveis */
+.sectionsConfig {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid #e5e7eb;
+}
+
+.sectionsTitle {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.25rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.sectionsHint {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin: 0 0 1rem 0;
+}
+
+.sectionItem {
+  margin-bottom: 0.75rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  background: white;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+
+.sectionItem:hover {
+  border-color: #d1d5db;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.sectionCheckbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  flex: 1;
+}
+
+.sectionCheckbox input[type="checkbox"] {
+  cursor: pointer;
+}
+
+.sectionName {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.expandIcon {
+  color: #9ca3af;
+  font-size: 0.75rem;
+  transition: transform 0.2s;
+}
+
+.sectionInstructions {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  border-top: 1px solid #f3f4f6;
+  background: #fafafa;
+  font-size: 0.875rem;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 60px;
+}
+
+.sectionInstructions:focus {
+  outline: none;
+  background: white;
+}
+
+.sectionInstructions::placeholder {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+/* Examples Config */
+.examplesConfig {
+  border-top: 1px solid #f3f4f6;
+  background: #fafafa;
+  padding: 0.75rem;
+}
+
+.examplesType {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  margin-bottom: 0.75rem;
+  background: white;
+  cursor: pointer;
+}
+
+.examplesType:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.exampleItem {
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+}
+
+.exampleCheckbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+}
+
+.exampleCheckbox input[type="checkbox"] {
+  cursor: pointer;
+}
+
+.exampleText {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+.exampleText:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.exampleImageCheckbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+}
+
+.exampleImageCheckbox input[type="checkbox"] {
+  cursor: pointer;
+}
+
+.exampleImagePrompt {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  background: #fffbeb;
+  border-color: #fbbf24;
+}
+
+.exampleImagePrompt:focus {
+  outline: none;
+  border-color: #f59e0b;
+}
+
+.exampleImagePrompt::placeholder {
+  color: #92400e;
+  font-style: italic;
+}

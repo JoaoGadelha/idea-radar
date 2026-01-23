@@ -35,7 +35,7 @@ export default async function handler(req, res) {
 
   try {
     // Receber dados do request
-    const { projectData, brief, generateHeroImage = false, regenerateImageOnly = false } = req.body;
+    const { projectData, brief, generateHeroImage = false, regenerateImageOnly = false, sectionConfig } = req.body;
 
     // Se for apenas regenerar imagem, fazer processo simplificado
     if (regenerateImageOnly && generateHeroImage) {
@@ -93,6 +93,52 @@ export default async function handler(req, res) {
     // Limpar histórico antes de usar (garantia extra)
     gemini.clearHistory();
 
+    // Construir instruções customizadas por seção (se fornecidas)
+    let customInstructions = '';
+    if (sectionConfig) {
+      customInstructions = '\n\n=== INSTRUÇÕES PERSONALIZADAS DO USUÁRIO ===\n\n';
+      
+      if (sectionConfig.hero?.enabled && sectionConfig.hero.instructions) {
+        customInstructions += `[HERO SECTION]\n${sectionConfig.hero.instructions}\n\n`;
+      }
+      
+      if (sectionConfig.valueProposition?.enabled && sectionConfig.valueProposition.instructions) {
+        customInstructions += `[BENEFÍCIOS/VALUE PROPOSITION]\n${sectionConfig.valueProposition.instructions}\n\n`;
+      }
+      
+      if (sectionConfig.howItWorks?.enabled && sectionConfig.howItWorks.instructions) {
+        customInstructions += `[COMO FUNCIONA]\n${sectionConfig.howItWorks.instructions}\n\n`;
+      }
+      
+      if (sectionConfig.examples?.enabled) {
+        customInstructions += `[EXEMPLOS/SHOWCASE - Tipo: ${sectionConfig.examples.type}]\n`;
+        if (sectionConfig.examples.instructions) {
+          customInstructions += `${sectionConfig.examples.instructions}\n`;
+        }
+        const enabledExamples = sectionConfig.examples.items?.filter(item => item.enabled) || [];
+        if (enabledExamples.length > 0) {
+          enabledExamples.forEach((item, idx) => {
+            customInstructions += `\nExemplo ${idx + 1}: ${item.text}`;
+            if (item.generateImage && item.imagePrompt) {
+              customInstructions += ` (GERAR IMAGEM: "${item.imagePrompt}")`;
+            }
+          });
+        }
+        customInstructions += '\n\n';
+      }
+      
+      if (sectionConfig.faq?.enabled && sectionConfig.faq.instructions) {
+        customInstructions += `[FAQ]\n${sectionConfig.faq.instructions}\n\n`;
+      }
+      
+      if (sectionConfig.ctaFinal?.enabled && sectionConfig.ctaFinal.instructions) {
+        customInstructions += `[CTA FINAL]\n${sectionConfig.ctaFinal.instructions}\n\n`;
+      }
+      
+      customInstructions += '=== FIM DAS INSTRUÇÕES PERSONALIZADAS ===\n\n';
+      customInstructions += 'Use as instruções acima para personalizar cada seção, mas mantenha a estrutura JSON obrigatória.\n\n';
+    }
+
     // Prompt profissional inspirado em landing pages de alta conversão
     const prompt = createPrompt()
       .role('Você é um copywriter sênior especializado em landing pages de alta conversão')
@@ -119,6 +165,7 @@ export default async function handler(req, res) {
         '',
         '## BRIEFING COMPLETO DO CLIENTE',
         brief || 'Produto digital inovador',
+        customInstructions, // Inserir instruções customizadas aqui
         '',
         '## CONTEXTO DA LANDING PAGE',
         'Esta é uma landing page de PRÉ-LANÇAMENTO para VALIDAR a ideia.',
@@ -218,13 +265,16 @@ export default async function handler(req, res) {
         '    { "icon": "✨", "title": "string", "description": "string" },',
         '    { "icon": "🎉", "title": "string", "description": "string" }',
         '  ],',
+        sectionConfig?.examples?.enabled ? '  "examples_showcase": [' : null,
+        sectionConfig?.examples?.enabled ? '    { "title": "string", "description": "string", "image_prompt": "descrição para gerar imagem (se aplicável)" }' : null,
+        sectionConfig?.examples?.enabled ? '  ],' : null,
         '  "faq_items": [',
         '    { "question": "Pergunta?", "answer": "Resposta." }',
         '  ],',
         '  "cta_headline": "string",',
         '  "cta_subheadline": "string"',
         '}',
-      ])
+      ].filter(Boolean))
       .rules([
         'ESCREVA EM PORTUGUÊS DO BRASIL',
         'Use linguagem conversacional, como se falasse com um amigo',
@@ -279,6 +329,69 @@ export default async function handler(req, res) {
       }
     }
 
+    // Gerar imagens para Examples Showcase (se configurado)
+    const examplesWithImages = [];
+    if (sectionConfig?.examples?.enabled && variation.examples_showcase) {
+      const geminiImage = createGeminiProvider({
+        apiKey: process.env.GEMINI_API_KEY || process.env.GOOGLE_AI_API_KEY,
+        model: 'gemini-2.0-flash-exp',
+      });
+
+      // Identificar quais examples precisam de imagens
+      const itemsToGenerate = sectionConfig.examples.items
+        .map((item, idx) => ({
+          ...item,
+          index: idx,
+          showcaseData: variation.examples_showcase[idx]
+        }))
+        .filter(item => item.enabled && item.generateImage && item.imagePrompt);
+
+      // Gerar imagens em sequência (máximo 3)
+      for (const item of itemsToGenerate.slice(0, 3)) {
+        try {
+          const imagePrompt = `
+            ${item.imagePrompt}
+            
+            Style requirements:
+            - Clean, modern, professional look
+            - High-quality, suitable for landing page showcase
+            - No text, logos, or watermarks
+            - Vibrant but realistic colors
+          `.trim();
+
+          const imageResult = await geminiImage.generateImage(imagePrompt);
+          const imageBase64 = `data:${imageResult.mimeType};base64,${imageResult.data}`;
+          
+          examplesWithImages.push({
+            ...item.showcaseData,
+            image: imageBase64,
+            index: item.index
+          });
+        } catch (error) {
+          console.error(`Erro ao gerar imagem do exemplo ${item.index + 1}:`, error.message);
+          examplesWithImages.push({
+            ...item.showcaseData,
+            image: null,
+            index: item.index
+          });
+        }
+      }
+
+      // Adicionar examples sem imagens
+      variation.examples_showcase.forEach((example, idx) => {
+        if (!examplesWithImages.some(e => e.index === idx)) {
+          examplesWithImages.push({
+            ...example,
+            image: null,
+            index: idx
+          });
+        }
+      });
+
+      // Ordenar por index original
+      examplesWithImages.sort((a, b) => a.index - b.index);
+    }
+
     // Validar e normalizar estrutura completa
     const validVariation = {
       id: `temp_${Date.now()}`,
@@ -291,6 +404,9 @@ export default async function handler(req, res) {
       cta_text: variation.cta_text?.slice(0, 25) || 'Quero testar',
       hero_image: heroImageBase64,
       hero_image_prompt: variation.hero_image_prompt || '',
+      // Examples Showcase (se configurado)
+      examples_showcase: examplesWithImages.length > 0 ? examplesWithImages : undefined,
+      examples_showcase_type: sectionConfig?.examples?.type || 'visual',
       // Como Funciona
       how_it_works: Array.isArray(variation.how_it_works)
         ? variation.how_it_works.slice(0, 3).map((step, idx) => ({

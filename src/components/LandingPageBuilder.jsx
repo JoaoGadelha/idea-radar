@@ -39,6 +39,34 @@ export default function LandingPageBuilder({ onClose, onSave }) {
     hero_image_url: '',
   });
 
+  // Configuração de seções customizáveis
+  const [sectionConfig, setSectionConfig] = useState({
+    hero: { enabled: true, instructions: '' },
+    valueProposition: { enabled: true, instructions: '' },
+    howItWorks: { enabled: true, instructions: '' },
+    examples: {
+      enabled: false,
+      type: 'visual', // 'visual' | 'metrics' | 'use_cases'
+      instructions: '',
+      items: [
+        { enabled: false, text: '', generateImage: false, imagePrompt: '' },
+        { enabled: false, text: '', generateImage: false, imagePrompt: '' },
+        { enabled: false, text: '', generateImage: false, imagePrompt: '' },
+      ]
+    },
+    faq: { enabled: true, instructions: '' },
+    ctaFinal: { enabled: true, instructions: '' },
+  });
+
+  const [expandedSections, setExpandedSections] = useState({
+    hero: false,
+    valueProposition: false,
+    howItWorks: false,
+    examples: false,
+    faq: false,
+    ctaFinal: false,
+  });
+
   // Retorna a cor efetiva (fixa ou customizável)
   const getEffectiveColor = () => {
     return TEMPLATES_WITH_FIXED_COLOR[formData.template] || formData.primary_color;
@@ -208,7 +236,8 @@ export default function LandingPageBuilder({ onClose, onSave }) {
         body: JSON.stringify({
           projectData,
           brief: formData.brief,
-          generateHeroImage: formData.hero_image_type === 'ai', // Adicionar flag
+          generateHeroImage: formData.hero_image_type === 'ai',
+          sectionConfig, // Enviar configuração de seções
         }),
       });
 
@@ -486,6 +515,275 @@ export default function LandingPageBuilder({ onClose, onSave }) {
             </label>
           </div>
 
+          {/* Seções Customizáveis */}
+          <div className={styles.sectionsConfig}>
+            <h3 className={styles.sectionsTitle}>⚙️ Customizar Seções</h3>
+            <p className={styles.sectionsHint}>Personalize cada parte da landing page</p>
+
+            {/* Hero */}
+            <div className={styles.sectionItem}>
+              <div className={styles.sectionHeader} onClick={() => setExpandedSections({...expandedSections, hero: !expandedSections.hero})}>
+                <label className={styles.sectionCheckbox} onClick={(e) => e.stopPropagation()}>
+                  <input
+                    type="checkbox"
+                    checked={sectionConfig.hero.enabled}
+                    onChange={(e) => setSectionConfig({
+                      ...sectionConfig,
+                      hero: { ...sectionConfig.hero, enabled: e.target.checked }
+                    })}
+                  />
+                  <span className={styles.sectionName}>Hero Section</span>
+                </label>
+                <span className={styles.expandIcon}>{expandedSections.hero ? '▼' : '▶'}</span>
+              </div>
+              {expandedSections.hero && sectionConfig.hero.enabled && (
+                <textarea
+                  className={styles.sectionInstructions}
+                  value={sectionConfig.hero.instructions}
+                  onChange={(e) => setSectionConfig({
+                    ...sectionConfig,
+                    hero: { ...sectionConfig.hero, instructions: e.target.value }
+                  })}
+                  placeholder="Ex: Destaque que é grátis e sem risco"
+                  rows="2"
+                />
+              )}
+            </div>
+
+            {/* Value Proposition */}
+            <div className={styles.sectionItem}>
+              <div className={styles.sectionHeader} onClick={() => setExpandedSections({...expandedSections, valueProposition: !expandedSections.valueProposition})}>
+                <label className={styles.sectionCheckbox} onClick={(e) => e.stopPropagation()}>
+                  <input
+                    type="checkbox"
+                    checked={sectionConfig.valueProposition.enabled}
+                    onChange={(e) => setSectionConfig({
+                      ...sectionConfig,
+                      valueProposition: { ...sectionConfig.valueProposition, enabled: e.target.checked }
+                    })}
+                  />
+                  <span className={styles.sectionName}>Benefícios (3)</span>
+                </label>
+                <span className={styles.expandIcon}>{expandedSections.valueProposition ? '▼' : '▶'}</span>
+              </div>
+              {expandedSections.valueProposition && sectionConfig.valueProposition.enabled && (
+                <textarea
+                  className={styles.sectionInstructions}
+                  value={sectionConfig.valueProposition.instructions}
+                  onChange={(e) => setSectionConfig({
+                    ...sectionConfig,
+                    valueProposition: { ...sectionConfig.valueProposition, instructions: e.target.value }
+                  })}
+                  placeholder="Ex: Foque em economia de tempo"
+                  rows="2"
+                />
+              )}
+            </div>
+
+            {/* How It Works */}
+            <div className={styles.sectionItem}>
+              <div className={styles.sectionHeader} onClick={() => setExpandedSections({...expandedSections, howItWorks: !expandedSections.howItWorks})}>
+                <label className={styles.sectionCheckbox} onClick={(e) => e.stopPropagation()}>
+                  <input
+                    type="checkbox"
+                    checked={sectionConfig.howItWorks.enabled}
+                    onChange={(e) => setSectionConfig({
+                      ...sectionConfig,
+                      howItWorks: { ...sectionConfig.howItWorks, enabled: e.target.checked }
+                    })}
+                  />
+                  <span className={styles.sectionName}>Como Funciona</span>
+                </label>
+                <span className={styles.expandIcon}>{expandedSections.howItWorks ? '▼' : '▶'}</span>
+              </div>
+              {expandedSections.howItWorks && sectionConfig.howItWorks.enabled && (
+                <textarea
+                  className={styles.sectionInstructions}
+                  value={sectionConfig.howItWorks.instructions}
+                  onChange={(e) => setSectionConfig({
+                    ...sectionConfig,
+                    howItWorks: { ...sectionConfig.howItWorks, instructions: e.target.value }
+                  })}
+                  placeholder="Ex: Enfatize que não precisa cadastro"
+                  rows="2"
+                />
+              )}
+            </div>
+
+            {/* Examples/Showcase */}
+            <div className={styles.sectionItem}>
+              <div className={styles.sectionHeader} onClick={() => setExpandedSections({...expandedSections, examples: !expandedSections.examples})}>
+                <label className={styles.sectionCheckbox} onClick={(e) => e.stopPropagation()}>
+                  <input
+                    type="checkbox"
+                    checked={sectionConfig.examples.enabled}
+                    onChange={(e) => setSectionConfig({
+                      ...sectionConfig,
+                      examples: { ...sectionConfig.examples, enabled: e.target.checked }
+                    })}
+                  />
+                  <span className={styles.sectionName}>Exemplos/Showcase</span>
+                </label>
+                <span className={styles.expandIcon}>{expandedSections.examples ? '▼' : '▶'}</span>
+              </div>
+              {expandedSections.examples && sectionConfig.examples.enabled && (
+                <div className={styles.examplesConfig}>
+                  <select
+                    className={styles.examplesType}
+                    value={sectionConfig.examples.type}
+                    onChange={(e) => setSectionConfig({
+                      ...sectionConfig,
+                      examples: { ...sectionConfig.examples, type: e.target.value }
+                    })}
+                  >
+                    <option value="visual">Visual Gallery (Antes/Depois)</option>
+                    <option value="metrics">Métricas/Resultados</option>
+                    <option value="use_cases">Casos de Uso</option>
+                  </select>
+                  <textarea
+                    className={styles.sectionInstructions}
+                    value={sectionConfig.examples.instructions}
+                    onChange={(e) => setSectionConfig({
+                      ...sectionConfig,
+                      examples: { ...sectionConfig.examples, instructions: e.target.value }
+                    })}
+                    placeholder="Ex: Mostrar antes/depois de quartos mobiliados"
+                    rows="2"
+                  />
+                  
+                  {sectionConfig.examples.items.map((item, idx) => (
+                    <div key={idx} className={styles.exampleItem}>
+                      <label className={styles.exampleCheckbox}>
+                        <input
+                          type="checkbox"
+                          checked={item.enabled}
+                          onChange={(e) => {
+                            const newItems = [...sectionConfig.examples.items];
+                            newItems[idx].enabled = e.target.checked;
+                            setSectionConfig({
+                              ...sectionConfig,
+                              examples: { ...sectionConfig.examples, items: newItems }
+                            });
+                          }}
+                        />
+                        <span>Exemplo {idx + 1}</span>
+                      </label>
+                      {item.enabled && (
+                        <>
+                          <input
+                            type="text"
+                            className={styles.exampleText}
+                            value={item.text}
+                            onChange={(e) => {
+                              const newItems = [...sectionConfig.examples.items];
+                              newItems[idx].text = e.target.value;
+                              setSectionConfig({
+                                ...sectionConfig,
+                                examples: { ...sectionConfig.examples, items: newItems }
+                              });
+                            }}
+                            placeholder={`Ex: ${sectionConfig.examples.type === 'visual' ? 'Quarto vazio 3x4m' : 'Reduziu 40% do tempo'}`}
+                          />
+                          <label className={styles.exampleImageCheckbox}>
+                            <input
+                              type="checkbox"
+                              checked={item.generateImage}
+                              onChange={(e) => {
+                                const newItems = [...sectionConfig.examples.items];
+                                newItems[idx].generateImage = e.target.checked;
+                                setSectionConfig({
+                                  ...sectionConfig,
+                                  examples: { ...sectionConfig.examples, items: newItems }
+                                });
+                              }}
+                            />
+                            <span>🤖 Gerar imagem AI</span>
+                          </label>
+                          {item.generateImage && (
+                            <input
+                              type="text"
+                              className={styles.exampleImagePrompt}
+                              value={item.imagePrompt}
+                              onChange={(e) => {
+                                const newItems = [...sectionConfig.examples.items];
+                                newItems[idx].imagePrompt = e.target.value;
+                                setSectionConfig({
+                                  ...sectionConfig,
+                                  examples: { ...sectionConfig.examples, items: newItems }
+                                });
+                              }}
+                              placeholder="Descrição da imagem (ex: Empty bedroom, white walls)"
+                            />
+                          )}
+                        </>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* FAQ */}
+            <div className={styles.sectionItem}>
+              <div className={styles.sectionHeader} onClick={() => setExpandedSections({...expandedSections, faq: !expandedSections.faq})}>
+                <label className={styles.sectionCheckbox} onClick={(e) => e.stopPropagation()}>
+                  <input
+                    type="checkbox"
+                    checked={sectionConfig.faq.enabled}
+                    onChange={(e) => setSectionConfig({
+                      ...sectionConfig,
+                      faq: { ...sectionConfig.faq, enabled: e.target.checked }
+                    })}
+                  />
+                  <span className={styles.sectionName}>FAQ</span>
+                </label>
+                <span className={styles.expandIcon}>{expandedSections.faq ? '▼' : '▶'}</span>
+              </div>
+              {expandedSections.faq && sectionConfig.faq.enabled && (
+                <textarea
+                  className={styles.sectionInstructions}
+                  value={sectionConfig.faq.instructions}
+                  onChange={(e) => setSectionConfig({
+                    ...sectionConfig,
+                    faq: { ...sectionConfig.faq, instructions: e.target.value }
+                  })}
+                  placeholder="Ex: Responder sobre preço e tempo de entrega"
+                  rows="2"
+                />
+              )}
+            </div>
+
+            {/* CTA Final */}
+            <div className={styles.sectionItem}>
+              <div className={styles.sectionHeader} onClick={() => setExpandedSections({...expandedSections, ctaFinal: !expandedSections.ctaFinal})}>
+                <label className={styles.sectionCheckbox} onClick={(e) => e.stopPropagation()}>
+                  <input
+                    type="checkbox"
+                    checked={sectionConfig.ctaFinal.enabled}
+                    onChange={(e) => setSectionConfig({
+                      ...sectionConfig,
+                      ctaFinal: { ...sectionConfig.ctaFinal, enabled: e.target.checked }
+                    })}
+                  />
+                  <span className={styles.sectionName}>CTA Final</span>
+                </label>
+                <span className={styles.expandIcon}>{expandedSections.ctaFinal ? '▼' : '▶'}</span>
+              </div>
+              {expandedSections.ctaFinal && sectionConfig.ctaFinal.enabled && (
+                <textarea
+                  className={styles.sectionInstructions}
+                  value={sectionConfig.ctaFinal.instructions}
+                  onChange={(e) => setSectionConfig({
+                    ...sectionConfig,
+                    ctaFinal: { ...sectionConfig.ctaFinal, instructions: e.target.value }
+                  })}
+                  placeholder="Ex: Criar urgência - lançamento em breve"
+                  rows="2"
+                />
+              )}
+            </div>
+          </div>
+
           <button
             onClick={handleGenerate}
             disabled={loading}
@@ -548,6 +846,8 @@ export default function LandingPageBuilder({ onClose, onSave }) {
               template={formData.template}
               collectPhone={formData.collect_phone}
               collectSuggestions={formData.collect_suggestions}
+              examplesShowcase={variations[selectedIndex].examples_showcase}
+              examplesShowcaseType={sectionConfig.examples.type}
               onRegenerateImage={() => handleRegenerateImage(selectedIndex)}
             />
           ) : (

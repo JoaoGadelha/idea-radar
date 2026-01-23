@@ -25,6 +25,8 @@ export default function LandingPagePreview({
   projectId = null, // ID do projeto para salvar leads
   landingPageId = null, // ID da landing page
   onRegenerateImage = null, // Callback para regenerar imagem
+  examplesShowcase = [], // Nova prop para examples
+  examplesShowcaseType = 'visual', // 'visual' | 'metrics' | 'use_cases'
 }) {
   const [formData, setFormData] = useState({ email: '', phone: '', suggestions: '' });
   const [loading, setLoading] = useState(false);
@@ -271,6 +273,53 @@ export default function LandingPagePreview({
                       </svg>
                     </div>
                   )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Examples/Showcase Section */}
+      {examplesShowcase && examplesShowcase.length > 0 && (
+        <section className={styles.examples}>
+          <div className={styles.sectionContainer}>
+            <div className={styles.sectionHeader}>
+              <span 
+                className={styles.sectionTag}
+                style={{ color: primaryColor }}
+              >
+                {examplesShowcaseType === 'visual' ? 'EXEMPLOS' : examplesShowcaseType === 'metrics' ? 'RESULTADOS' : 'CASOS DE USO'}
+              </span>
+              <h2 className={styles.sectionTitle}>
+                {examplesShowcaseType === 'visual' ? 'Veja na prática' : examplesShowcaseType === 'metrics' ? 'Números que provam' : 'Histórias reais'}
+              </h2>
+            </div>
+
+            <div className={examplesShowcaseType === 'visual' ? styles.examplesGrid : styles.metricsGrid}>
+              {examplesShowcase.map((example, idx) => (
+                <div key={idx} className={examplesShowcaseType === 'visual' ? styles.exampleCard : styles.metricCard}>
+                  {example.image && (
+                    <img 
+                      src={example.image} 
+                      alt={example.title || `Example ${idx + 1}`} 
+                      className={styles.exampleImage}
+                    />
+                  )}
+                  {!example.image && examplesShowcaseType === 'visual' && (
+                    <div 
+                      className={styles.examplePlaceholder}
+                      style={{ background: `linear-gradient(135deg, ${primaryColor}20 0%, ${primaryColor}40 100%)` }}
+                    >
+                      <span style={{ fontSize: '2rem' }}>🖼️</span>
+                    </div>
+                  )}
+                  <div className={styles.exampleContent}>
+                    <h3 className={styles.exampleTitle} style={{ color: examplesShowcaseType === 'metrics' ? primaryColor : undefined }}>
+                      {example.title}
+                    </h3>
+                    <p className={styles.exampleDescription}>{example.description}</p>
+                  </div>
                 </div>
               ))}
             </div>
