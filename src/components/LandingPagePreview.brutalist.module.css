@@ -726,6 +726,14 @@
   background: #000000;
 }
 
+.showcase .sectionTitle {
+  color: #ffffff;
+}
+
+.showcase .sectionTag {
+  color: #ffff00 !important;
+}
+
 .visualShowcase {
   display: grid;
   gap: 3rem;
