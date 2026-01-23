@@ -391,8 +391,75 @@
   font-weight: 700;
 }
 
-/* ========================================
-   HOW IT WORKS SECTION
+/* ========================================   PRODUCT SECTION - Bold Geometric
+   ======================================== */
+.product {
+  padding: 6rem 0;
+  background: #ffffff;
+  border-bottom: 3px solid #000000;
+}
+
+.productContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.productContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  order: 1;
+}
+
+.productTitle {
+  font-size: 2.5rem;
+  font-weight: 900;
+  line-height: 1.1;
+  color: #000000;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  font-family: 'Arial Black', sans-serif;
+}
+
+.productParagraph {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #000000;
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  font-weight: 700;
+}
+
+.productImage {
+  position: relative;
+  order: 2;
+  border: 8px solid #000000;
+  box-shadow: 12px 12px 0 #000000;
+}
+
+.productImg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.productPlaceholder {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #ffff00;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 4px dashed #000000;
+}
+
+/* ========================================   HOW IT WORKS SECTION
    ======================================== */
 .howItWorks {
   padding: 5rem 0;

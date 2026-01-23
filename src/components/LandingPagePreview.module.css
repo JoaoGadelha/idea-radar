@@ -371,6 +371,69 @@
 }
 
 /* ========================================
+   PRODUCT SECTION - What is the product
+   ======================================== */
+.product {
+  padding: 5rem 0;
+  background: #f9fafb;
+}
+
+.productContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.productContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  order: 1;
+}
+
+.productTitle {
+  font-size: 2.25rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: #1a1a2e;
+  margin: 0;
+}
+
+.productParagraph {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: #4b5563;
+  margin: 0;
+}
+
+.productImage {
+  position: relative;
+  order: 2;
+}
+
+.productImg {
+  width: 100%;
+  height: auto;
+  border-radius: 1rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.productPlaceholder {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: linear-gradient(135deg, #f0f1f3 0%, #e2e4e9 100%);
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #cbd5e1;
+}
+
+/* ========================================
    HOW IT WORKS SECTION
    ======================================== */
 .howItWorks {
@@ -899,4 +962,22 @@
   letter-spacing: 0.05em;
   margin-bottom: 0.5rem;
   color: #9ca3af;
+}
+/* ========================================
+   RESPONSIVE - Mobile
+   ======================================== */
+@media (max-width: 768px) {
+  .aboutContainer,
+  .productContainer {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .productContent {
+    order: 1;
+  }
+  
+  .productImage {
+    order: 2;
+  }
 }

@@ -26,17 +26,22 @@ export default function LandingPagePreview({
   landingPageId = null, // ID da landing page
   onRegenerateImage = null, // Callback para regenerar imagem hero
   onRegenerateAboutImage = null, // Callback para regenerar imagem about
+  onRegenerateProductImage = null, // Callback para regenerar imagem product
   showcaseType = 'none',
   showcaseData = {},
   aboutTitle = '',
   aboutParagraphs = [],
   aboutImage = null,
+  productTitle = '',
+  productParagraphs = [],
+  productImage = null,
 }) {
   const [formData, setFormData] = useState({ email: '', phone: '', suggestions: '' });
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [showRegenerateBtn, setShowRegenerateBtn] = useState(false);
   const [showRegenerateAboutBtn, setShowRegenerateAboutBtn] = useState(false);
+  const [showRegenerateProductBtn, setShowRegenerateProductBtn] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -282,6 +287,58 @@ export default function LandingPagePreview({
               {aboutParagraphs.map((paragraph, idx) => (
                 <p key={idx} className={styles.aboutParagraph}>{paragraph}</p>
               ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Product Section - What is the product */}
+      {productTitle && productParagraphs?.length > 0 && (
+        <section className={styles.product}>
+          <div className={styles.productContainer}>
+            <div className={styles.productContent}>
+              <h2 className={styles.productTitle}>{productTitle}</h2>
+              {productParagraphs.map((paragraph, idx) => (
+                <p key={idx} className={styles.productParagraph}>{paragraph}</p>
+              ))}
+            </div>
+            <div 
+              className={styles.productImage}
+              onMouseEnter={() => onRegenerateProductImage && setShowRegenerateProductBtn(true)}
+              onMouseLeave={() => setShowRegenerateProductBtn(false)}
+              style={{ position: 'relative' }}
+            >
+              {productImage ? (
+                <img src={productImage} alt="Product" className={styles.productImg} />
+              ) : (
+                <div className={styles.productPlaceholder}>
+                  <span style={{ fontSize: '4rem' }}>📱</span>
+                </div>
+              )}
+              
+              {showRegenerateProductBtn && (
+                <button
+                  onClick={onRegenerateProductImage}
+                  style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    padding: '12px 24px',
+                    backgroundColor: primaryColor,
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    fontWeight: '600',
+                    fontSize: '14px',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+                    zIndex: 10,
+                  }}
+                >
+                  {productImage ? '🔄 Regenerar Imagem' : '🎨 Gerar Imagem'}
+                </button>
+              )}
             </div>
           </div>
         </section>

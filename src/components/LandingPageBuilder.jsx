@@ -220,6 +220,51 @@ export default function LandingPageBuilder({ onClose, onSave }) {
       setLoading(false);
     }
   };
+
+  const handleRegenerateProductImage = async (variationIndex) => {
+    if (!variations[variationIndex]?.product_image_prompt) {
+      alert('Esta variação não tem prompt de imagem do produto.');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const res = await fetch('/api/landing-pages/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          projectData: { title: formData.title },
+          brief: variations[variationIndex].product_image_prompt,
+          generateProductImage: true,
+          regenerateProductImageOnly: true,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error('Erro ao regenerar imagem do produto');
+      }
+
+      const data = await res.json();
+      if (data.variation?.product_image) {
+        // Atualizar apenas a imagem product da variação selecionada
+        setVariations(prev => {
+          const updated = [...prev];
+          updated[variationIndex] = {
+            ...updated[variationIndex],
+            product_image: data.variation.product_image
+          };
+          return updated;
+        });
+      }
+    } catch (error) {
+      console.error('Erro ao regenerar imagem do produto:', error);
+      alert(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleGenerate = async () => {
@@ -594,11 +639,15 @@ export default function LandingPageBuilder({ onClose, onSave }) {
               collectSuggestions={formData.collect_suggestions}
               onRegenerateImage={() => handleRegenerateImage(selectedIndex)}
               onRegenerateAboutImage={() => handleRegenerateAboutImage(selectedIndex)}
+              onRegenerateProductImage={() => handleRegenerateProductImage(selectedIndex)}
               showcaseType={variations[selectedIndex].showcase_type}
               showcaseData={variations[selectedIndex].showcase_data}
               aboutTitle={variations[selectedIndex].about_title}
               aboutParagraphs={variations[selectedIndex].about_paragraphs}
               aboutImage={variations[selectedIndex].about_image}
+              productTitle={variations[selectedIndex].product_title}
+              productParagraphs={variations[selectedIndex].product_paragraphs}
+              productImage={variations[selectedIndex].product_image}
             />
           ) : (
             <div className={styles.emptyPreview}>

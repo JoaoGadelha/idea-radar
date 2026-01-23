@@ -118,6 +118,43 @@ export default async function handler(req, res) {
       }
     }
 
+    // Se for apenas regenerar imagem product, fazer processo simplificado
+    if (req.body.regenerateProductImageOnly && req.body.generateProductImage) {
+      try {
+        
+        const geminiImage = createGeminiProvider({
+          apiKey: process.env.GEMINI_API_KEY || process.env.GOOGLE_AI_API_KEY,
+          model: 'gemini-2.0-flash-exp',
+        });
+
+        const imagePrompt = `
+          Professional square 1:1 product visualization for a landing page.
+          ${brief}
+          
+          Style requirements:
+          - Square 1:1 aspect ratio
+          - Modern product/interface visualization
+          - MUST show what the product IS (dashboard, app, marketplace, platform)
+          - Clean, professional digital design aesthetic
+          - High-quality UI elements if applicable
+          - No text labels, logos, or watermarks
+          - Modern tech/SaaS color palette
+        `.trim();
+
+        const imageResult = await geminiImage.generateImage(imagePrompt);
+        const productImageBase64 = `data:${imageResult.mimeType};base64,${imageResult.data}`;
+        
+        return res.json({
+          variation: {
+            product_image: productImageBase64,
+          },
+        });
+      } catch (error) {
+        console.error('Erro ao regenerar imagem product:', error.message);
+        return res.status(500).json({ error: 'Erro ao regenerar imagem product' });
+      }
+    }
+
     if (!projectData || !brief) {
       return res.status(400).json({
         error: 'Missing required fields: projectData and brief',
@@ -234,6 +271,37 @@ export default async function handler(req, res) {
         '  - Exemplo BOM: "Two dog owners chatting in a park while their dogs play together"',
         '  - Exemplo RUIM: "Hands making heart shape" ou "People connecting"',
       ])
+      .section('O QUE É O PRODUTO - Natureza e Funcionamento', [
+        'Explique concretamente O QUE É e COMO FUNCIONA tecnicamente o produto.',
+        'Esta seção complementa o "About" (que fala do problema) explicando a SOLUÇÃO.',
+        '',
+        'product_title: Título que define o tipo de produto.',
+        '  - "Um app que conecta [A] com [B]"',
+        '  - "Seu dashboard de [X]"',
+        '  - "O marketplace de [Y]"',
+        '  - "A plataforma que [faz Z]"',
+        '  LIMITE: 60 caracteres. Seja específico sobre O QUE É.',
+        '',
+        'product_paragraphs: 2-3 parágrafos explicando:',
+        '  1. A NATUREZA do produto (app mobile, web platform, marketplace, dashboard, etc)',
+        '  2. COMO FUNCIONA tecnicamente (conecta usuários, processa dados, mostra insights, etc)',
+        '  3. O que DIFERENCIA de outros produtos similares',
+        '  - Cada parágrafo: 2-3 frases (máx 200 caracteres)',
+        '  - Tom claro e direto, explique como se para alguém técnico',
+        '  - Foque em arquitetura/fluxo, não em benefícios emocionais',
+        '',
+        'product_image_prompt: Descrição para imagem que MOSTRA o produto visualmente.',
+        '  - DEVE representar visualmente O QUE É o produto',
+        '  - Se é dashboard: mostre interface com gráficos, métricas, visualizações',
+        '  - Se é marketplace: mostre grid de cards com produtos/serviços',
+        '  - Se é app de match/conexão: mostre dois telefones com linha conectando',
+        '  - Se é plataforma de dados: mostre visualização de dados, tabelas, analytics',
+        '  - Se é ferramenta de edição: mostre interface com ferramentas, preview',
+        '  - Seja ULTRA específico sobre a interface/visual do produto',
+        '  - Exemplo BOM para app match: "Two smartphone screens side by side with curved dashed line connecting them, modern app UI visible"',
+        '  - Exemplo BOM para dashboard: "Modern dashboard interface with graphs, charts, metrics cards, clean UI design"',
+        '  - Exemplo BOM para marketplace: "Grid layout of service cards with photos, ratings, prices, clean marketplace interface"',
+      ])
       .section('COMO FUNCIONA - Simplicidade', [
         'Mostre que é FÁCIL. O usuário tem medo de complexidade.',
         '',
@@ -337,6 +405,9 @@ export default async function handler(req, res) {
         '  "about_title": "string (máx 60 chars)",',
         '  "about_paragraphs": ["parágrafo 1", "parágrafo 2", "parágrafo 3 (opcional)"],',
         '  "about_image_prompt": "descrição detalhada para gerar imagem conceitual",',
+        '  "product_title": "string (máx 60 chars)",',
+        '  "product_paragraphs": ["parágrafo 1", "parágrafo 2", "parágrafo 3 (opcional)"],',
+        '  "product_image_prompt": "descrição detalhada para gerar imagem do produto/interface",',
         '  "how_it_works": [',
         '    { "icon": "📸", "title": "string", "description": "string" },',
         '    { "icon": "✨", "title": "string", "description": "string" },',
@@ -444,6 +515,42 @@ export default async function handler(req, res) {
       }
     }
 
+    // Gerar product image se tiver prompt
+    let productImageBase64 = null;
+    if (variation.product_image_prompt && generateHeroImage) {
+      try {
+        const geminiImage = createGeminiProvider({
+          apiKey: process.env.GEMINI_API_KEY || process.env.GOOGLE_AI_API_KEY,
+          model: 'gemini-2.0-flash-exp',
+        });
+
+        // Prompt otimizado para product section (visual do produto/interface)
+        const productImagePrompt = `
+          Product visualization image for a landing page, square 1:1 format.
+          
+          Product context: ${brief}
+          
+          Image description: ${variation.product_image_prompt}
+          
+          Style requirements:
+          - Square 1:1 aspect ratio
+          - Modern, clean, professional interface/product design
+          - MUST show what the product IS (dashboard, app UI, marketplace, platform, etc)
+          - Visual representation of the product's interface or architecture
+          - High-quality, polished digital design aesthetic
+          - Clean UI elements if showing interface
+          - No text labels, logos, or watermarks
+          - Modern color palette matching tech/SaaS products
+        `.trim();
+
+        const productImageResult = await geminiImage.generateImage(productImagePrompt);
+        productImageBase64 = `data:${productImageResult.mimeType};base64,${productImageResult.data}`;
+      } catch (imageError) {
+        console.error('Erro ao gerar product image:', imageError.message);
+        // Continua sem imagem se falhar
+      }
+    }
+
     // Validar e normalizar estrutura completa
     const validVariation = {
       id: `temp_${Date.now()}`,
@@ -463,6 +570,13 @@ export default async function handler(req, res) {
         : [],
       about_image_prompt: variation.about_image_prompt || '',
       about_image: aboutImageBase64,
+      // Product Section
+      product_title: variation.product_title?.slice(0, 60) || '',
+      product_paragraphs: Array.isArray(variation.product_paragraphs)
+        ? variation.product_paragraphs.slice(0, 3).map(p => p?.slice(0, 200) || '')
+        : [],
+      product_image_prompt: variation.product_image_prompt || '',
+      product_image: productImageBase64,
       // Como Funciona
       how_it_works: Array.isArray(variation.how_it_works)
         ? variation.how_it_works.slice(0, 3).map((step, idx) => ({
