@@ -3,6 +3,7 @@ import { createPrompt } from '@joaogadelha/prompt-builder';
 import { parseJSON } from '@joaogadelha/response-parser';
 import { createRateLimiter, presets } from '@joaogadelha/rate-limiter';
 import { authenticateRequest } from '../middleware/auth.js';
+import { canGenerateLandingPage, consumeLandingPageSlot } from '../services/planLimiter.js';
 
 // Helper para retry de geração de imagem
 async function generateImageWithRetry(geminiImage, prompt, maxRetries = 3) {
@@ -70,6 +71,23 @@ export default async function handler(req, res) {
   const userId = authResult.userId;
 
   try {
+    // Verificar se o usuário pode gerar landing page (rate limit baseado em plano)
+    const limitCheck = await canGenerateLandingPage(userId);
+    
+    if (!limitCheck.allowed) {
+      return res.status(429).json({
+        error: 'Limite diário atingido',
+        message: `Você atingiu o limite de ${limitCheck.limit} landing pages por dia do plano ${limitCheck.plan}.`,
+        limit: limitCheck.limit,
+        remaining: limitCheck.remaining,
+        waitTime: limitCheck.waitTime,
+        plan: limitCheck.plan,
+        upgradeMessage: limitCheck.plan === 'free' 
+          ? 'Faça upgrade para o plano Pro e gere até 50 landing pages por dia!'
+          : null,
+      });
+    }
+
     // Receber dados do request
     const { 
       projectData, 
@@ -682,11 +700,18 @@ export default async function handler(req, res) {
       cta_subheadline: variation.cta_subheadline || 'Cadastre-se e avisamos quando estiver pronto',
     };
 
+    // ✅ Geração bem-sucedida, consumir slot do plano do usuário
+    await consumeLandingPageSlot(userId);
+    console.log(`[PLAN LIMITER] Slot consumido para user ${userId}. Restam ${limitCheck.remaining - 1}/${limitCheck.limit}`);
+
     return res.status(200).json({
       variation: validVariation,
       metadata: {
         model: 'gemini-2.0-flash-exp',
         generated_at: new Date().toISOString(),
+        plan: limitCheck.plan,
+        remaining: limitCheck.remaining - 1,
+        limit: limitCheck.limit,
       },
     });
   } catch (error) {
