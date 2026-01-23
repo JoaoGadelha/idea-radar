@@ -4,6 +4,33 @@ import { parseJSON } from '@joaogadelha/response-parser';
 import { createRateLimiter, presets } from '@joaogadelha/rate-limiter';
 import { authenticateRequest } from '../middleware/auth.js';
 
+// Helper para retry de geração de imagem
+async function generateImageWithRetry(geminiImage, prompt, maxRetries = 3) {
+  let lastError = null;
+  
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      console.log(`Tentativa ${attempt}/${maxRetries} de gerar imagem`);
+      const imageResult = await geminiImage.generateImage(prompt);
+      return `data:${imageResult.mimeType};base64,${imageResult.data}`;
+    } catch (error) {
+      lastError = error;
+      console.error(`Erro na tentativa ${attempt}:`, error.message);
+      
+      if (attempt < maxRetries) {
+        // Aguardar antes de tentar novamente (exponential backoff)
+        const delayMs = Math.min(1000 * Math.pow(2, attempt - 1), 5000);
+        console.log(`Aguardando ${delayMs}ms antes de tentar novamente...`);
+        await new Promise(resolve => setTimeout(resolve, delayMs));
+      }
+    }
+  }
+  
+  // Se chegou aqui, todas as tentativas falharam
+  console.error(`Falha após ${maxRetries} tentativas:`, lastError?.message);
+  return null;
+}
+
 // Rate limiters para Gemini 2.5 Flash (grátis)
 const dailyLimiter = createRateLimiter({
   ...presets.gemini(),
@@ -468,10 +495,9 @@ export default async function handler(req, res) {
           - Vibrant but not oversaturated colors
         `.trim();
 
-        const imageResult = await geminiImage.generateImage(imagePrompt);
-        heroImageBase64 = `data:${imageResult.mimeType};base64,${imageResult.data}`;
+        heroImageBase64 = await generateImageWithRetry(geminiImage, imagePrompt);
       } catch (imageError) {
-        console.error('Erro ao gerar hero image:', imageError.message);
+        console.error('Erro fatal ao gerar hero image:', imageError.message);
         // Continua sem imagem se falhar
       }
     }
@@ -507,10 +533,9 @@ export default async function handler(req, res) {
           - Vibrant but authentic colors
         `.trim();
 
-        const aboutImageResult = await geminiImage.generateImage(aboutImagePrompt);
-        aboutImageBase64 = `data:${aboutImageResult.mimeType};base64,${aboutImageResult.data}`;
+        aboutImageBase64 = await generateImageWithRetry(geminiImage, aboutImagePrompt);
       } catch (imageError) {
-        console.error('Erro ao gerar about image:', imageError.message);
+        console.error('Erro fatal ao gerar about image:', imageError.message);
         // Continua sem imagem se falhar
       }
     }
@@ -543,10 +568,9 @@ export default async function handler(req, res) {
           - Modern color palette matching tech/SaaS products
         `.trim();
 
-        const productImageResult = await geminiImage.generateImage(productImagePrompt);
-        productImageBase64 = `data:${productImageResult.mimeType};base64,${productImageResult.data}`;
+        productImageBase64 = await generateImageWithRetry(geminiImage, productImagePrompt);
       } catch (imageError) {
-        console.error('Erro ao gerar product image:', imageError.message);
+        console.error('Erro fatal ao gerar product image:', imageError.message);
         // Continua sem imagem se falhar
       }
     }
