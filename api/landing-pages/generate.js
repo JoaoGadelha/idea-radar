@@ -17,19 +17,6 @@ const perMinuteLimiter = createRateLimiter({
   max: 15, // 15 RPM
 });
 
-// Provider para texto
-const gemini = createGeminiProvider({
-  apiKey: process.env.GEMINI_API_KEY || process.env.GOOGLE_AI_API_KEY,
-  model: 'gemini-2.0-flash-exp',
-});
-
-// Provider para imagens
-const geminiImage = createGeminiProvider({
-  apiKey: process.env.GEMINI_API_KEY || process.env.GOOGLE_AI_API_KEY,
-  imageModel: 'gemini-2.0-flash-exp-image',
-  imageConfig: { aspectRatio: ASPECT_RATIOS.LANDSCAPE }
-});
-
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -66,6 +53,12 @@ export default async function handler(req, res) {
     // Verificar rate limits
     await perMinuteLimiter.acquire();
     await dailyLimiter.acquire();
+
+    // Criar provider NOVO para cada request (evita contexto entre chamadas)
+    const gemini = createGeminiProvider({
+      apiKey: process.env.GEMINI_API_KEY || process.env.GOOGLE_AI_API_KEY,
+      model: 'gemini-2.0-flash-exp',
+    });
 
     // Prompt profissional inspirado em landing pages de alta conversão
     const prompt = createPrompt()
