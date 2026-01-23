@@ -314,6 +314,7 @@ export default function LandingPageBuilder({ onClose, onSave }) {
       <div className={styles.content}>
         {/* Input Section */}
         <div className={styles.inputs} ref={inputsRef}>
+          {loading && <div className={styles.inputsOverlay} />}
           <div className={styles.inputGroup}>
             <label>Título da LP</label>
             <input
