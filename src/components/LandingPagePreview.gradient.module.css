@@ -154,7 +154,7 @@
 
 .valueList li {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 0.75rem;
   font-size: 1rem;
   color: #2d3748;
