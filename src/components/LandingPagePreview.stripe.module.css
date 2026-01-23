@@ -16,6 +16,11 @@
   box-sizing: border-box;
 }
 
+.preview input,
+.preview textarea {
+  color: inherit;
+}
+
 /* ========================================
    NAVIGATION
    ======================================== */
@@ -598,8 +603,13 @@
    ======================================== */
 .ctaFinal {
   padding: 8rem 0;
-  color: white;
+  color: #ffffff;
   background: #000000;
+}
+
+.ctaFinal input,
+.ctaFinal textarea {
+  color: #ffffff;
 }
 
 .ctaFinalContainer {
