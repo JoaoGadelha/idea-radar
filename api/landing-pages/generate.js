@@ -231,12 +231,13 @@ export default async function handler(req, res) {
       .section('FAQ - Eliminar Objeções', [
         'Cada pergunta deve atacar uma objeção ou medo comum.',
         '',
-        'faq_items: 4-5 perguntas estratégicas:',
+        'faq_items: EXATAMENTE 6 perguntas estratégicas:',
         '  1. Sobre PREÇO/CUSTO: "É grátis? Quanto vai custar?"',
         '  2. Sobre FACILIDADE: "Preciso de conhecimento técnico?"',
         '  3. Sobre TEMPO: "Quanto tempo demora para ver resultados?"',
         '  4. Sobre CONFIANÇA: "Por que devo confiar nisso?"',
         '  5. Sobre DISPONIBILIDADE: "Quando vai estar disponível?"',
+        '  6. Sobre DADOS/PRIVACIDADE ou COMPATIBILIDADE: "É seguro? Funciona no meu dispositivo?"',
         '',
         'Respostas devem ser:',
         '  - Honestas (é pré-lançamento, não prometa demais)',
@@ -353,7 +354,7 @@ export default async function handler(req, res) {
         : [],
       // FAQ
       faq_items: Array.isArray(variation.faq_items)
-        ? variation.faq_items.slice(0, 5).map(item => ({
+        ? variation.faq_items.slice(0, 6).map(item => ({
             question: item.question || '',
             answer: item.answer || ''
           }))
