@@ -647,7 +647,7 @@
 
 .ctaFinalInput {
   padding: 1rem 1.25rem;
-  border: 1px solid #333333;
+  border: none;
   border-radius: 6px;
   background: #ffffff !important;
   color: #000000 !important;
@@ -670,7 +670,7 @@
 }
 
 .ctaFinalInput:focus {
-  border-color: #000000;
+  border: none;
   background: #ffffff !important;
   color: #000000 !important;
   -webkit-text-fill-color: #000000 !important;
