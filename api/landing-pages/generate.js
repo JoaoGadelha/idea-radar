@@ -181,11 +181,14 @@ export default async function handler(req, res) {
         '  - Tom conversacional, não corporativo',
         '  - Use "você" para conectar diretamente',
         '',
-        'about_image_prompt: Descrição para imagem conceitual/emocional.',
-        '  - Represente o PROBLEMA ou a SOLUÇÃO visualmente',
-        '  - Pode ser metafórico (ex: pessoa frustrada vs pessoa aliviada)',
-        '  - Estilo: moderno, clean, cores suaves',
-        '  - Evite texto na imagem',
+        'about_image_prompt: Descrição para imagem ESPECÍFICA do produto.',
+        '  - DEVE mostrar uma cena REALISTA relacionada ao produto',
+        '  - Mostre PESSOAS em situação do problema OU aproveitando a solução',
+        '  - Seja ESPECÍFICO ao contexto (ex: "donos de pets no parque", "freelancer trabalhando em casa")',
+        '  - Evite símbolos genéricos (coração, aperto de mão, etc)',
+        '  - Descreva: quem está na cena, onde estão, o que estão fazendo',
+        '  - Exemplo BOM: "Two dog owners chatting in a park while their dogs play together"',
+        '  - Exemplo RUIM: "Hands making heart shape" ou "People connecting"',
       ])
       .section('COMO FUNCIONA - Simplicidade', [
         'Mostre que é FÁCIL. O usuário tem medo de complexidade.',
@@ -371,18 +374,22 @@ export default async function handler(req, res) {
 
         // Prompt otimizado para about section (conceitual/emocional)
         const aboutImagePrompt = `
-          Conceptual image for an "about" section in a landing page, square 1:1 format.
-          ${variation.about_image_prompt}
+          Conceptual image for an "about/story" section in a landing page, square 1:1 format.
+          
+          Product context: ${brief}
+          
+          Image description: ${variation.about_image_prompt}
           
           Style requirements:
           - Square 1:1 aspect ratio
           - Modern, clean, professional aesthetic
-          - Emotional and relatable
-          - Soft, welcoming lighting
-          - Can be abstract or metaphorical
-          - Represents a problem or solution visually
+          - MUST relate directly to the product/service described above
+          - Show the PROBLEM scenario or people experiencing the pain point
+          - Realistic scene with people if applicable, not abstract symbols
+          - Emotional and relatable to the target audience
+          - Soft, natural lighting
           - No text, logos, or watermarks
-          - Soft, pastel or neutral colors
+          - Vibrant but authentic colors
         `.trim();
 
         const aboutImageResult = await geminiImage.generateImage(aboutImagePrompt);
