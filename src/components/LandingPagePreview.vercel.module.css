@@ -631,6 +631,188 @@
 }
 
 /* ========================================
+   SHOWCASE SECTION - Vercel Dark Style
+   ======================================== */
+.showcase {
+  padding: 6rem 0;
+  background: linear-gradient(180deg, #000 0%, #0a0a0a 100%);
+}
+
+/* Visual Showcase */
+.visualShowcase {
+  display: grid;
+  gap: 3rem;
+  margin-top: 3rem;
+}
+
+.visualExample {
+  background: #111;
+  border-radius: 12px;
+  padding: 2.5rem;
+  border: 1px solid #262626;
+}
+
+.exampleTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 2rem 0;
+  color: #fff;
+}
+
+.beforeAfter {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+
+.beforeAfterItem {
+  text-align: center;
+}
+
+.beforeAfterLabel {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #888;
+  margin-bottom: 1rem;
+}
+
+.beforeAfterBox {
+  background: #0a0a0a;
+  border: 1px solid #262626;
+  border-radius: 8px;
+  padding: 2rem 1.5rem;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.beforeAfterBox p {
+  margin: 0;
+  color: #ccc;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.beforeAfterArrow {
+  font-size: 2rem;
+  font-weight: 300;
+  color: #fff;
+}
+
+/* Metrics Showcase */
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.metricCard {
+  background: #111;
+  border: 1px solid #262626;
+  border-radius: 12px;
+  padding: 3rem 1.5rem;
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.metricCard:hover {
+  border-color: currentColor;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.metricIcon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.metricValue {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, #fff 0%, #888 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.metricLabel {
+  font-size: 0.875rem;
+  color: #888;
+  font-weight: 500;
+}
+
+/* Use Cases Showcase */
+.useCasesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.useCaseCard {
+  background: #111;
+  border: 1px solid #262626;
+  border-radius: 12px;
+  padding: 2.5rem;
+  transition: all 0.3s;
+}
+
+.useCaseCard:hover {
+  border-color: currentColor;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.useCaseAvatar {
+  font-size: 3.5rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  line-height: 1;
+}
+
+.useCasePersona {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  background: linear-gradient(135deg, currentColor 0%, #888 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.useCaseProblem {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #262626;
+  color: #888;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.useCaseSolution {
+  color: #fff;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.useCaseProblem strong,
+.useCaseSolution strong {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.75rem;
+  color: #666;
+  font-weight: 600;
+}
+
+/* ========================================
    RESPONSIVE
    ======================================== */
 @media (max-width: 1024px) {
