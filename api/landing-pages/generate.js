@@ -71,15 +71,20 @@ export default async function handler(req, res) {
         'Antecipar e resolver objeções antes que o usuário as levante',
       ])
       .context(`
-        ## IMPORTANTE: IGNORE QUALQUER CONTEXTO ANTERIOR
-        Você está criando uma landing page APENAS com base nas informações abaixo.
-        NÃO use informações de projetos anteriores ou exemplos genéricos.
+        ⚠️ ATENÇÃO: NOVA SOLICITAÇÃO (ID: ${Date.now()})
         
-        ## SOBRE O PRODUTO
-        Nome: ${projectData.name}
+        ## REGRA CRÍTICA: RESET TOTAL DE CONTEXTO
+        - Esqueça COMPLETAMENTE qualquer projeto ou briefing anterior
+        - Esta é uma solicitação TOTALMENTE NOVA e INDEPENDENTE
+        - NÃO reutilize nenhum conteúdo de respostas anteriores
+        - NÃO faça suposições baseadas em padrões de projetos passados
+        - Leia o briefing abaixo como se fosse a primeira vez que está vendo
+        
+        ## SOBRE ESTE PRODUTO ESPECÍFICO
+        Nome do Produto: ${projectData.name}
         ${projectData.description ? `Descrição: ${projectData.description}` : ''}
         
-        ## BRIEFING DETALHADO DO CLIENTE
+        ## BRIEFING COMPLETO DO CLIENTE
         ${brief || 'Produto digital inovador'}
         
         ## CONTEXTO DA LANDING PAGE
@@ -87,11 +92,15 @@ export default async function handler(req, res) {
         O produto ainda não existe - queremos medir interesse real do mercado.
         O objetivo é capturar emails de early adopters genuinamente interessados.
         
-        ## INSTRUÇÕES CRÍTICAS
-        - Use APENAS as informações do briefing acima
-        - NÃO invente features que não foram mencionadas
-        - NÃO use exemplos de outros produtos (como apps de fotos, design de interiores, etc)
-        - Seja 100% fiel ao conceito descrito no briefing
+        ## VALIDAÇÃO OBRIGATÓRIA ANTES DE RESPONDER
+        Antes de gerar qualquer texto, confirme mentalmente:
+        1. O produto é sobre: ${projectData.name}
+        2. O conceito principal é: ${brief.substring(0, 100)}...
+        3. NÃO É SOBRE: fotos, design de interiores, moda, looks, imagens, ou qualquer outro tópico
+        4. Se o briefing mencionar "cachorros", DEVE ser sobre cachorros
+        5. Se o briefing mencionar "habilidades", DEVE ser sobre troca de habilidades
+        
+        Se você está pensando em gerar algo que NÃO está relacionado ao briefing acima, PARE e releia.
       `)
       .section('HERO SECTION - Primeira Impressão', [
         'Esta é a seção mais importante. O usuário decide em 3 segundos se fica ou sai.',
