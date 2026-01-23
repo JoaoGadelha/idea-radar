@@ -24,7 +24,8 @@ export default function LandingPagePreview({
   isInteractive = false,
   projectId = null, // ID do projeto para salvar leads
   landingPageId = null, // ID da landing page
-  onRegenerateImage = null, // Callback para regenerar imagem
+  onRegenerateImage = null, // Callback para regenerar imagem hero
+  onRegenerateAboutImage = null, // Callback para regenerar imagem about
   showcaseType = 'none',
   showcaseData = {},
   aboutTitle = '',
@@ -35,6 +36,7 @@ export default function LandingPagePreview({
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [showRegenerateBtn, setShowRegenerateBtn] = useState(false);
+  const [showRegenerateAboutBtn, setShowRegenerateAboutBtn] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -237,13 +239,42 @@ export default function LandingPagePreview({
       {aboutTitle && aboutParagraphs?.length > 0 && (
         <section className={styles.about}>
           <div className={styles.aboutContainer}>
-            <div className={styles.aboutImage}>
+            <div 
+              className={styles.aboutImage}
+              onMouseEnter={() => onRegenerateAboutImage && setShowRegenerateAboutBtn(true)}
+              onMouseLeave={() => setShowRegenerateAboutBtn(false)}
+              style={{ position: 'relative' }}
+            >
               {aboutImage ? (
                 <img src={aboutImage} alt="About" className={styles.aboutImg} />
               ) : (
                 <div className={styles.aboutPlaceholder}>
                   <span style={{ fontSize: '4rem' }}>💡</span>
                 </div>
+              )}
+              
+              {showRegenerateAboutBtn && (
+                <button
+                  onClick={onRegenerateAboutImage}
+                  style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    padding: '12px 24px',
+                    backgroundColor: primaryColor,
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    fontWeight: '600',
+                    fontSize: '14px',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+                    zIndex: 10,
+                  }}
+                >
+                  {aboutImage ? '🔄 Regenerar Imagem' : '🎨 Gerar Imagem'}
+                </button>
               )}
             </div>
             <div className={styles.aboutContent}>

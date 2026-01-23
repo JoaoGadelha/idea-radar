@@ -35,9 +35,16 @@ export default async function handler(req, res) {
 
   try {
     // Receber dados do request
-    const { projectData, brief, generateHeroImage = false, regenerateImageOnly = false } = req.body;
+    const { 
+      projectData, 
+      brief, 
+      generateHeroImage = false, 
+      generateAboutImage = false,
+      regenerateImageOnly = false,
+      regenerateAboutImageOnly = false
+    } = req.body;
 
-    // Se for apenas regenerar imagem, fazer processo simplificado
+    // Se for apenas regenerar imagem hero, fazer processo simplificado
     if (regenerateImageOnly && generateHeroImage) {
       try {
         
@@ -69,8 +76,45 @@ export default async function handler(req, res) {
           },
         });
       } catch (error) {
-        console.error('Erro ao regenerar imagem:', error.message);
-        return res.status(500).json({ error: 'Erro ao regenerar imagem' });
+        console.error('Erro ao regenerar imagem hero:', error.message);
+        return res.status(500).json({ error: 'Erro ao regenerar imagem hero' });
+      }
+    }
+
+    // Se for apenas regenerar imagem about, fazer processo simplificado
+    if (regenerateAboutImageOnly && generateAboutImage) {
+      try {
+        
+        const geminiImage = createGeminiProvider({
+          apiKey: process.env.GEMINI_API_KEY || process.env.GOOGLE_AI_API_KEY,
+          model: 'gemini-2.0-flash-exp',
+        });
+
+        const imagePrompt = `
+          Professional square 1:1 image for an "about/story" section of a landing page.
+          ${brief}
+          
+          Style requirements:
+          - Square 1:1 aspect ratio
+          - Realistic, authentic scene (no generic symbols or illustrations)
+          - Show real people or real situations that the product addresses
+          - Contextual to the product's problem space
+          - High-quality, professional photography style
+          - Natural lighting, relatable environment
+          - No text, logos, or watermarks
+        `.trim();
+
+        const imageResult = await geminiImage.generateImage(imagePrompt);
+        const aboutImageBase64 = `data:${imageResult.mimeType};base64,${imageResult.data}`;
+        
+        return res.json({
+          variation: {
+            about_image: aboutImageBase64,
+          },
+        });
+      } catch (error) {
+        console.error('Erro ao regenerar imagem about:', error.message);
+        return res.status(500).json({ error: 'Erro ao regenerar imagem about' });
       }
     }
 

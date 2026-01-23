@@ -163,19 +163,63 @@ export default function LandingPageBuilder({ onClose, onSave }) {
         // Atualizar apenas a imagem da variação selecionada
         setVariations(prev => {
           const updated = [...prev];
+          updated[variationIndex].hero_image = data.variation.hero_image;
+          return updated;
+        });
+      }
+    } catch (err) {
+      console.error('Erro ao regenerar imagem:', err);
+      alert('Erro ao regenerar imagem. Tente novamente.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRegenerateAboutImage = async (variationIndex) => {
+    if (!variations[variationIndex]?.about_image_prompt) {
+      alert('Esta variação não tem prompt de imagem do about.');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const res = await fetch('/api/landing-pages/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          projectData: { title: formData.title },
+          brief: variations[variationIndex].about_image_prompt,
+          generateAboutImage: true,
+          regenerateAboutImageOnly: true,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error('Erro ao regenerar imagem do about');
+      }
+
+      const data = await res.json();
+      if (data.variation?.about_image) {
+        // Atualizar apenas a imagem about da variação selecionada
+        setVariations(prev => {
+          const updated = [...prev];
           updated[variationIndex] = {
             ...updated[variationIndex],
-            hero_image: data.variation.hero_image
+            about_image: data.variation.about_image
           };
           return updated;
         });
       }
     } catch (error) {
-      console.error('Erro ao regenerar imagem:', error);
+      console.error('Erro ao regenerar imagem do about:', error);
       alert(error.message);
     } finally {
       setLoading(false);
     }
+  };
   };
 
   const handleGenerate = async () => {
@@ -549,6 +593,7 @@ export default function LandingPageBuilder({ onClose, onSave }) {
               collectPhone={formData.collect_phone}
               collectSuggestions={formData.collect_suggestions}
               onRegenerateImage={() => handleRegenerateImage(selectedIndex)}
+              onRegenerateAboutImage={() => handleRegenerateAboutImage(selectedIndex)}
               showcaseType={variations[selectedIndex].showcase_type}
               showcaseData={variations[selectedIndex].showcase_data}
               aboutTitle={variations[selectedIndex].about_title}
