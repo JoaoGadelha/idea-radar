@@ -35,9 +35,50 @@ export default async function handler(req, res) {
 
   try {
     // Receber dados do request
-    const { projectData, brief, generateHeroImage = false } = req.body;
+    const { projectData, brief, generateHeroImage = false, regenerateImageOnly = false } = req.body;
 
     console.log('🎨 [Generate] generateHeroImage flag:', generateHeroImage);
+    console.log('🎨 [Generate] regenerateImageOnly flag:', regenerateImageOnly);
+
+    // Se for apenas regenerar imagem, fazer processo simplificado
+    if (regenerateImageOnly && generateHeroImage) {
+      try {
+        console.log('🖼️ [Generate] Regenerando apenas hero image...');
+        
+        const geminiImage = createGeminiProvider({
+          apiKey: process.env.GEMINI_API_KEY || process.env.GOOGLE_AI_API_KEY,
+          model: 'gemini-2.0-flash-exp',
+        });
+
+        const imagePrompt = `
+          Professional hero image for a landing page in wide 16:9 horizontal format.
+          ${brief}
+          
+          Style requirements:
+          - Wide landscape 16:9 aspect ratio (horizontal orientation)
+          - Modern, clean, professional aesthetic
+          - Bright, optimistic lighting
+          - High-quality, polished look
+          - Suitable for a tech/SaaS landing page
+          - No text, logos, or watermarks
+          - Vibrant but not oversaturated colors
+        `.trim();
+
+        const imageResult = await geminiImage.generateImage(imagePrompt);
+        const heroImageBase64 = `data:${imageResult.mimeType};base64,${imageResult.data}`;
+        
+        console.log('✅ [Generate] Nova hero image gerada com sucesso');
+        
+        return res.json({
+          variation: {
+            hero_image: heroImageBase64,
+          },
+        });
+      } catch (error) {
+        console.error('❌ [Generate] Erro ao regenerar imagem:', error);
+        return res.status(500).json({ error: 'Erro ao regenerar imagem' });
+      }
+    }
 
     if (!projectData || !brief) {
       return res.status(400).json({

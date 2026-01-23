@@ -24,10 +24,12 @@ export default function LandingPagePreview({
   isInteractive = false,
   projectId = null, // ID do projeto para salvar leads
   landingPageId = null, // ID da landing page
+  onRegenerateImage = null, // Callback para regenerar imagem
 }) {
   const [formData, setFormData] = useState({ email: '', phone: '', suggestions: '' });
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [showRegenerateBtn, setShowRegenerateBtn] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -148,17 +150,47 @@ export default function LandingPagePreview({
 
           {/* Hero Image */}
           {heroImageType !== 'none' && (
-            <div className={styles.heroVisual}>
+            <div 
+              className={styles.heroVisual}
+              onMouseEnter={() => heroImageType === 'ai' && onRegenerateImage && setShowRegenerateBtn(true)}
+              onMouseLeave={() => setShowRegenerateBtn(false)}
+              style={{ position: 'relative' }}
+            >
               {heroImage ? (
-                <img 
-                  src={heroImage} 
-                  alt="Hero" 
-                  className={styles.heroImage}
-                  onError={(e) => {
-                    e.target.style.display = 'none';
-                    e.target.nextElementSibling.style.display = 'flex';
-                  }}
-                />
+                <>
+                  <img 
+                    src={heroImage} 
+                    alt="Hero" 
+                    className={styles.heroImage}
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                      e.target.nextElementSibling.style.display = 'flex';
+                    }}
+                  />
+                  {showRegenerateBtn && (
+                    <button
+                      onClick={onRegenerateImage}
+                      style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        padding: '12px 24px',
+                        backgroundColor: primaryColor,
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        fontWeight: '600',
+                        fontSize: '14px',
+                        boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+                        zIndex: 10,
+                      }}
+                    >
+                      🔄 Regenerar Imagem
+                    </button>
+                  )}
+                </>
               ) : null}
               <div 
                 className={styles.heroPlaceholder}

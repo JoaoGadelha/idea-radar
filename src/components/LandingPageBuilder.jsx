@@ -133,6 +133,52 @@ export default function LandingPageBuilder({ onClose, onSave }) {
     });
   };
 
+  const handleRegenerateImage = async (variationIndex) => {
+    if (!variations[variationIndex]?.hero_image_prompt) {
+      alert('Esta variação não tem prompt de imagem definido.');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const res = await fetch('/api/landing-pages/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          projectData: { title: formData.title },
+          brief: variations[variationIndex].hero_image_prompt,
+          generateHeroImage: true,
+          regenerateImageOnly: true,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error('Erro ao regenerar imagem');
+      }
+
+      const data = await res.json();
+      if (data.variation?.hero_image) {
+        // Atualizar apenas a imagem da variação selecionada
+        setVariations(prev => {
+          const updated = [...prev];
+          updated[variationIndex] = {
+            ...updated[variationIndex],
+            hero_image: data.variation.hero_image
+          };
+          return updated;
+        });
+      }
+    } catch (error) {
+      console.error('Erro ao regenerar imagem:', error);
+      alert(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleGenerate = async () => {
     if (!formData.title || !formData.brief) {
       alert('Preencha o título e a descrição do projeto');
@@ -481,7 +527,12 @@ export default function LandingPageBuilder({ onClose, onSave }) {
 
         {/* Preview */}
         <div className={styles.preview} ref={previewRef}>
-          {variations.length > 0 ? (
+          {loading ? (
+            <div className={styles.emptyPreview}>
+              <div className={styles.loadingSpinner}>⏳</div>
+              <p>Gerando sua landing page...</p>
+            </div>
+          ) : variations.length > 0 ? (
             <LandingPagePreview
               headline={variations[selectedIndex].headline}
               subheadline={variations[selectedIndex].subheadline}
@@ -497,17 +548,8 @@ export default function LandingPageBuilder({ onClose, onSave }) {
               template={formData.template}
               collectPhone={formData.collect_phone}
               collectSuggestions={formData.collect_suggestions}
+              onRegenerateImage={() => handleRegenerateImage(selectedIndex)}
             />
-          ) : loading ? (
-            <div className={styles.emptyPreview}>
-              <div className={styles.loadingSpinner}>⏳</div>
-              <p>Gerando sua landing page...</p>
-            </div>
-          ) : loading ? (
-            <div className={styles.emptyPreview}>
-              <div className={styles.loadingSpinner}>⏳</div>
-              <p>Gerando sua landing page...</p>
-            </div>
           ) : (
             <div className={styles.emptyPreview}>
               <p>👈 Preencha os campos e clique em "Gerar com IA"</p>
