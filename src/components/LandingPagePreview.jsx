@@ -33,18 +33,18 @@ export default function LandingPagePreview({
     e.preventDefault();
     if (!isInteractive) return;
 
-    // Se não tiver projectId, apenas simula sucesso (preview)
-    if (!projectId) {
-      setLoading(true);
-      setTimeout(() => {
-        setSubmitted(true);
-        setLoading(false);
-      }, 500);
-      return;
-    }
-
     setLoading(true);
     try {
+      // Modo simulação (preview sem projectId)
+      if (!projectId) {
+        await new Promise(resolve => setTimeout(resolve, 800));
+        setSubmitted(true);
+        setFormData({ name: '', email: '', phone: '' });
+        setLoading(false);
+        return;
+      }
+
+      // Modo real (com projectId)
       const res = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
