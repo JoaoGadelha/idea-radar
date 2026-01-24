@@ -224,6 +224,10 @@ export default async function handler(req, res) {
     const gemini = createGeminiProvider({
       apiKey: process.env.GEMINI_API_KEY || process.env.GOOGLE_AI_API_KEY,
       model: 'gemini-2.5-flash',
+      generationConfig: {
+        maxTokens: 8192, // Aumentar para garantir resposta completa (JSON grande)
+        temperature: 0.7,
+      }
     });
 
     // Limpar histórico antes de usar (garantia extra)
