@@ -142,6 +142,33 @@ export default function LandingPageBuilder({ onClose, onSave }) {
     });
   };
 
+  const handleZenFlowPopulate = () => {
+    setFormData({
+      ...formData,
+      title: 'ZenFlow',
+      slug: 'zenflow',
+      brief: 'Um aplicativo de meditação guiada com IA que personaliza sessões baseadas no seu nível de estresse, humor e objetivos pessoais. Oferece meditações de 5 a 30 minutos, sons da natureza, e tracking de progresso emocional.',
+    });
+  };
+
+  const handlePetChefPopulate = () => {
+    setFormData({
+      ...formData,
+      title: 'PetChef Pro',
+      slug: 'petchef-pro',
+      brief: 'Serviço de assinatura mensal que entrega refeições frescas e personalizadas para cães e gatos, formuladas por veterinários nutricionistas. As receitas são adaptadas à idade, raça, peso e condições de saúde do pet, com ingredientes naturais e embalagem eco-friendly.',
+    });
+  };
+
+  const handleCodeMentorPopulate = () => {
+    setFormData({
+      ...formData,
+      title: 'CodeMentor AI',
+      slug: 'codementor-ai',
+      brief: 'Plataforma de ensino de programação com tutor de IA disponível 24/7 que corrige código em tempo real, explica conceitos complexos de forma simples, e cria exercícios personalizados baseados no seu nível. Suporta mais de 15 linguagens de programação.',
+    });
+  };
+
   const handleRegenerateImage = async (variationIndex) => {
     if (!variations[variationIndex]?.hero_image_prompt) {
       alert('Esta variação não tem prompt de imagem definido.');
@@ -407,6 +434,27 @@ export default function LandingPageBuilder({ onClose, onSave }) {
             title="Preencher com exemplo"
           >
             🧪 DEV
+          </button>
+          <button 
+            onClick={handleZenFlowPopulate} 
+            className={styles.devBtn}
+            title="ZenFlow - Meditação com IA"
+          >
+            ZenFlow
+          </button>
+          <button 
+            onClick={handlePetChefPopulate} 
+            className={styles.devBtn}
+            title="PetChef Pro - Refeições para pets"
+          >
+            PetChef Pro
+          </button>
+          <button 
+            onClick={handleCodeMentorPopulate} 
+            className={styles.devBtn}
+            title="CodeMentor AI - Tutor de programação"
+          >
+            CodeMentor AI
           </button>
         </div>
         <button onClick={onClose} className={styles.closeBtn}>✕</button>
