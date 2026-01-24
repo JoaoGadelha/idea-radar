@@ -102,6 +102,12 @@ export default function LandingPagePreview({
           <button 
             className={styles.navCta}
             style={{ backgroundColor: primaryColor }}
+            onClick={() => {
+              const ctaSection = document.querySelector('[data-cta-final]');
+              if (ctaSection) {
+                ctaSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              }
+            }}
           >
             {ctaText || 'Começar'}
           </button>
