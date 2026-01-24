@@ -147,16 +147,15 @@
 }
 
 .inputsOverlay {
-  position: absolute;
-  top: 0;
+  position: fixed;
+  top: 60px;
   left: 0;
-  right: 0;
+  width: 300px;
   bottom: 0;
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(2px);
   z-index: 10;
   cursor: not-allowed;
-  min-height: 100%;
 }
 
 .inputGroup {
