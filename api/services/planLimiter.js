@@ -51,32 +51,32 @@ export async function canGenerateLandingPage(userId) {
   }
 
   const limiter = getLandingPageLimiter();
-  const result = limiter.tryAcquire(userId);
-
-  // Calcula quantas requisições já fez hoje
   const status = limiter.getStatus(userId);
-  const used = limit - status.remaining;
+  
+  // Calcula quantas já usou (maxRequests do limiter - remaining do limiter)
+  const usedInLimiter = 100 - status.remaining;
+  
+  // Calcula quantas restam do limite do plano
+  const remaining = Math.max(0, limit - usedInLimiter);
 
   // Verifica se excedeu o limite do plano
-  if (used >= limit) {
+  if (remaining <= 0) {
     return {
       allowed: false,
       limit,
       remaining: 0,
-      waitTime: result.waitTime,
+      waitTime: status.retryAfter,
       plan: userPlan,
     };
   }
 
-  // Se pode gerar, adquire o slot
-  if (result.allowed) {
-    return {
-      allowed: true,
-      limit,
-      remaining: limit - used - 1,
-      plan: userPlan,
-    };
-  }
+  // Se pode gerar
+  return {
+    allowed: true,
+    limit,
+    remaining,
+    plan: userPlan,
+  };
 
   return {
     allowed: false,

@@ -702,7 +702,8 @@ export default async function handler(req, res) {
 
     // ✅ Geração bem-sucedida, consumir slot do plano do usuário
     await consumeLandingPageSlot(userId);
-    console.log(`[PLAN LIMITER] Slot consumido para user ${userId}. Restam ${limitCheck.remaining - 1}/${limitCheck.limit}`);
+    const remainingAfter = Math.max(0, limitCheck.remaining - 1);
+    console.log(`[PLAN LIMITER] Slot consumido para user ${userId}. Restam ${remainingAfter} de ${limitCheck.limit}`);
 
     return res.status(200).json({
       variation: validVariation,
@@ -710,7 +711,7 @@ export default async function handler(req, res) {
         model: 'gemini-2.0-flash-exp',
         generated_at: new Date().toISOString(),
         plan: limitCheck.plan,
-        remaining: limitCheck.remaining - 1,
+        remaining: Math.max(0, limitCheck.remaining - 1),
         limit: limitCheck.limit,
       },
     });
