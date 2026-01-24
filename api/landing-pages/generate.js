@@ -489,10 +489,17 @@ export default async function handler(req, res) {
     // Chamar Gemini para gerar copy
     const response = await gemini.generate(prompt);
 
+    console.log('[GEMINI RESPONSE] Tamanho da resposta:', response?.length || 0);
+    console.log('[GEMINI RESPONSE] Preview:', response?.substring(0, 500));
+
     // Extrair JSON da resposta
     const variation = parseJSON(response);
 
+    console.log('[PARSE JSON] Resultado:', variation ? 'Sucesso' : 'Falhou');
+    console.log('[PARSE JSON] Tipo:', typeof variation);
+
     if (!variation || typeof variation !== 'object') {
+      console.error('[PARSE JSON] Resposta completa que falhou:', response);
       throw new Error('Formato de resposta inválido');
     }
 
