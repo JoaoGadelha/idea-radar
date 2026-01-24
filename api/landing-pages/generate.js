@@ -109,11 +109,11 @@ export default async function handler(req, res) {
         });
 
         const imagePrompt = `
-          Professional hero image for a landing page in wide 16:9 horizontal format.
+          Professional hero image for a landing page in square 1:1 format.
           ${brief}
           
           Style requirements:
-          - Wide landscape 16:9 aspect ratio (horizontal orientation)
+          - Square 1:1 aspect ratio
           - Modern, clean, professional aesthetic
           - Bright, optimistic lighting
           - High-quality, polished look
@@ -511,11 +511,11 @@ export default async function handler(req, res) {
 
         // Prompt otimizado para hero de landing page
         const imagePrompt = `
-          Professional hero image for a landing page in wide 16:9 horizontal format.
+          Professional hero image for a landing page in square 1:1 format.
           ${variation.hero_image_prompt}
           
           Style requirements:
-          - Wide landscape 16:9 aspect ratio (horizontal orientation)
+          - Square 1:1 aspect ratio
           - Modern, clean, professional aesthetic
           - Bright, optimistic lighting
           - High-quality, polished look
