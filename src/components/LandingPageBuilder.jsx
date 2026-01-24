@@ -433,7 +433,7 @@ export default function LandingPageBuilder({ onClose, onSave }) {
             className={styles.devBtn}
             title="Preencher com exemplo"
           >
-            🧪 DEV
+            SkillSwap
           </button>
           <button 
             onClick={handleZenFlowPopulate} 
