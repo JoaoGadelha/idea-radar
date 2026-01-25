@@ -91,10 +91,11 @@ Usuário: "FitPlate, app de nutrição"
     if (codeBlockMatch) {
       jsonText = codeBlockMatch[1];
     } else {
-      // Tentar extrair JSON direto
-      const jsonMatch = aiText.match(/\{[\s\S]*\}/);
-      if (jsonMatch) {
-        jsonText = jsonMatch[0];
+      // Tentar extrair JSON direto - pega do primeiro { até o último }
+      const firstBrace = aiText.indexOf('{');
+      const lastBrace = aiText.lastIndexOf('}');
+      if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+        jsonText = aiText.substring(firstBrace, lastBrace + 1);
       }
     }
     
