@@ -91,8 +91,16 @@ export default function ConversationalInterview() {
         setIsComplete(true);
       }
 
+      // Montar mensagem: acknowledgment + nextQuestion (se diferente)
+      let message = result.acknowledgment || result.nextQuestion || 'Ops! Tive um problema. Pode tentar de novo?';
+      
+      // Adicionar nextQuestion apenas se for diferente do acknowledgment
+      if (result.nextQuestion && result.nextQuestion !== result.acknowledgment && !result.isComplete) {
+        message += '\n\n' + result.nextQuestion;
+      }
+
       return {
-        message: result.acknowledgment || result.nextQuestion || 'Ops! Tive um problema. Pode tentar de novo?',
+        message,
         isComplete: result.isComplete,
       };
       
