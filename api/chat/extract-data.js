@@ -83,20 +83,19 @@ Usuário: "FitPlate, app de nutrição"
     
     console.log('[AI Response]', aiText);
     
-    // Extrair JSON da resposta (suporta blocos markdown ou JSON direto)
+    // Extrair JSON da resposta
     let jsonText = aiText;
     
-    // Tentar extrair de bloco de código markdown primeiro
-    const codeBlockMatch = aiText.match(/```(?:json)?\s*(\{[\s\S]*?\})\s*```/);
-    if (codeBlockMatch) {
-      jsonText = codeBlockMatch[1];
-    } else {
-      // Tentar extrair JSON direto - pega do primeiro { até o último }
-      const firstBrace = aiText.indexOf('{');
-      const lastBrace = aiText.lastIndexOf('}');
-      if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
-        jsonText = aiText.substring(firstBrace, lastBrace + 1);
-      }
+    // Remover blocos de código markdown se presentes
+    if (aiText.includes('```')) {
+      jsonText = aiText.replace(/```json\s*/gi, '').replace(/```\s*/g, '');
+    }
+    
+    // Extrair JSON - do primeiro { até o último }
+    const firstBrace = jsonText.indexOf('{');
+    const lastBrace = jsonText.lastIndexOf('}');
+    if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+      jsonText = jsonText.substring(firstBrace, lastBrace + 1);
     }
     
     // Tentar parsear diretamente primeiro
