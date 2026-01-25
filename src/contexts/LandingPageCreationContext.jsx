@@ -49,6 +49,12 @@ export function LandingPageCreationProvider({ children }) {
   };
 
   const addChatMessage = (message) => {
+    // Se for mensagem de reset, limpar histórico exceto primeira mensagem
+    if (message.role === 'reset') {
+      const initialMessage = chatHistory[0];
+      setChatHistory(initialMessage ? [initialMessage] : []);
+      return;
+    }
     setChatHistory(prev => [...prev, message]);
   };
 

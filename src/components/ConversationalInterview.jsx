@@ -18,6 +18,13 @@ export default function ConversationalInterview() {
   const [isComplete, setIsComplete] = useState(false);
   const messagesEndRef = useRef(null);
 
+  // Verificar se API key existe
+  useEffect(() => {
+    if (!import.meta.env.VITE_GEMINI_API_KEY) {
+      console.error('❌ VITE_GEMINI_API_KEY não configurada no .env');
+    }
+  }, []);
+
   useEffect(() => {
     // Mensagem inicial da AI
     if (chatHistory.length === 0) {
@@ -35,6 +42,16 @@ export default function ConversationalInterview() {
   }, [chatHistory, isTyping]);
 
   const extractDataFromResponse = async (userMessage) => {
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+    
+    if (!apiKey) {
+      console.error('❌ API Key não encontrada');
+      return {
+        message: 'Ótima pergunta! Os campos principais são:\n\n📝 **Nome do projeto**\n💡 **Descrição** (o que faz, para quem serve)\n🎯 **Benefícios principais**\n🎨 **Cor da marca** (opcional)\n\nTambém posso coletar pricing, depoimentos e garantia, mas são opcionais!\n\nPode colar uma descrição completa do seu projeto ou ir me contando aos poucos. Como prefere começar?',
+        isComplete: false,
+      };
+    }
+    
     try {
       const prompt = `Você é um assistente especializado em coletar informações para criar landing pages.
 
@@ -93,7 +110,7 @@ Usuário: "FitPlate, app de nutrição"
 → acknowledgment: "Legal! FitPlate - app de nutrição. Me conta mais: para quem é esse app e quais são os principais benefícios?"`;
 
       const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -108,6 +125,12 @@ Usuário: "FitPlate, app de nutrição"
           }),
         }
       );
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        console.error('❌ Gemini API Error:', response.status, errorData);
+        throw new Error(`API Error: ${response.status}`);
+      }
 
       const data = await response.json();
       const aiText = data.candidates[0]?.content?.parts[0]?.text || '';
@@ -210,6 +233,29 @@ Usuário: "FitPlate, app de nutrição"
     setShowChat(false);
   };
 
+  const handleReset = () => {
+    if (chatHistory.length <= 1) return; // Não resetar se só tem mensagem inicial
+    
+    if (confirm('Deseja reiniciar a conversa? Os dados já coletados serão mantidos.')) {
+      // Manter apenas a mensagem inicial
+      const initialMessage = chatHistory[0];
+      addChatMessage({ role: 'reset', content: '' }); // Flag para limpar
+      
+      // Resetar estado local
+      setIsTyping(false);
+      setIsComplete(false);
+      setInput('');
+      
+      // Adicionar mensagem de reset
+      setTimeout(() => {
+        addChatMessage({
+          role: 'ai',
+          content: '🔄 Conversa reiniciada! Vamos começar de novo. Me conta sobre seu projeto!'
+        });
+      }, 300);
+    }
+  };
+
   return (
     <div className={styles.container} onClick={handleClose}>
       <div className={styles.chatWindow} onClick={(e) => e.stopPropagation()}>
@@ -222,9 +268,19 @@ Usuário: "FitPlate, app de nutrição"
               <p>Conte-me sobre seu projeto</p>
             </div>
           </div>
-          <button className={styles.closeButton} onClick={handleClose}>
-            ✕
-          </button>
+          <div className={styles.headerRight}>
+            <button 
+              className={styles.resetButton} 
+              onClick={handleReset}
+              disabled={chatHistory.length <= 1}
+              title="Reiniciar conversa"
+            >
+              🔄
+            </button>
+            <button className={styles.closeButton} onClick={handleClose}>
+              ✕
+            </button>
+          </div>
         </div>
 
         {/* Progress Bar */}
