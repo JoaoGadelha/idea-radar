@@ -36,12 +36,11 @@ export default function ConversationalInterview() {
 
   const extractDataFromResponse = async (userMessage) => {
     try {
-      // Chamar API backend ao invés de Gemini diretamente
       const response = await fetch('/api/chat/extract-data', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           userMessage,
@@ -57,7 +56,6 @@ export default function ConversationalInterview() {
       }
 
       const result = await response.json();
-      
       console.log('[Extracted Result]', result);
       
       // Atualizar dados coletados
@@ -85,9 +83,9 @@ export default function ConversationalInterview() {
         message: result.acknowledgment + (result.isComplete ? '' : (result.nextQuestion ? '\n\n' + result.nextQuestion : '')),
         isComplete: result.isComplete,
       };
-
+      
     } catch (error) {
-      console.error('Erro ao processar:', error);
+      console.error('Erro ao processar com API:', error);
       return {
         message: 'Ótima pergunta! Me conta sobre seu projeto: qual o nome, o que ele faz e para quem serve? Pode ser uma descrição curta ou longa, como preferir! 😊',
         isComplete: false,
