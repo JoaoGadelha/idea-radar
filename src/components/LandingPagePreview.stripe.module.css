@@ -573,8 +573,9 @@
   width: 1.75rem;
   height: 1.75rem;
   border-radius: 50%;
-  background: #000000;
-  color: white;
+  background: #fafafa;
+  border: 1px solid #e6e6e6;
+  color: #000000;
   font-size: 0.875rem;
   font-weight: 600;
   flex-shrink: 0;
