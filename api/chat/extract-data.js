@@ -100,7 +100,13 @@ Usuário: "FitPlate, app de nutrição"
     }
     
     try {
-      const result = JSON.parse(jsonText);
+      // Sanitizar: remover quebras de linha literais dentro de strings JSON
+      const sanitizedJson = jsonText
+        .replace(/\n/g, '\\n')  // Escapar quebras de linha
+        .replace(/\r/g, '')      // Remover carriage return
+        .replace(/\t/g, '\\t');  // Escapar tabs
+      
+      const result = JSON.parse(sanitizedJson);
       return res.status(200).json(result);
     } catch (parseError) {
       console.error('❌ Erro ao parsear JSON:', parseError);
