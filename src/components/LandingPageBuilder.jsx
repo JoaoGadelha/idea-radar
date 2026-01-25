@@ -3,6 +3,7 @@ import styles from './LandingPageBuilder.module.css';
 import LandingPagePreview from './LandingPagePreview';
 import TemplateSelector from './TemplateSelector';
 import { useAuth } from '../contexts/AuthContext';
+import { useLandingPageCreation } from '../contexts/LandingPageCreationContext';
 
 // Templates com cor fixa (não permitem customização)
 const TEMPLATES_WITH_FIXED_COLOR = {
@@ -13,6 +14,7 @@ const TEMPLATES_WITH_FIXED_COLOR = {
 
 export default function LandingPageBuilder({ onClose, onSave }) {
   const { token } = useAuth();
+  const { collectedData, setCurrentView } = useLandingPageCreation();
   const [loading, setLoading] = useState(false);
   const [variations, setVariations] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -58,6 +60,28 @@ export default function LandingPageBuilder({ onClose, onSave }) {
     about: false,
     product: false,
   });
+
+  // Sincronizar collectedData do Context com formData
+  useEffect(() => {
+    if (collectedData.title || collectedData.brief || collectedData.slug) {
+      setFormData(prev => ({
+        ...prev,
+        title: collectedData.title || prev.title,
+        slug: collectedData.slug || prev.slug,
+        brief: collectedData.brief || prev.brief,
+        primary_color: collectedData.primary_color || prev.primary_color,
+        template: collectedData.template || prev.template,
+        collect_phone: collectedData.collect_phone ?? prev.collect_phone,
+        collect_suggestions: collectedData.collect_suggestions ?? prev.collect_suggestions,
+        hero_image_type: collectedData.hero_image_type || prev.hero_image_type,
+        hero_image_url: collectedData.hero_image_url || prev.hero_image_url,
+        about_image_type: collectedData.about_image_type || prev.about_image_type,
+        about_image_url: collectedData.about_image_url || prev.about_image_url,
+        product_image_type: collectedData.product_image_type || prev.product_image_type,
+        product_image_url: collectedData.product_image_url || prev.product_image_url,
+      }));
+    }
+  }, [collectedData]);
 
   // Retorna a cor efetiva (fixa ou customizável)
   const getEffectiveColor = () => {
@@ -574,6 +598,13 @@ Transforme seu corpo e sua vida em 90 dias. Comece hoje sua jornada FitPlate Rev
           </button>
         </div>
         <div className={styles.headerRight}>
+          <button 
+            onClick={() => setCurrentView('chat')} 
+            className={styles.assistantBtn}
+            title="Abrir Assistente AI"
+          >
+            💬 Assistente
+          </button>
           <button 
             onClick={() => setDarkMode(!darkMode)} 
             className={styles.darkModeBtn}

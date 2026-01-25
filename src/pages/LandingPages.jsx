@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import styles from './LandingPages.module.css';
-import LandingPageBuilder from '../components/LandingPageBuilder';
+import LandingPageCreationWrapper from '../components/LandingPageCreationWrapper';
 import { useAuth } from '../contexts/AuthContext';
 
 export default function LandingPages() {
@@ -63,7 +63,7 @@ export default function LandingPages() {
 
   if (showBuilder) {
     return (
-      <LandingPageBuilder
+      <LandingPageCreationWrapper
         onClose={() => {
           setShowBuilder(false);
         }}
