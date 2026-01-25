@@ -16,6 +16,7 @@ export default function ConversationalInterview() {
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -177,7 +178,7 @@ export default function ConversationalInterview() {
 
   return (
     <div className={styles.container} onClick={handleClose}>
-      <div className={styles.chatWindow} onClick={(e) => e.stopPropagation()}>
+      <div className={`${styles.chatWindow} ${isExpanded ? styles.chatWindowExpanded : ''}`} onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div className={styles.header}>
           <div className={styles.headerLeft}>
@@ -195,6 +196,13 @@ export default function ConversationalInterview() {
               title="Reiniciar conversa"
             >
               🔄
+            </button>
+            <button 
+              className={styles.expandButton} 
+              onClick={() => setIsExpanded(!isExpanded)}
+              title={isExpanded ? "Reduzir" : "Expandir"}
+            >
+              {isExpanded ? '⬇️' : '⬆️'}
             </button>
             <button className={styles.closeButton} onClick={handleClose}>
               ✕
