@@ -243,7 +243,7 @@ export default function LandingPagePreview({
           <div className={styles.proofDivider}></div>
           <div className={styles.proofItem}>
             <span className={styles.proofNumber}>30s</span>
-            <span className={styles.proofLabel}>Tempo médio</span>
+            <span className={styles.proofLabel}>Para começar</span>
           </div>
         </div>
       </section>
