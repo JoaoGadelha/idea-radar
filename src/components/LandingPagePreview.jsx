@@ -251,7 +251,7 @@ export default function LandingPagePreview({
       {/* About Section - Story/Problem/Solution */}
       {aboutTitle && aboutParagraphs?.length > 0 && (
         <section className={styles.about}>
-          <div className={styles.aboutContainer}>
+          <div className={`${styles.aboutContainer} ${aboutImageType === 'none' ? styles.singleColumn : ''}`}>
             {aboutImageType !== 'none' && (
               <div 
                 className={styles.aboutImage}
@@ -305,7 +305,7 @@ export default function LandingPagePreview({
       {/* Product Section - What is the product */}
       {productTitle && productParagraphs?.length > 0 && (
         <section className={styles.product}>
-          <div className={styles.productContainer}>
+          <div className={`${styles.productContainer} ${productImageType === 'none' ? styles.singleColumn : ''}`}>
             <div className={styles.productContent}>
               <h2 className={styles.productTitle}>{productTitle}</h2>
               {productParagraphs.map((paragraph, idx) => (

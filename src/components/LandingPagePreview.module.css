@@ -328,6 +328,16 @@
   align-items: center;
 }
 
+.aboutContainer.singleColumn {
+  grid-template-columns: 1fr;
+  max-width: 800px;
+  text-align: center;
+}
+
+.aboutContainer.singleColumn .aboutContent {
+  align-items: center;
+}
+
 .aboutImage {
   border-radius: 20px;
   overflow: hidden;
@@ -385,6 +395,16 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 4rem;
+  align-items: center;
+}
+
+.productContainer.singleColumn {
+  grid-template-columns: 1fr;
+  max-width: 800px;
+  text-align: center;
+}
+
+.productContainer.singleColumn .productContent {
   align-items: center;
 }
 
