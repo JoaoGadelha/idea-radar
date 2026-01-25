@@ -26,7 +26,17 @@ export default function LandingPageBuilder({ onClose, onSave }) {
   });
   const previewRef = useRef(null);
   const inputsRef = useRef(null);
-  const [darkMode, setDarkMode] = useState(false);
+  
+  // Initialize dark mode from localStorage or system preference
+  const [darkMode, setDarkMode] = useState(() => {
+    const saved = localStorage.getItem('landingPageBuilderDarkMode');
+    if (saved !== null) {
+      return saved === 'true';
+    }
+    // Fallback to system preference
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
+  
   const [formData, setFormData] = useState({
     title: '',
     slug: '',
@@ -99,6 +109,25 @@ export default function LandingPageBuilder({ onClose, onSave }) {
       previewRef.current.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, [variations, selectedIndex]);
+
+  // Dark mode persistence and system preference sync
+  useEffect(() => {
+    // Save to localStorage when dark mode changes
+    localStorage.setItem('landingPageBuilderDarkMode', darkMode.toString());
+
+    // Listen to system preference changes
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = (e) => {
+      // Only auto-sync if user hasn't explicitly set a preference
+      const saved = localStorage.getItem('landingPageBuilderDarkMode');
+      if (saved === null) {
+        setDarkMode(e.matches);
+      }
+    };
+
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, [darkMode]);
 
   // Verifica se o template atual tem cor fixa
   const hasFixedColor = () => {
