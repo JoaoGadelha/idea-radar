@@ -83,7 +83,7 @@ Usuário: "FitPlate, app de nutrição"
     
     console.log('[AI Response]', aiText);
     
-    // Extrair JSON da resposta (suporta ```json ... ``` ou JSON direto)
+    // Extrair JSON da resposta (suporta blocos markdown ou JSON direto)
     let jsonText = aiText;
     
     // Tentar extrair de bloco de código markdown primeiro
