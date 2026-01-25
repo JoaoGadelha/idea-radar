@@ -459,7 +459,7 @@ export default async function handler(req, res) {
         '  "headline": "string (máx 60 chars)",',
         '  "subheadline": "string (máx 120 chars)",',
         '  "value_proposition": ["benefício 1", "benefício 2", "benefício 3"],',
-        '  "cta_text": "string (máx 25 chars)",',
+        '  "cta_text": "string (máx 50 chars)",',
         '  "hero_image_prompt": "descrição detalhada para gerar imagem hero",',
         '  "about_title": "string (máx 60 chars)",',
         '  "about_paragraphs": ["parágrafo 1", "parágrafo 2", "parágrafo 3 (opcional)"],',
@@ -635,7 +635,7 @@ export default async function handler(req, res) {
       value_proposition: Array.isArray(variation.value_proposition) 
         ? variation.value_proposition.slice(0, 3) 
         : ['Benefício 1', 'Benefício 2', 'Benefício 3'],
-      cta_text: variation.cta_text?.slice(0, 25) || 'Quero testar',
+      cta_text: variation.cta_text?.slice(0, 50) || 'Quero testar',
       hero_image: heroImageBase64,
       hero_image_prompt: variation.hero_image_prompt || '',
       // About Section
