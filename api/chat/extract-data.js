@@ -58,7 +58,7 @@ RESPONDA SEMPRE EM JSON VÁLIDO:
   "acknowledgment": "Sua resposta natural e amigável"
 }
 
-IMPORTANTE: Retorne APENAS o JSON puro, SEM envolver em blocos de código markdown (```json).
+IMPORTANTE: Retorne APENAS o JSON puro, SEM envolver em blocos de código markdown.
 O JSON deve começar com { e terminar com }.
 
 EXEMPLOS:
