@@ -71,7 +71,7 @@ Usuário: "FitPlate, app de nutrição"
       model: 'gemini-2.5-flash',
       generationConfig: {
         temperature: 0.7,
-        maxTokens: 2000,
+        maxOutputTokens: 2000,
       }
     });
 
