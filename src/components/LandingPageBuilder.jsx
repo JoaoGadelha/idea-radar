@@ -14,7 +14,7 @@ const TEMPLATES_WITH_FIXED_COLOR = {
 
 export default function LandingPageBuilder({ onClose, onSave }) {
   const { token } = useAuth();
-  const { collectedData, changeView } = useLandingPageCreation();
+  const { collectedData, changeView, updateCollectedData } = useLandingPageCreation();
   const [loading, setLoading] = useState(false);
   const [variations, setVariations] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -82,6 +82,32 @@ export default function LandingPageBuilder({ onClose, onSave }) {
       }));
     }
   }, [collectedData]);
+
+  // Função para atualizar formData e também sincronizar com Context
+  const updateFormData = (updates) => {
+    setFormData(prev => {
+      const newFormData = { ...prev, ...updates };
+      
+      // Sincronizar dados relevantes de volta ao Context
+      updateCollectedData({
+        title: newFormData.title,
+        slug: newFormData.slug,
+        brief: newFormData.brief,
+        primary_color: newFormData.primary_color,
+        template: newFormData.template,
+        collect_phone: newFormData.collect_phone,
+        collect_suggestions: newFormData.collect_suggestions,
+        hero_image_type: newFormData.hero_image_type,
+        hero_image_url: newFormData.hero_image_url,
+        about_image_type: newFormData.about_image_type,
+        about_image_url: newFormData.about_image_url,
+        product_image_type: newFormData.product_image_type,
+        product_image_url: newFormData.product_image_url,
+      });
+      
+      return newFormData;
+    });
+  };
 
   // Retorna a cor efetiva (fixa ou customizável)
   const getEffectiveColor = () => {
@@ -625,7 +651,7 @@ Transforme seu corpo e sua vida em 90 dias. Comece hoje sua jornada FitPlate Rev
             <input
               type="text"
               value={formData.title}
-              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+              onChange={(e) => updateFormData({ title: e.target.value })}
               placeholder="Nome interno da landing page"
             />
           </div>
@@ -635,7 +661,7 @@ Transforme seu corpo e sua vida em 90 dias. Comece hoje sua jornada FitPlate Rev
             <input
               type="text"
               value={formData.slug}
-              onChange={(e) => setFormData({ ...formData, slug: e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-') })}
+              onChange={(e) => updateFormData({ slug: e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-') })}
               placeholder="minha-landing-page"
               required
             />
@@ -646,7 +672,7 @@ Transforme seu corpo e sua vida em 90 dias. Comece hoje sua jornada FitPlate Rev
             <label>Descreva sua ideia de produto/serviço</label>
             <textarea
               value={formData.brief}
-              onChange={(e) => setFormData({ ...formData, brief: e.target.value })}
+              onChange={(e) => updateFormData({ brief: e.target.value })}
               placeholder="Ex: App de delivery vegano para universitários, Curso online de Python para iniciantes, Consultoria financeira para MEIs..."
               rows="5"
             />
