@@ -100,11 +100,20 @@ Usuário: "FitPlate, app de nutrição"
     }
     
     try {
-      // Sanitizar: remover quebras de linha literais dentro de strings JSON
-      const sanitizedJson = jsonText
-        .replace(/\n/g, '\\n')  // Escapar quebras de linha
-        .replace(/\r/g, '')      // Remover carriage return
-        .replace(/\t/g, '\\t');  // Escapar tabs
+      // Sanitizar: escapar quebras de linha apenas dentro de valores de string
+      // Substitui quebras de linha literais por \n escapado
+      const sanitizedJson = jsonText.replace(
+        /"([^"]*?)"/g,
+        (match, content) => {
+          // Escapar caracteres especiais dentro de strings
+          const escaped = content
+            .replace(/\\/g, '\\\\')   // Escapar barras invertidas primeiro
+            .replace(/\n/g, '\\n')    // Escapar quebras de linha
+            .replace(/\r/g, '')       // Remover carriage return
+            .replace(/\t/g, '\\t');   // Escapar tabs
+          return `"${escaped}"`;
+        }
+      );
       
       const result = JSON.parse(sanitizedJson);
       return res.status(200).json(result);
