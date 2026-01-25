@@ -17,6 +17,7 @@ export default function ConversationalInterview() {
   const [isTyping, setIsTyping] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   const messagesEndRef = useRef(null);
+  const inputRef = useRef(null);
 
   useEffect(() => {
     // Mensagem inicial da AI
@@ -115,6 +116,9 @@ export default function ConversationalInterview() {
       if (isComplete) {
         setIsComplete(true);
       }
+      
+      // Auto-focus no input após resposta
+      inputRef.current?.focus();
     }, 800);
   };
 
@@ -242,6 +246,7 @@ export default function ConversationalInterview() {
           
           <div className={styles.inputGroup}>
             <textarea
+              ref={inputRef}
               className={styles.textarea}
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -249,6 +254,7 @@ export default function ConversationalInterview() {
               placeholder="Digite sua mensagem ou cole a descrição completa..."
               rows={1}
               disabled={isTyping}
+              autoFocus
             />
             <button
               className={styles.sendButton}
