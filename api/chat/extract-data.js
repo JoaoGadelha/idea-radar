@@ -113,7 +113,7 @@ Usuário: "FitPlate, app de nutrição"
       missingFields: ['title', 'brief'],
       nextQuestion: '',
       isComplete: false,
-      acknowledgment: 'Ótima pergunta! Os campos principais são:\n\n- 📝 **Nome do projeto**\n- 💡 **Descrição** (o que faz, para quem serve)\n- 🎯 **Benefícios principais**\n- 🎨 **Cor da marca** (opcional)\n\nTambém posso coletar pricing, depoimentos e garantia, mas são opcionais!\n\nPode colar uma descrição completa do seu projeto ou ir me contando aos poucos. Como prefere começar?'
+      acknowledgment: 'Ops! Tive um problema ao processar sua mensagem. 😅 Pode tentar reformular ou me contar novamente?'
     });
 
   } catch (error) {
