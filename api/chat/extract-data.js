@@ -1,4 +1,6 @@
 // Extrai dados estruturados de mensagem do usuário usando Gemini
+import { createGeminiProvider } from '@joaogadelha/ai-providers';
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -63,31 +65,17 @@ Usuário: "FitPlate, app de nutrição"
 → extractedData: {"title": "FitPlate", "brief": "App de nutrição"}
 → acknowledgment: "Legal! FitPlate - app de nutrição. Me conta mais: para quem é esse app e quais são os principais benefícios?"`;
 
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${process.env.GOOGLE_AI_API_KEY}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{
-            parts: [{ text: prompt }]
-          }],
-          generationConfig: {
-            temperature: 0.7,
-            maxOutputTokens: 2000,
-          }
-        }),
+    // Usar ai-toolkit para chamar Gemini
+    const gemini = createGeminiProvider({
+      apiKey: process.env.GOOGLE_AI_API_KEY,
+      model: 'gemini-2.5-flash',
+      generationConfig: {
+        temperature: 0.7,
+        maxTokens: 2000,
       }
-    );
+    });
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      console.error('❌ Gemini API Error:', response.status, errorData);
-      throw new Error(`Gemini API Error: ${response.status}`);
-    }
-
-    const data = await response.json();
-    const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    const aiText = await gemini.generate(prompt);
     
     console.log('[AI Response]', aiText);
     
