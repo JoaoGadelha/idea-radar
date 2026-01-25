@@ -19,6 +19,19 @@
 | Deploy | 🔧 Pendente |
 
 ---
+## 📋 Decisões Pendentes
+
+### Limitação de Planos
+- **Plano Free**: Atualmente limitado a 5 gerações/dia
+- **DECIDIR**: Período da limitação (diário, semanal, mensal?)
+- **DECIDIR**: Reset automático ou manual?
+- **TODO**: Mostrar contador de gerações restantes durante loading da geração
+  - Exibir abaixo da ampulheta: "Você tem direito a mais X gerações de landing page (hoje)"
+  - Apenas para plano free (deixar mais explícito o limite)
+  - Texto em negrito para chamar atenção
+  - Prevenir uso indiscriminado/aleatório de gerações
+
+---
 ## 💡 Conceito
 
 Em vez de dashboards visuais complexos, o sistema:
