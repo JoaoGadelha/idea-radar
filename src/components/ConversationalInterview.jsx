@@ -2,8 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import { useLandingPageCreation } from '../contexts/LandingPageCreationContext';
 import styles from './ConversationalInterview.module.css';
 
-const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
-
 export default function ConversationalInterview() {
   const {
     chatHistory,
@@ -20,8 +18,9 @@ export default function ConversationalInterview() {
 
   // Verificar se API key existe
   useEffect(() => {
-    if (!import.meta.env.VITE_GEMINI_API_KEY) {
-      console.error('❌ VITE_GEMINI_API_KEY não configurada no .env');
+    const apiKey = import.meta.env.VITE_GOOGLE_AI_API_KEY || import.meta.env.VITE_GEMINI_API_KEY;
+    if (!apiKey) {
+      console.error('❌ VITE_GOOGLE_AI_API_KEY não configurada no .env');
     }
   }, []);
 
@@ -42,7 +41,7 @@ export default function ConversationalInterview() {
   }, [chatHistory, isTyping]);
 
   const extractDataFromResponse = async (userMessage) => {
-    const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+    const apiKey = import.meta.env.VITE_GOOGLE_AI_API_KEY || import.meta.env.VITE_GEMINI_API_KEY;
     
     if (!apiKey) {
       console.error('❌ API Key não encontrada');
