@@ -1,5 +1,14 @@
 // Extrai dados estruturados de mensagem do usuário usando Gemini
 import { createGeminiProvider } from '@joaogadelha/ai-providers';
+import { parseJSON } from '@joaogadelha/response-parser';
+
+const FALLBACK_RESPONSE = {
+  extractedData: {},
+  missingFields: ['title', 'brief'],
+  nextQuestion: '',
+  isComplete: false,
+  acknowledgment: 'Ops! Tive um problema ao processar sua mensagem. 😅 Pode tentar reformular ou me contar novamente?'
+};
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -75,7 +84,7 @@ Usuário: "FitPlate, app de nutrição"
       model: 'gemini-2.5-flash',
       generationConfig: {
         temperature: 0.7,
-        maxOutputTokens: 2000,
+        maxOutputTokens: 4000,
       }
     });
 
@@ -83,52 +92,10 @@ Usuário: "FitPlate, app de nutrição"
     
     console.log('[AI Response]', aiText);
     
-    // Extrair JSON da resposta
-    let jsonText = aiText;
+    // Usar response-parser para extrair JSON de forma robusta
+    const result = parseJSON(aiText, { defaultValue: FALLBACK_RESPONSE });
     
-    // Remover blocos de código markdown se presentes
-    if (aiText.includes('```')) {
-      jsonText = aiText.replace(/```json\s*/gi, '').replace(/```\s*/g, '');
-    }
-    
-    // Extrair JSON - do primeiro { até o último }
-    const firstBrace = jsonText.indexOf('{');
-    const lastBrace = jsonText.lastIndexOf('}');
-    if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
-      jsonText = jsonText.substring(firstBrace, lastBrace + 1);
-    }
-    
-    // Tentar parsear diretamente primeiro
-    try {
-      const result = JSON.parse(jsonText);
-      return res.status(200).json(result);
-    } catch (firstError) {
-      // Se falhar, tentar sanitizar caracteres problemáticos
-      try {
-        // Substituir apenas quebras de linha literais (não as já escapadas \n)
-        const sanitizedJson = jsonText
-          .split('\n')
-          .map(line => line.trim())
-          .join('')
-          .replace(/\r/g, '');
-        
-        const result = JSON.parse(sanitizedJson);
-        return res.status(200).json(result);
-      } catch (secondError) {
-        console.error('❌ Erro ao parsear JSON:', firstError);
-        console.error('JSON Text:', jsonText);
-        // Continua para fallback
-      }
-    }
-
-    // Fallback se não conseguir parsear JSON
-    return res.status(200).json({
-      extractedData: {},
-      missingFields: ['title', 'brief'],
-      nextQuestion: '',
-      isComplete: false,
-      acknowledgment: 'Ops! Tive um problema ao processar sua mensagem. 😅 Pode tentar reformular ou me contar novamente?'
-    });
+    return res.status(200).json(result);
 
   } catch (error) {
     console.error('Erro ao processar com Gemini:', error);
