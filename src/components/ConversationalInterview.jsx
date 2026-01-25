@@ -10,7 +10,8 @@ export default function ConversationalInterview() {
     addChatMessage,
     collectedData,
     updateCollectedData,
-    setCurrentView,
+    changeView,
+    goBack,
   } = useLandingPageCreation();
 
   const [input, setInput] = useState('');
@@ -203,7 +204,7 @@ Usuário: "FitPlate, app de nutrição"
   };
 
   const handleContinueToBuilder = () => {
-    setCurrentView('builder');
+    changeView('builder');
   };
 
   return (
@@ -218,7 +219,7 @@ Usuário: "FitPlate, app de nutrição"
               <p>Conte-me sobre seu projeto</p>
             </div>
           </div>
-          <button className={styles.closeButton} onClick={() => setCurrentView('choice')}>
+          <button className={styles.closeButton} onClick={goBack}>
             ✕
           </button>
         </div>

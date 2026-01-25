@@ -2,7 +2,7 @@ import { useLandingPageCreation } from '../contexts/LandingPageCreationContext';
 import styles from './CreationModeSelector.module.css';
 
 export default function CreationModeSelector() {
-  const { setCurrentView } = useLandingPageCreation();
+  const { changeView } = useLandingPageCreation();
 
   return (
     <div className={styles.overlay}>
@@ -14,7 +14,7 @@ export default function CreationModeSelector() {
 
         <div className={styles.options}>
           {/* Opção 1: Chat AI */}
-          <button className={styles.option} onClick={() => setCurrentView('chat')}>
+          <button className={styles.option} onClick={() => changeView('chat')}>
             <div className={styles.optionIcon}>🤖</div>
             <div className={styles.optionContent}>
               <h3 className={styles.optionTitle}>
@@ -34,7 +34,7 @@ export default function CreationModeSelector() {
           </button>
 
           {/* Opção 2: Manual */}
-          <button className={styles.option} onClick={() => setCurrentView('builder')}>
+          <button className={styles.option} onClick={() => changeView('builder')}>
             <div className={styles.optionIcon}>⚡</div>
             <div className={styles.optionContent}>
               <h3 className={styles.optionTitle}>Modo Manual</h3>

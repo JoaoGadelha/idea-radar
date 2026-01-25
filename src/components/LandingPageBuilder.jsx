@@ -14,7 +14,7 @@ const TEMPLATES_WITH_FIXED_COLOR = {
 
 export default function LandingPageBuilder({ onClose, onSave }) {
   const { token } = useAuth();
-  const { collectedData, setCurrentView } = useLandingPageCreation();
+  const { collectedData, changeView } = useLandingPageCreation();
   const [loading, setLoading] = useState(false);
   const [variations, setVariations] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -599,7 +599,7 @@ Transforme seu corpo e sua vida em 90 dias. Comece hoje sua jornada FitPlate Rev
         </div>
         <div className={styles.headerRight}>
           <button 
-            onClick={() => setCurrentView('chat')} 
+            onClick={() => changeView('chat')} 
             className={styles.assistantBtn}
             title="Abrir Assistente AI"
           >

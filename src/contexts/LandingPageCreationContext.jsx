@@ -4,6 +4,7 @@ const LandingPageCreationContext = createContext();
 
 export function LandingPageCreationProvider({ children }) {
   const [currentView, setCurrentView] = useState('choice'); // 'choice' | 'chat' | 'builder'
+  const [previousView, setPreviousView] = useState(null);
   const [chatHistory, setChatHistory] = useState([]);
   const [collectedData, setCollectedData] = useState({
     // Dados básicos
@@ -51,8 +52,23 @@ export function LandingPageCreationProvider({ children }) {
     setChatHistory(prev => [...prev, message]);
   };
 
+  const changeView = (newView) => {
+    setPreviousView(currentView);
+    setCurrentView(newView);
+  };
+
+  const goBack = () => {
+    if (previousView) {
+      setCurrentView(previousView);
+      setPreviousView(null);
+    } else {
+      setCurrentView('choice');
+    }
+  };
+
   const resetCreation = () => {
     setCurrentView('choice');
+    setPreviousView(null);
     setChatHistory([]);
     setCollectedData({
       title: '',
@@ -87,6 +103,9 @@ export function LandingPageCreationProvider({ children }) {
       value={{
         currentView,
         setCurrentView,
+        previousView,
+        changeView,
+        goBack,
         chatHistory,
         addChatMessage,
         collectedData,
