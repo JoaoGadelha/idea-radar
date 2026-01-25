@@ -306,3 +306,85 @@
     width: 100%;
   }
 }
+
+/* Dark Mode */
+.darkMode.modal {
+  background: #1a1a1a;
+}
+
+.darkMode .header {
+  background: #1a1a1a;
+  border-bottom-color: #374151;
+}
+
+.darkMode .title {
+  color: #e5e7eb;
+}
+
+.darkMode .subtitle {
+  color: #9ca3af;
+}
+
+.darkMode .closeButton {
+  background: #374151;
+  color: #9ca3af;
+}
+
+.darkMode .closeButton:hover {
+  background: #4b5563;
+  color: #e5e7eb;
+}
+
+.darkMode .templateCard {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+.darkMode .templateCard:hover {
+  border-color: #6b7280;
+  background: #1f2937;
+}
+
+.darkMode .templateCard.selected {
+  border-color: #6366f1;
+  background: rgba(99, 102, 241, 0.1);
+}
+
+.darkMode .name {
+  color: #e5e7eb;
+}
+
+.darkMode .description {
+  color: #9ca3af;
+}
+
+.darkMode .features li {
+  color: #d1d5db;
+}
+
+.darkMode .bestForLabel {
+  color: #6b7280;
+}
+
+.darkMode .bestForText {
+  color: #d1d5db;
+}
+
+.darkMode .bestFor {
+  border-top-color: #374151;
+}
+
+.darkMode .footer {
+  background: #1a1a1a;
+  border-top-color: #374151;
+}
+
+.darkMode .cancelButton {
+  background: #374151;
+  color: #d1d5db;
+}
+
+.darkMode .cancelButton:hover {
+  background: #4b5563;
+}
+

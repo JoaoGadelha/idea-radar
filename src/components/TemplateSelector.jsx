@@ -58,7 +58,7 @@ const TEMPLATES = [
   }
 ];
 
-export default function TemplateSelector({ currentTemplate = 'claude', onTemplateChange, onClose }) {
+export default function TemplateSelector({ currentTemplate = 'claude', onTemplateChange, onClose, darkMode = false }) {
   const [selectedTemplate, setSelectedTemplate] = useState(currentTemplate);
 
   const handleApply = () => {
@@ -68,7 +68,7 @@ export default function TemplateSelector({ currentTemplate = 'claude', onTemplat
 
   return (
     <div className={styles.overlay} onClick={onClose}>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+      <div className={`${styles.modal} ${darkMode ? styles.darkMode : ''}`} onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div className={styles.header}>
           <div>

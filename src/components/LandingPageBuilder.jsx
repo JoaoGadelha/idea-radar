@@ -887,6 +887,7 @@ export default function LandingPageBuilder({ onClose, onSave }) {
           currentTemplate={formData.template}
           onTemplateChange={(template) => setFormData({ ...formData, template })}
           onClose={() => setShowTemplateSelector(false)}
+          darkMode={darkMode}
         />
       )}
 

@@ -803,3 +803,103 @@
 .container.darkMode .inputsOverlay {
   background: rgba(17, 24, 39, 0.8);
 }
+
+/* Dark Mode - Template Button */
+.container.darkMode .templateButton {
+  background: #111827;
+  border-color: #374151;
+}
+
+.container.darkMode .templateButton:hover {
+  background: #1f2937;
+  border-color: #4b5563;
+}
+
+.container.darkMode .templateName {
+  color: #e5e7eb;
+}
+
+.container.darkMode .templateChange {
+  color: #9ca3af;
+}
+
+/* Dark Mode - Accordions */
+.container.darkMode .accordion {
+  border-color: #374151;
+}
+
+.container.darkMode .accordionHeader {
+  background: #111827;
+  color: #d1d5db;
+}
+
+.container.darkMode .accordionHeader:hover {
+  background: #1f2937;
+}
+
+.container.darkMode .accordionOpen {
+  background: #1f2937;
+}
+
+.container.darkMode .accordionIcon {
+  color: #6b7280;
+}
+
+.container.darkMode .accordionContent {
+  background: #1a1a1a;
+  border-top-color: #374151;
+}
+
+.container.darkMode .radioLabel {
+  color: #d1d5db;
+}
+
+.container.darkMode .radioLabel:hover:not(:has(input:disabled)) {
+  background-color: #111827;
+}
+
+.container.darkMode .urlInput {
+  background: #111827;
+  border-color: #374151;
+  color: #e5e7eb;
+}
+
+.container.darkMode .urlInput:focus {
+  border-color: #667eea;
+}
+
+/* Dark Mode - Color Picker */
+.container.darkMode .colorPicker input[type="text"] {
+  background: #111827;
+  border-color: #374151;
+  color: #e5e7eb;
+}
+
+/* Dark Mode - Checkboxes */
+.container.darkMode .checkboxGroup label {
+  color: #d1d5db;
+}
+
+/* Dark Mode - Thumbnails */
+.container.darkMode .thumbnails {
+  background: #1a1a1a;
+  border-right-color: #374151;
+}
+
+.container.darkMode .thumbnail {
+  background: #111827;
+  border-color: #374151;
+}
+
+.container.darkMode .thumbnail:hover {
+  border-color: #667eea;
+}
+
+.container.darkMode .thumbnailContent strong {
+  color: #e5e7eb;
+}
+
+.container.darkMode .thumbnailContent p {
+  color: #9ca3af;
+}
+
