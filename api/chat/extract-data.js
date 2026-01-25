@@ -58,6 +58,9 @@ RESPONDA SEMPRE EM JSON VÁLIDO:
   "acknowledgment": "Sua resposta natural e amigável"
 }
 
+IMPORTANTE: Retorne APENAS o JSON puro, SEM envolver em blocos de código markdown (```json).
+O JSON deve começar com { e terminar com }.
+
 EXEMPLOS:
 Usuário: "que campos preciso preencher?"
 → acknowledgment: "Ótima pergunta! Os campos principais são:\n\n- 📝 **Nome do projeto**\n- 💡 **Descrição** (o que faz, para quem serve)\n- 🎨 **Cor principal** (opcional)\n\nTambém posso coletar pricing, depoimentos e garantia, mas são opcionais!\n\nPode colar uma descrição completa ou ir me contando aos poucos. Como prefere começar?"
@@ -80,11 +83,28 @@ Usuário: "FitPlate, app de nutrição"
     
     console.log('[AI Response]', aiText);
     
-    // Extrair JSON da resposta
-    const jsonMatch = aiText.match(/\{[\s\S]*\}/);
-    if (jsonMatch) {
-      const result = JSON.parse(jsonMatch[0]);
+    // Extrair JSON da resposta (suporta ```json ... ``` ou JSON direto)
+    let jsonText = aiText;
+    
+    // Tentar extrair de bloco de código markdown primeiro
+    const codeBlockMatch = aiText.match(/```(?:json)?\s*(\{[\s\S]*?\})\s*```/);
+    if (codeBlockMatch) {
+      jsonText = codeBlockMatch[1];
+    } else {
+      // Tentar extrair JSON direto
+      const jsonMatch = aiText.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        jsonText = jsonMatch[0];
+      }
+    }
+    
+    try {
+      const result = JSON.parse(jsonText);
       return res.status(200).json(result);
+    } catch (parseError) {
+      console.error('❌ Erro ao parsear JSON:', parseError);
+      console.error('JSON Text:', jsonText);
+      // Continua para fallback
     }
 
     // Fallback se não conseguir parsear JSON
