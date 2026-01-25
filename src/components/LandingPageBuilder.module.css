@@ -48,6 +48,30 @@
   box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.3);
 }
 
+.headerRight {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.darkModeBtn {
+  background: none;
+  border: 1px solid #e5e7eb;
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.darkModeBtn:hover {
+  background: #f3f4f6;
+  border-color: #d1d5db;
+}
+
 .closeBtn {
   background: none;
   border: none;
@@ -704,4 +728,78 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Dark Mode */
+.container.darkMode {
+  background: #1a1a1a;
+  color: #e5e7eb;
+}
+
+.container.darkMode .header {
+  background: #1a1a1a;
+  border-bottom-color: #374151;
+}
+
+.container.darkMode .header h2 {
+  color: #e5e7eb;
+}
+
+.container.darkMode .inputs {
+  background: #1a1a1a;
+  border-right-color: #374151;
+}
+
+.container.darkMode .inputGroup label {
+  color: #d1d5db;
+}
+
+.container.darkMode .inputGroup input,
+.container.darkMode .inputGroup textarea,
+.container.darkMode .inputGroup select {
+  background: #111827;
+  border-color: #374151;
+  color: #e5e7eb;
+}
+
+.container.darkMode .inputGroup input:focus,
+.container.darkMode .inputGroup textarea:focus,
+.container.darkMode .inputGroup select:focus {
+  border-color: #667eea;
+}
+
+.container.darkMode .inputGroup small {
+  color: #9ca3af;
+}
+
+.container.darkMode .darkModeBtn {
+  background: #111827;
+  border-color: #374151;
+  color: #e5e7eb;
+}
+
+.container.darkMode .darkModeBtn:hover {
+  background: #1f2937;
+  border-color: #4b5563;
+}
+
+.container.darkMode .closeBtn {
+  color: #9ca3af;
+}
+
+.container.darkMode .closeBtn:hover {
+  background: #1f2937;
+  color: #e5e7eb;
+}
+
+.container.darkMode .preview {
+  background: #111827;
+}
+
+.container.darkMode .emptyPreview {
+  color: #9ca3af;
+}
+
+.container.darkMode .inputsOverlay {
+  background: rgba(17, 24, 39, 0.8);
 }

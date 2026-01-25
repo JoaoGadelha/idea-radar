@@ -26,6 +26,7 @@ export default function LandingPageBuilder({ onClose, onSave }) {
   });
   const previewRef = useRef(null);
   const inputsRef = useRef(null);
+  const [darkMode, setDarkMode] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
     slug: '',
@@ -424,7 +425,7 @@ export default function LandingPageBuilder({ onClose, onSave }) {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${darkMode ? styles.darkMode : ''}`}>
       <div className={styles.header}>
         <div className={styles.headerLeft}>
           <h2>Nova Landing Page</h2>
@@ -457,7 +458,16 @@ export default function LandingPageBuilder({ onClose, onSave }) {
             CodeMentor AI
           </button>
         </div>
-        <button onClick={onClose} className={styles.closeBtn}>✕</button>
+        <div className={styles.headerRight}>
+          <button 
+            onClick={() => setDarkMode(!darkMode)} 
+            className={styles.darkModeBtn}
+            title={darkMode ? "Modo claro" : "Modo escuro"}
+          >
+            {darkMode ? '☀️' : '🌙'}
+          </button>
+          <button onClick={onClose} className={styles.closeBtn}>✕</button>
+        </div>
       </div>
 
       <div className={styles.content}>
