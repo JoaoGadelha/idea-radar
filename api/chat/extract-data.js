@@ -99,28 +99,27 @@ Usuário: "FitPlate, app de nutrição"
       }
     }
     
+    // Tentar parsear diretamente primeiro
     try {
-      // Sanitizar: escapar quebras de linha apenas dentro de valores de string
-      // Substitui quebras de linha literais por \n escapado
-      const sanitizedJson = jsonText.replace(
-        /"([^"]*?)"/g,
-        (match, content) => {
-          // Escapar caracteres especiais dentro de strings
-          const escaped = content
-            .replace(/\\/g, '\\\\')   // Escapar barras invertidas primeiro
-            .replace(/\n/g, '\\n')    // Escapar quebras de linha
-            .replace(/\r/g, '')       // Remover carriage return
-            .replace(/\t/g, '\\t');   // Escapar tabs
-          return `"${escaped}"`;
-        }
-      );
-      
-      const result = JSON.parse(sanitizedJson);
+      const result = JSON.parse(jsonText);
       return res.status(200).json(result);
-    } catch (parseError) {
-      console.error('❌ Erro ao parsear JSON:', parseError);
-      console.error('JSON Text:', jsonText);
-      // Continua para fallback
+    } catch (firstError) {
+      // Se falhar, tentar sanitizar caracteres problemáticos
+      try {
+        // Substituir apenas quebras de linha literais (não as já escapadas \n)
+        const sanitizedJson = jsonText
+          .split('\n')
+          .map(line => line.trim())
+          .join('')
+          .replace(/\r/g, '');
+        
+        const result = JSON.parse(sanitizedJson);
+        return res.status(200).json(result);
+      } catch (secondError) {
+        console.error('❌ Erro ao parsear JSON:', firstError);
+        console.error('JSON Text:', jsonText);
+        // Continua para fallback
+      }
     }
 
     // Fallback se não conseguir parsear JSON
