@@ -199,6 +199,85 @@ export default function LandingPageBuilder({ onClose, onSave }) {
     });
   };
 
+  const handleFitPlatePopulate = () => {
+    const brief = `Nome: FitPlate Revolution
+
+O que é:
+FitPlate Revolution é uma plataforma integrada de nutrição e fitness que combina planejamento de refeições automatizado, delivery de ingredientes pré-porcionados e treinos personalizados em um único ecossistema. Utilizando inteligência artificial avançada e dados biométricos coletados via smartwatch ou aplicativo, a plataforma cria um plano completo de transformação corporal adaptado ao seu metabolismo, rotina e objetivos.
+
+Para quem serve:
+Profissionais ocupados entre 25-45 anos que querem resultados reais na saúde e forma física, mas não têm tempo para planejar refeições, fazer compras ou criar treinos. Ideal para quem já tentou várias dietas e academias sem sucesso por falta de consistência ou orientação adequada.
+
+Principais funcionalidades:
+- Análise metabólica via questionário detalhado e integração com wearables (Apple Watch, Fitbit, Garmin)
+- Planos de refeição semanais personalizados com receitas fáceis (15-30 minutos de preparo)
+- Delivery opcional de meal kits com ingredientes frescos, pré-medidos e orgânicos
+- Biblioteca com 500+ receitas adaptáveis a restrições alimentares (vegano, sem glúten, low carb, etc.)
+- Treinos em vídeo de 20-45 minutos para fazer em casa ou na academia
+- Ajuste automático do plano baseado em progresso real (peso, medidas, energia)
+- Comunidade exclusiva com desafios mensais e suporte de nutricionistas certificados
+- Sistema de gamificação com pontos, conquistas e recompensas
+
+Ganhos para quem vai usar:
+
+Saúde e Corpo:
+- Perda de peso sustentável (média de 0,5-1kg por semana de forma saudável)
+- Aumento de energia e disposição no dia a dia
+- Melhora na qualidade do sono e redução de estresse
+- Ganho de massa muscular magra e definição corporal
+- Redução de riscos de doenças crônicas (diabetes, hipertensão, colesterol alto)
+- Melhora na digestão e saúde intestinal
+
+Tempo e Conveniência:
+- Economize 5-8 horas por semana em planejamento de refeições e compras
+- Elimine o estresse de "o que vou comer hoje?"
+- Treinos eficientes que cabem em qualquer agenda
+- Acesso 24/7 pelo app no celular, tablet ou computador
+
+Financeiro:
+- Reduza desperdício de alimentos em até 60%
+- Economize com restaurantes e delivery de fast food
+- Evite gastos com personal trainer (economia média de R$ 800-1.500/mês)
+- Reduza consultas médicas e medicamentos a longo prazo
+
+Mental e Emocional:
+- Aumente autoconfiança e autoestima
+- Desenvolva uma relação saudável com a comida (sem culpa ou restrições extremas)
+- Sinta-se parte de uma comunidade motivadora
+- Elimine a fadiga de decisão sobre alimentação e exercícios
+
+Resultados comprovados:
+- 94% dos usuários relatam aumento significativo de energia nas primeiras 2 semanas
+- Média de 8-12kg de perda de peso nos primeiros 3 meses
+- 87% mantêm os resultados após 1 ano (vs. 5% em dietas tradicionais)
+- NPS (Net Promoter Score) de 78 - considerado excelente no setor
+
+Diferenciais competitivos:
+- Única plataforma que integra nutrição + treino + delivery em um só lugar
+- IA que aprende com você e melhora as recomendações continuamente
+- Flexibilidade total: ajuste seu plano a qualquer momento
+- Sem contratos de longo prazo - cancele quando quiser
+- Aplicativo premiado com design intuitivo e bonito
+
+Garantia:
+Experimente por 30 dias risk-free. Se não estiver satisfeito, devolvemos 100% do seu dinheiro, sem perguntas.
+
+Planos e preços:
+- Básico (R$ 97/mês): Planos de refeição + treinos + app
+- Premium (R$ 197/mês): Básico + 2 meal kits por semana + consultas mensais com nutricionista
+- Elite (R$ 297/mês): Premium + 4 meal kits por semana + suporte prioritário + análise corporal trimestral
+
+Call to action:
+Transforme seu corpo e sua vida em 90 dias. Comece hoje sua jornada FitPlate Revolution - Primeiros 7 dias grátis!`;
+
+    setFormData({
+      ...formData,
+      title: 'FitPlate Revolution',
+      slug: 'fitplate-revolution',
+      brief: brief,
+    });
+  };
+
   const handleRegenerateImage = async (variationIndex) => {
     if (!variations[variationIndex]?.hero_image_prompt) {
       alert('Esta variação não tem prompt de imagem definido.');
@@ -485,6 +564,13 @@ export default function LandingPageBuilder({ onClose, onSave }) {
             title="CodeMentor AI - Tutor de programação"
           >
             CodeMentor AI
+          </button>
+          <button 
+            onClick={handleFitPlatePopulate} 
+            className={styles.fitPlateBtn}
+            title="FitPlate Revolution - Plataforma completa de nutrição e fitness"
+          >
+            💪 FitPlate
           </button>
         </div>
         <div className={styles.headerRight}>

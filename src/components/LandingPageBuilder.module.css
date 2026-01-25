@@ -48,6 +48,25 @@
   box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.3);
 }
 
+.fitPlateBtn {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(139, 92, 246, 0.2);
+}
+
+.fitPlateBtn:hover {
+  background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(139, 92, 246, 0.4);
+}
+
 .headerRight {
   display: flex;
   gap: 0.5rem;
@@ -802,6 +821,23 @@
 
 .container.darkMode .inputsOverlay {
   background: rgba(17, 24, 39, 0.8);
+}
+
+/* Dark Mode - Dev/Example Buttons */
+.container.darkMode .devBtn {
+  background: #dc2626;
+}
+
+.container.darkMode .devBtn:hover {
+  background: #b91c1c;
+}
+
+.container.darkMode .fitPlateBtn {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+}
+
+.container.darkMode .fitPlateBtn:hover {
+  background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
 }
 
 /* Dark Mode - Template Button */
