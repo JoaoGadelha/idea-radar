@@ -60,7 +60,7 @@ RESPONDA SEMPRE EM JSON VÁLIDO:
 
 EXEMPLOS:
 Usuário: "que campos preciso preencher?"
-→ acknowledgment: "Ótima pergunta! Os campos principais são:\n\n- **Nome do projeto**\n- **Descrição** (o que faz, para quem serve)\n- **Cor principal** (opcional)\n\nTambém posso coletar pricing, depoimentos e garantia, mas são opcionais!\n\nPode colar uma descrição completa ou ir me contando aos poucos. Como prefere começar?"
+→ acknowledgment: "Ótima pergunta! Os campos principais são:\n\n- 📝 **Nome do projeto**\n- 💡 **Descrição** (o que faz, para quem serve)\n- 🎨 **Cor principal** (opcional)\n\nTambém posso coletar pricing, depoimentos e garantia, mas são opcionais!\n\nPode colar uma descrição completa ou ir me contando aos poucos. Como prefere começar?"
 
 Usuário: "FitPlate, app de nutrição"
 → extractedData: {"title": "FitPlate", "brief": "App de nutrição"}
@@ -93,7 +93,7 @@ Usuário: "FitPlate, app de nutrição"
       missingFields: ['title', 'brief'],
       nextQuestion: '',
       isComplete: false,
-      acknowledgment: 'Ótima pergunta! Os campos principais são:\n\n- **Nome do projeto**\n- **Descrição** (o que faz, para quem serve)\n- **Benefícios principais**\n- **Cor da marca** (opcional)\n\nTambém posso coletar pricing, depoimentos e garantia, mas são opcionais!\n\nPode colar uma descrição completa do seu projeto ou ir me contando aos poucos. Como prefere começar?'
+      acknowledgment: 'Ótima pergunta! Os campos principais são:\n\n- 📝 **Nome do projeto**\n- 💡 **Descrição** (o que faz, para quem serve)\n- 🎯 **Benefícios principais**\n- 🎨 **Cor da marca** (opcional)\n\nTambém posso coletar pricing, depoimentos e garantia, mas são opcionais!\n\nPode colar uma descrição completa do seu projeto ou ir me contando aos poucos. Como prefere começar?'
     });
 
   } catch (error) {
