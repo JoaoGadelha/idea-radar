@@ -384,14 +384,14 @@
 .productContent {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 2rem;
   order: 1;
 }
 
 .productTitle {
-  font-size: 2.25rem;
-  font-weight: 600;
-  line-height: 1.3;
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1.1;
   color: #000000;
   margin: 0;
   letter-spacing: -0.02em;
