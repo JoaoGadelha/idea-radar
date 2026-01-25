@@ -35,6 +35,15 @@ export default function ConversationalInterview() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [chatHistory, isTyping]);
 
+  // Auto-focus no input quando AI termina de responder
+  useEffect(() => {
+    if (!isTyping && chatHistory.length > 0) {
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100);
+    }
+  }, [isTyping, chatHistory.length]);
+
   const extractDataFromResponse = async (userMessage) => {
     try {
       const response = await fetch('/api/chat/extract-data', {
