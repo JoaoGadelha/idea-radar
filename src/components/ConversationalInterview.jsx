@@ -36,7 +36,7 @@ export default function ConversationalInterview() {
 
   const extractDataFromResponse = async (userMessage) => {
     try {
-      const prompt = `Você é um assistente especializado em extrair informações de landing pages de produtos/serviços.
+      const prompt = `Você é um assistente especializado em coletar informações para criar landing pages.
 
 DADOS JÁ COLETADOS:
 ${JSON.stringify(collectedData, null, 2)}
@@ -47,39 +47,50 @@ ${chatHistory.map(m => `${m.role}: ${m.content}`).join('\n')}
 NOVA MENSAGEM DO USUÁRIO:
 ${userMessage}
 
-TAREFA:
-1. Extraia TODAS as informações relevantes da mensagem do usuário
-2. Atualize os campos que foram mencionados
-3. Identifique o que AINDA FALTA coletar
-4. Gere uma resposta natural e conversacional
+INSTRUÇÕES:
+1. Se o usuário está PERGUNTANDO sobre o processo (ex: "que campos?", "o que preciso?"):
+   - Explique de forma clara e amigável
+   - Liste os campos principais: Nome do projeto, Descrição/O que faz, Público-alvo, Benefícios
+   - Mencione que pricing, depoimentos e garantia são opcionais
+   - Diga que pode colar tudo de uma vez ou ir por partes
 
-CAMPOS PARA EXTRAIR (se mencionados):
+2. Se o usuário está FORNECENDO INFORMAÇÕES:
+   - Extraia TODOS os dados mencionados
+   - Confirme o que entendeu
+   - Pergunte o próximo campo importante
+
+3. Se o usuário disse "não sei" ou "depois":
+   - Aceite tranquilamente
+   - Pergunte o próximo campo essencial
+
+CAMPOS PRINCIPAIS (prioridade):
 - title: Nome do produto/serviço
-- brief: Descrição detalhada
-- pricing_plans: Array de {name, price, features[]}
-- testimonials: Array de {name, role, quote, rating}
-- guarantee: {days, description}
-- features: Lista de funcionalidades
-- stats: Array de {value, label} (ex: "500+ usuários")
-- primary_color: Cor principal (nome ou hex)
-- hero_image_type: 'url', 'ai', 'upload', 'none'
-- showcase_type: 'about', 'product', 'both', 'none'
+- brief: O que faz, para quem serve, principais funcionalidades
+- primary_color: Cor da marca (opcional)
 
-RESPONDA EM JSON:
+CAMPOS OPCIONAIS:
+- pricing_plans: Planos e preços
+- testimonials: Depoimentos de clientes
+- guarantee: Garantia (ex: 30 dias)
+- features: Funcionalidades específicas
+- stats: Estatísticas (ex: "500+ usuários")
+
+RESPONDA SEMPRE EM JSON VÁLIDO:
 {
-  "extractedData": { /* campos extraídos */ },
-  "missingFields": ["campo1", "campo2"],
-  "nextQuestion": "Pergunta natural para coletar próximo campo importante",
-  "isComplete": false, /* true se tem dados suficientes para gerar LP */
-  "acknowledgment": "Resposta confirmando o que entendeu"
+  "extractedData": {},
+  "missingFields": ["title", "brief"],
+  "nextQuestion": "Qual o próximo passo ou pergunta",
+  "isComplete": false,
+  "acknowledgment": "Sua resposta natural e amigável"
 }
 
-IMPORTANTE:
-- Se o usuário colou descrição completa, extraia TUDO de uma vez
-- Seja conversacional e amigável
-- Priorize coletar: title, brief, pricing (se aplicável)
-- Se já tiver o essencial, pergunte coisas opcionais
-- Seja flexível: aceite "não tenho" ou "depois"`;
+EXEMPLOS:
+Usuário: "que campos preciso preencher?"
+→ acknowledgment: "Ótima pergunta! Os campos principais são:\n\n📝 Nome do projeto\n💡 Descrição (o que faz, para quem serve)\n🎨 Cor principal (opcional)\n\nTambém posso coletar pricing, depoimentos e garantia, mas são opcionais!\n\nPode colar uma descrição completa ou ir me contando aos poucos. Como prefere começar?"
+
+Usuário: "FitPlate, app de nutrição"
+→ extractedData: {"title": "FitPlate", "brief": "App de nutrição"}
+→ acknowledgment: "Legal! FitPlate - app de nutrição. Me conta mais: para quem é esse app e quais são os principais benefícios?"`;
 
       const response = await fetch(
         `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
@@ -101,10 +112,14 @@ IMPORTANTE:
       const data = await response.json();
       const aiText = data.candidates[0]?.content?.parts[0]?.text || '';
       
+      console.log('[AI Response]', aiText);
+      
       // Extrair JSON da resposta
       const jsonMatch = aiText.match(/\{[\s\S]*\}/);
       if (jsonMatch) {
         const result = JSON.parse(jsonMatch[0]);
+        
+        console.log('[Extracted Result]', result);
         
         // Atualizar dados coletados
         if (result.extractedData && Object.keys(result.extractedData).length > 0) {
@@ -128,20 +143,22 @@ IMPORTANTE:
         }
 
         return {
-          message: result.acknowledgment + '\n\n' + (result.isComplete ? '✨ Perfeito! Já tenho tudo que preciso para criar sua landing page!' : result.nextQuestion),
+          message: result.acknowledgment + (result.isComplete ? '' : (result.nextQuestion ? '\n\n' + result.nextQuestion : '')),
           isComplete: result.isComplete,
         };
       }
 
+      console.log('[JSON Parse Failed] No JSON found in response');
+      
       return {
-        message: 'Entendi! Me conta mais um pouco...',
+        message: 'Ótima pergunta! Os campos principais são:\n\n📝 **Nome do projeto**\n💡 **Descrição** (o que faz, para quem serve)\n🎯 **Benefícios principais**\n🎨 **Cor da marca** (opcional)\n\nTambém posso coletar pricing, depoimentos e garantia, mas são opcionais!\n\nPode colar uma descrição completa do seu projeto ou ir me contando aos poucos. Como prefere começar?',
         isComplete: false,
       };
 
     } catch (error) {
       console.error('Erro ao processar com Gemini:', error);
       return {
-        message: 'Entendi! Pode me contar mais sobre seu projeto?',
+        message: 'Ótima pergunta! Me conta sobre seu projeto: qual o nome, o que ele faz e para quem serve? Pode ser uma descrição curta ou longa, como preferir! 😊',
         isComplete: false,
       };
     }
