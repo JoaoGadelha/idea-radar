@@ -328,6 +328,109 @@ Transforme seu corpo e sua vida em 90 dias. Comece hoje sua jornada FitPlate Rev
     });
   };
 
+  const handleClarityAIPopulate = () => {
+    const brief = `Nome: Clarity AI
+Slogan: Transforme caos em decisões.
+
+Missão:
+Ajudar empresas e profissionais a tomarem decisões melhores e mais rápidas usando inteligência artificial aplicada ao contexto real do negócio — não só dados soltos.
+
+O que é:
+O Clarity AI é uma plataforma digital de inteligência estratégica que conecta dados, metas e contexto humano para gerar recomendações acionáveis em tempo real. Enquanto ferramentas tradicionais só mostram gráficos, o Clarity explica o que fazer e por quê.
+
+Descrição do Produto:
+O Clarity AI atua como um consultor digital inteligente, que:
+- Analisa dados de diferentes fontes (CRM, financeiro, marketing, produto)
+- Entende os objetivos da empresa
+- Detecta padrões, riscos e oportunidades
+- Sugere ações práticas e priorizadas
+- Aprende com as decisões tomadas ao longo do tempo
+
+Tudo isso em linguagem simples, sem jargão técnico.
+
+Principais Funcionalidades:
+
+📊 Análise Inteligente:
+- Conecta-se a ferramentas como Google Analytics, HubSpot, Notion, Stripe, etc.
+- Cruza dados automaticamente
+- Detecta gargalos e oportunidades ocultas
+
+🤖 Recomendações Ação-a-Ação:
+Exemplo: "Se você aumentar o orçamento do canal X em 15%, a chance de crescimento mensal sobe em 22%."
+
+🧭 Painel de Decisão:
+- Lista diária de decisões prioritárias
+- Explicação do impacto de cada escolha
+- Simulações de cenários
+
+🧠 Memória Estratégica:
+- Aprende com decisões passadas
+- Entende o "jeito" da empresa
+- Evolui junto com o negócio
+
+Público-Alvo:
+- Startups em crescimento (Seed a Série B)
+- Fundadores e C-levels
+- Times de produto, marketing e estratégia
+- Consultorias e agências premium
+
+Modelo de Preços (SaaS):
+
+🔹 Starter — R$ 99/mês
+- Até 3 integrações
+- Relatórios semanais
+- Recomendações básicas
+
+🔹 Pro — R$ 299/mês (mais vendido)
+- Integrações ilimitadas
+- Recomendações em tempo real
+- Simulações de cenários
+- Suporte prioritário
+
+🔹 Enterprise — Sob consulta
+- IA personalizada por negócio
+- Treinamento dedicado
+- SLA e segurança avançada
+- Onboarding estratégico
+
+Prova Social:
+
+🗣️ "O Clarity AI virou praticamente um sócio silencioso. Tomamos decisões mais rápidas e erramos menos."
+— Mariana Lopes, CEO da Growly
+
+🗣️ "Em 3 meses, reduzimos custos em 18% só seguindo as recomendações da plataforma."
+— Rafael Costa, Head de Ops na NexaTech
+
+Números:
+📈 +2.300 empresas usando
+🌍 Presente em 12 países
+⚡ Mais de 1 milhão de decisões analisadas
+
+Diferenciais Competitivos:
+- Não só mostra dados → recomenda ações
+- Linguagem humana, não técnica
+- Aprende com o contexto do negócio
+- Foco em decisão, não em relatório
+
+Visão de Futuro:
+Ser o sistema operacional de decisões das empresas modernas. No futuro, o Clarity AI:
+- Participará de reuniões
+- Antecipará problemas antes de acontecerem
+- Automatizará decisões de baixo risco
+- Será o "cérebro estratégico" das empresas
+
+Call to Action:
+👉 Pare de decidir no escuro.
+👉 Experimente o Clarity AI por 14 dias grátis.`;
+
+    setFormData({
+      ...formData,
+      title: 'Clarity AI',
+      slug: 'clarity-ai',
+      brief: brief,
+    });
+  };
+
   const handleRegenerateImage = async (variationIndex) => {
     if (!variations[variationIndex]?.hero_image_prompt) {
       alert('Esta variação não tem prompt de imagem definido.');
@@ -621,6 +724,13 @@ Transforme seu corpo e sua vida em 90 dias. Comece hoje sua jornada FitPlate Rev
             title="FitPlate Revolution - Plataforma completa de nutrição e fitness"
           >
             💪 FitPlate
+          </button>
+          <button 
+            onClick={handleClarityAIPopulate} 
+            className={styles.clarityBtn}
+            title="Clarity AI - Inteligência estratégica para decisões empresariais"
+          >
+            🧠 Clarity AI
           </button>
         </div>
         <div className={styles.headerRight}>
