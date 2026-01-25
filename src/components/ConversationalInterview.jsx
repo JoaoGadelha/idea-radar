@@ -105,11 +105,32 @@ export default function ConversationalInterview() {
     }
   };
 
+  const handleInputChange = (e) => {
+    const textarea = e.target;
+    setInput(textarea.value);
+    
+    // Auto-resize até 1000 caracteres
+    textarea.style.height = 'auto';
+    if (textarea.value.length <= 1000) {
+      textarea.style.height = Math.min(textarea.scrollHeight, 200) + 'px';
+      textarea.style.overflowY = 'hidden';
+    } else {
+      textarea.style.height = '200px';
+      textarea.style.overflowY = 'auto';
+    }
+  };
+
   const handleSend = async () => {
     if (!input.trim() || isTyping) return;
 
     const userMessage = input.trim();
     setInput('');
+    
+    // Resetar altura do textarea
+    if (inputRef.current) {
+      inputRef.current.style.height = 'auto';
+      inputRef.current.style.overflowY = 'hidden';
+    }
 
     // Adicionar mensagem do usuário
     addChatMessage({ role: 'user', content: userMessage });
@@ -267,7 +288,7 @@ export default function ConversationalInterview() {
               ref={inputRef}
               className={styles.textarea}
               value={input}
-              onChange={(e) => setInput(e.target.value)}
+              onChange={handleInputChange}
               onKeyPress={handleKeyPress}
               placeholder="Digite sua mensagem ou cole a descrição completa..."
               rows={1}

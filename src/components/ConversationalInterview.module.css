@@ -323,8 +323,9 @@
   font-family: inherit;
   resize: none;
   min-height: 50px;
-  max-height: 150px;
-  transition: border-color 0.2s;
+  max-height: 200px;
+  transition: border-color 0.2s, height 0.1s ease;
+  overflow-y: hidden;
 }
 
 .textarea:focus {
