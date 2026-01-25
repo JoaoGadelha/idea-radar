@@ -3,8 +3,8 @@ import { createContext, useContext, useState } from 'react';
 const LandingPageCreationContext = createContext();
 
 export function LandingPageCreationProvider({ children }) {
-  const [currentView, setCurrentView] = useState('choice'); // 'choice' | 'chat' | 'builder'
-  const [previousView, setPreviousView] = useState(null);
+  const [showModeSelector, setShowModeSelector] = useState(true); // Modal de escolha
+  const [showChat, setShowChat] = useState(false); // Modal do chat
   const [chatHistory, setChatHistory] = useState([]);
   const [collectedData, setCollectedData] = useState({
     // Dados básicos
@@ -52,23 +52,9 @@ export function LandingPageCreationProvider({ children }) {
     setChatHistory(prev => [...prev, message]);
   };
 
-  const changeView = (newView) => {
-    setPreviousView(currentView);
-    setCurrentView(newView);
-  };
-
-  const goBack = () => {
-    if (previousView) {
-      setCurrentView(previousView);
-      setPreviousView(null);
-    } else {
-      setCurrentView('choice');
-    }
-  };
-
   const resetCreation = () => {
-    setCurrentView('choice');
-    setPreviousView(null);
+    setShowModeSelector(true);
+    setShowChat(false);
     setChatHistory([]);
     setCollectedData({
       title: '',
@@ -101,11 +87,10 @@ export function LandingPageCreationProvider({ children }) {
   return (
     <LandingPageCreationContext.Provider
       value={{
-        currentView,
-        setCurrentView,
-        previousView,
-        changeView,
-        goBack,
+        showModeSelector,
+        setShowModeSelector,
+        showChat,
+        setShowChat,
         chatHistory,
         addChatMessage,
         collectedData,

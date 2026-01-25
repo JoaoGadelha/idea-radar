@@ -10,8 +10,7 @@ export default function ConversationalInterview() {
     addChatMessage,
     collectedData,
     updateCollectedData,
-    changeView,
-    goBack,
+    setShowChat,
   } = useLandingPageCreation();
 
   const [input, setInput] = useState('');
@@ -204,12 +203,16 @@ Usuário: "FitPlate, app de nutrição"
   };
 
   const handleContinueToBuilder = () => {
-    changeView('builder');
+    setShowChat(false);
+  };
+
+  const handleClose = () => {
+    setShowChat(false);
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.chatWindow}>
+    <div className={styles.container} onClick={handleClose}>
+      <div className={styles.chatWindow} onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div className={styles.header}>
           <div className={styles.headerLeft}>
@@ -219,7 +222,7 @@ Usuário: "FitPlate, app de nutrição"
               <p>Conte-me sobre seu projeto</p>
             </div>
           </div>
-          <button className={styles.closeButton} onClick={goBack}>
+          <button className={styles.closeButton} onClick={handleClose}>
             ✕
           </button>
         </div>

@@ -2,11 +2,20 @@ import { useLandingPageCreation } from '../contexts/LandingPageCreationContext';
 import styles from './CreationModeSelector.module.css';
 
 export default function CreationModeSelector() {
-  const { changeView } = useLandingPageCreation();
+  const { setShowModeSelector, setShowChat } = useLandingPageCreation();
+
+  const handleChatMode = () => {
+    setShowModeSelector(false);
+    setShowChat(true);
+  };
+
+  const handleManualMode = () => {
+    setShowModeSelector(false);
+  };
 
   return (
-    <div className={styles.overlay}>
-      <div className={styles.modal}>
+    <div className={styles.overlay} onClick={handleManualMode}>
+      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <div className={styles.header}>
           <h2>Como prefere criar sua Landing Page?</h2>
           <p>Escolha o método que melhor se adapta a você</p>
@@ -14,7 +23,7 @@ export default function CreationModeSelector() {
 
         <div className={styles.options}>
           {/* Opção 1: Chat AI */}
-          <button className={styles.option} onClick={() => changeView('chat')}>
+          <button className={styles.option} onClick={handleChatMode}>
             <div className={styles.optionIcon}>🤖</div>
             <div className={styles.optionContent}>
               <h3 className={styles.optionTitle}>
@@ -34,7 +43,7 @@ export default function CreationModeSelector() {
           </button>
 
           {/* Opção 2: Manual */}
-          <button className={styles.option} onClick={() => changeView('builder')}>
+          <button className={styles.option} onClick={handleManualMode}>
             <div className={styles.optionIcon}>⚡</div>
             <div className={styles.optionContent}>
               <h3 className={styles.optionTitle}>Modo Manual</h3>
@@ -49,6 +58,10 @@ export default function CreationModeSelector() {
             </div>
           </button>
         </div>
+
+        <button className={styles.closeButton} onClick={handleManualMode}>
+          ✕
+        </button>
       </div>
     </div>
   );

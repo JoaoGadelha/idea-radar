@@ -14,7 +14,7 @@ const TEMPLATES_WITH_FIXED_COLOR = {
 
 export default function LandingPageBuilder({ onClose, onSave }) {
   const { token } = useAuth();
-  const { collectedData, changeView, updateCollectedData } = useLandingPageCreation();
+  const { collectedData, updateCollectedData, setShowChat } = useLandingPageCreation();
   const [loading, setLoading] = useState(false);
   const [variations, setVariations] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -83,29 +83,29 @@ export default function LandingPageBuilder({ onClose, onSave }) {
     }
   }, [collectedData]);
 
-  // Função para atualizar formData e também sincronizar com Context
+  // Sincronizar formData de volta para Context quando mudar
   const updateFormData = (updates) => {
     setFormData(prev => {
-      const newFormData = { ...prev, ...updates };
+      const newData = { ...prev, ...updates };
       
-      // Sincronizar dados relevantes de volta ao Context
+      // Sincronizar com Context (apenas campos principais)
       updateCollectedData({
-        title: newFormData.title,
-        slug: newFormData.slug,
-        brief: newFormData.brief,
-        primary_color: newFormData.primary_color,
-        template: newFormData.template,
-        collect_phone: newFormData.collect_phone,
-        collect_suggestions: newFormData.collect_suggestions,
-        hero_image_type: newFormData.hero_image_type,
-        hero_image_url: newFormData.hero_image_url,
-        about_image_type: newFormData.about_image_type,
-        about_image_url: newFormData.about_image_url,
-        product_image_type: newFormData.product_image_type,
-        product_image_url: newFormData.product_image_url,
+        title: newData.title,
+        slug: newData.slug,
+        brief: newData.brief,
+        primary_color: newData.primary_color,
+        template: newData.template,
+        collect_phone: newData.collect_phone,
+        collect_suggestions: newData.collect_suggestions,
+        hero_image_type: newData.hero_image_type,
+        hero_image_url: newData.hero_image_url,
+        about_image_type: newData.about_image_type,
+        about_image_url: newData.about_image_url,
+        product_image_type: newData.product_image_type,
+        product_image_url: newData.product_image_url,
       });
       
-      return newFormData;
+      return newData;
     });
   };
 
@@ -625,7 +625,7 @@ Transforme seu corpo e sua vida em 90 dias. Comece hoje sua jornada FitPlate Rev
         </div>
         <div className={styles.headerRight}>
           <button 
-            onClick={() => changeView('chat')} 
+            onClick={() => setShowChat(true)} 
             className={styles.assistantBtn}
             title="Abrir Assistente AI"
           >

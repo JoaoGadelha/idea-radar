@@ -4,13 +4,16 @@ import ConversationalInterview from './ConversationalInterview';
 import LandingPageBuilder from './LandingPageBuilder';
 
 function LandingPageCreationFlow({ onClose, onSave }) {
-  const { currentView } = useLandingPageCreation();
+  const { showModeSelector, showChat } = useLandingPageCreation();
 
   return (
     <>
-      {currentView === 'choice' && <CreationModeSelector />}
-      {currentView === 'chat' && <ConversationalInterview />}
-      {currentView === 'builder' && <LandingPageBuilder onClose={onClose} onSave={onSave} />}
+      {/* Builder sempre renderizado */}
+      <LandingPageBuilder onClose={onClose} onSave={onSave} />
+      
+      {/* Modais overlay */}
+      {showModeSelector && <CreationModeSelector />}
+      {showChat && <ConversationalInterview />}
     </>
   );
 }
