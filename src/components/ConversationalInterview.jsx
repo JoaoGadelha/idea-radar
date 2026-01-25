@@ -92,7 +92,7 @@ export default function ConversationalInterview() {
       }
 
       return {
-        message: result.acknowledgment + (result.isComplete ? '' : (result.nextQuestion ? '\n\n' + result.nextQuestion : '')),
+        message: result.acknowledgment || result.nextQuestion || 'Ops! Tive um problema. Pode tentar de novo?',
         isComplete: result.isComplete,
       };
       
