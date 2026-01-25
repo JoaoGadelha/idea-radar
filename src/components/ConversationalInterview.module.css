@@ -195,6 +195,38 @@
   color: #1f2937;
 }
 
+/* Markdown formatting */
+.messageContent strong {
+  font-weight: 600;
+  color: #111827;
+}
+
+.messageContent ul,
+.messageContent ol {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.messageContent li {
+  margin: 0.25rem 0;
+}
+
+.messageContent p {
+  margin: 0;
+}
+
+.messageContent p + p {
+  margin-top: 0.75rem;
+}
+
+.messageContent code {
+  background: #f3f4f6;
+  padding: 0.125rem 0.375rem;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+}
+
 .messageUser .messageContent {
   background: #6366f1;
   color: white;

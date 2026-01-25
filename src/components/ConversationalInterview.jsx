@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import ReactMarkdown from 'react-markdown';
 import { useLandingPageCreation } from '../contexts/LandingPageCreationContext';
 import { useAuth } from '../contexts/AuthContext';
 import styles from './ConversationalInterview.module.css';
@@ -232,7 +233,7 @@ export default function ConversationalInterview() {
                 {msg.role === 'ai' ? '🤖' : '👤'}
               </div>
               <div className={styles.messageContent}>
-                {msg.content}
+                <ReactMarkdown>{msg.content}</ReactMarkdown>
               </div>
             </div>
           ))}
