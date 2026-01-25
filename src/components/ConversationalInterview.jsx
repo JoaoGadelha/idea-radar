@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { useLandingPageCreation } from '../contexts/LandingPageCreationContext';
+import { useAuth } from '../contexts/AuthContext';
 import styles from './ConversationalInterview.module.css';
 
 export default function ConversationalInterview() {
+  const { token } = useAuth();
   const {
     chatHistory,
     addChatMessage,
@@ -15,14 +17,6 @@ export default function ConversationalInterview() {
   const [isTyping, setIsTyping] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   const messagesEndRef = useRef(null);
-
-  // Verificar se API key existe
-  useEffect(() => {
-    const apiKey = import.meta.env.VITE_GOOGLE_AI_API_KEY || import.meta.env.VITE_GEMINI_API_KEY;
-    if (!apiKey) {
-      console.error('❌ VITE_GOOGLE_AI_API_KEY não configurada no .env');
-    }
-  }, []);
 
   useEffect(() => {
     // Mensagem inicial da AI
@@ -41,144 +35,59 @@ export default function ConversationalInterview() {
   }, [chatHistory, isTyping]);
 
   const extractDataFromResponse = async (userMessage) => {
-    const apiKey = import.meta.env.VITE_GOOGLE_AI_API_KEY || import.meta.env.VITE_GEMINI_API_KEY;
-    
-    if (!apiKey) {
-      console.error('❌ API Key não encontrada');
-      return {
-        message: 'Ótima pergunta! Os campos principais são:\n\n📝 **Nome do projeto**\n💡 **Descrição** (o que faz, para quem serve)\n🎯 **Benefícios principais**\n🎨 **Cor da marca** (opcional)\n\nTambém posso coletar pricing, depoimentos e garantia, mas são opcionais!\n\nPode colar uma descrição completa do seu projeto ou ir me contando aos poucos. Como prefere começar?',
-        isComplete: false,
-      };
-    }
-    
     try {
-      const prompt = `Você é um assistente especializado em coletar informações para criar landing pages.
-
-DADOS JÁ COLETADOS:
-${JSON.stringify(collectedData, null, 2)}
-
-HISTÓRICO DA CONVERSA:
-${chatHistory.map(m => `${m.role}: ${m.content}`).join('\n')}
-
-NOVA MENSAGEM DO USUÁRIO:
-${userMessage}
-
-INSTRUÇÕES:
-1. Se o usuário está PERGUNTANDO sobre o processo (ex: "que campos?", "o que preciso?"):
-   - Explique de forma clara e amigável
-   - Liste os campos principais: Nome do projeto, Descrição/O que faz, Público-alvo, Benefícios
-   - Mencione que pricing, depoimentos e garantia são opcionais
-   - Diga que pode colar tudo de uma vez ou ir por partes
-
-2. Se o usuário está FORNECENDO INFORMAÇÕES:
-   - Extraia TODOS os dados mencionados
-   - Confirme o que entendeu
-   - Pergunte o próximo campo importante
-
-3. Se o usuário disse "não sei" ou "depois":
-   - Aceite tranquilamente
-   - Pergunte o próximo campo essencial
-
-CAMPOS PRINCIPAIS (prioridade):
-- title: Nome do produto/serviço
-- brief: O que faz, para quem serve, principais funcionalidades
-- primary_color: Cor da marca (opcional)
-
-CAMPOS OPCIONAIS:
-- pricing_plans: Planos e preços
-- testimonials: Depoimentos de clientes
-- guarantee: Garantia (ex: 30 dias)
-- features: Funcionalidades específicas
-- stats: Estatísticas (ex: "500+ usuários")
-
-RESPONDA SEMPRE EM JSON VÁLIDO:
-{
-  "extractedData": {},
-  "missingFields": ["title", "brief"],
-  "nextQuestion": "Qual o próximo passo ou pergunta",
-  "isComplete": false,
-  "acknowledgment": "Sua resposta natural e amigável"
-}
-
-EXEMPLOS:
-Usuário: "que campos preciso preencher?"
-→ acknowledgment: "Ótima pergunta! Os campos principais são:\n\n📝 Nome do projeto\n💡 Descrição (o que faz, para quem serve)\n🎨 Cor principal (opcional)\n\nTambém posso coletar pricing, depoimentos e garantia, mas são opcionais!\n\nPode colar uma descrição completa ou ir me contando aos poucos. Como prefere começar?"
-
-Usuário: "FitPlate, app de nutrição"
-→ extractedData: {"title": "FitPlate", "brief": "App de nutrição"}
-→ acknowledgment: "Legal! FitPlate - app de nutrição. Me conta mais: para quem é esse app e quais são os principais benefícios?"`;
-
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{
-              parts: [{ text: prompt }]
-            }],
-            generationConfig: {
-              temperature: 0.7,
-              maxOutputTokens: 2000,
-            }
-          }),
-        }
-      );
+      // Chamar API backend ao invés de Gemini diretamente
+      const response = await fetch('/api/chat/extract-data', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          userMessage,
+          chatHistory: chatHistory.map(m => ({ role: m.role, content: m.content })),
+          collectedData,
+        }),
+      });
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        console.error('❌ Gemini API Error:', response.status, errorData);
+        console.error('❌ API Error:', response.status, errorData);
         throw new Error(`API Error: ${response.status}`);
       }
 
-      const data = await response.json();
-      const aiText = data.candidates[0]?.content?.parts[0]?.text || '';
+      const result = await response.json();
       
-      console.log('[AI Response]', aiText);
+      console.log('[Extracted Result]', result);
       
-      // Extrair JSON da resposta
-      const jsonMatch = aiText.match(/\{[\s\S]*\}/);
-      if (jsonMatch) {
-        const result = JSON.parse(jsonMatch[0]);
-        
-        console.log('[Extracted Result]', result);
-        
-        // Atualizar dados coletados
-        if (result.extractedData && Object.keys(result.extractedData).length > 0) {
-          updateCollectedData(result.extractedData);
-        }
-
-        // Auto-gerar slug se title foi fornecido
-        if (result.extractedData?.title && !collectedData.slug) {
-          const slug = result.extractedData.title
-            .toLowerCase()
-            .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
-            .replace(/[^a-z0-9]+/g, '-')
-            .replace(/(^-|-$)/g, '');
-          updateCollectedData({ slug });
-        }
-
-        // Verificar se está completo
-        if (result.isComplete) {
-          setIsComplete(true);
-        }
-
-        return {
-          message: result.acknowledgment + (result.isComplete ? '' : (result.nextQuestion ? '\n\n' + result.nextQuestion : '')),
-          isComplete: result.isComplete,
-        };
+      // Atualizar dados coletados
+      if (result.extractedData && Object.keys(result.extractedData).length > 0) {
+        updateCollectedData(result.extractedData);
       }
 
-      console.log('[JSON Parse Failed] No JSON found in response');
-      
+      // Auto-gerar slug se title foi fornecido
+      if (result.extractedData?.title && !collectedData.slug) {
+        const slug = result.extractedData.title
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/(^-|-$)/g, '');
+        updateCollectedData({ slug });
+      }
+
+      // Verificar se está completo
+      if (result.isComplete) {
+        setIsComplete(true);
+      }
+
       return {
-        message: 'Ótima pergunta! Os campos principais são:\n\n📝 **Nome do projeto**\n💡 **Descrição** (o que faz, para quem serve)\n🎯 **Benefícios principais**\n🎨 **Cor da marca** (opcional)\n\nTambém posso coletar pricing, depoimentos e garantia, mas são opcionais!\n\nPode colar uma descrição completa do seu projeto ou ir me contando aos poucos. Como prefere começar?',
-        isComplete: false,
+        message: result.acknowledgment + (result.isComplete ? '' : (result.nextQuestion ? '\n\n' + result.nextQuestion : '')),
+        isComplete: result.isComplete,
       };
 
     } catch (error) {
-      console.error('Erro ao processar com Gemini:', error);
+      console.error('Erro ao processar:', error);
       return {
         message: 'Ótima pergunta! Me conta sobre seu projeto: qual o nome, o que ele faz e para quem serve? Pode ser uma descrição curta ou longa, como preferir! 😊',
         isComplete: false,
