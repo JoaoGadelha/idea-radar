@@ -225,7 +225,7 @@ export default async function handler(req, res) {
       apiKey: process.env.GEMINI_API_KEY || process.env.GOOGLE_AI_API_KEY,
       model: 'gemini-2.5-flash',
       generationConfig: {
-        maxOutputTokens: 8192, // Aumentar para garantir resposta completa (JSON grande)
+        maxOutputTokens: 16384, // Máximo para Gemini 2.5 Flash - necessário para JSON com 6 novas seções
         temperature: 0.7,
       }
     });
