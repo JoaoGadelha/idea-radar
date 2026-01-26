@@ -778,6 +778,50 @@ export default async function handler(req, res) {
         
         return {};
       })(),
+      // Novas Seções
+      features: Array.isArray(variation.features)
+        ? variation.features.slice(0, 6).map(feat => ({
+            icon: feat.icon || '✓',
+            title: feat.title?.slice(0, 40) || '',
+            description: feat.description?.slice(0, 100) || ''
+          }))
+        : [],
+      benefits: Array.isArray(variation.benefits)
+        ? variation.benefits.slice(0, 4).map(ben => ({
+            title: ben.title || '',
+            description: ben.description?.slice(0, 80) || '',
+            items: Array.isArray(ben.items) ? ben.items.slice(0, 4) : []
+          }))
+        : [],
+      stats: Array.isArray(variation.stats)
+        ? variation.stats.slice(0, 4).map(stat => ({
+            value: stat.value || '',
+            label: stat.label || ''
+          }))
+        : [],
+      testimonials: Array.isArray(variation.testimonials)
+        ? variation.testimonials.slice(0, 3).map(test => ({
+            quote: test.quote?.slice(0, 150) || '',
+            author: test.author || '',
+            role: test.role || ''
+          }))
+        : [],
+      pricingPlans: Array.isArray(variation.pricingPlans)
+        ? variation.pricingPlans.slice(0, 3).map(plan => ({
+            name: plan.name || '',
+            price: plan.price || '',
+            period: plan.period || '',
+            features: Array.isArray(plan.features) ? plan.features.slice(0, 5) : [],
+            highlight: plan.highlight || false
+          }))
+        : [],
+      guarantee: variation.guarantee && typeof variation.guarantee === 'object'
+        ? {
+            badge: variation.guarantee.badge || '✓',
+            title: variation.guarantee.title || '',
+            description: variation.guarantee.description?.slice(0, 120) || ''
+          }
+        : null,
       // CTA Final
       cta_headline: variation.cta_headline || 'Seja um dos primeiros',
       cta_subheadline: variation.cta_subheadline || 'Cadastre-se e avisamos quando estiver pronto',
