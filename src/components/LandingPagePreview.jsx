@@ -394,7 +394,7 @@ export default function LandingPagePreview({
       )}
 
       {/* Benefits Section - Categorized gains */}
-      {Object.keys(benefits).length > 0 && (
+      {(Array.isArray(benefits) ? benefits.length > 0 : Object.keys(benefits).length > 0) && (
         <section className={styles.benefits}>
           <div className={styles.sectionContainer}>
             <div className={styles.sectionHeader}>
@@ -407,24 +407,47 @@ export default function LandingPagePreview({
             </div>
 
             <div className={styles.benefitsGrid}>
-              {Object.entries(benefits).map(([category, items], idx) => (
-                <div key={idx} className={styles.benefitCategory}>
-                  <h3 className={styles.benefitCategoryTitle}>{category}</h3>
-                  <ul className={styles.benefitList}>
-                    {(Array.isArray(items) ? items : [items]).map((item, itemIdx) => (
-                      <li key={itemIdx}>
-                        <span 
-                          className={styles.benefitCheck}
-                          style={{ color: primaryColor }}
-                        >
-                          ✓
-                        </span>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
+              {Array.isArray(benefits) 
+                ? benefits.map((benefit, idx) => (
+                    <div key={idx} className={styles.benefitCategory}>
+                      <h3 className={styles.benefitCategoryTitle}>{benefit.title}</h3>
+                      {benefit.description && (
+                        <p className={styles.benefitCategoryDescription}>{benefit.description}</p>
+                      )}
+                      <ul className={styles.benefitList}>
+                        {benefit.items.map((item, itemIdx) => (
+                          <li key={itemIdx}>
+                            <span 
+                              className={styles.benefitCheck}
+                              style={{ color: primaryColor }}
+                            >
+                              ✓
+                            </span>
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))
+                : Object.entries(benefits).map(([category, items], idx) => (
+                    <div key={idx} className={styles.benefitCategory}>
+                      <h3 className={styles.benefitCategoryTitle}>{category}</h3>
+                      <ul className={styles.benefitList}>
+                        {(Array.isArray(items) ? items : [items]).map((item, itemIdx) => (
+                          <li key={itemIdx}>
+                            <span 
+                              className={styles.benefitCheck}
+                              style={{ color: primaryColor }}
+                            >
+                              ✓
+                            </span>
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))
+              }
             </div>
           </div>
         </section>
