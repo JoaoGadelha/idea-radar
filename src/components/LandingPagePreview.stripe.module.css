@@ -58,8 +58,8 @@
   border-radius: 100px;
   font-weight: 600;
   font-size: 0.9375rem;
-  color: white;
-  background: linear-gradient(135deg, #635BFF 0%, #0073E6 100%);
+  color: white !important;
+  background: linear-gradient(135deg, #635BFF 0%, #0073E6 100%) !important;
   cursor: pointer;
   transition: all 0.2s ease;
   box-shadow: 0 4px 14px rgba(99, 91, 255, 0.4);
@@ -226,8 +226,8 @@
   border-radius: 100px;
   font-weight: 600;
   font-size: 1rem;
-  color: white;
-  background: linear-gradient(135deg, #635BFF 0%, #0073E6 100%);
+  color: white !important;
+  background: linear-gradient(135deg, #635BFF 0%, #0073E6 100%) !important;
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
@@ -964,7 +964,7 @@
   flex-shrink: 0;
 }
 
-.pricingButton {
+.pricingCta {
   width: 100%;
   padding: 1rem 2rem;
   font-size: 1rem;
@@ -977,19 +977,21 @@
   transition: all 0.2s ease;
 }
 
-.pricingButton:hover {
+.pricingCta:hover {
   border-color: #635BFF;
   color: #635BFF;
 }
 
-.pricingCardHighlight .pricingButton {
+.pricingCtaHighlight,
+.pricingCardHighlight .pricingCta {
   background: linear-gradient(135deg, #635BFF 0%, #0073E6 100%);
   color: #ffffff;
   border: none;
   box-shadow: 0 4px 14px rgba(99, 91, 255, 0.4);
 }
 
-.pricingCardHighlight .pricingButton:hover {
+.pricingCtaHighlight:hover,
+.pricingCardHighlight .pricingCta:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(99, 91, 255, 0.5);
 }
