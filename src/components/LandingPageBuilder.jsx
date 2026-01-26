@@ -312,6 +312,14 @@ Diferenciais competitivos:
 Garantia:
 Experimente por 30 dias risk-free. Se não estiver satisfeito, devolvemos 100% do seu dinheiro, sem perguntas.
 
+Depoimentos de clientes:
+
+"Perdi 11kg em 3 meses sem sofrimento. O app me guiou em cada refeição e eu finalmente entendi o que meu corpo precisa. Mudou minha relação com comida!" - Marina Silva, Arquiteta, São Paulo
+
+"Como médico, sou cético com apps de dieta. Mas o FitPlate usa ciência de verdade. Recomendo para meus pacientes com sobrepeso. Os resultados são consistentes." - Dr. Roberto Almeida, Endocrinologista
+
+"Trabalho 12h por dia e achava impossível comer bem. O FitPlate resolve minhas refeições em 5 minutos. Já são 8kg a menos e muito mais energia!" - Carlos Mendes, Empreendedor, Rio de Janeiro
+
 Planos e preços:
 - Básico (R$ 97/mês): Planos de refeição + treinos + app
 - Premium (R$ 197/mês): Básico + 2 meal kits por semana + consultas mensais com nutricionista

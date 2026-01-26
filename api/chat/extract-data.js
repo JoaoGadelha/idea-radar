@@ -77,7 +77,17 @@ CAMPOS OPCIONAIS COMPLETOS (crie conteúdo rico se o usuário fornecer contexto)
    Estrutura: { badge: emoji, title: string, description: string }
    Exemplo: { badge: "✓", title: "Garantia de 30 dias", description: "Se não gostar, devolvemos seu dinheiro" }
 
-REGRA IMPORTANTE: Se o usuário mencionar qualquer informação relacionada a essas seções (mesmo que indiretamente), extraia e estruture os dados. Seja criativo ao preencher campos que fazem sentido baseado no contexto fornecido.
+REGRA CRÍTICA - SEMPRE PREENCHA TODAS AS SEÇÕES:
+Mesmo que o usuário NÃO forneça informações explícitas sobre uma seção, CRIE conteúdo fictício/genérico baseado no contexto do produto. O objetivo é mostrar ao usuário como ficaria a landing page COMPLETA, para que ele veja todas as possibilidades.
+
+Exemplos de geração automática:
+- Se não mencionar features → Crie 3-6 funcionalidades lógicas baseadas no brief
+- Se não mencionar testimonials → Invente 3 depoimentos genéricos mas relevantes
+- Se não mencionar stats → Crie métricas plausíveis (ex: "500+ usuários", "4.8★ avaliação")
+- Se não mencionar pricing → Sugira 3 planos (básico, intermediário, premium) com preços de mercado
+- Se não mencionar guarantee → Adicione garantia padrão de 30 dias
+
+O usuário pode depois pedir para remover ou ajustar qualquer seção. Por enquanto, mostre TUDO.
 
 RESPONDA SEMPRE EM JSON VÁLIDO:
 {
