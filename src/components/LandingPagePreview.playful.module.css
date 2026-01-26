@@ -527,6 +527,107 @@
     color: #2d3748;
     font-weight: 900;
 }
+
+.sectionContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+/* HOW IT WORKS */
+.howItWorks {
+  padding: 6rem 0;
+  background: #fff;
+}
+
+.stepsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.stepCard {
+  background: #ebf8ff;
+  border: 3px solid #4299e1;
+  border-radius: 20px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 6px 6px 0 #90cdf4;
+}
+
+.stepCard:nth-child(2) {
+  background: #faf5ff;
+  border-color: #9f7aea;
+  box-shadow: 6px 6px 0 #d6bcfa;
+}
+
+.stepCard:nth-child(3) {
+  background: #fff5f5;
+  border-color: #f56565;
+  box-shadow: 6px 6px 0 #feb2b2;
+}
+
+.stepIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.stepTitle {
+  color: #2d3748;
+  font-weight: 800;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.stepDescription {
+  color: #4a5568;
+}
+
+/* FAQ */
+.faq {
+  padding: 6rem 0;
+  background: #fffff0;
+}
+
+.faqGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.faqCard {
+  background: white;
+  border: 3px solid #ed8936;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 4px 4px 0 #fbd38d;
+}
+
+.faqQuestion {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.faqQuestion h3 {
+  color: #2d3748;
+  font-weight: 800;
+  margin: 0;
+}
+
+.faqAnswer {
+  color: #4a5568;
+  margin: 0;
+}
+
 /* Mobile Responsive */
 @media (max-width: 1024px) {
   .heroContainer, .aboutContainer, .productContainer {
