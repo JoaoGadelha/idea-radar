@@ -599,6 +599,381 @@
 }
 
 /* ========================================
+   FEATURES SECTION
+   ======================================== */
+.features {
+  padding: 8rem 0;
+  background: #ffffff;
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 3rem;
+  margin-top: 4rem;
+}
+
+.featureCard {
+  padding: 0;
+  background: transparent;
+  border: none;
+}
+
+.featureIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+  background: #000000;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.featureTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #000000;
+  margin: 0 0 1rem;
+  letter-spacing: -0.01em;
+}
+
+.featureDescription {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #666666;
+  margin: 0;
+}
+
+/* ========================================
+   BENEFITS SECTION
+   ======================================== */
+.benefits {
+  padding: 8rem 0;
+  background: #fafafa;
+}
+
+.benefitsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 4rem;
+  margin-top: 4rem;
+}
+
+.benefitCategory {
+  padding: 0;
+  background: transparent;
+  border: none;
+}
+
+.benefitCategoryTitle {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #000000;
+  margin: 0 0 1.5rem;
+  letter-spacing: -0.01em;
+  border-bottom: 2px solid #000000;
+  padding-bottom: 0.75rem;
+}
+
+.benefitList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.benefitList li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #333333;
+}
+
+.benefitCheck {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #000000;
+  flex-shrink: 0;
+}
+
+/* ========================================
+   STATS SECTION
+   ======================================== */
+.stats {
+  padding: 6rem 0;
+  background: #000000;
+}
+
+.statsContainer {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 3rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 4rem;
+}
+
+.statCard {
+  text-align: center;
+  color: #ffffff;
+}
+
+.statValue {
+  font-size: 4rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+}
+
+.statLabel {
+  font-size: 1rem;
+  opacity: 0.7;
+  font-weight: 400;
+}
+
+/* ========================================
+   TESTIMONIALS SECTION
+   ======================================== */
+.testimonials {
+  padding: 8rem 0;
+  background: #ffffff;
+}
+
+.testimonialsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 3rem;
+  margin-top: 4rem;
+}
+
+.testimonialCard {
+  padding: 3rem;
+  background: #fafafa;
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.testimonialQuote {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  color: #000000;
+  font-weight: 400;
+  margin: 0;
+}
+
+.testimonialAuthor {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e6e6e6;
+}
+
+.testimonialAvatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+  background: #000000;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1.125rem;
+  flex-shrink: 0;
+}
+
+.testimonialInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.testimonialName {
+  font-weight: 600;
+  color: #000000;
+  font-size: 1rem;
+}
+
+.testimonialRole {
+  font-size: 0.875rem;
+  color: #666666;
+}
+
+/* ========================================
+   PRICING SECTION
+   ======================================== */
+.pricing {
+  padding: 8rem 0;
+  background: #fafafa;
+}
+
+.pricingGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-top: 4rem;
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.pricingCard {
+  position: relative;
+  padding: 3rem 2rem;
+  background: #ffffff;
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.pricingCard:hover {
+  border-color: #000000;
+  transform: translateY(-2px);
+}
+
+.pricingCardHighlight {
+  border-color: #000000;
+  border-width: 2px;
+}
+
+.pricingBadge {
+  position: absolute;
+  top: -12px;
+  left: 2rem;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  background: #000000;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.pricingName {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #000000;
+  margin: 0 0 1rem;
+}
+
+.pricingPrice {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #000000;
+  margin: 0 0 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.pricingDescription {
+  color: #666666;
+  margin: 0 0 2rem;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.pricingFeatures {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.pricingFeatures li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  color: #333333;
+  font-size: 0.95rem;
+}
+
+.pricingFeatures li::before {
+  content: '✓';
+  color: #000000;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.pricingButton {
+  width: 100%;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border: 1px solid #000000;
+  border-radius: 6px;
+  background: transparent;
+  color: #000000;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.pricingButton:hover {
+  background: #000000;
+  color: #ffffff;
+}
+
+.pricingCardHighlight .pricingButton {
+  background: #000000;
+  color: #ffffff;
+}
+
+.pricingCardHighlight .pricingButton:hover {
+  background: #333333;
+}
+
+/* ========================================
+   GUARANTEE SECTION
+   ======================================== */
+.guarantee {
+  padding: 6rem 0;
+  background: #ffffff;
+}
+
+.guaranteeContainer {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 4rem 3rem;
+  background: #fafafa;
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.guaranteeBadge {
+  margin-bottom: 2rem;
+}
+
+.guaranteeTitle {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #000000;
+  margin: 0 0 1rem;
+  letter-spacing: -0.01em;
+}
+
+.guaranteeDescription {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: #666666;
+  margin: 0;
+}
+
+/* ========================================
    CTA FINAL SECTION
    ======================================== */
 .ctaFinal {
