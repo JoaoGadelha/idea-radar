@@ -1154,6 +1154,12 @@ Call to Action:
               productParagraphs={variations[selectedIndex].product_paragraphs}
               productImage={formData.product_image_type === 'url' ? formData.product_image_url : variations[selectedIndex].product_image}
               productImageType={formData.product_image_type}
+              features={collectedData.features || []}
+              benefits={collectedData.benefits || {}}
+              testimonials={collectedData.testimonials || []}
+              pricingPlans={collectedData.pricing_plans || []}
+              guarantee={collectedData.guarantee}
+              stats={collectedData.stats || []}
             />
           ) : (
             <div className={styles.emptyPreview}>
