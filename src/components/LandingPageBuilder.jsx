@@ -627,8 +627,8 @@ Call to Action:
           { icon: '🔄', title: 'Integrações', description: 'Conecte com suas ferramentas favoritas' },
           { icon: '💬', title: 'Suporte Premium', description: 'Ajuda especializada sempre que precisar' }
         ],
-        benefits: {
-          'Para seu negócio': {
+        benefits: [
+          {
             title: 'Para seu negócio',
             description: 'Impulsione resultados e economize tempo',
             items: [
@@ -638,7 +638,7 @@ Call to Action:
               'Tome decisões baseadas em dados reais'
             ]
           },
-          'Para sua equipe': {
+          {
             title: 'Para sua equipe',
             description: 'Trabalhe de forma mais inteligente',
             items: [
@@ -648,7 +648,7 @@ Call to Action:
               'Foque no que realmente importa'
             ]
           }
-        },
+        ],
         stats: [
           { value: '50k+', label: 'Usuários ativos' },
           { value: '4.9★', label: 'Avaliação média' },
