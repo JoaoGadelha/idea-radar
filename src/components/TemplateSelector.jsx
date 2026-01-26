@@ -55,6 +55,15 @@ const TEMPLATES = [
     preview: 'linear-gradient(135deg, #ff6b9d 0%, #84a9ff 100%)',
     rating: 5,
     bestFor: 'Educação, Saúde'
+  },
+  {
+    id: 'warm',
+    name: 'Warm',
+    description: 'Tons terrosos quentes',
+    features: ['DM Sans', 'Elegante', 'Sofisticado'],
+    preview: 'linear-gradient(135deg, #faf6f1 0%, #f0e8df 100%)',
+    rating: 5,
+    bestFor: 'Lifestyle, Wellness'
   }
 ];
 
