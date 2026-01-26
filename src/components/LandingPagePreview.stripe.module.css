@@ -1384,3 +1384,45 @@
     text-align: center;
   }
 }
+
+/* ==================== NOVAS SEÇÕES ==================== */
+
+.featuresSection {
+  padding: 6rem 0;
+  background: #ffffff;
+  border-top: 1px solid #e6e6e6;
+}
+
+.benefitsSection {
+  padding: 6rem 0;
+  background: #000000;
+  color: #ffffff;
+  border-top: 1px solid #333333;
+}
+
+.statsSection {
+  padding: 6rem 0;
+  background: #ffffff;
+  border-top: 1px solid #e6e6e6;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.testimonialsSection {
+  padding: 6rem 0;
+  background: #000000;
+  color: #ffffff;
+  border-top: 1px solid #333333;
+}
+
+.pricingSection {
+  padding: 6rem 0;
+  background: #ffffff;
+  border-top: 1px solid #e6e6e6;
+}
+
+.guaranteeSection {
+  padding: 6rem 0;
+  background: #000000;
+  color: #ffffff;
+  border-top: 1px solid #333333;
+}
