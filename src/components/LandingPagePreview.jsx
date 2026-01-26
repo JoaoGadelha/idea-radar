@@ -5,6 +5,9 @@ import vercelStyles from './LandingPagePreview.vercel.module.css';
 import gradientStyles from './LandingPagePreview.gradient.module.css';
 import brutalistStyles from './LandingPagePreview.brutalist.module.css';
 import softStyles from './LandingPagePreview.soft.module.css';
+import cyberStyles from './LandingPagePreview.cyber.module.css';
+import luxuryStyles from './LandingPagePreview.luxury.module.css';
+import playfulStyles from './LandingPagePreview.playful.module.css';
 
 export default function LandingPagePreview({
   headline,
@@ -92,6 +95,9 @@ export default function LandingPagePreview({
     template === 'gradient' ? gradientStyles :
     template === 'brutalist' ? brutalistStyles :
     template === 'soft' ? softStyles :
+    template === 'cyber' ? cyberStyles :
+    template === 'luxury' ? luxuryStyles :
+    template === 'playful' ? playfulStyles :
     claudeStyles;
   return (
     <div className={styles.preview}>
