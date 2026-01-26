@@ -384,7 +384,7 @@ export default function LandingPagePreview({
                   >
                     <span>{feature.icon || ['🚀', '⚡', '🎯', '💡', '🔒', '📊', '🎨', '⭐'][idx % 8]}</span>
                   </div>
-                  <h3 className={styles.featureTitle}>{feature.name}</h3>
+                  <h3 className={styles.featureTitle}>{feature.title}</h3>
                   <p className={styles.featureDescription}>{feature.description}</p>
                 </div>
               ))}
@@ -526,7 +526,9 @@ export default function LandingPagePreview({
                   )}
                   <div className={styles.pricingName}>{plan.name}</div>
                   <div className={styles.pricingPrice}>{plan.price}</div>
-                  <div className={styles.pricingDescription}>{plan.description}</div>
+                  {plan.period && (
+                    <div className={styles.pricingPeriod}>{plan.period}</div>
+                  )}
                   {plan.features && (
                     <ul className={styles.pricingFeatures}>
                       {plan.features.map((feature, featureIdx) => (
