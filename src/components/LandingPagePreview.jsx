@@ -364,7 +364,7 @@ export default function LandingPagePreview({
 
       {/* Features Section - Detailed functionality list */}
       {features.length > 0 && (
-        <section className={styles.features}>
+        <section className={styles.featuresSection}>
           <div className={styles.sectionContainer}>
             <div className={styles.sectionHeader}>
               <span className={styles.sectionTag} style={{ color: primaryColor }}>
@@ -395,7 +395,7 @@ export default function LandingPagePreview({
 
       {/* Benefits Section - Categorized gains */}
       {(Array.isArray(benefits) ? benefits.length > 0 : Object.keys(benefits).length > 0) && (
-        <section className={styles.benefits}>
+        <section className={styles.benefitsSection}>
           <div className={styles.sectionContainer}>
             <div className={styles.sectionHeader}>
               <span className={styles.sectionTag} style={{ color: primaryColor }}>
@@ -455,7 +455,7 @@ export default function LandingPagePreview({
 
       {/* Stats Section - Compelling numbers */}
       {stats.length > 0 && (
-        <section className={styles.stats}>
+        <section className={styles.statsSection}>
           <div className={styles.statsContainer}>
             {stats.map((stat, idx) => (
               <div key={idx} className={styles.statCard}>
@@ -476,7 +476,7 @@ export default function LandingPagePreview({
 
       {/* Testimonials Section - Social proof */}
       {testimonials.length > 0 && (
-        <section className={styles.testimonials}>
+        <section className={styles.testimonialsSection}>
           <div className={styles.sectionContainer}>
             <div className={styles.sectionHeader}>
               <span className={styles.sectionTag} style={{ color: primaryColor }}>
@@ -511,7 +511,7 @@ export default function LandingPagePreview({
 
       {/* Pricing Section - Plans and pricing */}
       {pricingPlans.length > 0 && (
-        <section className={styles.pricing}>
+        <section className={styles.pricingSection}>
           <div className={styles.sectionContainer}>
             <div className={styles.sectionHeader}>
               <span className={styles.sectionTag} style={{ color: primaryColor }}>
@@ -565,7 +565,7 @@ export default function LandingPagePreview({
 
       {/* Guarantee Section - Risk reversal */}
       {guarantee && (
-        <section className={styles.guarantee}>
+        <section className={styles.guaranteeSection}>
           <div className={styles.guaranteeContainer}>
             <div className={styles.guaranteeBadge}>
               <span style={{ fontSize: '3rem' }}>🛡️</span>
