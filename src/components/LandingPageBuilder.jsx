@@ -10,6 +10,7 @@ const TEMPLATES_WITH_FIXED_COLOR = {
   soft: '#ffb3c6',
   gradient: '#667eea',
   vercel: '#00d9ff',
+  stripe: '#635BFF',
 };
 
 export default function LandingPageBuilder({ onClose, onSave }) {

@@ -910,8 +910,8 @@
   transform: translateX(-50%);
   padding: 0.5rem 1.25rem;
   border-radius: 100px;
-  background: linear-gradient(135deg, #635BFF 0%, #0073E6 100%);
-  color: #ffffff;
+  background: linear-gradient(135deg, #635BFF 0%, #0073E6 100%) !important;
+  color: #ffffff !important;
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
