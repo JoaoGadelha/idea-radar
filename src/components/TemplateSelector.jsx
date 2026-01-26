@@ -64,6 +64,24 @@ const TEMPLATES = [
     preview: 'linear-gradient(135deg, #faf6f1 0%, #f0e8df 100%)',
     rating: 5,
     bestFor: 'Lifestyle, Wellness'
+  },
+  {
+    id: 'minimal',
+    name: 'Minimal',
+    description: 'Premium e sofisticado',
+    features: ['Muito espaço', 'Tipografia elegante', 'Ultra limpo'],
+    preview: 'linear-gradient(180deg, #ffffff 0%, #f5f5f7 100%)',
+    rating: 5,
+    bestFor: 'Tech, Apple-like, Premium'
+  },
+  {
+    id: 'neon',
+    name: 'Neon',
+    description: 'Futurista e vibrante',
+    features: ['Glow effects', 'Fundo escuro', 'Cores vibrantes'],
+    preview: 'linear-gradient(135deg, #09090b 0%, #1e1b4b 50%, #09090b 100%)',
+    rating: 5,
+    bestFor: 'Gaming, Crypto, Tech Startups'
   }
 ];
 

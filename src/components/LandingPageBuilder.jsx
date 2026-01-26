@@ -12,6 +12,8 @@ const TEMPLATES_WITH_FIXED_COLOR = {
   vercel: '#00d9ff',
   stripe: '#635BFF',
   warm: '#d2b48c',
+  minimal: '#1d1d1f',
+  neon: '#a78bfa',
 };
 
 export default function LandingPageBuilder({ onClose, onSave }) {
@@ -822,6 +824,8 @@ Call to Action:
                 {formData.template === 'brutalist' && '⬛'}
                 {formData.template === 'soft' && '🧸'}
                 {formData.template === 'warm' && '🌾'}
+                {formData.template === 'minimal' && '◻️'}
+                {formData.template === 'neon' && '🔮'}
               </span>
               <span className={styles.templateName}>
                 {formData.template === 'claude' && 'Claude - Profissional'}
@@ -831,6 +835,8 @@ Call to Action:
                 {formData.template === 'brutalist' && 'Brutalist - Ousado'}
                 {formData.template === 'soft' && 'Soft - Suave'}
                 {formData.template === 'warm' && 'Warm - Terroso'}
+                {formData.template === 'minimal' && 'Minimal - Premium'}
+                {formData.template === 'neon' && 'Neon - Futurista'}
                 {hasFixedColor() && (
                   <span 
                     className={styles.fixedColorBadge}

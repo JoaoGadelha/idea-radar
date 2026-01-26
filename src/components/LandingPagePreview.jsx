@@ -5,6 +5,8 @@ import vercelStyles from './LandingPagePreview.vercel.module.css';
 import gradientStyles from './LandingPagePreview.gradient.module.css';
 import brutalistStyles from './LandingPagePreview.brutalist.module.css';
 import softStyles from './LandingPagePreview.soft.module.css';
+import minimalStyles from './LandingPagePreview.minimal.module.css';
+import neonStyles from './LandingPagePreview.neon.module.css';
 
 export default function LandingPagePreview({
   headline,
@@ -98,6 +100,8 @@ export default function LandingPagePreview({
     template === 'gradient' ? gradientStyles :
     template === 'brutalist' ? brutalistStyles :
     template === 'soft' ? softStyles :
+    template === 'minimal' ? minimalStyles :
+    template === 'neon' ? neonStyles :
     claudeStyles;
   return (
     <div className={styles.preview}>
