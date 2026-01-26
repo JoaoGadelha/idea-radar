@@ -5,9 +5,6 @@ import vercelStyles from './LandingPagePreview.vercel.module.css';
 import gradientStyles from './LandingPagePreview.gradient.module.css';
 import brutalistStyles from './LandingPagePreview.brutalist.module.css';
 import softStyles from './LandingPagePreview.soft.module.css';
-import neonStyles from './LandingPagePreview.neon.module.css';
-import luxuryStyles from './LandingPagePreview.luxury.module.css';
-import playfulStyles from './LandingPagePreview.playful.module.css';
 
 export default function LandingPagePreview({
   headline,
@@ -40,6 +37,12 @@ export default function LandingPagePreview({
   productParagraphs = [],
   productImage = null,
   productImageType = 'ai',
+  features = [],
+  benefits = {},
+  testimonials = [],
+  pricingPlans = [],
+  guarantee = null,
+  stats = [],
 }) {
   const [formData, setFormData] = useState({ email: '', phone: '', suggestions: '' });
   const [loading, setLoading] = useState(false);
@@ -95,9 +98,6 @@ export default function LandingPagePreview({
     template === 'gradient' ? gradientStyles :
     template === 'brutalist' ? brutalistStyles :
     template === 'soft' ? softStyles :
-    template === 'neon' ? neonStyles :
-    template === 'luxury' ? luxuryStyles :
-    template === 'playful' ? playfulStyles :
     claudeStyles;
   return (
     <div className={styles.preview}>
@@ -358,6 +358,199 @@ export default function LandingPagePreview({
                 )}
               </div>
             )}
+          </div>
+        </section>
+      )}
+
+      {/* Features Section - Detailed functionality list */}
+      {features.length > 0 && (
+        <section className={styles.features}>
+          <div className={styles.sectionContainer}>
+            <div className={styles.sectionHeader}>
+              <span className={styles.sectionTag} style={{ color: primaryColor }}>
+                FUNCIONALIDADES
+              </span>
+              <h2 className={styles.sectionTitle}>
+                Tudo que você precisa em <span style={{ color: primaryColor }}>um só lugar</span>
+              </h2>
+            </div>
+
+            <div className={styles.featuresGrid}>
+              {features.map((feature, idx) => (
+                <div key={idx} className={styles.featureCard}>
+                  <div 
+                    className={styles.featureIcon}
+                    style={{ backgroundColor: `${primaryColor}15` }}
+                  >
+                    <span>{feature.icon || ['🚀', '⚡', '🎯', '💡', '🔒', '📊', '🎨', '⭐'][idx % 8]}</span>
+                  </div>
+                  <h3 className={styles.featureTitle}>{feature.name}</h3>
+                  <p className={styles.featureDescription}>{feature.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Benefits Section - Categorized gains */}
+      {Object.keys(benefits).length > 0 && (
+        <section className={styles.benefits}>
+          <div className={styles.sectionContainer}>
+            <div className={styles.sectionHeader}>
+              <span className={styles.sectionTag} style={{ color: primaryColor }}>
+                BENEFÍCIOS
+              </span>
+              <h2 className={styles.sectionTitle}>
+                O que você <span style={{ color: primaryColor }}>ganha</span>
+              </h2>
+            </div>
+
+            <div className={styles.benefitsGrid}>
+              {Object.entries(benefits).map(([category, items], idx) => (
+                <div key={idx} className={styles.benefitCategory}>
+                  <h3 className={styles.benefitCategoryTitle}>{category}</h3>
+                  <ul className={styles.benefitList}>
+                    {(Array.isArray(items) ? items : [items]).map((item, itemIdx) => (
+                      <li key={itemIdx}>
+                        <span 
+                          className={styles.benefitCheck}
+                          style={{ color: primaryColor }}
+                        >
+                          ✓
+                        </span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Stats Section - Compelling numbers */}
+      {stats.length > 0 && (
+        <section className={styles.stats}>
+          <div className={styles.statsContainer}>
+            {stats.map((stat, idx) => (
+              <div key={idx} className={styles.statCard}>
+                <div 
+                  className={styles.statValue}
+                  style={{ color: primaryColor }}
+                >
+                  {stat.value || stat}
+                </div>
+                {stat.label && (
+                  <div className={styles.statLabel}>{stat.label}</div>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Testimonials Section - Social proof */}
+      {testimonials.length > 0 && (
+        <section className={styles.testimonials}>
+          <div className={styles.sectionContainer}>
+            <div className={styles.sectionHeader}>
+              <span className={styles.sectionTag} style={{ color: primaryColor }}>
+                DEPOIMENTOS
+              </span>
+              <h2 className={styles.sectionTitle}>
+                O que dizem <span style={{ color: primaryColor }}>nossos clientes</span>
+              </h2>
+            </div>
+
+            <div className={styles.testimonialsGrid}>
+              {testimonials.map((testimonial, idx) => (
+                <div key={idx} className={styles.testimonialCard}>
+                  <div className={styles.testimonialQuote}>"{testimonial.quote}"</div>
+                  <div className={styles.testimonialAuthor}>
+                    <div className={styles.testimonialAvatar}>
+                      {testimonial.avatar || (testimonial.author?.charAt(0).toUpperCase() || '?')}
+                    </div>
+                    <div className={styles.testimonialInfo}>
+                      <div className={styles.testimonialName}>{testimonial.author}</div>
+                      {testimonial.role && (
+                        <div className={styles.testimonialRole}>{testimonial.role}</div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Pricing Section - Plans and pricing */}
+      {pricingPlans.length > 0 && (
+        <section className={styles.pricing}>
+          <div className={styles.sectionContainer}>
+            <div className={styles.sectionHeader}>
+              <span className={styles.sectionTag} style={{ color: primaryColor }}>
+                PLANOS
+              </span>
+              <h2 className={styles.sectionTitle}>
+                Escolha o plano <span style={{ color: primaryColor }}>ideal</span> para você
+              </h2>
+            </div>
+
+            <div className={styles.pricingGrid}>
+              {pricingPlans.map((plan, idx) => (
+                <div 
+                  key={idx} 
+                  className={`${styles.pricingCard} ${plan.highlight ? styles.pricingCardHighlight : ''}`}
+                >
+                  {plan.highlight && (
+                    <div 
+                      className={styles.pricingBadge}
+                      style={{ backgroundColor: primaryColor }}
+                    >
+                      Mais Popular
+                    </div>
+                  )}
+                  <div className={styles.pricingName}>{plan.name}</div>
+                  <div className={styles.pricingPrice}>{plan.price}</div>
+                  <div className={styles.pricingDescription}>{plan.description}</div>
+                  {plan.features && (
+                    <ul className={styles.pricingFeatures}>
+                      {plan.features.map((feature, featureIdx) => (
+                        <li key={featureIdx}>{feature}</li>
+                      ))}
+                    </ul>
+                  )}
+                  <button 
+                    className={styles.pricingButton}
+                    style={{ 
+                      backgroundColor: plan.highlight ? primaryColor : 'transparent',
+                      color: plan.highlight ? 'white' : primaryColor,
+                      borderColor: primaryColor
+                    }}
+                  >
+                    Escolher Plano
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Guarantee Section - Risk reversal */}
+      {guarantee && (
+        <section className={styles.guarantee}>
+          <div className={styles.guaranteeContainer}>
+            <div className={styles.guaranteeBadge}>
+              <span style={{ fontSize: '3rem' }}>🛡️</span>
+            </div>
+            <h3 className={styles.guaranteeTitle}>{guarantee.title || 'Garantia Total'}</h3>
+            <p className={styles.guaranteeDescription}>
+              {guarantee.description || guarantee}
+            </p>
           </div>
         </section>
       )}
