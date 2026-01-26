@@ -1062,3 +1062,646 @@
     text-align: center;
   }
 }
+
+/* ========================================
+   FEATURES SECTION
+   ======================================== */
+.featuresSection {
+  padding: 4rem 0;
+  background: #ffffff;
+  border-bottom: 3px solid #000000;
+}
+
+.featuresContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.featuresHeader {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.featureCard {
+  padding: 2rem;
+  background: #ffffff;
+  border: 4px solid #000000;
+  border-radius: 0;
+  transition: all 0.15s ease;
+  box-shadow: 6px 6px 0 #000000;
+}
+
+.featureCard:nth-child(3n+1) {
+  background: #ffff00;
+}
+
+.featureCard:nth-child(3n+2) {
+  background: #00ffff;
+}
+
+.featureCard:nth-child(3n+3) {
+  background: #ff00ff;
+}
+
+.featureCard:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 9px 9px 0 #000000;
+}
+
+.featureCard:active {
+  transform: translate(3px, 3px);
+  box-shadow: 3px 3px 0 #000000;
+}
+
+.featureIcon {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  background: #000000;
+  color: #ffffff;
+  border-radius: 0;
+  font-weight: 900;
+}
+
+.featureTitle {
+  font-size: 1.25rem;
+  font-weight: 900;
+  margin-bottom: 0.75rem;
+  color: #000000;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+.featureDescription {
+  color: #000000;
+  line-height: 1.5;
+  font-weight: 700;
+}
+
+/* ========================================
+   BENEFITS SECTION
+   ======================================== */
+.benefitsSection {
+  padding: 4rem 0;
+  background: #000000;
+  color: #ffffff;
+  border-bottom: 3px solid #000000;
+}
+
+.benefitsContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.benefitsHeader {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.benefitsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.benefitCategory {
+  padding: 2rem;
+  background: #ffffff;
+  color: #000000;
+  border: 4px solid #000000;
+  border-radius: 0;
+  box-shadow: 6px 6px 0 #ffff00;
+  transition: all 0.15s ease;
+}
+
+.benefitCategory:nth-child(2n+2) {
+  box-shadow: 6px 6px 0 #00ffff;
+}
+
+.benefitCategory:hover {
+  transform: translate(-3px, -3px);
+}
+
+.benefitCategory:nth-child(2n+1):hover {
+  box-shadow: 9px 9px 0 #ffff00;
+}
+
+.benefitCategory:nth-child(2n+2):hover {
+  box-shadow: 9px 9px 0 #00ffff;
+}
+
+.benefitCategoryTitle {
+  font-size: 1.5rem;
+  font-weight: 900;
+  margin-bottom: 0.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 4px solid #000000;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+.benefitCategoryDescription {
+  color: #000000;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.benefitsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.benefitItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  color: #000000;
+  line-height: 1.5;
+  font-weight: 700;
+}
+
+.benefitItem::before {
+  content: '▶';
+  color: #000000;
+  font-weight: 900;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+/* ========================================
+   STATS SECTION
+   ======================================== */
+.statsSection {
+  padding: 4rem 0;
+  background: #ffff00;
+  border-bottom: 3px solid #000000;
+  position: relative;
+}
+
+.statsSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    repeating-linear-gradient(0deg, #000000 0px, #000000 2px, transparent 2px, transparent 40px),
+    repeating-linear-gradient(90deg, #000000 0px, #000000 2px, transparent 2px, transparent 40px);
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+.statsContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.statCard {
+  text-align: center;
+  padding: 2rem;
+  background: #000000;
+  color: #ffffff;
+  border: 4px solid #000000;
+  border-radius: 0;
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.3);
+  transition: all 0.15s ease;
+}
+
+.statCard:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: 12px 12px 0 rgba(0, 0, 0, 0.3);
+}
+
+.statValue {
+  font-size: 4rem;
+  font-weight: 900;
+  margin-bottom: 0.5rem;
+  color: #ffff00;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.statLabel {
+  font-size: 1.125rem;
+  color: #ffffff;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ========================================
+   TESTIMONIALS SECTION
+   ======================================== */
+.testimonialsSection {
+  padding: 4rem 0;
+  background: #ffffff;
+  border-bottom: 3px solid #000000;
+}
+
+.testimonialsContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.testimonialsHeader {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.testimonialsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.testimonialCard {
+  padding: 2rem;
+  background: #ffffff;
+  border: 4px solid #000000;
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  transition: all 0.15s ease;
+  box-shadow: 6px 6px 0 #000000;
+}
+
+.testimonialCard:nth-child(3n+1) {
+  background: #ffff00;
+}
+
+.testimonialCard:nth-child(3n+2) {
+  background: #00ffff;
+}
+
+.testimonialCard:nth-child(3n+3) {
+  background: #ff00ff;
+}
+
+.testimonialCard:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 9px 9px 0 #000000;
+}
+
+.testimonialQuote {
+  color: #000000;
+  line-height: 1.6;
+  font-size: 1rem;
+  flex-grow: 1;
+  font-weight: 700;
+}
+
+.testimonialAuthor {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 3px solid #000000;
+}
+
+.testimonialAvatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 0;
+  object-fit: cover;
+  border: 3px solid #000000;
+}
+
+.testimonialInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.testimonialName {
+  font-weight: 900;
+  color: #000000;
+  font-size: 0.9375rem;
+  text-transform: uppercase;
+}
+
+.testimonialRole {
+  font-size: 0.875rem;
+  color: #000000;
+  font-weight: 700;
+}
+
+/* ========================================
+   PRICING SECTION
+   ======================================== */
+.pricingSection {
+  padding: 4rem 0;
+  background: #000000;
+  border-bottom: 3px solid #000000;
+}
+
+.pricingContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.pricingHeader {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.pricingGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  align-items: start;
+}
+
+.pricingCard {
+  padding: 2rem;
+  background: #ffffff;
+  border: 4px solid #000000;
+  border-radius: 0;
+  transition: all 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 6px 6px 0 #ffffff;
+}
+
+.pricingCard:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 9px 9px 0 #ffffff;
+}
+
+.pricingCardHighlight {
+  background: #ffff00;
+  box-shadow: 8px 8px 0 #ff00ff;
+  transform: scale(1.05);
+}
+
+.pricingCardHighlight:hover {
+  transform: translate(-3px, -3px) scale(1.05);
+  box-shadow: 12px 12px 0 #ff00ff;
+}
+
+.pricingBadge {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: #000000;
+  color: #ffff00;
+  font-size: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border-radius: 0;
+  margin-bottom: 1.5rem;
+  align-self: flex-start;
+  border: 2px solid #000000;
+}
+
+.pricingName {
+  font-size: 1.5rem;
+  font-weight: 900;
+  margin-bottom: 0.5rem;
+  color: #000000;
+  text-transform: uppercase;
+}
+
+.pricingPrice {
+  font-size: 3.5rem;
+  font-weight: 900;
+  margin-bottom: 0.5rem;
+  color: #000000;
+  line-height: 1;
+}
+
+.pricingPeriod {
+  color: #000000;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 3px solid #000000;
+  text-transform: uppercase;
+}
+
+.pricingFeatures {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem 0;
+  flex-grow: 1;
+}
+
+.pricingFeature {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  color: #000000;
+  line-height: 1.5;
+  font-weight: 700;
+}
+
+.pricingFeature::before {
+  content: '▶';
+  color: #000000;
+  font-weight: 900;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.pricingCta {
+  width: 100%;
+  padding: 1rem;
+  border: 3px solid #000000;
+  border-radius: 0;
+  font-weight: 900;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  background: #ffffff;
+  color: #000000;
+  text-transform: uppercase;
+  box-shadow: 4px 4px 0 #000000;
+}
+
+.pricingCta:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #000000;
+}
+
+.pricingCta:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #000000;
+}
+
+.pricingCtaHighlight {
+  background: #000000;
+  color: #ffff00;
+  box-shadow: 4px 4px 0 #ff00ff;
+}
+
+.pricingCtaHighlight:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #ff00ff;
+}
+
+.pricingCtaHighlight:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #ff00ff;
+}
+
+/* ========================================
+   GUARANTEE SECTION
+   ======================================== */
+.guaranteeSection {
+  padding: 4rem 0;
+  background: #00ffff;
+  border-bottom: 3px solid #000000;
+}
+
+.guaranteeContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  text-align: center;
+}
+
+.guaranteeCard {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 3rem;
+  background: #ffffff;
+  border: 6px solid #000000;
+  border-radius: 0;
+  box-shadow: 12px 12px 0 #000000;
+}
+
+.guaranteeBadge {
+  font-size: 5rem;
+  margin-bottom: 1.5rem;
+  filter: none;
+}
+
+.guaranteeTitle {
+  font-size: 2.5rem;
+  font-weight: 900;
+  margin-bottom: 1rem;
+  color: #000000;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+.guaranteeDescription {
+  font-size: 1.125rem;
+  color: #000000;
+  line-height: 1.6;
+  font-weight: 700;
+}
+
+/* ========================================
+   RESPONSIVE - NOVAS SEÇÕES
+   ======================================== */
+@media (max-width: 1024px) {
+  .featuresGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .benefitsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .testimonialsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pricingGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .pricingCardHighlight {
+    transform: scale(1);
+  }
+
+  .pricingCardHighlight:hover {
+    transform: translate(-3px, -3px) scale(1);
+  }
+}
+
+@media (max-width: 640px) {
+  .featuresSection,
+  .benefitsSection,
+  .testimonialsSection,
+  .pricingSection,
+  .guaranteeSection {
+    padding: 3rem 0;
+  }
+
+  .statsSection {
+    padding: 3rem 0;
+  }
+
+  .featuresGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .statValue {
+    font-size: 3rem;
+  }
+
+  .testimonialsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .pricingPrice {
+    font-size: 2.5rem;
+  }
+
+  .guaranteeCard {
+    padding: 2rem;
+  }
+
+  .guaranteeTitle {
+    font-size: 1.75rem;
+  }
+
+  .guaranteeDescription {
+    font-size: 1rem;
+  }
+
+  .guaranteeBadge {
+    font-size: 3.5rem;
+  }
+}
