@@ -713,6 +713,339 @@
   box-shadow: 0 4px 15px rgba(197, 157, 95, 0.3);
 }
 
+/* TESTIMONIALS */
+.testimonialsGrid {
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+}
+
+.testimonialCard {
+  padding: 3.5rem;
+  background: #ffffff;
+  border: 1px solid rgba(197, 157, 95, 0.2);
+  transition: all 0.4s ease;
+}
+
+.testimonialCard:hover {
+  border-color: #c59d5f;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+}
+
+.testimonialQuote {
+  font-size: 1.3rem;
+  line-height: 1.9;
+  color: #4a4a4a;
+  margin: 0 0 2.5rem;
+  font-style: italic;
+  font-family: 'Crimson Text', Georgia, serif;
+}
+
+.testimonialQuote::before {
+  content: '"';
+  font-size: 4rem;
+  color: #c59d5f;
+  opacity: 0.3;
+  font-family: 'Playfair Display', serif;
+  line-height: 0;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.testimonialAuthor {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(197, 157, 95, 0.15);
+}
+
+.testimonialAvatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #c59d5f 0%, #f5f5f3 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: #ffffff;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+}
+
+.testimonialInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.testimonialName {
+  font-weight: 600;
+  color: #2c2c2c;
+  font-size: 1.1rem;
+  font-family: 'Playfair Display', serif;
+}
+
+.testimonialRole {
+  font-size: 0.95rem;
+  color: #999999;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* HOW IT WORKS / STEPS */
+.howItWorks {
+  padding: 8rem 0;
+  background: #ffffff;
+}
+
+.stepsGrid {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 3.5rem;
+}
+
+.stepCard {
+  padding: 3rem 2.5rem;
+  background: #fafaf8;
+  border: 1px solid rgba(197, 157, 95, 0.15);
+  transition: all 0.4s ease;
+  text-align: center;
+}
+
+.stepCard:hover {
+  border-color: #c59d5f;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+  transform: translateY(-5px);
+}
+
+.stepIcon {
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 2rem;
+  background: linear-gradient(135deg, rgba(197, 157, 95, 0.1) 0%, rgba(197, 157, 95, 0.05) 100%);
+  border: 1px solid rgba(197, 157, 95, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.75rem;
+  color: #c59d5f;
+}
+
+.stepNumber {
+  font-size: 0.8rem;
+  color: #c59d5f;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  margin-bottom: 1.25rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.stepTitle {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #2c2c2c;
+  margin: 0 0 1.25rem;
+  font-family: 'Playfair Display', serif;
+}
+
+.stepDescription {
+  font-size: 1.05rem;
+  color: #666666;
+  line-height: 1.8;
+  font-family: 'Crimson Text', Georgia, serif;
+}
+
+/* FAQ */
+.faq {
+  padding: 8rem 0;
+  background: #fafaf8;
+}
+
+.faqGrid {
+  grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+  gap: 2.5rem;
+}
+
+.faqCard {
+  padding: 2.5rem;
+  background: #ffffff;
+  border: 1px solid rgba(197, 157, 95, 0.15);
+  transition: all 0.4s ease;
+}
+
+.faqCard:hover {
+  border-color: #c59d5f;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+}
+
+.faqQuestion {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.faqIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #c59d5f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-weight: 700;
+  flex-shrink: 0;
+  font-size: 0.85rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.faqQuestion h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #2c2c2c;
+  margin: 0;
+  line-height: 1.5;
+  font-family: 'Playfair Display', serif;
+}
+
+.faqAnswer {
+  font-size: 1.05rem;
+  color: #666666;
+  margin: 0;
+  padding-left: 3.25rem;
+  line-height: 1.8;
+  font-family: 'Crimson Text', Georgia, serif;
+}
+
+/* SHOWCASE VISUAL */
+.visualShowcase {
+  gap: 3.5rem;
+}
+
+.visualExample {
+  background: #ffffff;
+  border: 1px solid rgba(197, 157, 95, 0.2);
+  padding: 3rem;
+}
+
+.exampleTitle {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin: 0 0 2.5rem;
+  color: #2c2c2c;
+  font-family: 'Playfair Display', serif;
+}
+
+.beforeAfter {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.beforeAfterItem {
+  text-align: center;
+}
+
+.beforeAfterLabel {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #c59d5f;
+  margin-bottom: 1.25rem;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.beforeAfterBox {
+  padding: 2.5rem;
+  background: #fafaf8;
+  border: 1px solid rgba(197, 157, 95, 0.2);
+  min-height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666666;
+  font-family: 'Crimson Text', Georgia, serif;
+}
+
+.beforeAfterArrow {
+  font-size: 2.5rem;
+  color: #c59d5f;
+}
+
+/* STATS SHOWCASE */
+.statsShowcase {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2.5rem;
+}
+
+.statCard {
+  padding: 3rem 2.5rem;
+  background: #ffffff;
+  border: 1px solid rgba(197, 157, 95, 0.15);
+  text-align: center;
+  transition: all 0.4s ease;
+}
+
+.statCard:hover {
+  border-color: #c59d5f;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+  transform: scale(1.03);
+}
+
+.statNumber {
+  font-size: 3.5rem;
+  font-weight: 600;
+  color: #c59d5f;
+  margin-bottom: 0.75rem;
+  font-family: 'Playfair Display', serif;
+}
+
+.statLabel {
+  font-size: 1rem;
+  color: #999999;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* LOGOS SHOWCASE */
+.logosShowcase {
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.logoItem {
+  padding: 2rem;
+  background: #ffffff;
+  border: 1px solid rgba(197, 157, 95, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s ease;
+  aspect-ratio: 16/9;
+}
+
+.logoItem:hover {
+  border-color: #c59d5f;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+.logoImg {
+  max-width: 100%;
+  max-height: 100%;
+  filter: grayscale(0.8);
+  opacity: 0.7;
+  transition: all 0.4s ease;
+}
+
+.logoItem:hover .logoImg {
+  filter: none;
+  opacity: 1;
+}
+
 /* RESPONSIVE */
 @media (max-width: 968px) {
   .heroContainer,
