@@ -414,15 +414,9 @@ export default function LandingPagePreview({
                       {benefit.description && (
                         <p className={styles.benefitCategoryDescription}>{benefit.description}</p>
                       )}
-                      <ul className={styles.benefitList}>
+                      <ul className={styles.benefitsList}>
                         {benefit.items.map((item, itemIdx) => (
-                          <li key={itemIdx}>
-                            <span 
-                              className={styles.benefitCheck}
-                              style={{ color: primaryColor }}
-                            >
-                              ✓
-                            </span>
+                          <li key={itemIdx} className={styles.benefitItem}>
                             {item}
                           </li>
                         ))}
@@ -432,15 +426,9 @@ export default function LandingPagePreview({
                 : Object.entries(benefits).map(([category, items], idx) => (
                     <div key={idx} className={styles.benefitCategory}>
                       <h3 className={styles.benefitCategoryTitle}>{category}</h3>
-                      <ul className={styles.benefitList}>
+                      <ul className={styles.benefitsList}>
                         {(Array.isArray(items) ? items : [items]).map((item, itemIdx) => (
-                          <li key={itemIdx}>
-                            <span 
-                              className={styles.benefitCheck}
-                              style={{ color: primaryColor }}
-                            >
-                              ✓
-                            </span>
+                          <li key={itemIdx} className={styles.benefitItem}>
                             {item}
                           </li>
                         ))}
