@@ -580,17 +580,25 @@ Call to Action:
 
   // Função de mock para desenvolvimento (sem chamar API)
   const handleGenerateMock = () => {
-    if (!formData.title || !formData.brief) {
-      alert('Preencha título e descrição antes de gerar.');
-      return;
+    // Auto-preencher título e slug se vazios
+    const mockTitle = formData.title || 'Produto Exemplo';
+    const mockSlug = formData.slug || 'produto-exemplo';
+    
+    if (!formData.title || !formData.slug) {
+      setFormData(prev => ({
+        ...prev,
+        title: mockTitle,
+        slug: mockSlug
+      }));
     }
 
     setLoading(true);
     
     // Simular delay de API
     setTimeout(() => {
+      const mockTitle = formData.title || 'Produto Exemplo';
       const mockVariation = {
-        headline: `Transforme ${formData.title} em Realidade`,
+        headline: `Transforme ${mockTitle} em Realidade`,
         subheadline: 'A solução completa que você procurava para alcançar resultados extraordinários',
         value_proposition: [
           'Interface intuitiva e fácil de usar',
@@ -679,7 +687,7 @@ Call to Action:
           description: 'Experimente sem riscos. Se não ficar satisfeito, devolvemos 100% do seu investimento, sem perguntas.'
         },
         showcase_type: 'benefits',
-        about_title: 'Por que escolher ' + formData.title,
+        about_title: 'Por que escolher ' + mockTitle,
         about_paragraphs: [
           'Desenvolvemos esta solução pensando em você. Cada detalhe foi cuidadosamente planejado para oferecer a melhor experiência possível.',
           'Nossa missão é democratizar o acesso a ferramentas de qualidade profissional, sem complicação e com preço justo.',
@@ -874,6 +882,14 @@ Call to Action:
           </button>
         </div>
         <div className={styles.headerRight}>
+          <button
+            onClick={handleGenerateMock}
+            disabled={loading}
+            className={styles.devMockBtn}
+            title="Modo desenvolvedor: gera dados mockados sem chamar a API"
+          >
+            {loading ? '⏳' : '🛠️'} DEV
+          </button>
           <button 
             onClick={() => setShowChat(true)} 
             className={styles.assistantBtn}
@@ -1231,16 +1247,6 @@ Call to Action:
             className={styles.generateBtn}
           >
             {loading ? '🤖 Gerando...' : variations.length > 0 ? '🔄 Gerar outra versão' : '✨ Gerar com IA'}
-          </button>
-
-          {/* Botão de DEV Mock */}
-          <button
-            onClick={handleGenerateMock}
-            disabled={loading}
-            className={styles.devMockBtn}
-            title="Modo desenvolvedor: gera dados mockados sem chamar a API"
-          >
-            {loading ? '⏳ Gerando mock...' : '🛠️ DEV: Preencher Mock'}
           </button>
 
           {variations.length > 0 && (
