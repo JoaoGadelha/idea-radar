@@ -547,12 +547,7 @@ export default function LandingPagePreview({
                     </ul>
                   )}
                   <button 
-                    className={styles.pricingButton}
-                    style={{ 
-                      backgroundColor: plan.highlight ? primaryColor : 'transparent',
-                      color: plan.highlight ? 'white' : primaryColor,
-                      borderColor: primaryColor
-                    }}
+                    className={`${styles.pricingCta} ${plan.highlight ? styles.pricingCtaHighlight : ''}`}
                   >
                     Escolher Plano
                   </button>
