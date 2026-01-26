@@ -30,33 +30,6 @@ const TEMPLATES = [
     bestFor: 'Tech, Gaming, Startups'
   },
   {
-    id: 'cyber',
-    name: 'Cyber',
-    description: 'Neon escuro e futurista',
-    features: ['Glow neon', 'Dark UI', 'Alto contraste'],
-    preview: 'linear-gradient(135deg, #00f0ff 0%, #8a5cff 100%)',
-    rating: 5,
-    bestFor: 'AI, SaaS, Dev Tools'
-  },
-  {
-    id: 'luxury',
-    name: 'Luxury',
-    description: 'Sofisticado e elegante',
-    features: ['Serif premium', 'Dourado suave', 'Minimalismo refinado'],
-    preview: 'linear-gradient(135deg, #e9dccb 0%, #b28a5b 100%)',
-    rating: 5,
-    bestFor: 'Consultoria, Finanças, Alto ticket'
-  },
-  {
-    id: 'playful',
-    name: 'Playful',
-    description: 'Divertido e criativo',
-    features: ['Cores vibrantes', 'Arredondado', 'Leve e amigável'],
-    preview: 'linear-gradient(135deg, #ff6b9d 0%, #7c5cff 100%)',
-    rating: 5,
-    bestFor: 'Criativo, Educação, Comunidades'
-  },
-  {
     id: 'gradient',
     name: 'Gradient',
     description: 'Colorido e moderno',
@@ -82,6 +55,33 @@ const TEMPLATES = [
     preview: 'linear-gradient(135deg, #ff6b9d 0%, #84a9ff 100%)',
     rating: 5,
     bestFor: 'Educação, Saúde'
+  },
+  {
+    id: 'neon',
+    name: 'Neon',
+    description: 'Cyberpunk futurista',
+    features: ['Glow effects', 'Dark base', 'Neon accents'],
+    preview: 'linear-gradient(135deg, #ff00ff 0%, #00ffff 100%)',
+    rating: 5,
+    bestFor: 'Gaming, Tech, Crypto'
+  },
+  {
+    id: 'luxury',
+    name: 'Luxury',
+    description: 'Elegante e premium',
+    features: ['Gold accents', 'Serif fonts', 'Sophisticated'],
+    preview: 'linear-gradient(135deg, #c59d5f 0%, #f5f5f3 100%)',
+    rating: 5,
+    bestFor: 'Luxo, Joias, Premium'
+  },
+  {
+    id: 'playful',
+    name: 'Playful',
+    description: 'Divertido e jovem',
+    features: ['Cores vibrantes', 'Rounded', 'Animações'],
+    preview: 'linear-gradient(135deg, #ff6b9d 0%, #ffd700 50%, #84a9ff 100%)',
+    rating: 5,
+    bestFor: 'Infantil, Fun, Eventos'
   }
 ];
 
