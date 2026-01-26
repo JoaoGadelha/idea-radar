@@ -90,14 +90,14 @@ export default function LandingPagePreview({
 
   // Seleciona o CSS baseado no template
   const styles = 
+    template === 'cyber' ? cyberStyles :
+    template === 'luxury' ? luxuryStyles :
+    template === 'playful' ? playfulStyles :
     template === 'stripe' ? stripeStyles :
     template === 'vercel' ? vercelStyles :
     template === 'gradient' ? gradientStyles :
     template === 'brutalist' ? brutalistStyles :
     template === 'soft' ? softStyles :
-    template === 'cyber' ? cyberStyles :
-    template === 'luxury' ? luxuryStyles :
-    template === 'playful' ? playfulStyles :
     claudeStyles;
   return (
     <div className={styles.preview}>

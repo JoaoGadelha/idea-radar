@@ -30,6 +30,33 @@ const TEMPLATES = [
     bestFor: 'Tech, Gaming, Startups'
   },
   {
+    id: 'cyber',
+    name: 'Cyber',
+    description: 'Neon escuro e futurista',
+    features: ['Glow neon', 'Dark UI', 'Alto contraste'],
+    preview: 'linear-gradient(135deg, #00f0ff 0%, #8a5cff 100%)',
+    rating: 5,
+    bestFor: 'AI, SaaS, Dev Tools'
+  },
+  {
+    id: 'luxury',
+    name: 'Luxury',
+    description: 'Sofisticado e elegante',
+    features: ['Serif premium', 'Dourado suave', 'Minimalismo refinado'],
+    preview: 'linear-gradient(135deg, #e9dccb 0%, #b28a5b 100%)',
+    rating: 5,
+    bestFor: 'Consultoria, Finanças, Alto ticket'
+  },
+  {
+    id: 'playful',
+    name: 'Playful',
+    description: 'Divertido e criativo',
+    features: ['Cores vibrantes', 'Arredondado', 'Leve e amigável'],
+    preview: 'linear-gradient(135deg, #ff6b9d 0%, #7c5cff 100%)',
+    rating: 5,
+    bestFor: 'Criativo, Educação, Comunidades'
+  },
+  {
     id: 'gradient',
     name: 'Gradient',
     description: 'Colorido e moderno',
@@ -55,33 +82,6 @@ const TEMPLATES = [
     preview: 'linear-gradient(135deg, #ff6b9d 0%, #84a9ff 100%)',
     rating: 5,
     bestFor: 'Educação, Saúde'
-  },
-  {
-    id: 'cyber',
-    name: 'Cyber',
-    description: 'Futurista e Neon',
-    features: ['Dark mode', 'Neon borders', 'Tech font'],
-    preview: '#050510',
-    rating: 4,
-    bestFor: 'Games, Tech, Web3'
-  },
-  {
-    id: 'luxury',
-    name: 'Luxury',
-    description: 'Elegante e Premium',
-    features: ['Serif fonts', 'Detalhes dourados', 'Dark minimal'],
-    preview: '#0f0f0f',
-    rating: 5,
-    bestFor: 'Moda, Imóveis, Premium'
-  },
-  {
-    id: 'playful',
-    name: 'Playful',
-    description: 'Divertido e Colorido',
-    features: ['Formas orgânicas', 'Bordas grossas', 'Cores vivas'],
-    preview: '#fff9f0',
-    rating: 4,
-    bestFor: 'Apps, Kids, Criativo'
   }
 ];
 
