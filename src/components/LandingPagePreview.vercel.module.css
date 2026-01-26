@@ -1039,6 +1039,7 @@
 .featuresSection {
   padding: 6rem 0;
   background: #000000;
+  border-top: 1px solid #171717;
 }
 
 .featuresContainer {
@@ -1064,11 +1065,13 @@
   border: 1px solid #262626;
   border-radius: 12px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
 }
 
 .featureCard:hover {
   border-color: rgba(0, 217, 255, 0.5);
-  box-shadow: 0 0 24px rgba(0, 217, 255, 0.15);
+  box-shadow: 0 8px 32px rgba(0, 217, 255, 0.2), 0 0 0 1px rgba(0, 217, 255, 0.1);
   transform: translateY(-4px);
   background: radial-gradient(circle at top, rgba(0, 217, 255, 0.05) 0%, #171717 70%);
 }
@@ -1105,6 +1108,7 @@
 .benefitsSection {
   padding: 6rem 0;
   background: #000000;
+  border-top: 1px solid #171717;
 }
 
 .benefitsContainer {
@@ -1130,11 +1134,14 @@
   border-radius: 12px;
   padding: 2rem;
   transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .benefitCategory:hover {
   border-color: rgba(168, 85, 247, 0.5);
-  box-shadow: 0 0 24px rgba(168, 85, 247, 0.15);
+  box-shadow: 0 8px 32px rgba(168, 85, 247, 0.2), 0 0 0 1px rgba(168, 85, 247, 0.1);
+  transform: translateY(-2px);
 }
 
 .benefitCategoryTitle {
@@ -1211,8 +1218,8 @@
 .statCard:hover {
   background: rgba(0, 217, 255, 0.08);
   border-color: rgba(0, 217, 255, 0.4);
-  box-shadow: 0 0 32px rgba(0, 217, 255, 0.2);
-  transform: translateY(-4px);
+  box-shadow: 0 8px 40px rgba(0, 217, 255, 0.25), 0 0 0 1px rgba(0, 217, 255, 0.1);
+  transform: translateY(-4px) scale(1.02);
 }
 
 .statValue {
@@ -1238,6 +1245,7 @@
 .testimonialsSection {
   padding: 6rem 0;
   background: #000000;
+  border-top: 1px solid #171717;
 }
 
 .testimonialsContainer {
@@ -1270,8 +1278,9 @@
 
 .testimonialCard:hover {
   border-color: rgba(236, 72, 153, 0.5);
-  box-shadow: 0 0 24px rgba(236, 72, 153, 0.15);
+  box-shadow: 0 8px 32px rgba(236, 72, 153, 0.2), 0 0 0 1px rgba(236, 72, 153, 0.1);
   transform: translateY(-4px);
+  background: radial-gradient(circle at bottom, rgba(236, 72, 153, 0.03) 0%, #171717 70%);
 }
 
 .testimonialQuote {
@@ -1320,6 +1329,7 @@
 .pricingSection {
   padding: 6rem 0;
   background: #000000;
+  border-top: 1px solid #171717;
 }
 
 .pricingContainer {
@@ -1335,9 +1345,11 @@
 
 .pricingGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
   align-items: start;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .pricingCard {
@@ -1350,6 +1362,7 @@
   flex-direction: column;
   position: relative;
   overflow: hidden;
+  height: 100%;
 }
 
 .pricingCard::before {
@@ -1370,14 +1383,15 @@
 
 .pricingCard:hover {
   border-color: rgba(0, 217, 255, 0.5);
-  box-shadow: 0 0 32px rgba(0, 217, 255, 0.2);
+  box-shadow: 0 8px 40px rgba(0, 217, 255, 0.25), 0 0 0 1px rgba(0, 217, 255, 0.1);
   transform: translateY(-4px);
 }
 
 .pricingCardHighlight {
   border-color: rgba(0, 217, 255, 0.6);
-  box-shadow: 0 0 48px rgba(0, 217, 255, 0.25);
+  box-shadow: 0 8px 48px rgba(0, 217, 255, 0.3), 0 0 0 1px rgba(0, 217, 255, 0.2);
   background: radial-gradient(circle at top, rgba(0, 217, 255, 0.08) 0%, #171717 70%);
+  transform: scale(1.02);
 }
 
 .pricingCardHighlight::before {
@@ -1451,7 +1465,7 @@
 .pricingCta {
   width: 100%;
   padding: 1rem;
-  border: none;
+  border: 1px solid #333333;
   border-radius: 8px;
   font-weight: 600;
   font-size: 1rem;
@@ -1459,22 +1473,26 @@
   transition: all 0.3s ease;
   background: #262626;
   color: #ffffff;
+  margin-top: auto;
 }
 
 .pricingCta:hover {
   background: #333333;
+  border-color: #444444;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
 .pricingCtaHighlight {
   background: linear-gradient(135deg, #00d9ff 0%, #a855f7 100%);
   color: #000000;
+  font-weight: 700;
+  border: none;
 }
 
 .pricingCtaHighlight:hover {
-  filter: brightness(1.1);
-  box-shadow: 0 8px 24px rgba(0, 217, 255, 0.4);
+  filter: brightness(1.15);
+  box-shadow: 0 8px 32px rgba(0, 217, 255, 0.5), 0 4px 16px rgba(168, 85, 247, 0.3);
 }
 
 /* ========================================
@@ -1483,6 +1501,7 @@
 .guaranteeSection {
   padding: 6rem 0;
   background: #000000;
+  border-top: 1px solid #171717;
 }
 
 .guaranteeContainer {
