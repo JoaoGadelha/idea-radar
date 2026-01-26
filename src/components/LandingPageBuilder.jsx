@@ -578,6 +578,134 @@ Call to Action:
     }
   };
 
+  // Função de mock para desenvolvimento (sem chamar API)
+  const handleGenerateMock = () => {
+    if (!formData.title || !formData.brief) {
+      alert('Preencha título e descrição antes de gerar.');
+      return;
+    }
+
+    setLoading(true);
+    
+    // Simular delay de API
+    setTimeout(() => {
+      const mockVariation = {
+        headline: `Transforme ${formData.title} em Realidade`,
+        subheadline: 'A solução completa que você procurava para alcançar resultados extraordinários',
+        value_proposition: [
+          'Interface intuitiva e fácil de usar',
+          'Resultados comprovados em semanas',
+          'Suporte 24/7 em português',
+          'Sem contratos de longo prazo'
+        ],
+        how_it_works: [
+          { icon: '📝', title: 'Cadastre-se', description: 'Crie sua conta em menos de 2 minutos' },
+          { icon: '⚙️', title: 'Configure', description: 'Personalize de acordo com suas necessidades' },
+          { icon: '🚀', title: 'Lance', description: 'Comece a usar imediatamente e veja os resultados' }
+        ],
+        faq_items: [
+          { question: 'Como funciona o período de teste?', answer: 'Você tem 7 dias grátis para experimentar todas as funcionalidades premium sem compromisso.' },
+          { question: 'Posso cancelar a qualquer momento?', answer: 'Sim! Não há fidelidade. Você pode cancelar quando quiser, sem taxas ou burocracias.' },
+          { question: 'Os dados ficam seguros?', answer: 'Absolutamente. Usamos criptografia de ponta e seguimos as normas da LGPD.' },
+          { question: 'Tem suporte em português?', answer: 'Sim, nossa equipe de suporte está disponível 24/7 em português via chat, email e telefone.' }
+        ],
+        cta_headline: 'Pronto para começar?',
+        cta_subheadline: 'Junte-se a milhares de pessoas que já transformaram seus resultados',
+        features: [
+          { icon: '⚡', title: 'Super Rápido', description: 'Performance otimizada para máxima velocidade' },
+          { icon: '🔒', title: 'Seguro', description: 'Proteção de dados de nível empresarial' },
+          { icon: '📊', title: 'Analytics', description: 'Métricas detalhadas em tempo real' },
+          { icon: '🎨', title: 'Personalizável', description: 'Adapte completamente ao seu estilo' },
+          { icon: '🔄', title: 'Integrações', description: 'Conecte com suas ferramentas favoritas' },
+          { icon: '💬', title: 'Suporte Premium', description: 'Ajuda especializada sempre que precisar' }
+        ],
+        benefits: {
+          'Para seu negócio': {
+            title: 'Para seu negócio',
+            description: 'Impulsione resultados e economize tempo',
+            items: [
+              'Aumente a produtividade em até 300%',
+              'Reduza custos operacionais significativamente',
+              'Escale sem contratar mais pessoas',
+              'Tome decisões baseadas em dados reais'
+            ]
+          },
+          'Para sua equipe': {
+            title: 'Para sua equipe',
+            description: 'Trabalhe de forma mais inteligente',
+            items: [
+              'Elimine tarefas repetitivas e manuais',
+              'Colabore em tempo real de qualquer lugar',
+              'Organize tudo em um único lugar',
+              'Foque no que realmente importa'
+            ]
+          }
+        },
+        stats: [
+          { value: '50k+', label: 'Usuários ativos' },
+          { value: '4.9★', label: 'Avaliação média' },
+          { value: '99.9%', label: 'Uptime garantido' }
+        ],
+        testimonials: [
+          { quote: 'Simplesmente revolucionou a forma como trabalhamos. Economizamos 15 horas por semana!', author: 'Maria Silva', role: 'CEO, TechStart', avatar: '' },
+          { quote: 'A melhor decisão que tomamos este ano. ROI positivo em menos de 30 dias.', author: 'João Santos', role: 'Diretor de Marketing', avatar: '' },
+          { quote: 'Interface incrível, suporte exemplar. Recomendo de olhos fechados!', author: 'Ana Costa', role: 'Gerente de Projetos', avatar: '' }
+        ],
+        pricingPlans: [
+          { 
+            name: 'Básico', 
+            price: 'R$ 49', 
+            period: 'por mês', 
+            features: ['Até 1.000 usuários', 'Suporte por email', '5 GB de armazenamento', 'Recursos essenciais'],
+            highlight: false 
+          },
+          { 
+            name: 'Pro', 
+            price: 'R$ 149', 
+            period: 'por mês', 
+            features: ['Até 10.000 usuários', 'Suporte prioritário 24/7', '50 GB de armazenamento', 'Todos os recursos', 'Integrações avançadas', 'Analytics detalhado'],
+            highlight: true 
+          },
+          { 
+            name: 'Enterprise', 
+            price: 'Sob consulta', 
+            period: 'customizado', 
+            features: ['Usuários ilimitados', 'Suporte dedicado', 'Armazenamento ilimitado', 'Customização completa', 'SLA garantido', 'Onboarding personalizado'],
+            highlight: false 
+          }
+        ],
+        guarantee: {
+          title: 'Garantia de 30 dias',
+          description: 'Experimente sem riscos. Se não ficar satisfeito, devolvemos 100% do seu investimento, sem perguntas.'
+        },
+        showcase_type: 'benefits',
+        about_title: 'Por que escolher ' + formData.title,
+        about_paragraphs: [
+          'Desenvolvemos esta solução pensando em você. Cada detalhe foi cuidadosamente planejado para oferecer a melhor experiência possível.',
+          'Nossa missão é democratizar o acesso a ferramentas de qualidade profissional, sem complicação e com preço justo.',
+          'Junte-se a milhares de profissionais e empresas que já confiam em nós para transformar seus resultados.'
+        ],
+        product_title: 'Como funciona na prática',
+        product_paragraphs: [
+          'Nossa plataforma foi desenvolvida para ser intuitiva desde o primeiro clique. Não é necessário treinamento complexo ou conhecimento técnico.',
+          'Você terá acesso a dashboards personalizáveis, relatórios automáticos e insights acionáveis para tomar melhores decisões.',
+          'Tudo isso com a segurança e confiabilidade que seu negócio merece.'
+        ],
+        // Placeholders para imagens (não vamos gerar URLs)
+        hero_image: null,
+        hero_image_prompt: null,
+        about_image: null,
+        about_image_prompt: null,
+        product_image: null,
+        product_image_prompt: null
+      };
+
+      setVariations(prev => [...prev, mockVariation]);
+      setSelectedIndex(variations.length);
+      setLoading(false);
+    }, 800);
+  };
+
   const handleGenerate = async () => {
     if (!formData.title || !formData.brief) {
       alert('Preencha o título e a descrição do projeto');
@@ -1103,6 +1231,16 @@ Call to Action:
             className={styles.generateBtn}
           >
             {loading ? '🤖 Gerando...' : variations.length > 0 ? '🔄 Gerar outra versão' : '✨ Gerar com IA'}
+          </button>
+
+          {/* Botão de DEV Mock */}
+          <button
+            onClick={handleGenerateMock}
+            disabled={loading}
+            className={styles.devMockBtn}
+            title="Modo desenvolvedor: gera dados mockados sem chamar a API"
+          >
+            {loading ? '⏳ Gerando mock...' : '🛠️ DEV: Preencher Mock'}
           </button>
 
           {variations.length > 0 && (
