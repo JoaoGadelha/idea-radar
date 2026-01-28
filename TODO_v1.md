@@ -48,41 +48,29 @@
 
 ### 2. Deploy em Produção
 **Esforço:** 1-2h  
-**Status:** ❌ Não feito
+**Status:** ✅ Concluído
 
-**O que fazer:**
-- [ ] Conectar repositório ao Vercel
-- [ ] Configurar domínio (se tiver)
-- [ ] Testar fluxo completo em produção
+**O que foi feito:**
+- [x] Conectar repositório ao Vercel
+- [ ] Configurar domínio (se tiver) — opcional, usando URL do Vercel
+- [x] Testar fluxo completo em produção
 
-**Documentação:** Ver `DEPLOY.md`
+**URL:** https://idea-radar-react.vercel.app
 
 ---
 
 ### 3. Variáveis de Ambiente Configuradas
 **Esforço:** 30min  
-**Status:** ❌ Pendente
+**Status:** ✅ Concluído
 
-**Variáveis necessárias:**
-```env
-# Database (Neon)
-DATABASE_URL=postgres://...
-POSTGRES_URL=postgres://...
-
-# Auth
-JWT_SECRET=seu-secret-aqui
-RESEND_API_KEY=re_xxx
-
-# LLM
-GEMINI_API_KEY=xxx
-
-# GA4
-GA_MEASUREMENT_ID=G-XXXXXXXXXX
-GA_CREDENTIALS_JSON={"type":"service_account",...}
-
-# Cron
-CRON_SECRET=xxx
-```
+**Variáveis configuradas no Vercel:**
+- [x] DATABASE_URL / POSTGRES_URL (Neon)
+- [x] JWT_SECRET
+- [x] RESEND_API_KEY
+- [x] GOOGLE_AI_API_KEY (Gemini)
+- [x] GA_CREDENTIALS_JSON (Service Account)
+- [x] VITE_GA_MEASUREMENT_ID=G-P13EMWM4H3
+- [x] CRON_SECRET
 
 ---
 
@@ -90,26 +78,36 @@ CRON_SECRET=xxx
 
 ### 4. Mais Métricas para Enriquecer Análise
 **Esforço:** 3-4h  
-**Status:** ❌ Parcial
+**Status:** ✅ Implementado
 
-**Métricas que faltam:**
+**Métricas implementadas:**
 
-| Métrica | Por que importa | Como coletar |
-|---------|-----------------|--------------|
-| **Scroll depth** | Saber se leram até o CTA | GA4 event ou Intersection Observer |
-| **Tempo até CTA** | Engajamento real | JS timer no componente |
-| **Origem detalhada** | Qual canal converte melhor | UTM params + GA4 |
-| **Device** | Mobile vs Desktop | GA4 automático |
-| **Qualidade do lead** | Email pessoal vs corporativo | Regex no email |
-| **Horário de conversão** | Quando a audiência está ativa | Timestamp do lead |
-| **Retornos** | Quantos voltaram sem converter | GA4 returning users |
+| Métrica | Por que importa | Status |
+|---------|-----------------|--------|
+| **Scroll depth** | Saber se leram até o CTA | ✅ Implementado (analytics.js) |
+| **Tempo na página** | Engajamento real | ✅ Implementado (10s, 30s, 60s, 120s) |
+| **Origem detalhada** | Qual canal converte melhor | ✅ UTM params capturados |
+| **Device** | Mobile vs Desktop | ✅ GA4 + captura local |
+| **Qualidade do lead** | Email pessoal vs corporativo | ✅ Classificação automática |
+| **Horário de conversão** | Quando a audiência está ativa | ✅ Timestamp + timezone |
+| **Retornos** | Quantos voltaram sem converter | ✅ GA4 Enhanced Measurement |
 
-**O que fazer:**
-- [ ] Implementar scroll tracking no `LandingPagePreview.jsx`
-- [ ] Capturar UTM params no formulário de lead
-- [ ] Classificar qualidade do email (pessoal vs corporativo)
-- [ ] Adicionar timestamp detalhado nos leads
-- [ ] Buscar métricas adicionais na API do GA4 (`src/services/ga4.js`)
+**O que foi feito:**
+- [x] Implementar scroll tracking (25%, 50%, 75%, 100%)
+- [x] Implementar time on page tracking (10s, 30s, 60s, 120s)
+- [x] Capturar UTM params no formulário de lead
+- [x] Classificar qualidade do email (corporate, personal, educational, disposable)
+- [x] Capturar device info (mobile/desktop, browser, screen size)
+- [x] Adicionar referrer e timezone nos metadados
+- [x] Atualizar prompt da IA para mostrar breakdown de qualidade
+
+**Arquivos criados/modificados:**
+- `src/services/leadUtils.js` — Utilitários de enriquecimento de leads
+- `src/components/LandingPagePreview.jsx` — Envia metadados com lead
+- `api/leads.js` — Aceita e processa metadados
+- `src/services/database.js` — Salva metadata e email_quality
+- `api/ask.js` — Exibe qualidade e fontes no contexto da IA
+- `migrations/add_leads_metadata.sql` — Adiciona colunas metadata e email_quality
 
 ---
 

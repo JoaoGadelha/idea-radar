@@ -179,7 +179,7 @@ export async function getLatestMetricsForAllProjects(userId) {
 
 // ==================== LEADS ====================
 
-export async function saveLead(projectId, email, source = null, nome = null, telefone = null, sugestao = null) {
+export async function saveLead(projectId, email, source = null, nome = null, telefone = null, sugestao = null, metadata = null) {
   // Verificar limite de 5 registros por email
   const emailCount = await sql`
     SELECT COUNT(*) as total
@@ -190,6 +190,9 @@ export async function saveLead(projectId, email, source = null, nome = null, tel
   if (parseInt(emailCount.rows[0].total, 10) >= 5) {
     throw new Error('Limite de 5 cadastros por email atingido');
   }
+  
+  // Extrair qualidade do email do metadata
+  const emailQuality = metadata?.email?.type || null;
   
   // Verificar limite de 5 registros por telefone (se fornecido)
   if (telefone) {
@@ -204,18 +207,18 @@ export async function saveLead(projectId, email, source = null, nome = null, tel
     }
   }
   
-  // Se passou nas verificações, inserir normalmente
+  // Se passou nas verificações, inserir normalmente (com metadata se disponível)
   const result = await sql`
-    INSERT INTO leads (project_id, email, source, nome, telefone, sugestao, created_at)
-    VALUES (${projectId}, ${email}, ${source}, ${nome}, ${telefone}, ${sugestao}, NOW())
-    RETURNING id, email, nome, telefone, sugestao, source, created_at
+    INSERT INTO leads (project_id, email, source, nome, telefone, sugestao, metadata, email_quality, created_at)
+    VALUES (${projectId}, ${email}, ${source}, ${nome}, ${telefone}, ${sugestao}, ${metadata ? JSON.stringify(metadata) : null}, ${emailQuality}, NOW())
+    RETURNING id, email, nome, telefone, sugestao, source, metadata, email_quality, created_at
   `;
   return result.rows[0];
 }
 
 export async function getProjectLeads(projectId) {
   const result = await sql`
-    SELECT id, email, nome, telefone, sugestao, source, created_at
+    SELECT id, email, nome, telefone, sugestao, source, metadata, email_quality, created_at
     FROM leads
     WHERE project_id = ${projectId}
     ORDER BY created_at DESC

@@ -40,10 +40,62 @@ async function buildSystemPrompt(projects, metrics) {
     const allLeads = projectAllLeadsMap[m.project_id] || [];
     const leadsWithSuggestions = projectLeadsMap[m.project_id] || [];
     
+    // Analisar qualidade dos leads
+    const emailTypes = { corporate: 0, personal: 0, educational: 0, disposable: 0, unknown: 0 };
+    const utmSources = {};
+    const devices = { mobile: 0, desktop: 0, tablet: 0, unknown: 0 };
+    
+    allLeads.forEach(lead => {
+      // Contar tipos de email
+      const emailType = lead.email_quality || lead.metadata?.email?.type || 'unknown';
+      emailTypes[emailType] = (emailTypes[emailType] || 0) + 1;
+      
+      // Contar fontes de tráfego
+      if (lead.metadata?.utm?.utm_source) {
+        const src = lead.metadata.utm.utm_source;
+        utmSources[src] = (utmSources[src] || 0) + 1;
+      }
+      
+      // Contar dispositivos
+      const device = lead.metadata?.device?.device || 'unknown';
+      devices[device] = (devices[device] || 0) + 1;
+    });
+    
     let contextText = `📦 **${m.project_name}**
    URL: ${m.url || 'Não definida'}
    Status: ${m.status}
    👥 Leads cadastrados: ${allLeads.length}`;
+   
+    // Adicionar breakdown de qualidade de leads se houver leads
+    if (allLeads.length > 0) {
+      const qualityBreakdown = [];
+      if (emailTypes.corporate > 0) qualityBreakdown.push(`${emailTypes.corporate} corporativos`);
+      if (emailTypes.personal > 0) qualityBreakdown.push(`${emailTypes.personal} pessoais`);
+      if (emailTypes.educational > 0) qualityBreakdown.push(`${emailTypes.educational} educacionais`);
+      if (emailTypes.disposable > 0) qualityBreakdown.push(`${emailTypes.disposable} descartáveis ⚠️`);
+      
+      if (qualityBreakdown.length > 0) {
+        contextText += `\n   📧 Qualidade dos emails: ${qualityBreakdown.join(', ')}`;
+      }
+      
+      // Adicionar fontes de tráfego
+      const topSources = Object.entries(utmSources)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 3)
+        .map(([src, count]) => `${src}: ${count}`)
+        .join(', ');
+      if (topSources) {
+        contextText += `\n   🔗 Fontes de tráfego: ${topSources}`;
+      }
+      
+      // Adicionar devices
+      const deviceBreakdown = [];
+      if (devices.mobile > 0) deviceBreakdown.push(`📱 ${devices.mobile} mobile`);
+      if (devices.desktop > 0) deviceBreakdown.push(`💻 ${devices.desktop} desktop`);
+      if (deviceBreakdown.length > 0) {
+        contextText += `\n   🖥️ Dispositivos: ${deviceBreakdown.join(', ')}`;
+      }
+    }
 
     if (!hasMetrics) {
       contextText += `\n   ⚠️ Sem métricas coletadas ainda`;

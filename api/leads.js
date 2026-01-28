@@ -1,7 +1,7 @@
 /**
  * API: Webhook para captura de leads das landing pages
  * POST /api/leads
- * Body: { projectId: string, email: string, nome?: string, telefone?: string, sugestao?: string, source?: string }
+ * Body: { projectId: string, email: string, nome?: string, telefone?: string, sugestao?: string, source?: string, metadata?: object }
  * 
  * Este endpoint é chamado pelas landing pages para registrar leads
  * Não requer autenticação (é público)
@@ -23,7 +23,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { projectId, email, nome, telefone, sugestao, source } = req.body;
+  const { projectId, email, nome, telefone, sugestao, source, metadata } = req.body;
 
   if (!projectId) {
     return res.status(400).json({ error: 'projectId is required' });
@@ -41,17 +41,18 @@ export default async function handler(req, res) {
       return res.status(404).json({ error: 'Project not found' });
     }
 
-    // Salvar lead
+    // Salvar lead com metadados enriquecidos
     const lead = await saveLead(
       projectId, 
       email.toLowerCase().trim(), 
       source || null,
       nome?.trim() || null,
       telefone?.trim() || null,
-      sugestao?.trim() || null
+      sugestao?.trim() || null,
+      metadata || null
     );
 
-    console.log(`[Leads] New lead for project ${projectId}: ${nome || email}`);
+    console.log(`[Leads] New lead for project ${projectId}: ${nome || email} | quality: ${metadata?.email?.type || 'unknown'}`);
 
     return res.status(201).json({
       success: true,

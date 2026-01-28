@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { trackCTAClick, trackLeadGenerated } from '../services/analytics';
+import { buildLeadMetadata } from '../services/leadUtils';
 import claudeStyles from './LandingPagePreview.module.css';
 import stripeStyles from './LandingPagePreview.stripe.module.css';
 import vercelStyles from './LandingPagePreview.vercel.module.css';
@@ -70,6 +71,9 @@ export default function LandingPagePreview({
       }
 
       // Modo real (com projectId)
+      // Capturar metadados enriquecidos (UTM, device, qualidade do email)
+      const leadMeta = buildLeadMetadata(landingPageId, formData.email);
+      
       const res = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -77,8 +81,9 @@ export default function LandingPagePreview({
           projectId,
           email: formData.email,
           telefone: collectPhone ? formData.phone : null,
-          sugestoes: collectSuggestions ? formData.suggestions : null,
-          source: `landing-page-${landingPageId || 'unknown'}`,
+          sugestao: collectSuggestions ? formData.suggestions : null,
+          source: leadMeta.source,
+          metadata: leadMeta.metadata,
         }),
       });
 
