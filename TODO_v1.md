@@ -21,22 +21,28 @@
 
 ### 1. GA4 Automático para LPs do Builder
 **Esforço:** 2-3h  
-**Status:** ❌ Não implementado
+**Status:** ✅ Implementado
 
-**O que fazer:**
-- [ ] Criar propriedade GA4 centralizada do IdeaRadar
-- [ ] Injetar script gtag.js automaticamente no `PublicLandingPage.jsx`
-- [ ] Usar `landing_page_id` e `user_id` como dimensões customizadas
-- [ ] Trackear eventos automáticos:
+**O que foi feito:**
+- [x] Criar serviço de analytics (`src/services/analytics.js`)
+- [x] Injetar GA4 automaticamente no `PublicLandingPage.jsx`
+- [x] Usar `landing_page_id`, `project_id` e `slug` como dimensões customizadas
+- [x] Trackear eventos automáticos:
   - `page_view` (já vem de graça)
-  - `cta_click` (quando clica no botão)
-  - `form_submit` / `generate_lead` (quando cadastra email)
-  - `scroll_depth` (25%, 50%, 75%, 100%)
+  - `cta_click` (quando clica no botão - hero e nav)
+  - `generate_lead` (quando cadastra email)
+  - `scroll` (25%, 50%, 75%, 100%)
+  - `time_on_page` (10s, 30s, 60s, 120s)
 
-**Arquivos a modificar:**
-- `src/pages/PublicLandingPage.jsx` — injetar GA4
-- `src/components/LandingPagePreview.jsx` — adicionar eventos de tracking
-- `api/l/[slug].js` — retornar config de GA4
+**Arquivos criados/modificados:**
+- `src/services/analytics.js` — serviço centralizado de tracking
+- `src/pages/PublicLandingPage.jsx` — inicialização do GA4
+- `src/components/LandingPagePreview.jsx` — eventos de CTA e lead
+- `api/l/[slug].js` — retorna project_id na API
+
+**Configuração necessária:**
+- Adicionar `VITE_GA_MEASUREMENT_ID=G-XXXXXXXXXX` no `.env`
+- Criar propriedade GA4 no Google Analytics
 
 ---
 

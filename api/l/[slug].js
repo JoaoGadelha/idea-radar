@@ -29,6 +29,7 @@ export default async function handler(req, res) {
           lp.collect_suggestions,
           lp.thank_you_message,
           lp.status,
+          lp.project_id,
           p.name as project_name
         FROM landing_pages lp
         LEFT JOIN projects p ON lp.project_id = p.id

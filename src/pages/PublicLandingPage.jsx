@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import LandingPagePreview from '../components/LandingPagePreview';
+import { setupLandingPageAnalytics } from '../services/analytics';
 import styles from './PublicLandingPage.module.css';
 
 export default function PublicLandingPage() {
@@ -12,6 +13,17 @@ export default function PublicLandingPage() {
   useEffect(() => {
     fetchLandingPage();
   }, [slug]);
+
+  // Inicializar GA4 quando a landing page carregar
+  useEffect(() => {
+    if (landingPage) {
+      setupLandingPageAnalytics({
+        landingPageId: landingPage.id,
+        projectId: landingPage.project_id,
+        slug: landingPage.slug,
+      });
+    }
+  }, [landingPage]);
 
   const fetchLandingPage = async () => {
     try {

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { trackCTAClick, trackLeadGenerated } from '../services/analytics';
 import claudeStyles from './LandingPagePreview.module.css';
 import stripeStyles from './LandingPagePreview.stripe.module.css';
 import vercelStyles from './LandingPagePreview.vercel.module.css';
@@ -83,6 +84,12 @@ export default function LandingPagePreview({
 
       if (!res.ok) throw new Error('Erro ao enviar');
 
+      // Trackear conversão no GA4
+      trackLeadGenerated({
+        hasPhone: collectPhone && formData.phone,
+        hasSuggestion: collectSuggestions && formData.suggestions,
+      });
+
       setSubmitted(true);
       setFormData({ email: '', phone: '', suggestions: '' });
     } catch (error) {
@@ -90,6 +97,15 @@ export default function LandingPagePreview({
       alert('Erro ao enviar. Tente novamente.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Handler para cliques no CTA com tracking
+  const handleCTAClick = (location) => {
+    trackCTAClick(ctaText || 'CTA', location);
+    const ctaSection = document.querySelector('[data-cta-final]');
+    if (ctaSection) {
+      ctaSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   };
 
@@ -112,12 +128,7 @@ export default function LandingPagePreview({
           <button 
             className={styles.navCta}
             style={{ backgroundColor: primaryColor }}
-            onClick={() => {
-              const ctaSection = document.querySelector('[data-cta-final]');
-              if (ctaSection) {
-                ctaSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-              }
-            }}
+            onClick={() => handleCTAClick('nav')}
           >
             {ctaText || 'Começar'}
           </button>
@@ -165,12 +176,7 @@ export default function LandingPagePreview({
                 type="button"
                 className={styles.heroCta}
                 style={{ backgroundColor: primaryColor }}
-                onClick={() => {
-                  const ctaSection = document.querySelector('[data-cta-final]');
-                  if (ctaSection) {
-                    ctaSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                  }
-                }}
+                onClick={() => handleCTAClick('hero')}
               >
                 {ctaText || 'Quero testar'}
               </button>
