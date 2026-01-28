@@ -4,12 +4,38 @@
   "framework": "vite",
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/((?!api/).*)", "destination": "/index.html" }
+    { "source": "/validacao", "destination": "/validacao.html" },
+    { "source": "/((?!api/|validacao).*)", "destination": "/validacao.html" }
+  ],
+  "redirects": [
+    { "source": "/login", "destination": "/validacao", "statusCode": 302 },
+    { "source": "/dashboard", "destination": "/validacao", "statusCode": 302 },
+    { "source": "/projects", "destination": "/validacao", "statusCode": 302 },
+    { "source": "/projects/(.*)", "destination": "/validacao", "statusCode": 302 }
+  ],
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "X-XSS-Protection", "value": "1; mode=block" }
+      ]
+    },
+    {
+      "source": "/validacao.html",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+      ]
+    }
   ],
   "crons": [
     {
       "path": "/api/cron/sync-metrics",
       "schedule": "0 8 * * *"
     }
-  ]
+  ],
+  "env": {
+    "MAINTENANCE_MODE": "true"
+  }
 }

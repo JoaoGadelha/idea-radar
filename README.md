@@ -25,18 +25,51 @@ O **IdeaRadar** é uma plataforma que permite validar ideias de negócio atravé
 - **Captura de Leads**: Sistema de webhook para coletar e-mails e dados
 - **Integração GA4**: Análise de métricas do Google Analytics 4 (em desenvolvimento)
 
-### 📊 Métricas Coletadas
+### 📊 Métricas e Eventos GA4
 
-Por projeto/landing page:
-- Visitas (sessions)
-- Usuários únicos
-- Taxa de rejeição (bounce rate)
-- Tempo médio na página
-- Scroll depth (% que rolou até o CTA)
-- Cliques no CTA
-- Conversões (e-mails capturados)
-- Taxa de conversão
-- Origem do tráfego
+O IdeaRadar usa **Google Analytics 4** para tracking completo das landing pages. Todas as métricas são coletadas automaticamente quando você usa o Landing Page Builder.
+
+#### Métricas Coletadas (GA4 Data API)
+
+| Métrica | Descrição |
+|---------|-----------|
+| `sessions` | Número de sessões na página |
+| `totalUsers` | Usuários únicos |
+| `bounceRate` | Taxa de rejeição (%) |
+| `averageSessionDuration` | Tempo médio de sessão (seg) |
+| `eventCount` | Total de eventos disparados |
+| `ctaClicks` | Cliques no CTA (estimado) |
+| `conversions` | E-mails capturados |
+| `conversionRate` | Taxa de conversão (%) |
+
+#### Eventos Customizados Trackados
+
+| Evento | Descrição | Parâmetros |
+|--------|-----------|------------|
+| `cta_click` | Clique em qualquer botão CTA | `cta_text`, `cta_location` (hero/nav/final) |
+| `generate_lead` | Lead capturado (e-mail enviado) | `method`, `has_phone`, `has_suggestion`, `value` |
+| `conversion` | Marcador de conversão para GA4 | `send_to` |
+| `scroll` | Profundidade de scroll atingida | `percent_scrolled` (25/50/75/100) |
+| `time_on_page` | Marcos de tempo na página | `seconds` (10/30/60/120), `engagement_time_msec` |
+| `section_view` | Visualização de seção específica | `section_name` |
+
+#### Dimensões Customizadas
+
+Cada evento inclui automaticamente:
+- `landing_page_id` - ID único da landing page
+- `project_id` - ID do projeto pai
+- `landing_page_slug` - Slug da URL
+
+> 💡 **Dica**: Essas dimensões permitem filtrar métricas no GA4 por landing page específica, mesmo usando um único Measurement ID.
+
+#### Como Funciona
+
+1. **Injeção Automática**: O script `analytics.js` é injetado automaticamente nas landing pages criadas
+2. **Setup Completo**: `setupLandingPageAnalytics()` inicializa:
+   - GA4 com dimensões customizadas
+   - Tracking de scroll depth (25%, 50%, 75%, 100%)
+   - Tracking de tempo na página (10s, 30s, 60s, 120s)
+3. **Eventos Manuais**: CTA clicks e leads são trackados via `trackCTAClick()` e `trackLeadGenerated()`
 
 ## 🛠️ Stack Tecnológica
 

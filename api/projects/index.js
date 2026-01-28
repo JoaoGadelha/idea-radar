@@ -5,9 +5,14 @@
  */
 
 import { authenticateRequest } from '../middleware/auth.js';
+import { checkMaintenance } from '../middleware/maintenance.js';
 import { getUserProjects, createProject } from '../../src/services/database.js';
 
 export default async function handler(req, res) {
+  // Bloquear se em modo de manutenção
+  const maintenance = checkMaintenance(req, res);
+  if (maintenance.blocked) return;
+
   const authResult = await authenticateRequest(req);
 
   if (!authResult.authenticated) {

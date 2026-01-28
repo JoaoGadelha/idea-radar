@@ -8,8 +8,13 @@
  */
 
 import { saveLead, getProjectById } from '../src/services/database.js';
+import { checkMaintenance } from './middleware/maintenance.js';
 
 export default async function handler(req, res) {
+  // Bloquear se em modo de manutenção (retorna 404)
+  const maintenance = checkMaintenance(req, res);
+  if (maintenance.blocked) return;
+
   // Permitir CORS para as landing pages chamarem
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');

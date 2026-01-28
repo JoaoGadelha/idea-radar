@@ -8,6 +8,7 @@ import { Resend } from 'resend';
 import jwt from 'jsonwebtoken';
 import { getUserByEmail, createUser } from '../../src/services/database.js';
 import { magicLinkTemplate } from '../templates/emailTemplates.js';
+import { checkMaintenance } from '../middleware/maintenance.js';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const JWT_SECRET = process.env.JWT_SECRET || 'change-me-in-production';
@@ -15,6 +16,10 @@ const TOKEN_EXPIRY = '15m';
 const DISABLE_RESEND = process.env.DISABLE_RESEND === 'true';
 
 export default async function handler(req, res) {
+  // Bloquear se em modo de manutenção
+  const maintenance = checkMaintenance(req, res);
+  if (maintenance.blocked) return;
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }

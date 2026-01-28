@@ -7,6 +7,7 @@
  */
 
 import { authenticateRequest } from './middleware/auth.js';
+import { checkMaintenance } from './middleware/maintenance.js';
 import { callLLMWithFallback } from '../src/services/llm.js';
 import { createPrompt } from '@joaogadelha/prompt-builder';
 import {
@@ -182,6 +183,10 @@ async function buildSystemPrompt(projects, metrics) {
 }
 
 export default async function handler(req, res) {
+  // Bloquear se em modo de manutenção
+  const maintenance = checkMaintenance(req, res);
+  if (maintenance.blocked) return;
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }

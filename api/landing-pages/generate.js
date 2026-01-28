@@ -3,6 +3,7 @@ import { createPrompt } from '@joaogadelha/prompt-builder';
 import { parseJSON } from '@joaogadelha/response-parser';
 import { createRateLimiter, presets } from '@joaogadelha/rate-limiter';
 import { authenticateRequest } from '../middleware/auth.js';
+import { checkMaintenance } from '../middleware/maintenance.js';
 import { canGenerateLandingPage, consumeLandingPageSlot } from '../services/planLimiter.js';
 
 // Helper para retry de geração de imagem
@@ -55,6 +56,10 @@ const perMinuteLimiter = createRateLimiter({
 });
 
 export default async function handler(req, res) {
+  // Bloquear se em modo de manutenção
+  const maintenance = checkMaintenance(req, res);
+  if (maintenance.blocked) return;
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
