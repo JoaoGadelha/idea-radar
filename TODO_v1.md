@@ -48,29 +48,32 @@
 
 ### 2. Deploy em Produção
 **Esforço:** 1-2h  
-**Status:** ✅ Concluído
+**Status:** 🔧 Parcial
 
 **O que foi feito:**
 - [x] Conectar repositório ao Vercel
-- [ ] Configurar domínio (se tiver) — opcional, usando URL do Vercel
+- [ ] Configurar domínio customizado — *deixar para depois*
 - [x] Testar fluxo completo em produção
 
-**URL:** https://idea-radar-react.vercel.app
+**URL atual:** https://idea-radar-react.vercel.app
 
 ---
 
 ### 3. Variáveis de Ambiente Configuradas
 **Esforço:** 30min  
-**Status:** ✅ Concluído
+**Status:** 🔧 Parcial
 
 **Variáveis configuradas no Vercel:**
 - [x] DATABASE_URL / POSTGRES_URL (Neon)
 - [x] JWT_SECRET
-- [x] RESEND_API_KEY
+- [x] RESEND_API_KEY — ⚠️ usando email de teste, configurar domínio próprio depois
 - [x] GOOGLE_AI_API_KEY (Gemini)
 - [x] GA_CREDENTIALS_JSON (Service Account)
 - [x] VITE_GA_MEASUREMENT_ID=G-P13EMWM4H3
 - [x] CRON_SECRET
+
+**Pendências futuras:**
+- [ ] Configurar domínio verificado no Resend (sair do email de teste)
 
 ---
 
@@ -113,28 +116,20 @@
 
 ### 5. Facilitar GA4 para LPs Externas
 **Esforço:** 2-3h  
-**Status:** ❌ Não implementado
+**Status:** ✅ Implementado
 
-**O que fazer:**
-- [ ] Criar página/modal com snippet pronto para copiar
-- [ ] Tutorial in-app explicando como configurar
-- [ ] Detector automático se página já tem GA4 (via scraping opcional)
-- [ ] Validador de GA Property ID
+**O que foi feito:**
+- [x] Modal com snippet pronto para copiar (básico e avançado)
+- [x] Botão 📊 na lista de projetos para acessar o snippet
+- [x] Tutorial in-app com dicas de uso
+- [x] Snippet avançado com helper `ideaRadarTrack()` para eventos customizados
+- [ ] Detector automático se página já tem GA4 (opcional - deixar para depois)
+- [ ] Validador de GA Property ID (opcional - deixar para depois)
 
-**Snippet exemplo a gerar:**
-```html
-<!-- IdeaRadar Tracking - Projeto: {nome} -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXXXX', {
-    'project_id': '{project_id}',
-    'user_id': '{user_id}'
-  });
-</script>
-```
+**Arquivos criados:**
+- `src/components/TrackingSnippetModal.jsx` — Modal com snippet e instruções
+- `src/components/TrackingSnippetModal.module.css` — Estilos do modal
+- `src/components/ProjectsList.jsx` — Botão de tracking adicionado
 
 ---
 

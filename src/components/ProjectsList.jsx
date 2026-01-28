@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import TrackingSnippetModal from './TrackingSnippetModal';
 import styles from './ProjectsList.module.css';
 
 export default function ProjectsList({ projects, onProjectDeleted }) {
   const { token } = useAuth();
   const [deleting, setDeleting] = useState(null);
+  const [snippetProject, setSnippetProject] = useState(null);
 
   const handleDelete = async (projectId, projectName) => {
     if (!confirm(`Tem certeza que deseja excluir "${projectName}"?`)) {
@@ -60,16 +62,32 @@ export default function ProjectsList({ projects, onProjectDeleted }) {
             </div>
           </div>
           
-          <button
-            className={styles.delete}
-            onClick={() => handleDelete(project.id, project.name)}
-            disabled={deleting === project.id}
-            title="Excluir projeto"
-          >
-            {deleting === project.id ? '...' : '🗑️'}
-          </button>
+          <div className={styles.actions}>
+            <button
+              className={styles.trackingBtn}
+              onClick={() => setSnippetProject(project)}
+              title="Código de rastreamento"
+            >
+              📊
+            </button>
+            <button
+              className={styles.delete}
+              onClick={() => handleDelete(project.id, project.name)}
+              disabled={deleting === project.id}
+              title="Excluir projeto"
+            >
+              {deleting === project.id ? '...' : '🗑️'}
+            </button>
+          </div>
         </div>
       ))}
+
+      {snippetProject && (
+        <TrackingSnippetModal
+          project={snippetProject}
+          onClose={() => setSnippetProject(null)}
+        />
+      )}
     </div>
   );
 }

@@ -68,6 +68,26 @@
   background: var(--bg-secondary);
 }
 
+.actions {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.trackingBtn {
+  padding: 8px;
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+  cursor: pointer;
+}
+
+.trackingBtn:hover {
+  opacity: 1;
+}
+
 .delete {
   padding: 8px;
   background: transparent;
@@ -75,6 +95,7 @@
   font-size: 18px;
   opacity: 0.5;
   transition: opacity 0.2s;
+  cursor: pointer;
 }
 
 .delete:hover:not(:disabled) {
