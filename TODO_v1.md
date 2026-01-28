@@ -2,7 +2,7 @@
 
 > Objetivo: Lançar uma versão funcional e usável do IdeaRadar
 > 
-> Escopo: **Excluindo** sistema de pagamentos e definição de planos
+> Escopo: ~~**Excluindo** sistema de pagamentos e definição de planos~~ **Incluindo** definição de planos
 
 ---
 
@@ -10,14 +10,67 @@
 
 | Categoria | Itens | Esforço Total |
 |-----------|-------|---------------|
-| 🔴 Crítico | 3 | ~4h |
-| 🟡 Importante | 3 | ~10h |
+| 🔴 Crítico | 4 | ~6h |
+| 🟡 Importante | 4 | ~14h |
 | 🟢 Desejável | 4 | ~8h |
-| **Total** | **10** | **~22h** |
+| **Total** | **12** | **~28h** |
 
 ---
 
 ## 🔴 Crítico (Sem isso, não funciona de verdade)
+
+### 0. Sistema de Créditos e Planos
+**Esforço:** 4-6h  
+**Status:** ❌ Pendente
+
+**Modelo definido: Créditos (não mensalidade)**
+
+Justificativa: Validação de ideias é uso pontual, não contínuo. Créditos não expiram, usuário volta quando tiver nova ideia.
+
+**Planos Brasil (R$):**
+```
+🆓 Free         — 3 LPs + 10 análises IA
+💡 Starter      — R$29 → 15 LPs + 50 análises  
+🚀 Pro Pack     — R$79 → 50 LPs + 200 análises
+🏢 Agency Pack  — R$199 → 200 LPs + 1000 análises
+```
+
+**Planos EUA ($):**
+```
+🆓 Free         — 3 LPs + 10 análises IA
+💡 Starter      — $9 → 15 LPs + 50 análises  
+🚀 Pro Pack     — $29 → 50 LPs + 200 análises
+🏢 Agency Pack  — $79 → 200 LPs + 1000 análises
+```
+
+**O que implementar:**
+- [ ] Tabela `user_credits` no banco (lp_credits, analysis_credits)
+- [ ] Verificação de créditos antes de gerar LP
+- [ ] Verificação de créditos antes de análise IA
+- [ ] Integração Stripe (checkout + webhooks)
+- [ ] Detecção de país para mostrar preço correto (R$ ou $)
+- [ ] Página de pricing na LP do projeto
+
+**Decisão:** NÃO ter plano Unlimited mensal (evita exploit de "gera 200 LPs e cancela")
+
+**Implementação técnica:**
+
+| Requisito | Solução | Notas |
+|-----------|---------|-------|
+| **i18n** | Detectar `navigator.language` ou `?lang=en` | Prioridade: query param > browser > default PT |
+| **Preços dinâmicos** | Detectar país via IP (ex: `ipapi.co`) | Fallback: mostrar ambos com toggle |
+| **Stripe** | Usar Products + Prices com multi-currency | Stripe já suporta BRL e USD nativamente |
+| **Checkout** | Stripe Checkout Session | Redirect para página Stripe, webhook confirma |
+| **Webhook** | `api/stripe/webhook.js` | Atualiza créditos no banco após pagamento |
+
+**Fluxo de compra:**
+```
+Usuário clica em plano → Cria Checkout Session (currency baseada no país)
+→ Redirect para Stripe → Paga → Webhook recebe evento
+→ Credita no banco → Redirect para dashboard com sucesso
+```
+
+---
 
 ### 1. GA4 Automático para LPs do Builder
 **Esforço:** 2-3h  
@@ -78,6 +131,55 @@
 ---
 
 ## 🟡 Importante (Melhora muito a experiência)
+
+### 3.5 Landing Page do Projeto (Home)
+**Esforço:** 4-6h  
+**Status:** ❌ Pendente
+
+**Objetivo:** Criar uma LP que explica o IdeaRadar, substituindo a home atual. O CTA leva para login/signup (dashboard atual).
+
+**Seções planejadas:**
+- [ ] Hero — Headline forte + subheadline + CTA
+- [ ] Como Funciona — 3-4 passos visuais
+- [ ] Features — O que o IdeaRadar oferece
+- [ ] Pricing — Modelo de créditos (ver abaixo)
+- [ ] FAQ — Perguntas comuns
+- [ ] CTA Final — Repetir call to action
+
+**Modelo de Pricing proposto (créditos, não mensalidade):**
+```
+🆓 Free
+   - 3 LPs geradas
+   - 10 análises da IA
+   - Métricas básicas
+
+💡 Starter — R$29 (não expira)
+   - 15 LPs geradas
+   - 50 análises da IA
+   - Métricas completas
+
+🚀 Pro Pack — R$79 (não expira)
+   - 50 LPs geradas
+   - 200 análises da IA
+   - Features avançadas
+
+♾️ Unlimited — R$29/mês
+   - Tudo ilimitado
+   - Para heavy users
+```
+
+**Justificativa do modelo de créditos:**
+- Validação de ideias é uso pontual, não contínuo
+- Usuário não sente que "paga sem usar"
+- Créditos não expiram → volta quando tiver nova ideia
+- Reduz churn e fricção de recompra
+
+**Arquivos a criar:**
+- `src/pages/Home.jsx` — Nova landing page
+- `src/pages/Home.module.css` — Estilos
+- Atualizar `App.jsx` — Rota `/` para Home, `/app` para Dashboard
+
+---
 
 ### 4. Mais Métricas para Enriquecer Análise
 **Esforço:** 3-4h  
@@ -292,6 +394,98 @@ Já documentado no `TODO.md`:
 - [ ] Budget Allocator
 - [ ] LP Graveyard (Post-Mortem)
 - [ ] Multi-idioma automático
+
+---
+
+## ⚠️ ESTRATÉGIA DE LANÇAMENTO — LEIA ISSO!
+
+> **IMPORTANTE:** Esta seção define como gastar o budget de marketing.
+> Decisão tomada: **Brasil primeiro, EUA depois.**
+
+### Por que Brasil primeiro?
+
+1. **Menos competição** — Ferramentas de validação de ideias são RARAS em PT-BR
+2. **Budget rende mais** — R$700 no Brasil = ~200-300 cliques qualificados
+3. **$400 nos EUA é POUCO** — CAC lá é 3-5x maior, não dá pra validar estatisticamente
+4. **Você entende a dor** — É indie hacker brasileiro, sabe como pensam
+5. **Feedback mais rápido** — Comunidades BR são menores e mais engajadas
+6. **Suporte mais fácil** — Mesmo fuso, português, pode fazer calls
+
+### Budget Recomendado (R$1000 total)
+
+| Fase | Canal | Valor | Objetivo |
+|------|-------|-------|----------|
+| **1. Soft Launch BR** | Comunidades (TabNews, DevTo PT, Discord devs) | R$0 | Feedback inicial, primeiros usuários |
+| **2. Validação BR** | Twitter/X Ads (BR) | R$300 | Testar mensagem, ver CTR |
+| **3. Prova Social BR** | Micro-influencer indie hacker | R$400 | Gerar depoimentos, credibilidade |
+| **4. Reserva US** | Guardar para depois | R$300 | Só usar após validar no Brasil |
+
+### Cronograma
+
+```
+Semana 1-2: Soft launch em comunidades BR (custo zero)
+├── Postar no TabNews, DevTo PT-BR, grupos Discord
+├── Coletar feedback, ajustar produto
+└── Meta: 50 signups, 10 LPs criadas
+
+Semana 3-4: Ads no Brasil (R$300)
+├── Twitter/X Ads segmentado para devs BR
+├── Testar 2-3 variações de copy
+└── Meta: 200 cliques, 30 signups, 5 conversões
+
+Semana 5-6: Micro-influencer BR (R$400)
+├── Indie hacker brasileiro com 5k-20k seguidores
+├── Post ou thread sobre validação de ideias
+└── Meta: 500 visitas, 50 signups, 10 conversões
+
+Semana 7+: Avaliar EUA (R$300 guardados)
+├── Se BR validou → traduzir LP, lançar em Product Hunt
+├── Se BR falhou → iterar no Brasil antes
+└── $100 = teste mínimo nos EUA (se decidir tentar)
+```
+
+### Métricas para Comparar BR vs EUA
+
+| Métrica | O que olhar | Meta BR | Meta EUA |
+|---------|-------------|---------|----------|
+| **CTR do anúncio** | Qual copy/mercado engaja mais | >1.5% | >0.8% |
+| **Signup rate** | Visita → Cadastro | >15% | >10% |
+| **Geração de LP** | Cadastro → Cria LP | >50% | >40% |
+| **Upgrade (futuro)** | Free → Pago | >5% | >3% |
+
+### Canais BR para Soft Launch (Custo Zero)
+
+- **TabNews** — Comunidade dev BR, aceita bem side projects
+- **Dev.to em PT-BR** — Posts técnicos + case study
+- **Twitter/X BR** — Indie hackers BR (seguir @levelsio etc)
+- **Discord Filipe Deschamps** — Comunidade engajada
+- **Reddit r/brdev** — Devs brasileiros
+- **LinkedIn** — Posts sobre validação de ideias
+
+### Copy sugerido para BR
+
+```
+"Gasto 2 meses construindo MVP só pra descobrir que ninguém quer."
+
+E se você validasse em 2 DIAS?
+
+IdeaRadar: Cria landing page com IA → Coleta emails → IA analisa se vale construir.
+
+🆓 Grátis pra testar
+```
+
+### Quando expandir para EUA?
+
+✅ **Expandir se:**
+- BR validou (>5% conversão free→pago)
+- Tem pelo menos 3 depoimentos reais
+- LP traduzida e polida
+- Budget de pelo menos $500 extra
+
+❌ **NÃO expandir se:**
+- BR não converteu
+- Ainda está iterando no produto
+- Não tem prova social
 
 ---
 
