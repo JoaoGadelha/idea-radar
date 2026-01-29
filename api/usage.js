@@ -1,12 +1,19 @@
 /**
+ * API: Uso e Créditos do Usuário
  * GET /api/usage
- * Retorna informações de uso do plano do usuário
+ * 
+ * Retorna informações de créditos e features do usuário
  */
 
-import { authenticateRequest } from '../middleware/auth.js';
-import { getUserUsage } from '../services/planLimiter.js';
+import { authenticateRequest } from './middleware/auth.js';
+import { checkMaintenance } from './middleware/maintenance.js';
+import { getUserUsage, getAvailablePackages } from './services/planLimiter.js';
 
 export default async function handler(req, res) {
+  // Bloquear se em modo de manutenção
+  const maintenance = checkMaintenance(req, res);
+  if (maintenance.blocked) return;
+
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -20,14 +27,18 @@ export default async function handler(req, res) {
     });
   }
 
+  const userId = authResult.userId;
+
   try {
-    const usage = await getUserUsage(authResult.userId);
-    
-    return res.status(200).json(usage);
-  } catch (error) {
-    console.error('Erro ao buscar usage:', error);
-    return res.status(500).json({
-      error: 'Erro ao buscar informações de uso',
+    const usage = await getUserUsage(userId);
+    const packages = getAvailablePackages();
+
+    return res.status(200).json({
+      ...usage,
+      availablePackages: packages,
     });
+  } catch (error) {
+    console.error('[Usage] Error:', error);
+    return res.status(500).json({ error: 'Failed to get usage info' });
   }
 }

@@ -76,22 +76,33 @@ export default async function handler(req, res) {
   const userId = authResult.userId;
 
   try {
-    // Verificar se o usuário pode gerar landing page (rate limit baseado em plano)
+    // Verificar se o usuário pode gerar landing page (verificação prévia para UX)
     const limitCheck = await canGenerateLandingPage(userId);
     
     if (!limitCheck.allowed) {
       return res.status(429).json({
-        error: 'Limite diário atingido',
-        message: `Você atingiu o limite de ${limitCheck.limit} landing pages por dia do plano ${limitCheck.plan}.`,
-        limit: limitCheck.limit,
+        error: 'Sem créditos disponíveis',
+        message: `Você não tem mais créditos de Landing Page. Compre mais créditos para continuar.`,
         remaining: limitCheck.remaining,
-        waitTime: limitCheck.waitTime,
-        plan: limitCheck.plan,
-        upgradeMessage: limitCheck.plan === 'free' 
-          ? 'Faça upgrade para o plano Pro e gere até 50 landing pages por dia!'
-          : null,
+        upgradeMessage: 'Compre um pacote de créditos para continuar gerando landing pages!',
       });
     }
+
+    // ⚡ CONSUMO ATÔMICO - Consome ANTES de gerar para evitar race condition
+    // Se outro request tentar consumir ao mesmo tempo, apenas um vai conseguir
+    const consumeResult = await consumeLandingPageSlot(userId);
+    
+    if (!consumeResult.success) {
+      return res.status(429).json({
+        error: 'Sem créditos disponíveis',
+        message: 'Você não tem mais créditos de Landing Page.',
+        remaining: 0,
+        upgradeMessage: 'Compre um pacote de créditos para continuar!',
+      });
+    }
+
+    // Guardar quanto resta para retornar no final
+    const remainingCredits = consumeResult.remaining;
 
     // Receber dados do request
     const { 
@@ -832,19 +843,15 @@ export default async function handler(req, res) {
       cta_subheadline: variation.cta_subheadline || 'Cadastre-se e avisamos quando estiver pronto',
     };
 
-    // ✅ Geração bem-sucedida, consumir slot do plano do usuário
-    await consumeLandingPageSlot(userId);
-    const remainingAfter = Math.max(0, limitCheck.remaining - 1);
-    console.log(`[PLAN LIMITER] Slot consumido para user ${userId}. Restam ${remainingAfter} de ${limitCheck.limit}`);
+    // ✅ Geração bem-sucedida (crédito já foi consumido no início)
+    console.log(`[PLAN LIMITER] LP gerada com sucesso para user ${userId}. Restam ${remainingCredits} créditos`);
 
     return res.status(200).json({
       variation: validVariation,
       metadata: {
         model: 'gemini-2.5-flash',
         generated_at: new Date().toISOString(),
-        plan: limitCheck.plan,
-        remaining: Math.max(0, limitCheck.remaining - 1),
-        limit: limitCheck.limit,
+        remaining: remainingCredits,
       },
     });
   } catch (error) {

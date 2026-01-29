@@ -3,6 +3,7 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Login from './pages/Login';
 import Verify from './pages/Verify';
 import Dashboard from './pages/Dashboard';
+import Pricing from './pages/Pricing';
 import PublicLandingPage from './pages/PublicLandingPage';
 
 function ProtectedRoute({ children }) {
@@ -31,6 +32,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/verify" element={<Verify />} />
+        <Route path="/pricing" element={<Pricing />} />
         <Route path="/l/:slug" element={<PublicLandingPage />} />
         <Route
           path="/"

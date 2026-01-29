@@ -1,167 +1,131 @@
 /**
- * Serviço de limitação baseado em planos
- * Usa @joaogadelha/rate-limiter do ai-toolkit
+ * Serviço de limitação baseado em CRÉDITOS
+ * 
+ * Modelo: Créditos que não expiram (não é mensalidade)
+ * - Verifica créditos disponíveis
+ * - Consome créditos ao usar features
  */
 
-import { createMultiKeyRateLimiter } from '@joaogadelha/rate-limiter';
-import { PLANS, getUserPlan, getPlanLimit } from '../config/plans.js';
-
-/**
- * Rate limiters por feature
- * Cada feature tem seu próprio limiter configurado
- */
-const limiters = {
-  landingPages: null, // Inicializado sob demanda
-};
-
-/**
- * Cria ou retorna limiter para landing pages
- */
-function getLandingPageLimiter() {
-  if (!limiters.landingPages) {
-    // Usa o maior limite de todos os planos como base
-    // Cada usuário terá seu limite checado individualmente
-    limiters.landingPages = createMultiKeyRateLimiter({
-      strategy: 'fixed-window',
-      maxRequests: 100, // Máximo entre todos os planos
-      windowMs: 24 * 60 * 60 * 1000, // 24 horas
-    });
-  }
-  return limiters.landingPages;
-}
+import { 
+  getUserCredits, 
+  canGenerateLP, 
+  canUseAnalysis,
+  consumeLPCredit,
+  consumeAnalysisCredit,
+  getUserFeatures,
+  CREDIT_PACKAGES 
+} from '../config/plans.js';
 
 /**
  * Verifica se o usuário pode gerar uma landing page
  * 
  * @param {string} userId - ID do usuário
- * @returns {Promise<{ allowed: boolean, limit: number, remaining: number, waitTime?: number, plan: string }>}
+ * @returns {Promise<{ allowed: boolean, remaining: number, total: number }>}
  */
 export async function canGenerateLandingPage(userId) {
-  const userPlan = getUserPlan(userId);
-  const limit = getPlanLimit(userPlan, 'landingPages', 'maxPerDay');
-
-  // Se for unlimited (enterprise)
-  if (limit === Infinity) {
-    return {
-      allowed: true,
-      limit: 'unlimited',
-      remaining: 'unlimited',
-      plan: userPlan,
-    };
-  }
-
-  const limiter = getLandingPageLimiter();
-  const status = limiter.getStatus(userId);
-  
-  // Calcula quantas já usou (maxRequests do limiter - remaining do limiter)
-  const usedInLimiter = 100 - status.remaining;
-  
-  // Calcula quantas restam do limite do plano
-  const remaining = Math.max(0, limit - usedInLimiter);
-
-  // Verifica se excedeu o limite do plano
-  if (remaining <= 0) {
-    return {
-      allowed: false,
-      limit,
-      remaining: 0,
-      waitTime: status.retryAfter,
-      plan: userPlan,
-    };
-  }
-
-  // Se pode gerar
-  return {
-    allowed: true,
-    limit,
-    remaining,
-    plan: userPlan,
-  };
-
-  return {
-    allowed: false,
-    limit,
-    remaining: 0,
-    waitTime: result.waitTime,
-    plan: userPlan,
-  };
+  return await canGenerateLP(userId);
 }
 
 /**
- * Consome um slot de geração de landing page
+ * Consome um crédito de landing page
  * Só chame isso DEPOIS de verificar canGenerateLandingPage()
  * 
  * @param {string} userId - ID do usuário
  */
 export async function consumeLandingPageSlot(userId) {
-  const limiter = getLandingPageLimiter();
-  limiter.acquire(userId);
+  return await consumeLPCredit(userId);
 }
 
 /**
- * Verifica quantas landing pages o usuário pode ter salvas
+ * Verifica se o usuário pode fazer análise IA
  * 
  * @param {string} userId - ID do usuário
- * @param {number} currentCount - Quantas LPs o usuário já tem
- * @returns {Promise<{ allowed: boolean, limit: number, current: number }>}
+ * @returns {Promise<{ allowed: boolean, remaining: number, total: number }>}
  */
-export async function canSaveLandingPage(userId, currentCount) {
-  const userPlan = getUserPlan(userId);
-  const limit = getPlanLimit(userPlan, 'landingPages', 'maxTotal');
-
-  if (limit === Infinity) {
-    return {
-      allowed: true,
-      limit: 'unlimited',
-      current: currentCount,
-    };
-  }
-
-  return {
-    allowed: currentCount < limit,
-    limit,
-    current: currentCount,
-  };
+export async function canDoAnalysis(userId) {
+  return await canUseAnalysis(userId);
 }
 
 /**
- * Retorna informações de uso do usuário
- * Útil para mostrar no frontend (progress bars, etc)
+ * Consome um crédito de análise IA
  * 
  * @param {string} userId - ID do usuário
- * @returns {Promise<{ plan: string, usage: object }>}
+ */
+export async function consumeAnalysisSlot(userId) {
+  return await consumeAnalysisCredit(userId);
+}
+
+/**
+ * Retorna informações de uso/créditos do usuário
+ * 
+ * @param {string} userId - ID do usuário
+ * @returns {Promise<object>}
  */
 export async function getUserUsage(userId) {
-  const userPlan = getUserPlan(userId);
-  const limiter = getLandingPageLimiter();
-  const status = limiter.getStatus(userId);
-
-  const dailyLimit = getPlanLimit(userPlan, 'landingPages', 'maxPerDay');
-  const used = dailyLimit === Infinity ? 0 : dailyLimit - status.remaining;
+  const features = await getUserFeatures(userId);
+  const credits = features.credits;
 
   return {
-    plan: userPlan,
-    planName: PLANS[userPlan].name,
-    usage: {
+    plan: credits.plan,
+    isPaid: credits.isPaid,
+    // Formato simplificado para o Header
+    credits: {
+      lpRemaining: credits.lpRemaining,
+      lpTotal: credits.lpCredits,
+      lpUsed: credits.lpUsed,
+      analysisRemaining: credits.analysisRemaining,
+      analysisTotal: credits.analysisCredits,
+      analysisUsed: credits.analysisUsed,
+    },
+    // Formato detalhado para outras telas
+    creditsDetail: {
       landingPages: {
-        daily: {
-          used,
-          limit: dailyLimit,
-          percentage: dailyLimit === Infinity ? 0 : (used / dailyLimit) * 100,
-        },
-        // TODO: adicionar total quando tiver contador no DB
+        total: credits.lpCredits,
+        used: credits.lpUsed,
+        remaining: credits.lpRemaining,
+        percentage: credits.lpCredits > 0 
+          ? Math.round((credits.lpUsed / credits.lpCredits) * 100) 
+          : 0,
       },
+      analysis: {
+        total: credits.analysisCredits,
+        used: credits.analysisUsed,
+        remaining: credits.analysisRemaining,
+        percentage: credits.analysisCredits > 0 
+          ? Math.round((credits.analysisUsed / credits.analysisCredits) * 100) 
+          : 0,
+      },
+    },
+    features: {
+      maxProjects: features.maxProjects,
+      maxImagesPerLP: features.maxImagesPerLP,
+      analytics: features.analytics,
+      prioritySupport: features.prioritySupport,
     },
   };
 }
 
 /**
- * Reseta os limitadores (apenas para testes/dev)
+ * Retorna os pacotes disponíveis para compra
  */
-export function resetLimiters() {
-  Object.keys(limiters).forEach(key => {
-    if (limiters[key]) {
-      limiters[key].reset();
-    }
-  });
+export function getAvailablePackages() {
+  return CREDIT_PACKAGES;
 }
+
+// ============================================
+// COMPATIBILIDADE (para não quebrar código existente)
+// ============================================
+
+export async function canSaveLandingPage(userId, currentCount) {
+  const features = await getUserFeatures(userId);
+  return {
+    allowed: currentCount < features.maxProjects,
+    limit: features.maxProjects,
+    current: currentCount,
+  };
+}
+
+export function resetLimiters() {
+  // Não precisa mais - créditos são persistidos no banco
+}
+

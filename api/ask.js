@@ -8,6 +8,7 @@
 
 import { authenticateRequest } from './middleware/auth.js';
 import { checkMaintenance } from './middleware/maintenance.js';
+import { canDoAnalysis, consumeAnalysisSlot } from './services/planLimiter.js';
 import { callLLMWithFallback } from '../src/services/llm.js';
 import { createPrompt } from '@joaogadelha/prompt-builder';
 import {
@@ -207,6 +208,31 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Question is required' });
   }
 
+  // Verificar créditos de análise (verificação prévia para UX)
+  const analysisCheck = await canDoAnalysis(userId);
+  if (!analysisCheck.allowed) {
+    return res.status(402).json({
+      error: 'Créditos insuficientes',
+      message: 'Você não tem mais créditos de análise IA. Adquira mais créditos para continuar.',
+      remaining: analysisCheck.remaining,
+      total: analysisCheck.total,
+    });
+  }
+
+  // ⚡ CONSUMO ATÔMICO - Consome ANTES de processar para evitar race condition
+  const consumeResult = await consumeAnalysisSlot(userId);
+  
+  if (!consumeResult.success) {
+    return res.status(402).json({
+      error: 'Créditos insuficientes',
+      message: 'Você não tem mais créditos de análise IA.',
+      remaining: 0,
+    });
+  }
+
+  // Guardar créditos restantes para retornar no final
+  const remainingCredits = consumeResult.remaining;
+
   try {
     // Buscar projetos e métricas do usuário
     const [projects, metrics] = await Promise.all([
@@ -233,15 +259,18 @@ export default async function handler(req, res) {
     });
     const processingTime = Date.now() - startTime;
 
+    // Crédito já foi consumido no início (consumo atômico)
+
     // Salvar análise no histórico
     await saveAnalysis(userId, question.trim(), answer, metrics);
 
-    console.log(`[Ask] Processed in ${processingTime}ms for user ${userId}`);
+    console.log(`[Ask] Processed in ${processingTime}ms for user ${userId}. Créditos restantes: ${remainingCredits}`);
 
     return res.status(200).json({
       answer,
       projectsCount: projects.length,
       processingTimeMs: processingTime,
+      creditsRemaining: remainingCredits,
     });
   } catch (error) {
     console.error('[Ask] Error:', error);
