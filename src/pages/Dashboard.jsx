@@ -115,11 +115,9 @@ export default function Dashboard() {
           <button className={styles.buyCreditsBtn} onClick={() => navigate('/pricing')}>
             + Comprar créditos
           </button>
-          {process.env.NODE_ENV !== 'production' && (
-            <button className={styles.devResetBtn} onClick={handleResetCredits}>
-              🔴 DEV: Zerar créditos
-            </button>
-          )}
+          <button className={styles.devResetBtn} onClick={handleResetCredits}>
+            🔴 DEV: Zerar créditos
+          </button>
         </div>
       )}
       
