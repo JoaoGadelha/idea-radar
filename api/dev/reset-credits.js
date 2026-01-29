@@ -7,11 +7,6 @@ import { sql } from '@vercel/postgres';
 import { authenticateRequest } from '../middleware/auth.js';
 
 export default async function handler(req, res) {
-  // Só funciona em modo de desenvolvimento
-  if (process.env.NODE_ENV === 'production' && !process.env.ALLOW_DEV_ENDPOINTS) {
-    return res.status(404).json({ error: 'Not found' });
-  }
-
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
