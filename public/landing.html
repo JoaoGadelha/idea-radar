@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IdeaRadar - Valide suas ideias de negócio antes de investir</title>
+  <meta name="description" content="Crie landing pages de teste em minutos, colete métricas reais e receba análises com IA. Descubra se sua ideia tem potencial antes de gastar tempo e dinheiro.">
+  <meta name="keywords" content="validação de ideias, startup, landing page, métricas, MVP, empreendedorismo">
+  <meta name="author" content="IdeaRadar">
+  <meta name="robots" content="index, follow">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="IdeaRadar - Valide suas ideias antes de investir">
+  <meta property="og:description" content="Crie landing pages de teste em minutos. Métricas reais + Análise com IA.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://idea-radar-react.vercel.app">
+  <meta property="og:image" content="https://idea-radar-react.vercel.app/og-image.png">
+  <meta property="og:locale" content="pt_BR">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="IdeaRadar - Valide suas ideias antes de investir">
+  <meta name="twitter:description" content="Crie landing pages de teste em minutos. Métricas reais + Análise com IA.">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  <!-- Preconnect para performance -->
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --primary-light: #818cf8;
+      --secondary: #a855f7;
+      --bg: #09090b;
+      --bg-card: #18181b;
+      --bg-elevated: #27272a;
+      --text: #fafafa;
+      --text-muted: #a1a1aa;
+      --text-subtle: #71717a;
+      --border: #27272a;
+      --border-light: #3f3f46;
+      --success: #22c55e;
+      --success-bg: rgba(34, 197, 94, 0.1);
+      --warning: #f59e0b;
+      --error: #ef4444;
+      --gradient-primary: linear-gradient(135deg, var(--primary), var(--secondary));
+      --gradient-subtle: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(168, 85, 247, 0.15));
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+      --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+      --shadow-glow: 0 0 60px rgba(99, 102, 241, 0.3);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 100vh;
+      background: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.15), transparent),
+        radial-gradient(ellipse 60% 40% at 80% 60%, rgba(168, 85, 247, 0.08), transparent);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--gradient-primary);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .header-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .header-link:hover { color: var(--text); }
+
+    .header-cta {
+      padding: 10px 20px;
+      background: var(--gradient-primary);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .header-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+    }
+
+    .hero {
+      text-align: center;
+      padding: 60px 0 50px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gradient-subtle);
+      color: var(--primary-light);
+      padding: 8px 16px;
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 28px;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+    }
+
+    h1 {
+      font-size: clamp(36px, 7vw, 56px);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    h1 .highlight {
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      font-size: 20px;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+
+    .hero-cta {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      padding: 16px 32px;
+      background: var(--gradient-primary);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 40px rgba(99, 102, 241, 0.4);
+    }
+
+    .btn-secondary {
+      padding: 16px 32px;
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-elevated);
+      border-color: var(--primary);
+    }
+
+    .stats-bar {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      padding: 48px 0;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .stat-item { text-align: center; }
+
+    .stat-number {
+      font-size: 32px;
+      font-weight: 700;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: var(--text-subtle);
+      margin-top: 4px;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-bottom: 60px;
+    }
+
+    @media (max-width: 640px) {
+      .cards-grid { grid-template-columns: 1fr; }
+    }
+
+    .problem-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      transition: all 0.3s;
+    }
+
+    .problem-box:hover {
+      border-color: var(--border-light);
+      transform: translateY(-2px);
+    }
+
+    .problem-box.solution {
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.05), rgba(34, 197, 94, 0.02));
+      border-color: rgba(34, 197, 94, 0.2);
+    }
+
+    .problem-box h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .problem-box h2 .icon { font-size: 28px; }
+
+    .problem-list { list-style: none; }
+
+    .problem-list li {
+      padding: 14px 0;
+      color: var(--text-muted);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 15px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .problem-list li:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .problem-list li::before {
+      content: "✕";
+      color: var(--error);
+      font-weight: 700;
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(239, 68, 68, 0.1);
+      border-radius: 50%;
+      font-size: 11px;
+    }
+
+    .solution-list li::before {
+      content: "✓";
+      color: var(--success);
+      background: var(--success-bg);
+    }
+
+    .how-it-works {
+      padding: 60px 0;
+      margin-bottom: 40px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-header h2 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .section-header p {
+      color: var(--text-muted);
+      font-size: 18px;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    @media (max-width: 768px) {
+      .steps { grid-template-columns: 1fr; }
+    }
+
+    .step {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px 28px;
+      text-align: center;
+      position: relative;
+      transition: all 0.3s;
+    }
+
+    .step:hover {
+      border-color: var(--primary);
+      box-shadow: var(--shadow-glow);
+      transform: translateY(-4px);
+    }
+
+    .step-number {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 28px;
+      height: 28px;
+      background: var(--gradient-primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .step-icon {
+      font-size: 48px;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .step h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .step p {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .features { padding: 60px 0; }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    @media (max-width: 768px) {
+      .feature-grid { grid-template-columns: 1fr; }
+    }
+
+    .feature-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      transition: all 0.3s;
+    }
+
+    .feature-item:hover {
+      border-color: var(--primary);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .feature-item .icon {
+      width: 56px;
+      height: 56px;
+      background: var(--gradient-subtle);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    .feature-item h4 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .feature-item p {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Pricing Section */
+    .pricing {
+      padding: 60px 0;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 900px) {
+      .pricing-grid { grid-template-columns: 1fr; max-width: 400px; }
+    }
+
+    .pricing-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      text-align: center;
+      position: relative;
+      transition: all 0.3s;
+    }
+
+    .pricing-card:hover {
+      border-color: var(--border-light);
+      transform: translateY(-4px);
+    }
+
+    .pricing-card.popular {
+      border-color: var(--primary);
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.05));
+    }
+
+    .popular-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--gradient-primary);
+      color: white;
+      padding: 4px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .pricing-card h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .pricing-card .price {
+      font-size: 36px;
+      font-weight: 800;
+      margin: 16px 0;
+    }
+
+    .pricing-card .price span {
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+
+    .pricing-card .price.free {
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .pricing-card ul {
+      list-style: none;
+      text-align: left;
+      margin: 24px 0;
+    }
+
+    .pricing-card ul li {
+      padding: 8px 0;
+      font-size: 14px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pricing-card ul li::before {
+      content: "✓";
+      color: var(--success);
+      font-weight: 600;
+    }
+
+    .pricing-card .btn-primary,
+    .pricing-card .btn-secondary {
+      width: 100%;
+      justify-content: center;
+      padding: 14px 24px;
+      font-size: 15px;
+    }
+
+    .faq { padding: 60px 0; }
+
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+
+    .faq-question {
+      width: 100%;
+      padding: 20px 24px;
+      background: transparent;
+      border: none;
+      color: var(--text);
+      font-size: 16px;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.2s;
+      font-family: inherit;
+    }
+
+    .faq-question:hover { background: var(--bg-elevated); }
+
+    .faq-question .icon {
+      transition: transform 0.3s;
+      font-size: 20px;
+      color: var(--text-muted);
+    }
+
+    .faq-item.active .faq-question .icon { transform: rotate(45deg); }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+    }
+
+    .faq-item.active .faq-answer { max-height: 200px; }
+
+    .faq-answer p {
+      padding: 0 24px 20px;
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .cta-final {
+      text-align: center;
+      padding: 80px 0;
+      margin-top: 20px;
+      background: var(--gradient-subtle);
+      border-radius: 32px;
+      border: 1px solid rgba(99, 102, 241, 0.2);
+    }
+
+    .cta-final h2 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .cta-final p {
+      color: var(--text-muted);
+      font-size: 18px;
+      margin-bottom: 32px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-final .btn-primary {
+      font-size: 18px;
+      padding: 18px 40px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 48px 24px;
+      border-top: 1px solid var(--border);
+      margin-top: 60px;
+    }
+
+    footer p {
+      color: var(--text-subtle);
+      font-size: 14px;
+    }
+
+    footer a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    footer a:hover { color: var(--primary); }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.6s ease-out;
+    }
+
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 640px) {
+      .container { padding: 24px 16px; }
+      .hero { padding: 40px 0 32px; }
+      .stats-bar { gap: 24px; }
+      .header { padding: 16px 0; }
+      .header-nav { gap: 16px; }
+      .header-link { display: none; }
+      .hero-cta { flex-direction: column; align-items: center; }
+      .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+      .cta-final { padding: 48px 24px; border-radius: 20px; }
+      .cta-final h2 { font-size: 28px; }
+    }
+
+    .scroll-top {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 48px;
+      height: 48px;
+      background: var(--gradient-primary);
+      border: none;
+      border-radius: 50%;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+      box-shadow: var(--shadow-lg);
+      z-index: 100;
+    }
+
+    .scroll-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .scroll-top:hover { transform: translateY(-4px); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <a href="#" class="logo">
+        <div class="logo-icon">📡</div>
+        IdeaRadar
+      </a>
+      <nav class="header-nav">
+        <a href="#features" class="header-link">Recursos</a>
+        <a href="#pricing" class="header-link">Preços</a>
+        <a href="#faq" class="header-link">FAQ</a>
+        <a href="/login" class="header-cta">Entrar</a>
+      </nav>
+    </header>
+
+    <section class="hero animate-on-scroll">
+      <span class="badge">
+        ✨ Comece grátis — 3 landing pages + 10 análises
+      </span>
+      <h1>Pare de perder meses em <span class="highlight">ideias que não vingam</span></h1>
+      <p class="subtitle">
+        Valide sua ideia de negócio em dias, não meses. Crie landing pages de teste, colete métricas reais e receba análises com IA.
+      </p>
+      <div class="hero-cta">
+        <a href="/login" class="btn-primary">
+          Começar grátis →
+        </a>
+        <a href="#how-it-works" class="btn-secondary">
+          Ver como funciona
+        </a>
+      </div>
+    </section>
+
+    <div class="stats-bar animate-on-scroll">
+      <div class="stat-item">
+        <div class="stat-number">42%</div>
+        <div class="stat-label">das startups falham por<br>falta de mercado</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">3-6 meses</div>
+        <div class="stat-label">economizados em<br>desenvolvimento</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">10 min</div>
+        <div class="stat-label">para criar uma<br>landing page</div>
+      </div>
+    </div>
+
+    <div class="cards-grid">
+      <div class="problem-box animate-on-scroll">
+        <h2><span class="icon">😩</span> O problema</h2>
+        <ul class="problem-list">
+          <li>Meses construindo algo que ninguém quer</li>
+          <li>Pesquisas de mercado caras e demoradas</li>
+          <li>Feedback de amigos dá falsos positivos</li>
+          <li>Lança e descobre que não tem mercado</li>
+        </ul>
+      </div>
+
+      <div class="problem-box solution animate-on-scroll">
+        <h2><span class="icon">✨</span> A solução</h2>
+        <ul class="problem-list solution-list">
+          <li>Landing page de teste pronta em minutos</li>
+          <li>Métricas reais: visitas, cliques, conversões</li>
+          <li>IA analisa dados e dá recomendações</li>
+          <li>Decida com dados, não com achismo</li>
+        </ul>
+      </div>
+    </div>
+
+    <section class="how-it-works animate-on-scroll" id="how-it-works">
+      <div class="section-header">
+        <h2>Como funciona</h2>
+        <p>Validação em 3 passos simples</p>
+      </div>
+      
+      <div class="steps">
+        <div class="step">
+          <span class="step-number">1</span>
+          <span class="step-icon">💡</span>
+          <h3>Descreva sua ideia</h3>
+          <p>Conte para a IA o que você quer validar. Ela cria a landing page automaticamente com copy persuasivo.</p>
+        </div>
+        <div class="step">
+          <span class="step-number">2</span>
+          <span class="step-icon">🚀</span>
+          <h3>Colete métricas</h3>
+          <p>Compartilhe o link e veja em tempo real quem visita, quanto tempo fica e quem se cadastra.</p>
+        </div>
+        <div class="step">
+          <span class="step-number">3</span>
+          <span class="step-icon">🧠</span>
+          <h3>Receba insights</h3>
+          <p>Pergunte à IA sobre seus dados. Ela analisa tudo e te diz se a ideia tem potencial.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="features animate-on-scroll" id="features">
+      <div class="section-header">
+        <h2>Tudo que você precisa</h2>
+        <p>Para validar ideias rapidamente</p>
+      </div>
+      
+      <div class="feature-grid">
+        <div class="feature-item">
+          <div class="icon">📝</div>
+          <h4>Landing Pages com IA</h4>
+          <p>Descreva sua ideia e a IA cria uma landing page profissional com textos persuasivos.</p>
+        </div>
+        <div class="feature-item">
+          <div class="icon">📊</div>
+          <h4>Métricas em Tempo Real</h4>
+          <p>Integração com Google Analytics. Veja visitas, tempo na página e conversões.</p>
+        </div>
+        <div class="feature-item">
+          <div class="icon">🤖</div>
+          <h4>Análise com IA</h4>
+          <p>Pergunte qualquer coisa sobre seus dados. A IA responde com insights acionáveis.</p>
+        </div>
+        <div class="feature-item">
+          <div class="icon">🎯</div>
+          <h4>Coleta de Leads</h4>
+          <p>Formulário integrado para capturar emails de interessados na sua ideia.</p>
+        </div>
+        <div class="feature-item">
+          <div class="icon">🎨</div>
+          <h4>7 Templates Visuais</h4>
+          <p>Escolha entre estilos como Stripe, Vercel, Gradient, Minimal e mais.</p>
+        </div>
+        <div class="feature-item">
+          <div class="icon">⚡</div>
+          <h4>Deploy Instantâneo</h4>
+          <p>Sua landing page fica online em segundos com URL personalizada.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="pricing animate-on-scroll" id="pricing">
+      <div class="section-header">
+        <h2>Preços simples</h2>
+        <p>Compre créditos quando precisar. Sem mensalidade.</p>
+      </div>
+      
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <h3>Free</h3>
+          <div class="price free">Grátis</div>
+          <ul>
+            <li>3 Landing Pages</li>
+            <li>10 Análises com IA</li>
+            <li>Métricas básicas</li>
+            <li>1 Template</li>
+          </ul>
+          <a href="/login" class="btn-secondary">Começar grátis</a>
+        </div>
+        
+        <div class="pricing-card popular">
+          <span class="popular-badge">Mais Popular</span>
+          <h3>Pro Pack</h3>
+          <div class="price">R$ 79 <span>único</span></div>
+          <ul>
+            <li>50 Landing Pages</li>
+            <li>200 Análises com IA</li>
+            <li>Analytics avançado</li>
+            <li>Todos os templates</li>
+            <li>Suporte prioritário</li>
+          </ul>
+          <a href="/pricing" class="btn-primary">Comprar créditos</a>
+        </div>
+        
+        <div class="pricing-card">
+          <h3>Agency</h3>
+          <div class="price">R$ 199 <span>único</span></div>
+          <ul>
+            <li>200 Landing Pages</li>
+            <li>1000 Análises com IA</li>
+            <li>Analytics avançado</li>
+            <li>Todos os templates</li>
+            <li>Suporte prioritário</li>
+          </ul>
+          <a href="/pricing" class="btn-secondary">Ver detalhes</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq animate-on-scroll" id="faq">
+      <div class="section-header">
+        <h2>Perguntas Frequentes</h2>
+      </div>
+      
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>Preciso saber programar?</span>
+          <span class="icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Não! O IdeaRadar foi feito para não-técnicos. Você só precisa descrever sua ideia e a IA faz o resto. Nenhuma linha de código necessária.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>Quanto tempo leva para criar uma landing page?</span>
+          <span class="icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Em média, 5-10 minutos. Você descreve a ideia, escolhe o template e a IA gera todo o conteúdo. É só revisar e publicar.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>Os créditos expiram?</span>
+          <span class="icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Não! Seus créditos nunca expiram. Use quando quiser, no seu ritmo. Sem pressa, sem pressão.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>Como funciona a análise com IA?</span>
+          <span class="icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Você pode perguntar qualquer coisa sobre seus dados: "Qual landing page está convertendo mais?", "Devo pivotar essa ideia?", "O que os leads estão sugerindo?". A IA analisa suas métricas e responde.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-final animate-on-scroll">
+      <h2>Pronto para validar sua ideia?</h2>
+      <p>Comece grátis. Sem cartão de crédito. 3 landing pages + 10 análises para testar.</p>
+      <a href="/login" class="btn-primary">Criar conta grátis →</a>
+    </section>
+  </div>
+
+  <footer>
+    <p>IdeaRadar © 2026 — Valide antes de construir</p>
+    <p style="margin-top: 12px;">
+      <a href="#">Termos de Uso</a> · <a href="#">Privacidade</a>
+    </p>
+  </footer>
+
+  <button class="scroll-top" id="scrollTop" onclick="scrollToTop()">↑</button>
+
+  <!-- GA4 Tracking -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-P13EMWM4H3"></script>
+  <script>
+    const CONFIG = {
+      GA_MEASUREMENT_ID: 'G-P13EMWM4H3',
+      PROJECT_ID: 'idearadar-home',
+      LP_ID: 'home-idearadar',
+      LP_SLUG: 'home'
+    };
+
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', CONFIG.GA_MEASUREMENT_ID, {
+      'custom_map': {
+        'dimension1': 'landing_page_id',
+        'dimension2': 'project_id',
+        'dimension3': 'landing_page_slug',
+        'dimension5': 'traffic_source'
+      },
+      'landing_page_id': CONFIG.LP_ID,
+      'project_id': CONFIG.PROJECT_ID,
+      'landing_page_slug': CONFIG.LP_SLUG,
+      'traffic_source': getTrafficSource(),
+      'send_page_view': true
+    });
+
+    function getTrafficSource() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const utmSource = urlParams.get('utm_source');
+      if (utmSource) return utmSource;
+      const referrer = document.referrer;
+      if (!referrer) return 'direct';
+      try {
+        const domain = new URL(referrer).hostname;
+        if (domain.includes('google')) return 'google';
+        if (domain.includes('facebook') || domain.includes('fb.')) return 'facebook';
+        if (domain.includes('twitter') || domain.includes('t.co')) return 'twitter';
+        if (domain.includes('linkedin')) return 'linkedin';
+        return domain;
+      } catch { return 'unknown'; }
+    }
+
+    function trackEvent(eventName, params = {}) {
+      const enrichedParams = {
+        ...params,
+        landing_page_id: CONFIG.LP_ID,
+        project_id: CONFIG.PROJECT_ID,
+        landing_page_slug: CONFIG.LP_SLUG,
+        traffic_source: getTrafficSource()
+      };
+      gtag('event', eventName, enrichedParams);
+    }
+
+    // Scroll Tracking
+    const scrollThresholds = [25, 50, 75, 100];
+    const scrollTriggered = new Set();
+
+    window.addEventListener('scroll', () => {
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (scrollHeight <= 0) return;
+      const scrollPercent = Math.round((window.scrollY / scrollHeight) * 100);
+      scrollThresholds.forEach(threshold => {
+        if (scrollPercent >= threshold && !scrollTriggered.has(threshold)) {
+          scrollTriggered.add(threshold);
+          trackEvent('scroll_depth', { percent_scrolled: threshold });
+        }
+      });
+    });
+
+    // Visibility Observer
+    const observeElements = () => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.2 });
+      document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+    };
+
+    // UI Functions
+    function scrollToTop() { 
+      window.scrollTo({ top: 0, behavior: 'smooth' }); 
+    }
+
+    function toggleFaq(button) {
+      const faqItem = button.parentElement;
+      const wasActive = faqItem.classList.contains('active');
+      document.querySelectorAll('.faq-item').forEach(item => item.classList.remove('active'));
+      if (!wasActive) {
+        faqItem.classList.add('active');
+        trackEvent('faq_open', { question: button.querySelector('span').textContent });
+      }
+    }
+
+    window.addEventListener('scroll', () => {
+      const scrollTop = document.getElementById('scrollTop');
+      scrollTop.classList.toggle('visible', window.scrollY > 500);
+    });
+
+    // Track CTA clicks
+    document.querySelectorAll('.btn-primary, .btn-secondary').forEach(btn => {
+      btn.addEventListener('click', () => {
+        trackEvent('cta_click', { 
+          cta_text: btn.textContent.trim(),
+          cta_href: btn.href || 'button'
+        });
+      });
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      observeElements();
+      setTimeout(() => {
+        document.querySelectorAll('.animate-on-scroll').forEach((el, index) => {
+          if (el.getBoundingClientRect().top < window.innerHeight) {
+            setTimeout(() => el.classList.add('visible'), index * 100);
+          }
+        });
+      }, 100);
+    });
+
+    // Força scroll para o topo ao carregar
+    if (history.scrollRestoration) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+  </script>
+</body>
+</html>
