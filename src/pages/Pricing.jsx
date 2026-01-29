@@ -165,7 +165,7 @@ export default function Pricing() {
         )}
 
         {/* Créditos atuais (se logado) */}
-        {credits && (
+        {credits !== null && (
           <div className={styles.currentCredits}>
             <h3>Seus créditos atuais</h3>
             <div className={styles.creditsGrid}>
