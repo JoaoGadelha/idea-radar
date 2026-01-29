@@ -1281,8 +1281,7 @@
         successMessage.classList.add('show');
         trackEvent('form_complete', { form_name: 'waitlist', time_to_complete: Math.round(performance.now() / 1000) });
       } catch (error) {
-        console.error('[Lead] Error:', error);
-        trackEvent('form_error', { error_message: error.message, form_name: 'waitlist' });
+        trackEvent('form_error', { error_message: 'submission_failed', form_name: 'waitlist' });
         submitBtn.disabled = false;
         btnText.style.display = 'inline';
         btnSpinner.style.display = 'none';
