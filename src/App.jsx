@@ -35,6 +35,14 @@ function App() {
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/l/:slug" element={<PublicLandingPage />} />
         <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/"
           element={
             <ProtectedRoute>
