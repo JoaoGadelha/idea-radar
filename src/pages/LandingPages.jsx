@@ -35,7 +35,27 @@ export default function LandingPages() {
     }
   };
 
-  const handleCreate = () => {
+  const handleCreate = async () => {
+    // Verificar créditos antes de abrir o builder
+    try {
+      const res = await fetch('/api/usage', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      
+      if (res.ok) {
+        const data = await res.json();
+        const lpRemaining = data.credits?.lpRemaining || 0;
+        
+        if (lpRemaining <= 0) {
+          alert('❌ Sem créditos disponíveis!\n\nVocê precisa comprar mais créditos para criar landing pages.\n\nClique em "Comprar créditos" no menu.');
+          return;
+        }
+      }
+    } catch (error) {
+      console.error('Erro ao verificar créditos:', error);
+      // Continua mesmo com erro - validação será feita no backend
+    }
+    
     setShowBuilder(true);
   };
 

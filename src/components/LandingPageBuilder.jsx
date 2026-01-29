@@ -822,6 +822,13 @@ Call to Action:
 
       if (!res.ok) {
         const error = await res.json();
+        
+        // Se for erro de créditos (403), mostrar mensagem específica
+        if (res.status === 403) {
+          alert('❌ Sem créditos disponíveis!\n\nVocê precisa comprar mais créditos para criar landing pages.\n\nClique em "Comprar créditos" no menu.');
+          return;
+        }
+        
         throw new Error(error.error || 'Erro ao salvar');
       }
 

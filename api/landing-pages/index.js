@@ -1,5 +1,6 @@
 import { neon } from '@neondatabase/serverless';
 import { authenticateRequest } from '../middleware/auth.js';
+import { canGenerateLP, consumeLPCredit } from '../config/plans.js';
 
 const sql = neon(process.env.DATABASE_URL);
 
@@ -34,6 +35,17 @@ export default async function handler(req, res) {
 
     // POST - Criar nova landing page (com projeto automático se necessário)
     if (req.method === 'POST') {
+      // 🔒 VERIFICAR CRÉDITOS ANTES
+      const creditCheck = await canGenerateLP(userId);
+      if (!creditCheck.allowed) {
+        return res.status(403).json({
+          error: 'Sem créditos disponíveis',
+          message: 'Você precisa comprar créditos para criar mais landing pages.',
+          remaining: creditCheck.remaining,
+          total: creditCheck.total,
+        });
+      }
+
       const {
         // Dados para criar projeto automaticamente
         project_name,
@@ -133,6 +145,13 @@ export default async function handler(req, res) {
         )
         RETURNING *
       `;
+
+      // 🔥 CONSUMIR CRÉDITO APÓS SUCESSO
+      const consumed = await consumeLPCredit(userId);
+      if (!consumed.success) {
+        console.error('[LP Creation] Failed to consume credit after creating LP:', consumed);
+        // LP já foi criada, mas crédito não foi consumido - log para investigar
+      }
 
       return res.status(201).json({ landingPage });
     }
