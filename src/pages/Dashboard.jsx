@@ -73,7 +73,7 @@ export default function Dashboard() {
       <Header onAddProject={() => setShowAddModal(true)} />
       
       {/* Card de Créditos */}
-      {credits && (
+      {credits !== null && (
         <div className={styles.creditsCard}>
           <div className={styles.creditsInfo}>
             <div className={styles.creditItem}>
