@@ -32,6 +32,21 @@ const PACKAGES = [
       'Suporte prioritário',
     ],
   },
+  {
+    id: 'agency',
+    name: 'Agency Pack',
+    price: { BRL: 199, USD: 79 },
+    credits: { landingPages: 200, analysis: 1000 },
+    description: 'Para agências e power users',
+    features: [
+      '200 Landing Pages',
+      '1000 Análises com IA',
+      'Créditos não expiram',
+      'Analytics avançado',
+      'Suporte prioritário',
+      'Múltiplos projetos',
+    ],
+  },
 ];
 
 export default function Pricing() {
