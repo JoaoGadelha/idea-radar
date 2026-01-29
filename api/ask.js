@@ -149,7 +149,7 @@ async function buildSystemPrompt(projects, metrics) {
     })
     .section('CONTEXTO CRÍTICO - LEIA COM ATENÇÃO', 
       'Estas são landing pages de VALIDAÇÃO DE IDEIAS (também chamadas de "termômetro de mercado").\nO objetivo NÃO é vender um produto - é medir interesse antes de construir algo.')
-    .section('INTERPRETAÇÃO CORRETA DAS MÉTRICAS', [    .section('INTERPRETAÇÃO CORRETA DAS MÉTRICAS', [
+    .section('INTERPRETAÇÃO CORRETA DAS MÉTRICAS', [
       '**Leads = Conversões reais**: Cada pessoa que se cadastrou É uma conversão bem-sucedida. Se há 4 leads, há 4 conversões REAIS. Ignore o campo "conversões" do GA4 - pode estar mal configurado.',
       '**Taxa de rejeição alta é NORMAL**: Landing pages são single-page. Não há outras páginas. 100% de rejeição é esperado e NÃO indica problema. O que importa: a pessoa se cadastrou?',
       '**Sucesso = Leads + Sugestões**: Leads = quantas pessoas demonstraram interesse. Sugestões = feedback qualitativo valioso. Tempo na página = engajamento (mais tempo = mais interesse).'
