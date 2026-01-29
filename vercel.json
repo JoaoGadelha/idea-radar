@@ -6,12 +6,6 @@
     { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/validacao", "destination": "/validacao.html" }
   ],
-  "redirects": [
-    { "source": "/login", "destination": "/", "statusCode": 302 },
-    { "source": "/dashboard", "destination": "/", "statusCode": 302 },
-    { "source": "/projects", "destination": "/", "statusCode": 302 },
-    { "source": "/projects/:path*", "destination": "/", "statusCode": 302 }
-  ],
   "headers": [
     {
       "source": "/api/(.*)",
