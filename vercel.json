@@ -9,8 +9,9 @@
     { "source": "/verify", "destination": "/app.html" },
     { "source": "/pricing", "destination": "/app.html" },
     { "source": "/dashboard", "destination": "/app.html" },
+    { "source": "/dashboard/(.*)", "destination": "/app.html" },
     { "source": "/projects", "destination": "/app.html" },
-    { "source": "/projects/:id", "destination": "/app.html" },
+    { "source": "/projects/(.*)", "destination": "/app.html" },
     { "source": "/l/:slug", "destination": "/app.html" }
   ],
   "headers": [

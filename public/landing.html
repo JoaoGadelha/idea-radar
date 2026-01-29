@@ -1129,9 +1129,9 @@
       }, 100);
     });
 
-    // Redireciona usuários logados para o dashboard
+    // Redireciona usuários logados para o dashboard (somente se estiver na raiz)
     const token = localStorage.getItem('idea-radar-token');
-    if (token) {
+    if (token && window.location.pathname === '/') {
       window.location.href = '/dashboard';
     }
 
