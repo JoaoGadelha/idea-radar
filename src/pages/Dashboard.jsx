@@ -68,6 +68,27 @@ export default function Dashboard() {
     setRefreshTrigger(prev => prev + 1);
   };
 
+  const handleResetCredits = async () => {
+    if (!confirm('⚠️ DEV: Zerar todos os créditos?')) return;
+    
+    try {
+      const response = await fetch('/api/dev/reset-credits', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      
+      if (response.ok) {
+        alert('✅ Créditos zerados!');
+        setRefreshTrigger(prev => prev + 1);
+      } else {
+        alert('❌ Erro ao zerar créditos');
+      }
+    } catch (error) {
+      console.error('Error resetting credits:', error);
+      alert('❌ Erro ao zerar créditos');
+    }
+  };
+
   return (
     <div className={styles.container}>
       <Header onAddProject={() => setShowAddModal(true)} />
@@ -94,6 +115,11 @@ export default function Dashboard() {
           <button className={styles.buyCreditsBtn} onClick={() => navigate('/pricing')}>
             + Comprar créditos
           </button>
+          {process.env.NODE_ENV !== 'production' && (
+            <button className={styles.devResetBtn} onClick={handleResetCredits}>
+              🔴 DEV: Zerar créditos
+            </button>
+          )}
         </div>
       )}
       
