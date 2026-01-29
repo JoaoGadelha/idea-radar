@@ -4,9 +4,7 @@
   "framework": "vite",
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/validacao", "destination": "/validacao.html" },
-    { "source": "/", "destination": "/validacao.html" },
-    { "source": "/((?!api/|validacao|assets/).*)", "destination": "/validacao.html" }
+    { "source": "/validacao", "destination": "/validacao.html" }
   ],
   "redirects": [
     { "source": "/login", "destination": "/", "statusCode": 302 },
