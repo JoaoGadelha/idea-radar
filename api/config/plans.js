@@ -343,12 +343,6 @@ export function getUserPlan(userId) {
   return 'free'; // Compatibilidade - usar getUserCredits() no novo código
 }
 
-export function getPlanLimit(planName, feature, limitType) {
-  const plan = PLANS[planName];
-  if (!plan) return 0;
-  return plan.features?.[feature]?.[limitType] ?? 0;
-}
-
 export function hasPlanFeature(plan, feature, subfeature) {
   const planConfig = PLANS[plan];
   if (!planConfig) return false;
