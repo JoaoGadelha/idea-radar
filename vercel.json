@@ -4,7 +4,12 @@
   "framework": "vite",
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/validacao", "destination": "/validacao.html" }
+    { "source": "/validacao", "destination": "/validacao.html" },
+    { "source": "/login", "destination": "/index.react.html" },
+    { "source": "/verify", "destination": "/index.react.html" },
+    { "source": "/pricing", "destination": "/index.react.html" },
+    { "source": "/dashboard", "destination": "/index.react.html" },
+    { "source": "/l/:slug", "destination": "/index.react.html" }
   ],
   "headers": [
     {
