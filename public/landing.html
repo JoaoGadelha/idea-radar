@@ -1129,6 +1129,12 @@
       }, 100);
     });
 
+    // Redireciona usuários logados para o dashboard
+    const token = localStorage.getItem('idea-radar-token');
+    if (token) {
+      window.location.href = '/dashboard';
+    }
+
     // Força scroll para o topo ao carregar
     if (history.scrollRestoration) {
       history.scrollRestoration = 'manual';
