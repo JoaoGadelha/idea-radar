@@ -4,23 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>IdeaRadar - Valide suas ideias de negócio antes de investir</title>
-  <meta name="description" content="Descubra se sua ideia tem potencial real antes de gastar tempo e dinheiro. Crie landing pages de teste, colete métricas reais e receba análises com IA.">
+  <meta name="description" content="Crie landing pages de teste em minutos, colete métricas reais e receba análises com IA. Descubra se sua ideia tem potencial antes de gastar tempo e dinheiro.">
   <meta name="keywords" content="validação de ideias, startup, landing page, métricas, MVP, empreendedorismo">
   <meta name="author" content="IdeaRadar">
   <meta name="robots" content="index, follow">
   
   <!-- Open Graph -->
   <meta property="og:title" content="IdeaRadar - Valide suas ideias antes de investir">
-  <meta property="og:description" content="Descubra se sua ideia tem potencial real antes de gastar tempo e dinheiro. Validação com métricas reais e IA.">
+  <meta property="og:description" content="Crie landing pages de teste em minutos. Métricas reais + Análise com IA.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://idearadar.com.br/validacao">
-  <meta property="og:image" content="https://idearadar.com.br/og-image.png">
+  <meta property="og:url" content="https://idea-radar-react.vercel.app">
+  <meta property="og:image" content="https://idea-radar-react.vercel.app/og-image.png">
   <meta property="og:locale" content="pt_BR">
   
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="IdeaRadar - Valide suas ideias antes de investir">
-  <meta name="twitter:description" content="Descubra se sua ideia tem potencial real antes de gastar tempo e dinheiro.">
+  <meta name="twitter:description" content="Crie landing pages de teste em minutos. Métricas reais + Análise com IA.">
   
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -89,7 +89,7 @@
     }
 
     .container {
-      max-width: 800px;
+      max-width: 1100px;
       margin: 0 auto;
       padding: 40px 24px;
     }
@@ -123,21 +123,38 @@
       font-size: 18px;
     }
 
-    .header-cta {
-      padding: 10px 20px;
-      background: transparent;
-      border: 1px solid var(--border-light);
-      border-radius: 8px;
-      color: var(--text);
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .header-link {
+      color: var(--text-muted);
+      text-decoration: none;
       font-size: 14px;
       font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .header-link:hover { color: var(--text); }
+
+    .header-cta {
+      padding: 10px 20px;
+      background: var(--gradient-primary);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
+      text-decoration: none;
     }
 
     .header-cta:hover {
-      background: var(--bg-elevated);
-      border-color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
     }
 
     .hero {
@@ -157,25 +174,6 @@
       font-weight: 600;
       margin-bottom: 28px;
       border: 1px solid rgba(99, 102, 241, 0.3);
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
-      50% { box-shadow: 0 0 0 8px rgba(99, 102, 241, 0); }
-    }
-
-    .badge-dot {
-      width: 8px;
-      height: 8px;
-      background: var(--success);
-      border-radius: 50%;
-      animation: blink 1.5s infinite;
-    }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
     }
 
     h1 {
@@ -196,16 +194,65 @@
     .subtitle {
       font-size: 20px;
       color: var(--text-muted);
-      max-width: 560px;
-      margin: 0 auto 32px;
+      max-width: 600px;
+      margin: 0 auto 40px;
       line-height: 1.7;
+    }
+
+    .hero-cta {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      padding: 16px 32px;
+      background: var(--gradient-primary);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 40px rgba(99, 102, 241, 0.4);
+    }
+
+    .btn-secondary {
+      padding: 16px 32px;
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-elevated);
+      border-color: var(--primary);
     }
 
     .stats-bar {
       display: flex;
       justify-content: center;
-      gap: 40px;
-      padding: 24px 0;
+      gap: 48px;
+      padding: 48px 0;
       margin-bottom: 20px;
       flex-wrap: wrap;
     }
@@ -213,7 +260,7 @@
     .stat-item { text-align: center; }
 
     .stat-number {
-      font-size: 28px;
+      font-size: 32px;
       font-weight: 700;
       background: var(--gradient-primary);
       -webkit-background-clip: text;
@@ -222,7 +269,7 @@
     }
 
     .stat-label {
-      font-size: 13px;
+      font-size: 14px;
       color: var(--text-subtle);
       margin-top: 4px;
     }
@@ -230,8 +277,8 @@
     .cards-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-      margin-bottom: 40px;
+      gap: 24px;
+      margin-bottom: 60px;
     }
 
     @media (max-width: 640px) {
@@ -242,7 +289,7 @@
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 20px;
-      padding: 28px;
+      padding: 32px;
       transition: all 0.3s;
     }
 
@@ -257,7 +304,7 @@
     }
 
     .problem-box h2 {
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 700;
       margin-bottom: 20px;
       display: flex;
@@ -265,12 +312,12 @@
       gap: 10px;
     }
 
-    .problem-box h2 .icon { font-size: 24px; }
+    .problem-box h2 .icon { font-size: 28px; }
 
     .problem-list { list-style: none; }
 
     .problem-list li {
-      padding: 12px 0;
+      padding: 14px 0;
       color: var(--text-muted);
       display: flex;
       align-items: flex-start;
@@ -289,14 +336,14 @@
       color: var(--error);
       font-weight: 700;
       flex-shrink: 0;
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
       display: flex;
       align-items: center;
       justify-content: center;
       background: rgba(239, 68, 68, 0.1);
       border-radius: 50%;
-      font-size: 10px;
+      font-size: 11px;
     }
 
     .solution-list li::before {
@@ -306,24 +353,24 @@
     }
 
     .how-it-works {
-      padding: 48px 0;
+      padding: 60px 0;
       margin-bottom: 40px;
     }
 
     .section-header {
       text-align: center;
-      margin-bottom: 40px;
+      margin-bottom: 48px;
     }
 
     .section-header h2 {
-      font-size: 28px;
+      font-size: 32px;
       font-weight: 700;
       margin-bottom: 12px;
     }
 
     .section-header p {
       color: var(--text-muted);
-      font-size: 16px;
+      font-size: 18px;
     }
 
     .steps {
@@ -332,15 +379,15 @@
       gap: 24px;
     }
 
-    @media (max-width: 640px) {
+    @media (max-width: 768px) {
       .steps { grid-template-columns: 1fr; }
     }
 
     .step {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 28px 24px;
+      border-radius: 20px;
+      padding: 32px 28px;
       text-align: center;
       position: relative;
       transition: all 0.3s;
@@ -349,6 +396,7 @@
     .step:hover {
       border-color: var(--primary);
       box-shadow: var(--shadow-glow);
+      transform: translateY(-4px);
     }
 
     .step-number {
@@ -368,284 +416,40 @@
     }
 
     .step-icon {
-      font-size: 40px;
-      margin-bottom: 16px;
+      font-size: 48px;
+      margin-bottom: 20px;
       display: block;
     }
 
     .step h3 {
-      font-size: 17px;
+      font-size: 18px;
       font-weight: 600;
-      margin-bottom: 8px;
+      margin-bottom: 12px;
     }
 
     .step p {
-      font-size: 14px;
+      font-size: 15px;
       color: var(--text-muted);
       line-height: 1.6;
     }
 
-    .form-card {
-      background: var(--bg-card);
-      border: 1px solid rgba(99, 102, 241, 0.3);
-      border-radius: 24px;
-      padding: 48px 40px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-      box-shadow: var(--shadow-lg);
-    }
-
-    .form-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: var(--gradient-primary);
-    }
-
-    .form-card h2 {
-      font-size: 28px;
-      font-weight: 700;
-      margin-bottom: 12px;
-    }
-
-    .form-card > p {
-      color: var(--text-muted);
-      margin-bottom: 32px;
-      font-size: 16px;
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-      text-align: left;
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 8px;
-      color: var(--text);
-    }
-
-    .form-group input,
-    .form-group textarea,
-    .form-group select {
-      width: 100%;
-      padding: 16px 18px;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      color: var(--text);
-      font-size: 16px;
-      font-family: inherit;
-      transition: all 0.2s;
-    }
-
-    .form-group input:focus,
-    .form-group textarea:focus,
-    .form-group select:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
-    }
-
-    .form-group textarea {
-      resize: vertical;
-      min-height: 100px;
-    }
-
-    .form-group input::placeholder,
-    .form-group textarea::placeholder {
-      color: var(--text-subtle);
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    @media (max-width: 500px) {
-      .form-row { grid-template-columns: 1fr; }
-    }
-
-    .btn-primary {
-      width: 100%;
-      padding: 18px 32px;
-      background: var(--gradient-primary);
-      color: white;
-      border: none;
-      border-radius: 12px;
-      font-size: 17px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      margin-top: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 40px rgba(99, 102, 241, 0.4);
-    }
-
-    .btn-primary:active { transform: translateY(0); }
-
-    .btn-primary:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .btn-primary .spinner {
-      width: 20px;
-      height: 20px;
-      border: 2px solid rgba(255,255,255,0.3);
-      border-top-color: white;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    .form-note {
-      font-size: 13px;
-      color: var(--text-subtle);
-      margin-top: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .success-message {
-      display: none;
-      text-align: center;
-      padding: 48px 20px;
-    }
-
-    .success-message.show {
-      display: block;
-      animation: fadeIn 0.5s ease-out;
-    }
-
-    .success-icon {
-      width: 80px;
-      height: 80px;
-      background: var(--success-bg);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 40px;
-      margin: 0 auto 24px;
-      animation: scaleIn 0.5s ease-out;
-    }
-
-    @keyframes scaleIn {
-      0% { transform: scale(0); }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(1); }
-    }
-
-    .success-message h3 {
-      font-size: 26px;
-      margin-bottom: 12px;
-      color: var(--success);
-    }
-
-    .success-message p {
-      color: var(--text-muted);
-      font-size: 16px;
-      margin-bottom: 24px;
-    }
-
-    .share-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin-top: 24px;
-      flex-wrap: wrap;
-    }
-
-    .share-btn {
-      padding: 12px 20px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: var(--bg);
-      color: var(--text);
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .share-btn:hover {
-      border-color: var(--primary);
-      background: var(--bg-elevated);
-    }
-
-    .social-proof {
-      padding: 48px 0;
-      text-align: center;
-    }
-
-    .avatars {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 16px;
-    }
-
-    .avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      border: 2px solid var(--bg);
-      margin-left: -12px;
-      background: var(--gradient-primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    .avatar:first-child { margin-left: 0; }
-
-    .social-proof p {
-      color: var(--text-muted);
-      font-size: 15px;
-    }
-
-    .social-proof strong { color: var(--text); }
-
-    .features { padding: 48px 0; }
+    .features { padding: 60px 0; }
 
     .feature-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
     }
 
-    @media (max-width: 500px) {
+    @media (max-width: 768px) {
       .feature-grid { grid-template-columns: 1fr; }
     }
 
     .feature-item {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 28px;
+      border-radius: 20px;
+      padding: 32px;
       transition: all 0.3s;
     }
 
@@ -656,35 +460,141 @@
     }
 
     .feature-item .icon {
-      width: 48px;
-      height: 48px;
+      width: 56px;
+      height: 56px;
       background: var(--gradient-subtle);
-      border-radius: 12px;
+      border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 24px;
-      margin-bottom: 16px;
+      font-size: 28px;
+      margin-bottom: 20px;
     }
 
     .feature-item h4 {
-      font-size: 17px;
+      font-size: 18px;
       font-weight: 600;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
     .feature-item p {
-      font-size: 14px;
+      font-size: 15px;
       color: var(--text-muted);
       line-height: 1.6;
     }
 
-    .faq { padding: 48px 0; }
+    /* Pricing Section */
+    .pricing {
+      padding: 60px 0;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 900px) {
+      .pricing-grid { grid-template-columns: 1fr; max-width: 400px; }
+    }
+
+    .pricing-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      text-align: center;
+      position: relative;
+      transition: all 0.3s;
+    }
+
+    .pricing-card:hover {
+      border-color: var(--border-light);
+      transform: translateY(-4px);
+    }
+
+    .pricing-card.popular {
+      border-color: var(--primary);
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.05));
+    }
+
+    .popular-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--gradient-primary);
+      color: white;
+      padding: 4px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .pricing-card h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .pricing-card .price {
+      font-size: 36px;
+      font-weight: 800;
+      margin: 16px 0;
+    }
+
+    .pricing-card .price span {
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+
+    .pricing-card .price.free {
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .pricing-card ul {
+      list-style: none;
+      text-align: left;
+      margin: 24px 0;
+    }
+
+    .pricing-card ul li {
+      padding: 8px 0;
+      font-size: 14px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pricing-card ul li::before {
+      content: "✓";
+      color: var(--success);
+      font-weight: 600;
+    }
+
+    .pricing-card .btn-primary,
+    .pricing-card .btn-secondary {
+      width: 100%;
+      justify-content: center;
+      padding: 14px 24px;
+      font-size: 15px;
+    }
+
+    .faq { padding: 60px 0; }
 
     .faq-item {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 16px;
       margin-bottom: 12px;
       overflow: hidden;
     }
@@ -733,12 +643,15 @@
 
     .cta-final {
       text-align: center;
-      padding: 60px 0;
+      padding: 80px 0;
       margin-top: 20px;
+      background: var(--gradient-subtle);
+      border-radius: 32px;
+      border: 1px solid rgba(99, 102, 241, 0.2);
     }
 
     .cta-final h2 {
-      font-size: 32px;
+      font-size: 36px;
       font-weight: 700;
       margin-bottom: 16px;
     }
@@ -747,18 +660,21 @@
       color: var(--text-muted);
       font-size: 18px;
       margin-bottom: 32px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .cta-final .btn-primary {
-      max-width: 360px;
-      margin: 0 auto;
+      font-size: 18px;
+      padding: 18px 40px;
     }
 
     footer {
       text-align: center;
       padding: 48px 24px;
       border-top: 1px solid var(--border);
-      margin-top: 40px;
+      margin-top: 60px;
     }
 
     footer p {
@@ -793,10 +709,14 @@
     @media (max-width: 640px) {
       .container { padding: 24px 16px; }
       .hero { padding: 40px 0 32px; }
-      .form-card { padding: 32px 24px; }
       .stats-bar { gap: 24px; }
       .header { padding: 16px 0; }
-      .header-cta { display: none; }
+      .header-nav { gap: 16px; }
+      .header-link { display: none; }
+      .hero-cta { flex-direction: column; align-items: center; }
+      .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+      .cta-final { padding: 48px 24px; border-radius: 20px; }
+      .cta-final h2 { font-size: 28px; }
     }
 
     .scroll-top {
@@ -833,18 +753,30 @@
         <div class="logo-icon">📡</div>
         IdeaRadar
       </a>
-      <button class="header-cta" onclick="scrollToForm()">Quero testar</button>
+      <nav class="header-nav">
+        <a href="#features" class="header-link">Recursos</a>
+        <a href="#pricing" class="header-link">Preços</a>
+        <a href="#faq" class="header-link">FAQ</a>
+        <a href="/login" class="header-cta">Entrar</a>
+      </nav>
     </header>
 
     <section class="hero animate-on-scroll">
       <span class="badge">
-        <span class="badge-dot"></span>
-        Vagas limitadas para early adopters
+        ✨ Comece grátis — 3 landing pages + 10 análises
       </span>
       <h1>Pare de perder meses em <span class="highlight">ideias que não vingam</span></h1>
       <p class="subtitle">
-        Valide sua ideia de negócio em dias, não meses. Landing pages de teste + métricas reais + análise com IA. Saiba se deve pivotar ou seguir em frente.
+        Valide sua ideia de negócio em dias, não meses. Crie landing pages de teste, colete métricas reais e receba análises com IA.
       </p>
+      <div class="hero-cta">
+        <a href="/login" class="btn-primary">
+          Começar grátis →
+        </a>
+        <a href="#how-it-works" class="btn-secondary">
+          Ver como funciona
+        </a>
+      </div>
     </section>
 
     <div class="stats-bar animate-on-scroll">
@@ -857,8 +789,8 @@
         <div class="stat-label">economizados em<br>desenvolvimento</div>
       </div>
       <div class="stat-item">
-        <div class="stat-number">10min</div>
-        <div class="stat-label">para criar uma<br>LP de validação</div>
+        <div class="stat-number">10 min</div>
+        <div class="stat-label">para criar uma<br>landing page</div>
       </div>
     </div>
 
@@ -877,14 +809,14 @@
         <h2><span class="icon">✨</span> A solução</h2>
         <ul class="problem-list solution-list">
           <li>Landing page de teste pronta em minutos</li>
-          <li>Métricas reais: cliques, conversões</li>
+          <li>Métricas reais: visitas, cliques, conversões</li>
           <li>IA analisa dados e dá recomendações</li>
           <li>Decida com dados, não com achismo</li>
         </ul>
       </div>
     </div>
 
-    <section class="how-it-works animate-on-scroll">
+    <section class="how-it-works animate-on-scroll" id="how-it-works">
       <div class="section-header">
         <h2>Como funciona</h2>
         <p>Validação em 3 passos simples</p>
@@ -895,132 +827,112 @@
           <span class="step-number">1</span>
           <span class="step-icon">💡</span>
           <h3>Descreva sua ideia</h3>
-          <p>Conte para a IA o que você quer validar. Ela cria a landing page automaticamente.</p>
+          <p>Conte para a IA o que você quer validar. Ela cria a landing page automaticamente com copy persuasivo.</p>
         </div>
         <div class="step">
           <span class="step-number">2</span>
           <span class="step-icon">🚀</span>
           <h3>Colete métricas</h3>
-          <p>Compartilhe o link e veja em tempo real quem visita, clica e demonstra interesse.</p>
+          <p>Compartilhe o link e veja em tempo real quem visita, quanto tempo fica e quem se cadastra.</p>
         </div>
         <div class="step">
           <span class="step-number">3</span>
           <span class="step-icon">🧠</span>
           <h3>Receba insights</h3>
-          <p>A IA analisa os dados e te diz se a ideia tem potencial ou se precisa pivotar.</p>
+          <p>Pergunte à IA sobre seus dados. Ela analisa tudo e te diz se a ideia tem potencial.</p>
         </div>
       </div>
     </section>
 
-    <div class="social-proof animate-on-scroll">
-      <div class="avatars">
-        <div class="avatar">JM</div>
-        <div class="avatar">AS</div>
-        <div class="avatar">LK</div>
-        <div class="avatar">RF</div>
-        <div class="avatar">+</div>
-      </div>
-      <p>Junte-se aos <strong>early adopters</strong> que vão validar suas ideias primeiro</p>
-    </div>
-
-    <div class="form-card animate-on-scroll" id="form-section">
-      <div id="form-container">
-        <h2>🎯 Garanta seu acesso antecipado</h2>
-        <p>Seja um dos primeiros a testar. Vagas limitadas para early adopters.</p>
-        
-        <form id="lead-form">
-          <div class="form-group">
-            <label for="email">Seu melhor email *</label>
-            <input type="email" id="email" name="email" placeholder="voce@email.com" required autocomplete="email">
-          </div>
-          
-          <div class="form-row">
-            <div class="form-group">
-              <label for="nome">Seu nome</label>
-              <input type="text" id="nome" name="nome" placeholder="Como podemos te chamar?" autocomplete="given-name">
-            </div>
-            <div class="form-group">
-              <label for="perfil">Seu perfil</label>
-              <select id="perfil" name="perfil">
-                <option value="">Selecione...</option>
-                <option value="empreendedor">Empreendedor</option>
-                <option value="desenvolvedor">Desenvolvedor</option>
-                <option value="produto">Product Manager</option>
-                <option value="marketing">Marketing</option>
-                <option value="investidor">Investidor</option>
-                <option value="outro">Outro</option>
-              </select>
-            </div>
-          </div>
-          
-          <div class="form-group">
-            <label for="ideia">O que você gostaria de validar? (opcional)</label>
-            <textarea id="ideia" name="ideia" placeholder="Ex: Um app de delivery para pet shops, um SaaS de gestão para dentistas, uma plataforma de cursos..."></textarea>
-          </div>
-          
-          <button type="submit" class="btn-primary" id="submit-btn">
-            <span id="btn-text">Quero acesso antecipado</span>
-            <span class="spinner" id="btn-spinner" style="display: none;"></span>
-          </button>
-          
-          <p class="form-note">🔒 Sem spam. Prometemos avisar só quando lançar.</p>
-        </form>
-      </div>
-
-      <div class="success-message" id="success-message">
-        <div class="success-icon">🎉</div>
-        <h3>Você está na lista!</h3>
-        <p>Vamos te avisar assim que o IdeaRadar estiver disponível.<br>Enquanto isso, que tal compartilhar com outros empreendedores?</p>
-        
-        <div class="share-buttons">
-          <button class="share-btn" onclick="shareTwitter()">𝕏 Twitter</button>
-          <button class="share-btn" onclick="shareLinkedIn()">in LinkedIn</button>
-          <button class="share-btn" onclick="shareWhatsApp()">📱 WhatsApp</button>
-        </div>
-      </div>
-    </div>
-
-    <section class="features animate-on-scroll">
+    <section class="features animate-on-scroll" id="features">
       <div class="section-header">
-        <h2>O que você vai poder fazer</h2>
-        <p>Tudo que você precisa para validar ideias rapidamente</p>
+        <h2>Tudo que você precisa</h2>
+        <p>Para validar ideias rapidamente</p>
       </div>
       
       <div class="feature-grid">
         <div class="feature-item">
           <div class="icon">📝</div>
-          <h4>Landing Pages em Minutos</h4>
-          <p>Descreva sua ideia e a IA cria uma landing page profissional automaticamente.</p>
+          <h4>Landing Pages com IA</h4>
+          <p>Descreva sua ideia e a IA cria uma landing page profissional com textos persuasivos.</p>
         </div>
         <div class="feature-item">
           <div class="icon">📊</div>
           <h4>Métricas em Tempo Real</h4>
-          <p>Acompanhe visitas, cliques, conversões e comportamento dos visitantes.</p>
+          <p>Integração com Google Analytics. Veja visitas, tempo na página e conversões.</p>
         </div>
         <div class="feature-item">
           <div class="icon">🤖</div>
           <h4>Análise com IA</h4>
-          <p>Receba insights e recomendações baseadas nos dados coletados.</p>
+          <p>Pergunte qualquer coisa sobre seus dados. A IA responde com insights acionáveis.</p>
         </div>
         <div class="feature-item">
           <div class="icon">🎯</div>
           <h4>Coleta de Leads</h4>
-          <p>Capture emails de interessados e entenda quem é seu público.</p>
+          <p>Formulário integrado para capturar emails de interessados na sua ideia.</p>
+        </div>
+        <div class="feature-item">
+          <div class="icon">🎨</div>
+          <h4>7 Templates Visuais</h4>
+          <p>Escolha entre estilos como Stripe, Vercel, Gradient, Minimal e mais.</p>
         </div>
         <div class="feature-item">
           <div class="icon">⚡</div>
-          <h4>Múltiplas Variações</h4>
-          <p>Teste diferentes versões da sua proposta de valor.</p>
-        </div>
-        <div class="feature-item">
-          <div class="icon">💡</div>
-          <h4>Decisões com Dados</h4>
-          <p>Saiba se deve pivotar, persistir ou abandonar a ideia.</p>
+          <h4>Deploy Instantâneo</h4>
+          <p>Sua landing page fica online em segundos com URL personalizada.</p>
         </div>
       </div>
     </section>
 
-    <section class="faq animate-on-scroll">
+    <section class="pricing animate-on-scroll" id="pricing">
+      <div class="section-header">
+        <h2>Preços simples</h2>
+        <p>Compre créditos quando precisar. Sem mensalidade.</p>
+      </div>
+      
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <h3>Free</h3>
+          <div class="price free">Grátis</div>
+          <ul>
+            <li>3 Landing Pages</li>
+            <li>10 Análises com IA</li>
+            <li>Métricas básicas</li>
+            <li>1 Template</li>
+          </ul>
+          <a href="/login" class="btn-secondary">Começar grátis</a>
+        </div>
+        
+        <div class="pricing-card popular">
+          <span class="popular-badge">Mais Popular</span>
+          <h3>Pro Pack</h3>
+          <div class="price">R$ 79 <span>único</span></div>
+          <ul>
+            <li>50 Landing Pages</li>
+            <li>200 Análises com IA</li>
+            <li>Analytics avançado</li>
+            <li>Todos os templates</li>
+            <li>Suporte prioritário</li>
+          </ul>
+          <a href="/pricing" class="btn-primary">Comprar créditos</a>
+        </div>
+        
+        <div class="pricing-card">
+          <h3>Agency</h3>
+          <div class="price">R$ 199 <span>único</span></div>
+          <ul>
+            <li>200 Landing Pages</li>
+            <li>1000 Análises com IA</li>
+            <li>Analytics avançado</li>
+            <li>Todos os templates</li>
+            <li>Suporte prioritário</li>
+          </ul>
+          <a href="/pricing" class="btn-secondary">Ver detalhes</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq animate-on-scroll" id="faq">
       <div class="section-header">
         <h2>Perguntas Frequentes</h2>
       </div>
@@ -1047,29 +959,29 @@
       
       <div class="faq-item">
         <button class="faq-question" onclick="toggleFaq(this)">
-          <span>Quanto vai custar?</span>
+          <span>Os créditos expiram?</span>
           <span class="icon">+</span>
         </button>
         <div class="faq-answer">
-          <p>Teremos um plano gratuito para começar. Early adopters terão condições especiais. Entre na lista de espera para garantir seu desconto.</p>
+          <p>Não! Seus créditos nunca expiram. Use quando quiser, no seu ritmo. Sem pressa, sem pressão.</p>
         </div>
       </div>
       
       <div class="faq-item">
         <button class="faq-question" onclick="toggleFaq(this)">
-          <span>Quando vai lançar?</span>
+          <span>Como funciona a análise com IA?</span>
           <span class="icon">+</span>
         </button>
         <div class="faq-answer">
-          <p>Estamos trabalhando duro para lançar em breve. Quem está na lista de espera será os primeiros a saber e terá acesso prioritário.</p>
+          <p>Você pode perguntar qualquer coisa sobre seus dados: "Qual landing page está convertendo mais?", "Devo pivotar essa ideia?", "O que os leads estão sugerindo?". A IA analisa suas métricas e responde.</p>
         </div>
       </div>
     </section>
 
     <section class="cta-final animate-on-scroll">
-      <h2>Pronto para validar sua próxima ideia?</h2>
-      <p>Não perca mais tempo construindo algo que ninguém quer.</p>
-      <button class="btn-primary" onclick="scrollToForm()">Entrar na lista de espera</button>
+      <h2>Pronto para validar sua ideia?</h2>
+      <p>Comece grátis. Sem cartão de crédito. 3 landing pages + 10 análises para testar.</p>
+      <a href="/login" class="btn-primary">Criar conta grátis →</a>
     </section>
   </div>
 
@@ -1087,10 +999,9 @@
   <script>
     const CONFIG = {
       GA_MEASUREMENT_ID: 'G-P13EMWM4H3',
-      PROJECT_ID: 'idearadar-validation',
-      LP_ID: 'validacao-idearadar',
-      LP_SLUG: 'validacao',
-      API_URL: '/api/validation-leads'
+      PROJECT_ID: 'idearadar-home',
+      LP_ID: 'home-idearadar',
+      LP_SLUG: 'home'
     };
 
     window.dataLayer = window.dataLayer || [];
@@ -1101,7 +1012,6 @@
         'dimension1': 'landing_page_id',
         'dimension2': 'project_id',
         'dimension3': 'landing_page_slug',
-        'dimension4': 'user_profile',
         'dimension5': 'traffic_source'
       },
       'landing_page_id': CONFIG.LP_ID,
@@ -1123,8 +1033,6 @@
         if (domain.includes('facebook') || domain.includes('fb.')) return 'facebook';
         if (domain.includes('twitter') || domain.includes('t.co')) return 'twitter';
         if (domain.includes('linkedin')) return 'linkedin';
-        if (domain.includes('instagram')) return 'instagram';
-        if (domain.includes('youtube')) return 'youtube';
         return domain;
       } catch { return 'unknown'; }
     }
@@ -1135,23 +1043,19 @@
         landing_page_id: CONFIG.LP_ID,
         project_id: CONFIG.PROJECT_ID,
         landing_page_slug: CONFIG.LP_SLUG,
-        traffic_source: getTrafficSource(),
-        page_title: document.title,
-        timestamp: new Date().toISOString()
+        traffic_source: getTrafficSource()
       };
       gtag('event', eventName, enrichedParams);
     }
 
     // Scroll Tracking
-    const scrollThresholds = [25, 50, 75, 90, 100];
+    const scrollThresholds = [25, 50, 75, 100];
     const scrollTriggered = new Set();
-    let maxScroll = 0;
 
     window.addEventListener('scroll', () => {
       const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
       if (scrollHeight <= 0) return;
       const scrollPercent = Math.round((window.scrollY / scrollHeight) * 100);
-      maxScroll = Math.max(maxScroll, scrollPercent);
       scrollThresholds.forEach(threshold => {
         if (scrollPercent >= threshold && !scrollTriggered.has(threshold)) {
           scrollTriggered.add(threshold);
@@ -1160,161 +1064,22 @@
       });
     });
 
-    window.addEventListener('beforeunload', () => {
-      trackEvent('page_exit', { max_scroll_depth: maxScroll, time_on_page: Math.round(performance.now() / 1000) });
-    });
-
-    // Time Tracking
-    const timeThresholds = [10, 30, 60, 120, 180, 300];
-    let currentTimeIndex = 0;
-    function trackTimeOnPage() {
-      if (currentTimeIndex >= timeThresholds.length) return;
-      const seconds = timeThresholds[currentTimeIndex];
-      const delay = currentTimeIndex === 0 ? seconds : seconds - timeThresholds[currentTimeIndex - 1];
-      setTimeout(() => {
-        if (document.visibilityState === 'visible') {
-          trackEvent('time_on_page', { seconds: seconds, engaged: true });
-        }
-        currentTimeIndex++;
-        trackTimeOnPage();
-      }, delay * 1000);
-    }
-    trackTimeOnPage();
-
     // Visibility Observer
     const observeElements = () => {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            const section = entry.target.dataset.section;
-            if (section) {
-              trackEvent('section_view', { section_name: section });
-              observer.unobserve(entry.target);
-            }
             entry.target.classList.add('visible');
           }
         });
       }, { threshold: 0.2 });
       document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
-      document.querySelectorAll('[data-section]').forEach(el => observer.observe(el));
     };
 
-    document.addEventListener('DOMContentLoaded', () => {
-      document.querySelector('.hero')?.setAttribute('data-section', 'hero');
-      document.querySelector('.how-it-works')?.setAttribute('data-section', 'how-it-works');
-      document.querySelector('.form-card')?.setAttribute('data-section', 'form');
-      document.querySelector('.features')?.setAttribute('data-section', 'features');
-      document.querySelector('.faq')?.setAttribute('data-section', 'faq');
-      observeElements();
-    });
-
-    // Form Handling
-    const form = document.getElementById('lead-form');
-    const submitBtn = document.getElementById('submit-btn');
-    const btnText = document.getElementById('btn-text');
-    const btnSpinner = document.getElementById('btn-spinner');
-    const formContainer = document.getElementById('form-container');
-    const successMessage = document.getElementById('success-message');
-    const formFields = ['email', 'nome', 'perfil', 'ideia'];
-    const fieldInteractions = new Set();
-
-    formFields.forEach(field => {
-      const el = document.getElementById(field);
-      if (el) {
-        el.addEventListener('focus', () => {
-          if (!fieldInteractions.has(field)) {
-            fieldInteractions.add(field);
-            trackEvent('form_field_focus', { field_name: field });
-            if (field === 'email') trackEvent('form_start', { form_name: 'waitlist' });
-          }
-        });
-        el.addEventListener('blur', () => {
-          if (el.value.trim()) trackEvent('form_field_complete', { field_name: field, has_value: true });
-        });
-      }
-    });
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const email = document.getElementById('email').value.trim();
-      const nome = document.getElementById('nome').value.trim();
-      const perfil = document.getElementById('perfil').value;
-      const ideia = document.getElementById('ideia').value.trim();
-      
-      submitBtn.disabled = true;
-      btnText.style.display = 'none';
-      btnSpinner.style.display = 'block';
-      
-      trackEvent('cta_click', { cta_text: 'Quero acesso antecipado', cta_location: 'main_form' });
-
-      try {
-        const response = await fetch(CONFIG.API_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email, nome: nome || null, perfil: perfil || null, ideia: ideia || null,
-            source: 'validacao-lp',
-            metadata: {
-              page: 'validacao.html',
-              referrer: document.referrer || 'direct',
-              userAgent: navigator.userAgent,
-              screenSize: `${window.innerWidth}x${window.innerHeight}`,
-              utmSource: new URLSearchParams(window.location.search).get('utm_source'),
-              utmMedium: new URLSearchParams(window.location.search).get('utm_medium'),
-              utmCampaign: new URLSearchParams(window.location.search).get('utm_campaign'),
-              maxScrollDepth: maxScroll,
-              timeOnPage: Math.round(performance.now() / 1000),
-              fieldsCompleted: Array.from(fieldInteractions),
-              timestamp: new Date().toISOString()
-            }
-          })
-        });
-        await response.json();
-
-        trackEvent('generate_lead', {
-          method: 'email_form', has_name: !!nome, has_profile: !!perfil, has_idea: !!ideia,
-          profile_type: perfil || 'not_specified', value: 1, currency: 'BRL'
-        });
-        trackEvent('conversion', { send_to: CONFIG.GA_MEASUREMENT_ID, value: 1.0, currency: 'BRL' });
-
-        formContainer.style.display = 'none';
-        successMessage.classList.add('show');
-        trackEvent('form_complete', { form_name: 'waitlist', time_to_complete: Math.round(performance.now() / 1000) });
-      } catch (error) {
-        trackEvent('form_error', { error_message: 'submission_failed', form_name: 'waitlist' });
-        submitBtn.disabled = false;
-        btnText.style.display = 'inline';
-        btnSpinner.style.display = 'none';
-        alert('Ops! Erro ao enviar. Tente novamente.');
-      }
-    });
-
-    // Share Functions
-    const shareUrl = encodeURIComponent(window.location.href);
-    const shareText = encodeURIComponent('Descobri uma ferramenta para validar ideias de negócio antes de construir. Dá uma olhada! 🚀');
-
-    function shareTwitter() {
-      trackEvent('share', { method: 'twitter', content_type: 'waitlist' });
-      window.open(`https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`, '_blank');
-    }
-
-    function shareLinkedIn() {
-      trackEvent('share', { method: 'linkedin', content_type: 'waitlist' });
-      window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`, '_blank');
-    }
-
-    function shareWhatsApp() {
-      trackEvent('share', { method: 'whatsapp', content_type: 'waitlist' });
-      window.open(`https://wa.me/?text=${shareText}%20${shareUrl}`, '_blank');
-    }
-
     // UI Functions
-    function scrollToForm() {
-      trackEvent('cta_click', { cta_text: 'Scroll to form', cta_location: 'header' });
-      document.getElementById('form-section').scrollIntoView({ behavior: 'smooth' });
+    function scrollToTop() { 
+      window.scrollTo({ top: 0, behavior: 'smooth' }); 
     }
-
-    function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
     function toggleFaq(button) {
       const faqItem = button.parentElement;
@@ -1331,25 +1096,30 @@
       scrollTop.classList.toggle('visible', window.scrollY > 500);
     });
 
-    // Engagement Tracking
-    document.addEventListener('click', (e) => {
-      const target = e.target.closest('button, a');
-      if (target && !target.closest('form')) {
-        trackEvent('element_click', {
-          element_type: target.tagName.toLowerCase(),
-          element_text: target.textContent?.trim().substring(0, 50),
-          element_class: target.className
+    // Track CTA clicks
+    document.querySelectorAll('.btn-primary, .btn-secondary').forEach(btn => {
+      btn.addEventListener('click', () => {
+        trackEvent('cta_click', { 
+          cta_text: btn.textContent.trim(),
+          cta_href: btn.href || 'button'
         });
-      }
+      });
     });
 
-    document.addEventListener('copy', () => trackEvent('content_copy', { page_section: 'unknown' }));
-    document.addEventListener('visibilitychange', () => {
-      trackEvent('visibility_change', { state: document.visibilityState, time_on_page: Math.round(performance.now() / 1000) });
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
     });
 
     // Initialize
     document.addEventListener('DOMContentLoaded', () => {
+      observeElements();
       setTimeout(() => {
         document.querySelectorAll('.animate-on-scroll').forEach((el, index) => {
           if (el.getBoundingClientRect().top < window.innerHeight) {
