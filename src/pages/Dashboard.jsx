@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import Header from '../components/Header';
 import ProjectsList from '../components/ProjectsList';
@@ -10,15 +11,32 @@ import styles from './Dashboard.module.css';
 
 export default function Dashboard() {
   const { token } = useAuth();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('analysis'); // 'analysis' or 'landing-pages'
   const [projects, setProjects] = useState([]);
   const [loadingProjects, setLoadingProjects] = useState(true);
   const [showAddModal, setShowAddModal] = useState(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const [credits, setCredits] = useState(null);
 
   useEffect(() => {
     fetchProjects();
+    fetchCredits();
   }, [refreshTrigger]);
+
+  const fetchCredits = async () => {
+    try {
+      const response = await fetch('/api/usage', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setCredits(data.credits);
+      }
+    } catch (error) {
+      console.error('Error fetching credits:', error);
+    }
+  };
 
   const fetchProjects = async () => {
     try {
@@ -53,6 +71,31 @@ export default function Dashboard() {
   return (
     <div className={styles.container}>
       <Header onAddProject={() => setShowAddModal(true)} />
+      
+      {/* Card de Créditos */}
+      {credits && (
+        <div className={styles.creditsCard}>
+          <div className={styles.creditsInfo}>
+            <div className={styles.creditItem}>
+              <span className={styles.creditIcon}>🚀</span>
+              <div>
+                <span className={styles.creditValue}>{credits.lpRemaining}</span>
+                <span className={styles.creditLabel}>Landing Pages</span>
+              </div>
+            </div>
+            <div className={styles.creditItem}>
+              <span className={styles.creditIcon}>🤖</span>
+              <div>
+                <span className={styles.creditValue}>{credits.analysisRemaining}</span>
+                <span className={styles.creditLabel}>Análises IA</span>
+              </div>
+            </div>
+          </div>
+          <button className={styles.buyCreditsBtn} onClick={() => navigate('/pricing')}>
+            + Comprar créditos
+          </button>
+        </div>
+      )}
       
       {/* Tabs de navegação */}
       <div className={styles.tabs}>
