@@ -5,13 +5,14 @@
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/validacao", "destination": "/validacao.html" },
-    { "source": "/((?!api/|validacao).*)", "destination": "/validacao.html" }
+    { "source": "/", "destination": "/validacao.html" },
+    { "source": "/((?!api/|validacao|assets/).*)", "destination": "/validacao.html" }
   ],
   "redirects": [
-    { "source": "/login", "destination": "/validacao", "statusCode": 302 },
-    { "source": "/dashboard", "destination": "/validacao", "statusCode": 302 },
-    { "source": "/projects", "destination": "/validacao", "statusCode": 302 },
-    { "source": "/projects/(.*)", "destination": "/validacao", "statusCode": 302 }
+    { "source": "/login", "destination": "/", "statusCode": 302 },
+    { "source": "/dashboard", "destination": "/", "statusCode": 302 },
+    { "source": "/projects", "destination": "/", "statusCode": 302 },
+    { "source": "/projects/:path*", "destination": "/", "statusCode": 302 }
   ],
   "headers": [
     {
@@ -34,8 +35,5 @@
       "path": "/api/cron/sync-metrics",
       "schedule": "0 8 * * *"
     }
-  ],
-  "env": {
-    "MAINTENANCE_MODE": "true"
-  }
+  ]
 }
