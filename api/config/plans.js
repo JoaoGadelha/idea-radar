@@ -51,20 +51,6 @@ export const CREDIT_PACKAGES = {
       },
     },
   },
-  agency: {
-    name: 'Agency Pack',
-    price: { BRL: 199, USD: 79 },
-    credits: {
-      landingPages: 200,
-      analysis: 1000,
-    },
-    stripe: {
-      priceId: { 
-        BRL: process.env.STRIPE_PRICE_AGENCY_BRL,
-        USD: process.env.STRIPE_PRICE_AGENCY_USD,
-      },
-    },
-  },
 };
 
 // Features por "tier" (baseado na quantidade de créditos comprados historicamente)

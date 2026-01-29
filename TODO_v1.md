@@ -32,7 +32,6 @@ Justificativa: Validação de ideias é uso pontual, não contínuo. Créditos n
 🆓 Free         — 3 LPs + 10 análises IA
 💡 Starter      — R$29 → 15 LPs + 50 análises  
 🚀 Pro Pack     — R$79 → 50 LPs + 200 análises
-🏢 Agency Pack  — R$199 → 200 LPs + 1000 análises
 ```
 
 **Planos EUA ($):**
@@ -40,7 +39,6 @@ Justificativa: Validação de ideias é uso pontual, não contínuo. Créditos n
 🆓 Free         — 3 LPs + 10 análises IA
 💡 Starter      — $9 → 15 LPs + 50 análises  
 🚀 Pro Pack     — $29 → 50 LPs + 200 análises
-🏢 Agency Pack  — $79 → 200 LPs + 1000 análises
 ```
 
 **O que implementar:**
