@@ -1130,7 +1130,7 @@
     });
 
     // Redireciona usuários logados para o dashboard (somente se estiver na raiz)
-    const token = localStorage.getItem('idea-radar-token');
+    const token = localStorage.getItem('idearadar_token');
     if (token && window.location.pathname === '/') {
       window.location.href = '/dashboard';
     }

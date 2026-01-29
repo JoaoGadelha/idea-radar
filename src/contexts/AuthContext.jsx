@@ -47,7 +47,7 @@ export function AuthProvider({ children }) {
     setToken(authToken);
     setUser(userData);
     localStorage.setItem('idearadar_token', authToken);
-    navigate('/');
+    navigate('/dashboard');
   };
 
   const logout = () => {
