@@ -340,3 +340,95 @@
 .message[data-role="user"] .bubble:not(.bubbleEditing):hover {
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
 }
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .messages {
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+  }
+
+  .bubble {
+    max-width: 85%;
+    padding: 12px;
+    border-radius: 10px;
+  }
+
+  .form {
+    padding: 12px 16px;
+    gap: 8px;
+  }
+
+  .input {
+    padding: 12px;
+    font-size: 16px; /* Previne zoom no iOS */
+    min-height: 44px;
+  }
+
+  .send {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+  }
+
+  .suggestions {
+    padding: 0 16px 12px;
+    gap: 6px;
+  }
+
+  .suggestion {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .editContainer {
+    min-width: 200px;
+  }
+
+  .editInput {
+    padding: 10px;
+    font-size: 16px;
+  }
+
+  .editActions {
+    gap: 6px;
+  }
+
+  .editCancel,
+  .editSubmit {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  .versionNav {
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .versionBtn {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .bubble {
+    max-width: 90%;
+  }
+
+  .avatar {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+  }
+
+  .message {
+    gap: 8px;
+  }
+}

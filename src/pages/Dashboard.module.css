@@ -210,10 +210,17 @@
     flex-direction: column;
     gap: 16px;
     text-align: center;
+    padding: 16px;
   }
   
   .creditsInfo {
     gap: 24px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .creditValue {
+    font-size: 18px;
   }
 
   .content {
@@ -224,5 +231,76 @@
     width: 100%;
     border-right: none;
     border-bottom: 1px solid var(--border);
+    max-height: 40vh;
+    overflow-y: auto;
+  }
+
+  .sidebarHeader {
+    padding: 16px;
+  }
+
+  .sidebarHeader h2 {
+    font-size: 16px;
+  }
+
+  .tabs {
+    padding: 0 16px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tab {
+    padding: 12px 16px;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  .main {
+    min-height: 50vh;
+  }
+
+  .empty {
+    padding: 24px;
+  }
+
+  .emptyIcon {
+    font-size: 48px;
+  }
+
+  .empty h2 {
+    font-size: 20px;
+  }
+
+  .emptyButton {
+    padding: 12px 24px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .creditsInfo {
+    gap: 16px;
+  }
+
+  .creditItem {
+    gap: 8px;
+  }
+
+  .creditIcon {
+    font-size: 20px;
+  }
+
+  .creditValue {
+    font-size: 16px;
+  }
+
+  .creditLabel {
+    font-size: 11px;
+  }
+
+  .buyCreditsBtn,
+  .devResetBtn {
+    padding: 8px 16px;
+    font-size: 14px;
   }
 }

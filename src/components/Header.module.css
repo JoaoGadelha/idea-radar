@@ -185,6 +185,29 @@
 }
 
 /* Responsive */
+@media (max-width: 768px) {
+  .header {
+    padding: 0 16px;
+  }
+
+  .content {
+    height: 56px;
+  }
+
+  .logo {
+    gap: 8px;
+    font-size: 18px;
+  }
+
+  .icon {
+    font-size: 24px;
+  }
+
+  .actions {
+    gap: 8px;
+  }
+}
+
 @media (max-width: 640px) {
   .userName {
     display: none;
@@ -193,6 +216,18 @@
   .credits {
     gap: 8px;
     padding: 4px 8px;
+  }
+
+  .name {
+    display: none;
+  }
+
+  .userButton {
+    padding: 6px;
+  }
+
+  .chevron {
+    display: none;
   }
 }
 

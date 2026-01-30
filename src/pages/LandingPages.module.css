@@ -230,3 +230,60 @@
 .deleteBtn:hover {
   opacity: 1;
 }
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .header h1 {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .createButton {
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .list {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .card {
+    padding: 1.25rem;
+  }
+
+  .cardHeader h3 {
+    font-size: 1.1rem;
+  }
+
+  .empty {
+    padding: 2rem 1rem;
+  }
+
+  .emptyIcon {
+    font-size: 3rem;
+  }
+
+  .empty h2 {
+    font-size: 1.25rem;
+  }
+
+  .empty p {
+    font-size: 1rem;
+  }
+
+  .emptyButton {
+    width: 100%;
+    padding: 1rem;
+  }
+}

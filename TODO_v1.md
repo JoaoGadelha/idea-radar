@@ -327,13 +327,15 @@ FRAMEWORKS DE ANÁLISE:
 
 ### 10. Mobile Responsivo
 **Esforço:** 2-3h  
-**Status:** ⚠️ Parcial
+**Status:** ✅ Implementado
 
-**O que fazer:**
-- [ ] Revisar Dashboard em mobile
-- [ ] Sidebar colapsável
-- [ ] Chat adaptado para telas pequenas
-- [ ] Landing pages já são responsivas ✅
+**O que foi feito:**
+- [x] Revisar Dashboard em mobile (sidebar colapsável, tabs scrolláveis)
+- [x] Header responsivo (logo e menu adaptados)
+- [x] Chat adaptado para telas pequenas (bubbles, input, avatars)
+- [x] LandingPages lista responsiva (cards em coluna única)
+- [x] LandingPageBuilder mobile (layout empilhado, preview reduzido)
+- [x] Landing pages já são responsivas ✅
 
 ---
 
