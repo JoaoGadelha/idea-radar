@@ -620,7 +620,7 @@
   transform: translateY(-50%);
   font-size: 24px;
   color: var(--text-muted);
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .faqItem[open] .faqQuestion::after {
@@ -634,24 +634,27 @@
   background: var(--bg-elevated);
 }
 
+.faqAnswerWrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease-out;
+}
+
+.faqItem[open] .faqAnswerWrapper {
+  grid-template-rows: 1fr;
+}
+
 .faqAnswer {
-  padding: 0 24px 20px;
+  overflow: hidden;
+  padding: 0 24px;
   color: var(--text-muted);
   font-size: 15px;
   line-height: 1.7;
   margin: 0;
-  animation: fadeInDown 0.3s ease;
 }
 
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.faqItem[open] .faqAnswer {
+  padding-bottom: 20px;
 }
 
 /* ===== CTA Final ===== */

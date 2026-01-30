@@ -218,48 +218,58 @@ export default function Home() {
             <summary className={styles.faqQuestion}>
               Preciso saber programar?
             </summary>
-            <p className={styles.faqAnswer}>
-              Não! O IdeaRadar foi feito para não-técnicos.
-              Você só descreve sua ideia e a IA cria a landing e começa a coletar métricas automaticamente.
-              Nenhuma linha de código ou configuração necessária.
-            </p>
+            <div className={styles.faqAnswerWrapper}>
+              <p className={styles.faqAnswer}>
+                Não! O IdeaRadar foi feito para não-técnicos.
+                Você só descreve sua ideia e a IA cria a landing e começa a coletar métricas automaticamente.
+                Nenhuma linha de código ou configuração necessária.
+              </p>
+            </div>
           </details>
 
           <details className={styles.faqItem}>
             <summary className={styles.faqQuestion}>
               Quanto tempo leva para criar uma landing page?
             </summary>
-            <p className={styles.faqAnswer}>
-              Em média, 5–10 minutos. Você descreve a ideia, escolhe o template e a IA gera todo o conteúdo.
-              Ao publicar, as métricas já começam a ser coletadas automaticamente — sem configuração extra.
-            </p>
+            <div className={styles.faqAnswerWrapper}>
+              <p className={styles.faqAnswer}>
+                Em média, 5–10 minutos. Você descreve a ideia, escolhe o template e a IA gera todo o conteúdo.
+                Ao publicar, as métricas já começam a ser coletadas automaticamente — sem configuração extra.
+              </p>
+            </div>
           </details>
 
           <details className={styles.faqItem}>
             <summary className={styles.faqQuestion}>
               Preciso configurar métricas ou Google Analytics?
             </summary>
-            <p className={styles.faqAnswer}>
-              Não. Toda landing criada pelo IdeaRadar já sai com métricas automáticas desde o primeiro acesso. Visitas, tempo na página e conversões são coletados automaticamente. A integração com Google Analytics é opcional.
-            </p>
+            <div className={styles.faqAnswerWrapper}>
+              <p className={styles.faqAnswer}>
+                Não. Toda landing criada pelo IdeaRadar já sai com métricas automáticas desde o primeiro acesso. Visitas, tempo na página e conversões são coletados automaticamente. A integração com Google Analytics é opcional.
+              </p>
+            </div>
           </details>
 
           <details className={styles.faqItem}>
             <summary className={styles.faqQuestion}>
               Os créditos expiram?
             </summary>
-            <p className={styles.faqAnswer}>
-              Não! Seus créditos nunca expiram. Use quando quiser, no seu ritmo. Sem pressa, sem pressão.
-            </p>
+            <div className={styles.faqAnswerWrapper}>
+              <p className={styles.faqAnswer}>
+                Não! Seus créditos nunca expiram. Use quando quiser, no seu ritmo. Sem pressa, sem pressão.
+              </p>
+            </div>
           </details>
 
           <details className={styles.faqItem}>
             <summary className={styles.faqQuestion}>
               Como funciona a análise com IA?
             </summary>
-            <p className={styles.faqAnswer}>
-              Você pode perguntar qualquer coisa sobre seus dados: "Qual landing page está convertendo mais?", "Devo pivotar essa ideia?", "O que os leads estão sugerindo?". A IA analisa suas métricas e responde.
-            </p>
+            <div className={styles.faqAnswerWrapper}>
+              <p className={styles.faqAnswer}>
+                Você pode perguntar qualquer coisa sobre seus dados: "Qual landing page está convertendo mais?", "Devo pivotar essa ideia?", "O que os leads estão sugerindo?". A IA analisa suas métricas e responde.
+              </p>
+            </div>
           </details>
         </div>
       </section>
