@@ -11,6 +11,57 @@
   overflow: hidden; /* Prevenir scroll no container principal */
 }
 
+/* Mobile Warning Banner */
+.mobileWarning {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+  padding: 16px 20px;
+  border-bottom: 3px solid #b91c1c;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.mobileWarningContent {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.mobileWarningIcon {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.mobileWarningText {
+  flex: 1;
+}
+
+.mobileWarningText strong {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 4px;
+  font-weight: 700;
+}
+
+.mobileWarningText p {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.95;
+  line-height: 1.4;
+}
+
 .header {
   display: flex;
   justify-content: space-between;

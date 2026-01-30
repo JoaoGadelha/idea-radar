@@ -5,6 +5,12 @@ import TemplateSelector from './TemplateSelector';
 import { useAuth } from '../contexts/AuthContext';
 import { useLandingPageCreation } from '../contexts/LandingPageCreationContext';
 
+// Detectar se está em mobile
+const isMobileDevice = () => {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
+    || window.innerWidth < 768;
+};
+
 // Templates com cor fixa (não permitem customização)
 const TEMPLATES_WITH_FIXED_COLOR = {
   soft: '#ffb3c6',
@@ -842,6 +848,19 @@ Call to Action:
 
   return (
     <div className={`${styles.container} ${darkMode ? styles.darkMode : ''}`}>
+      {/* Banner Mobile Warning */}
+      {isMobileDevice() && (
+        <div className={styles.mobileWarning}>
+          <div className={styles.mobileWarningContent}>
+            <div className={styles.mobileWarningIcon}>📱</div>
+            <div className={styles.mobileWarningText}>
+              <strong>Builder não disponível em mobile</strong>
+              <p>Para criar landing pages, acesse pelo computador. A experiência de edição requer tela maior.</p>
+            </div>
+          </div>
+        </div>
+      )}
+      
       <div className={styles.header}>
         <div className={styles.headerLeft}>
           <h2>Nova Landing Page</h2>
