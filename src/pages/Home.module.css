@@ -596,7 +596,7 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-.faqItem[open] {
+.faqOpen {
   border-color: var(--primary);
 }
 
@@ -607,40 +607,39 @@
   font-weight: 600;
   color: var(--text);
   cursor: pointer;
-  list-style: none;
-  transition: all 0.3s ease;
-  position: relative;
+  background: transparent;
+  border: none;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.3s ease;
+  font-family: inherit;
 }
-
-.faqQuestion::after {
-  content: '+';
-  position: absolute;
-  right: 24px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 24px;
-  color: var(--text-muted);
-  transition: transform 0.3s ease, color 0.3s ease;
-}
-
-.faqItem[open] .faqQuestion::after {
-  transform: translateY(-50%) rotate(45deg);
-  color: var(--primary);
-}
-
-.faqQuestion::-webkit-details-marker { display: none; }
 
 .faqQuestion:hover { 
   background: var(--bg-elevated);
 }
 
+.faqIcon {
+  font-size: 24px;
+  color: var(--text-muted);
+  transition: transform 0.3s ease, color 0.3s ease;
+  flex-shrink: 0;
+}
+
+.faqOpen .faqIcon {
+  transform: rotate(45deg);
+  color: var(--primary);
+}
+
 .faqAnswerWrapper {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 0.3s ease-out;
+  transition: grid-template-rows 0.4s ease-out;
 }
 
-.faqItem[open] .faqAnswerWrapper {
+.faqOpen .faqAnswerWrapper {
   grid-template-rows: 1fr;
 }
 
@@ -653,7 +652,7 @@
   margin: 0;
 }
 
-.faqItem[open] .faqAnswer {
+.faqOpen .faqAnswer {
   padding-bottom: 20px;
 }
 
@@ -743,76 +742,48 @@
   }
 }
 
-/* Scroll animations */
-.hero {
-  animation: fadeInUp 0.8s ease-out;
+/* ===== Scroll-triggered animations ===== */
+.animateOnScroll {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
 
-.statsBar {
-  animation: fadeInUp 0.8s ease-out 0.2s backwards;
+.animateOnScroll.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.cardsGrid {
-  animation: fadeInUp 0.8s ease-out 0.3s backwards;
-}
-
-.howItWorks {
-  animation: fadeInUp 0.8s ease-out 0.4s backwards;
-}
-
-.features {
-  animation: fadeInUp 0.8s ease-out 0.5s backwards;
-}
-
-.pricing {
-  animation: fadeInUp 0.8s ease-out 0.6s backwards;
-}
-
-.faq {
-  animation: fadeInUp 0.8s ease-out 0.7s backwards;
-}
-
-.ctaFinal {
-  animation: scaleIn 0.8s ease-out 0.8s backwards;
-}
-
-/* Stagger animation for children */
-.step {
+/* Stagger delay for children when parent becomes visible */
+.visible .step,
+.visible .featureItem,
+.visible .pricingCard,
+.visible .faqItem {
   animation: fadeInUp 0.6s ease-out backwards;
 }
 
-.step:nth-child(1) { animation-delay: 0.1s; }
-.step:nth-child(2) { animation-delay: 0.2s; }
-.step:nth-child(3) { animation-delay: 0.3s; }
+.visible .step:nth-child(1),
+.visible .featureItem:nth-child(1),
+.visible .pricingCard:nth-child(1),
+.visible .faqItem:nth-child(1) { animation-delay: 0.1s; }
 
-.featureItem {
-  animation: fadeInUp 0.6s ease-out backwards;
-}
+.visible .step:nth-child(2),
+.visible .featureItem:nth-child(2),
+.visible .pricingCard:nth-child(2),
+.visible .faqItem:nth-child(2) { animation-delay: 0.2s; }
 
-.featureItem:nth-child(1) { animation-delay: 0.1s; }
-.featureItem:nth-child(2) { animation-delay: 0.2s; }
-.featureItem:nth-child(3) { animation-delay: 0.3s; }
-.featureItem:nth-child(4) { animation-delay: 0.4s; }
-.featureItem:nth-child(5) { animation-delay: 0.5s; }
-.featureItem:nth-child(6) { animation-delay: 0.6s; }
+.visible .step:nth-child(3),
+.visible .featureItem:nth-child(3),
+.visible .pricingCard:nth-child(3),
+.visible .faqItem:nth-child(3) { animation-delay: 0.3s; }
 
-.pricingCard {
-  animation: fadeInUp 0.6s ease-out backwards;
-}
+.visible .featureItem:nth-child(4),
+.visible .faqItem:nth-child(4) { animation-delay: 0.4s; }
 
-.pricingCard:nth-child(1) { animation-delay: 0.1s; }
-.pricingCard:nth-child(2) { animation-delay: 0.2s; }
-.pricingCard:nth-child(3) { animation-delay: 0.3s; }
+.visible .featureItem:nth-child(5),
+.visible .faqItem:nth-child(5) { animation-delay: 0.5s; }
 
-.faqItem {
-  animation: fadeInUp 0.5s ease-out backwards;
-}
-
-.faqItem:nth-child(1) { animation-delay: 0.1s; }
-.faqItem:nth-child(2) { animation-delay: 0.2s; }
-.faqItem:nth-child(3) { animation-delay: 0.3s; }
-.faqItem:nth-child(4) { animation-delay: 0.4s; }
-.faqItem:nth-child(5) { animation-delay: 0.5s; }
+.visible .featureItem:nth-child(6) { animation-delay: 0.6s; }
 
 /* ===== Mobile Responsive ===== */
 @media (max-width: 640px) {

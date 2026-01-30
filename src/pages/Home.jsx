@@ -1,14 +1,42 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useEffect, useRef, useState } from 'react';
 import styles from './Home.module.css';
 
 export default function Home() {
   const navigate = useNavigate();
   const { token } = useAuth();
+  const [openFaq, setOpenFaq] = useState(null);
 
   const handleCTA = () => {
     navigate(token ? '/dashboard' : '/login');
   };
+
+  const toggleFaq = (index) => {
+    setOpenFaq(openFaq === index ? null : index);
+  };
+
+  // Intersection Observer para animações de scroll
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add(styles.visible);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    const animatedElements = document.querySelectorAll(`.${styles.animateOnScroll}`);
+    animatedElements.forEach(el => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -29,7 +57,7 @@ export default function Home() {
       </header>
 
       {/* Hero */}
-      <section className={styles.hero}>
+      <section className={`${styles.hero} ${styles.animateOnScroll}`}>
         <span className={styles.badge}>
           ✨ Comece grátis — 3 landing pages + 10 análises
         </span>
@@ -50,7 +78,7 @@ export default function Home() {
       </section>
 
       {/* Stats Bar */}
-      <div className={styles.statsBar}>
+      <div className={`${styles.statsBar} ${styles.animateOnScroll}`}>
         <div className={styles.statItem}>
           <div className={styles.statNumber}>42%</div>
           <div className={styles.statLabel}>das startups falham por<br/>falta de mercado</div>
@@ -66,7 +94,7 @@ export default function Home() {
       </div>
 
       {/* Problema e Solução */}
-      <div className={styles.cardsGrid}>
+      <div className={`${styles.cardsGrid} ${styles.animateOnScroll}`}>
         <div className={styles.problemBox}>
           <h2><span className={styles.icon}>😩</span> O problema</h2>
           <ul className={styles.problemList}>
@@ -89,7 +117,7 @@ export default function Home() {
       </div>
 
       {/* Como funciona */}
-      <section className={styles.howItWorks} id="how-it-works">
+      <section className={`${styles.howItWorks} ${styles.animateOnScroll}`} id="how-it-works">
         <div className={styles.sectionHeader}>
           <h2>Como funciona</h2>
           <p>Validação em 3 passos simples</p>
@@ -118,7 +146,7 @@ export default function Home() {
       </section>
 
       {/* Features */}
-      <section className={styles.features} id="features">
+      <section className={`${styles.features} ${styles.animateOnScroll}`} id="features">
         <div className={styles.sectionHeader}>
           <h2>Tudo que você precisa</h2>
           <p>Para validar ideias rapidamente</p>
@@ -159,7 +187,7 @@ export default function Home() {
       </section>
 
       {/* Pricing */}
-      <section className={styles.pricing} id="pricing">
+      <section className={`${styles.pricing} ${styles.animateOnScroll}`} id="pricing">
         <div className={styles.sectionHeader}>
           <h2>Preços simples</h2>
           <p>Compre créditos quando precisar. Sem mensalidade.</p>
@@ -208,74 +236,56 @@ export default function Home() {
       </section>
 
       {/* FAQ */}
-      <section className={styles.faq} id="faq">
+      <section className={`${styles.faq} ${styles.animateOnScroll}`} id="faq">
         <div className={styles.sectionHeader}>
           <h2>Perguntas Frequentes</h2>
         </div>
         
         <div className={styles.faqList}>
-          <details className={styles.faqItem}>
-            <summary className={styles.faqQuestion}>
-              Preciso saber programar?
-            </summary>
-            <div className={styles.faqAnswerWrapper}>
-              <p className={styles.faqAnswer}>
-                Não! O IdeaRadar foi feito para não-técnicos.
-                Você só descreve sua ideia e a IA cria a landing e começa a coletar métricas automaticamente.
-                Nenhuma linha de código ou configuração necessária.
-              </p>
+          {[
+            {
+              question: 'Preciso saber programar?',
+              answer: 'Não! O IdeaRadar foi feito para não-técnicos. Você só descreve sua ideia e a IA cria a landing e começa a coletar métricas automaticamente. Nenhuma linha de código ou configuração necessária.'
+            },
+            {
+              question: 'Quanto tempo leva para criar uma landing page?',
+              answer: 'Em média, 5–10 minutos. Você descreve a ideia, escolhe o template e a IA gera todo o conteúdo. Ao publicar, as métricas já começam a ser coletadas automaticamente — sem configuração extra.'
+            },
+            {
+              question: 'Preciso configurar métricas ou Google Analytics?',
+              answer: 'Não. Toda landing criada pelo IdeaRadar já sai com métricas automáticas desde o primeiro acesso. Visitas, tempo na página e conversões são coletados automaticamente. A integração com Google Analytics é opcional.'
+            },
+            {
+              question: 'Os créditos expiram?',
+              answer: 'Não! Seus créditos nunca expiram. Use quando quiser, no seu ritmo. Sem pressa, sem pressão.'
+            },
+            {
+              question: 'Como funciona a análise com IA?',
+              answer: 'Você pode perguntar qualquer coisa sobre seus dados: "Qual landing page está convertendo mais?", "Devo pivotar essa ideia?", "O que os leads estão sugerindo?". A IA analisa suas métricas e responde.'
+            }
+          ].map((item, index) => (
+            <div 
+              key={index} 
+              className={`${styles.faqItem} ${openFaq === index ? styles.faqOpen : ''}`}
+            >
+              <button 
+                className={styles.faqQuestion}
+                onClick={() => toggleFaq(index)}
+                aria-expanded={openFaq === index}
+              >
+                <span>{item.question}</span>
+                <span className={styles.faqIcon}>+</span>
+              </button>
+              <div className={styles.faqAnswerWrapper}>
+                <p className={styles.faqAnswer}>{item.answer}</p>
+              </div>
             </div>
-          </details>
-
-          <details className={styles.faqItem}>
-            <summary className={styles.faqQuestion}>
-              Quanto tempo leva para criar uma landing page?
-            </summary>
-            <div className={styles.faqAnswerWrapper}>
-              <p className={styles.faqAnswer}>
-                Em média, 5–10 minutos. Você descreve a ideia, escolhe o template e a IA gera todo o conteúdo.
-                Ao publicar, as métricas já começam a ser coletadas automaticamente — sem configuração extra.
-              </p>
-            </div>
-          </details>
-
-          <details className={styles.faqItem}>
-            <summary className={styles.faqQuestion}>
-              Preciso configurar métricas ou Google Analytics?
-            </summary>
-            <div className={styles.faqAnswerWrapper}>
-              <p className={styles.faqAnswer}>
-                Não. Toda landing criada pelo IdeaRadar já sai com métricas automáticas desde o primeiro acesso. Visitas, tempo na página e conversões são coletados automaticamente. A integração com Google Analytics é opcional.
-              </p>
-            </div>
-          </details>
-
-          <details className={styles.faqItem}>
-            <summary className={styles.faqQuestion}>
-              Os créditos expiram?
-            </summary>
-            <div className={styles.faqAnswerWrapper}>
-              <p className={styles.faqAnswer}>
-                Não! Seus créditos nunca expiram. Use quando quiser, no seu ritmo. Sem pressa, sem pressão.
-              </p>
-            </div>
-          </details>
-
-          <details className={styles.faqItem}>
-            <summary className={styles.faqQuestion}>
-              Como funciona a análise com IA?
-            </summary>
-            <div className={styles.faqAnswerWrapper}>
-              <p className={styles.faqAnswer}>
-                Você pode perguntar qualquer coisa sobre seus dados: "Qual landing page está convertendo mais?", "Devo pivotar essa ideia?", "O que os leads estão sugerindo?". A IA analisa suas métricas e responde.
-              </p>
-            </div>
-          </details>
+          ))}
         </div>
       </section>
 
       {/* CTA Final */}
-      <section className={styles.ctaFinal}>
+      <section className={`${styles.ctaFinal} ${styles.animateOnScroll}`}>
         <h2>Pronto para validar sua ideia?</h2>
         <p>Comece grátis. Sem cartão de crédito. 3 landing pages + 10 análises para testar.</p>
         <button className={styles.btnPrimary} onClick={handleCTA}>
