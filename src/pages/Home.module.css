@@ -640,10 +640,10 @@
   font-size: 15px;
   line-height: 1.7;
   margin: 0;
-  animation: fadeIn 0.3s ease;
+  animation: fadeInDown 0.3s ease;
 }
 
-@keyframes fadeIn {
+@keyframes fadeInDown {
   from {
     opacity: 0;
     transform: translateY(-10px);
@@ -706,6 +706,110 @@
 }
 
 .footerLinks a:hover { color: var(--primary); }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Scroll animations */
+.hero {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.statsBar {
+  animation: fadeInUp 0.8s ease-out 0.2s backwards;
+}
+
+.cardsGrid {
+  animation: fadeInUp 0.8s ease-out 0.3s backwards;
+}
+
+.howItWorks {
+  animation: fadeInUp 0.8s ease-out 0.4s backwards;
+}
+
+.features {
+  animation: fadeInUp 0.8s ease-out 0.5s backwards;
+}
+
+.pricing {
+  animation: fadeInUp 0.8s ease-out 0.6s backwards;
+}
+
+.faq {
+  animation: fadeInUp 0.8s ease-out 0.7s backwards;
+}
+
+.ctaFinal {
+  animation: scaleIn 0.8s ease-out 0.8s backwards;
+}
+
+/* Stagger animation for children */
+.step {
+  animation: fadeInUp 0.6s ease-out backwards;
+}
+
+.step:nth-child(1) { animation-delay: 0.1s; }
+.step:nth-child(2) { animation-delay: 0.2s; }
+.step:nth-child(3) { animation-delay: 0.3s; }
+
+.featureItem {
+  animation: fadeInUp 0.6s ease-out backwards;
+}
+
+.featureItem:nth-child(1) { animation-delay: 0.1s; }
+.featureItem:nth-child(2) { animation-delay: 0.2s; }
+.featureItem:nth-child(3) { animation-delay: 0.3s; }
+.featureItem:nth-child(4) { animation-delay: 0.4s; }
+.featureItem:nth-child(5) { animation-delay: 0.5s; }
+.featureItem:nth-child(6) { animation-delay: 0.6s; }
+
+.pricingCard {
+  animation: fadeInUp 0.6s ease-out backwards;
+}
+
+.pricingCard:nth-child(1) { animation-delay: 0.1s; }
+.pricingCard:nth-child(2) { animation-delay: 0.2s; }
+.pricingCard:nth-child(3) { animation-delay: 0.3s; }
+
+.faqItem {
+  animation: fadeInUp 0.5s ease-out backwards;
+}
+
+.faqItem:nth-child(1) { animation-delay: 0.1s; }
+.faqItem:nth-child(2) { animation-delay: 0.2s; }
+.faqItem:nth-child(3) { animation-delay: 0.3s; }
+.faqItem:nth-child(4) { animation-delay: 0.4s; }
+.faqItem:nth-child(5) { animation-delay: 0.5s; }
 
 /* ===== Mobile Responsive ===== */
 @media (max-width: 640px) {
