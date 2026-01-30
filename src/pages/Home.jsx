@@ -88,6 +88,57 @@ export default function Home() {
           <p className={styles.socialProofAuthor}>— Fundador de startup validada</p>
         </section>
 
+        {/* FAQ */}
+        <section className={styles.faq}>
+          <h2 className={styles.faqTitle}>Perguntas Frequentes</h2>
+          <div className={styles.faqList}>
+            <details className={styles.faqItem}>
+              <summary className={styles.faqQuestion}>
+                Preciso saber programar?
+              </summary>
+              <p className={styles.faqAnswer}>
+                Não! O IdeaRadar foi feito para não-técnicos. Você só precisa descrever sua ideia e a IA faz o resto. Nenhuma linha de código necessária.
+              </p>
+            </details>
+
+            <details className={styles.faqItem}>
+              <summary className={styles.faqQuestion}>
+                Quanto tempo leva para criar uma landing page?
+              </summary>
+              <p className={styles.faqAnswer}>
+                Em média, 5-10 minutos. Você descreve a ideia, escolhe o template e a IA gera todo o conteúdo. É só revisar e publicar.
+              </p>
+            </details>
+
+            <details className={styles.faqItem}>
+              <summary className={styles.faqQuestion}>
+                Preciso configurar métricas ou Google Analytics?
+              </summary>
+              <p className={styles.faqAnswer}>
+                Não. Toda landing criada pelo IdeaRadar já sai com métricas automáticas desde o primeiro acesso. Visitas, tempo na página e conversões são coletados automaticamente. A integração com Google Analytics é opcional.
+              </p>
+            </details>
+
+            <details className={styles.faqItem}>
+              <summary className={styles.faqQuestion}>
+                Os créditos expiram?
+              </summary>
+              <p className={styles.faqAnswer}>
+                Não! Seus créditos nunca expiram. Use quando quiser, no seu ritmo. Sem pressa, sem pressão.
+              </p>
+            </details>
+
+            <details className={styles.faqItem}>
+              <summary className={styles.faqQuestion}>
+                Como funciona a análise com IA?
+              </summary>
+              <p className={styles.faqAnswer}>
+                Você pode perguntar qualquer coisa sobre seus dados: "Qual landing page está convertendo mais?", "Devo pivotar essa ideia?", "O que os leads estão sugerindo?". A IA analisa suas métricas e responde.
+              </p>
+            </details>
+          </div>
+        </section>
+
         {/* CTA Final */}
         <section className={styles.finalCta}>
           <h2>Pronto para validar sua ideia?</h2>
