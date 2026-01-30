@@ -106,7 +106,8 @@ export default function Home() {
                 Quanto tempo leva para criar uma landing page?
               </summary>
               <p className={styles.faqAnswer}>
-                Em média, 5-10 minutos. Você descreve a ideia, escolhe o template e a IA gera todo o conteúdo. É só revisar e publicar.
+                Em média, 5–10 minutos. Você descreve a ideia, escolhe o template e a IA gera todo o conteúdo.
+                Ao publicar, as métricas já começam a ser coletadas automaticamente — sem configuração extra.
               </p>
             </details>
 
