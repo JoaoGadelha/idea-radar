@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import Home from './pages/Home';
 import Login from './pages/Login';
 import Verify from './pages/Verify';
 import Dashboard from './pages/Dashboard';
@@ -30,20 +31,13 @@ function App() {
   return (
     <AuthProvider>
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/verify" element={<Verify />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/l/:slug" element={<PublicLandingPage />} />
         <Route
           path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/"
           element={
             <ProtectedRoute>
               <Dashboard />
