@@ -295,12 +295,15 @@ FRAMEWORKS DE ANÁLISE:
 
 ### 7. Notificação Quando Lead Chega
 **Esforço:** 1-2h  
-**Status:** ❌ Não implementado
+**Status:** ✅ Implementado
 
-**O que fazer:**
-- [ ] Enviar email via Resend quando novo lead cadastrar
-- [ ] Opção de habilitar/desabilitar por projeto
-- [ ] Template de email bonito com dados do lead
+**O que foi feito:**
+- [x] Enviar email via Resend quando novo lead cadastrar
+- [x] Template de email bonito com dados do lead (email, nome, telefone, qualidade, device, origem)
+- [x] Incluir sugestão/comentário se houver
+- [x] Link direto para o dashboard
+- [x] Envio não-bloqueante (não atrasa resposta ao lead)
+- [ ] Opção de habilitar/desabilitar por projeto *(deixar para v1.1)*
 
 ---
 

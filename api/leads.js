@@ -7,8 +7,9 @@
  * Não requer autenticação (é público)
  */
 
-import { saveLead, getProjectById } from '../src/services/database.js';
+import { saveLead, getProjectById, getUserById } from '../src/services/database.js';
 import { checkMaintenance } from './middleware/maintenance.js';
+import { sendLeadNotification } from './services/emailService.js';
 
 export default async function handler(req, res) {
   // Bloquear se em modo de manutenção (retorna 404)
@@ -58,6 +59,22 @@ export default async function handler(req, res) {
     );
 
     console.log(`[Leads] New lead for project ${projectId}: ${nome || email} | quality: ${metadata?.email?.type || 'unknown'}`);
+
+    // 📧 Enviar notificação por email para o dono do projeto
+    try {
+      const owner = await getUserById(project.user_id);
+      if (owner?.email) {
+        // Não bloquear a resposta - enviar em background
+        sendLeadNotification(
+          { email: email.toLowerCase().trim(), nome, telefone, sugestao, metadata },
+          project,
+          owner.email
+        ).catch(err => console.error('[Leads] Email notification failed:', err));
+      }
+    } catch (emailError) {
+      console.error('[Leads] Error getting owner for notification:', emailError);
+      // Não falhar por causa do email - lead já foi salvo
+    }
 
     return res.status(201).json({
       success: true,
