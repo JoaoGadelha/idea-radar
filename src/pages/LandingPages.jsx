@@ -36,6 +36,15 @@ export default function LandingPages() {
   };
 
   const handleCreate = async () => {
+    // Verificar se está em mobile
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
+      || window.innerWidth < 768;
+    
+    if (isMobile) {
+      alert('📱 Builder não disponível em mobile\n\nPara criar landing pages, acesse pelo computador.\nA experiência de edição requer tela maior.');
+      return;
+    }
+
     // Verificar créditos antes de abrir o builder
     try {
       const res = await fetch('/api/usage', {
