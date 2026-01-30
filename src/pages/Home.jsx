@@ -219,7 +219,9 @@ export default function Home() {
               Preciso saber programar?
             </summary>
             <p className={styles.faqAnswer}>
-              Não! O IdeaRadar foi feito para não-técnicos. Você só precisa descrever sua ideia e a IA faz o resto. Nenhuma linha de código necessária.
+              Não! O IdeaRadar foi feito para não-técnicos.
+              Você só descreve sua ideia e a IA cria a landing e começa a coletar métricas automaticamente.
+              Nenhuma linha de código ou configuração necessária.
             </p>
           </details>
 
