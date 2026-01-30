@@ -55,24 +55,27 @@ export default function Home() {
           </div>
         </section>
 
-        {/* How it works */}
-        <section className={styles.howItWorks}>
-          <h2>Como funciona</h2>
-          <div className={styles.steps}>
-            <div className={styles.step}>
-              <div className={styles.stepIcon}>🤖</div>
-              <h3>1. IA cria sua landing page</h3>
-              <p>Descreva sua ideia e a IA gera uma landing page de validação em 2 minutos</p>
+        {/* Problema e Solução */}
+        <section className={styles.problemSolution}>
+          <div className={styles.cardsGrid}>
+            <div className={styles.problemBox}>
+              <h2><span className={styles.icon}>😩</span> O problema</h2>
+              <ul className={styles.problemList}>
+                <li>3–6 meses desenvolvendo um MVP que ninguém usa</li>
+                <li>Decisões baseadas em achismo ou feedback enviesado</li>
+                <li>Pesquisas de mercado caras, lentas e inconclusivas</li>
+                <li>Lançar e perceber tarde demais que não há demanda</li>
+              </ul>
             </div>
-            <div className={styles.step}>
-              <div className={styles.stepIcon}>📊</div>
-              <h3>2. Colete dados reais</h3>
-              <p>Compartilhe o link e veja quem se interessa. Métricas automáticas via GA4</p>
-            </div>
-            <div className={styles.step}>
-              <div className={styles.stepIcon}>💡</div>
-              <h3>3. Análise inteligente</h3>
-              <p>IA analisa suas métricas e diz se sua ideia validou ou precisa de ajustes</p>
+
+            <div className={styles.solutionBox}>
+              <h2><span className={styles.icon}>✨</span> A solução</h2>
+              <ul className={styles.solutionList}>
+                <li>Landing page de validação pronta em minutos</li>
+                <li>Métricas reais: visitas, cliques e conversões</li>
+                <li>IA analisa os dados e aponta sinais de demanda</li>
+                <li>Decida rápido se vale continuar ou matar a ideia</li>
+              </ul>
             </div>
           </div>
         </section>
@@ -83,33 +86,6 @@ export default function Home() {
             "Economizei 4 meses. Descobri em 1 semana que ninguém queria meu SaaS de agendamento. Pivotei para outra ideia que validou em 3 dias."
           </p>
           <p className={styles.socialProofAuthor}>— Fundador de startup validada</p>
-        </section>
-
-        {/* Features */}
-        <section className={styles.features}>
-          <h2>Por que validar antes de construir?</h2>
-          <div className={styles.featureGrid}>
-            <div className={styles.feature}>
-              <div className={styles.featureIcon}>⏱️</div>
-              <h3>Economize meses de desenvolvimento</h3>
-              <p>63% dos produtos falham por falta de demanda real. Descubra ANTES de codificar</p>
-            </div>
-            <div className={styles.feature}>
-              <div className={styles.featureIcon}>💰</div>
-              <h3>Evite gastar milhares à toa</h3>
-              <p>R$29 para validar vs R$50.000+ para construir algo que ninguém quer</p>
-            </div>
-            <div className={styles.feature}>
-              <div className={styles.featureIcon}>🎯</div>
-              <h3>Decisões baseadas em dados</h3>
-              <p>Não confie em opiniões de amigos. Meça interesse real do mercado</p>
-            </div>
-            <div className={styles.feature}>
-              <div className={styles.featureIcon}>🚀</div>
-              <h3>Valide múltiplas ideias rápido</h3>
-              <p>Teste 5 ideias em 1 semana. Construa apenas a que validar</p>
-            </div>
-          </div>
         </section>
 
         {/* CTA Final */}
