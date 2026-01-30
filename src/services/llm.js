@@ -55,7 +55,7 @@ export async function callLLM(prompt, options = {}) {
       model,
       generationConfig: {
         temperature,
-        maxTokens,
+        maxOutputTokens: maxTokens, // Gemini usa maxOutputTokens, não maxTokens
       }
     });
 
