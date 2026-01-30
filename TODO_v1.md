@@ -235,33 +235,27 @@ Usuário clica em plano → Cria Checkout Session (currency baseada no país)
 
 ### 6. Refinar Análise da IA
 **Esforço:** 4-6h  
-**Status:** ❌ Prompt básico
+**Status:** ✅ Implementado
 
 #### 6.1 Perguntas que o usuário quer responder:
 
 1. **"Essa ideia valida ou não?"** (binário)
-   - Leads > 0 com esforço mínimo = validou
-   - IA deveria dar um score de 1-10 de validação
+   - [x] IA dá score de 1-10 de validação
 
 2. **"Qual das minhas ideias performou melhor?"** (ranking)
-   - Comparativo lado a lado
-   - Não só conversão, mas qualidade do lead
+   - [x] Comparativo lado a lado com ranking
 
 3. **"Por que essa LP não converteu?"** (diagnóstico)
-   - Muito bounce? → Copy/headline ruim
-   - Tempo baixo? → Não engajou
-   - Scroll alto mas sem conversão? → CTA fraco
+   - [x] Análise de tempo, scroll, CTA
 
 4. **"O que os leads estão pedindo?"** (qualitativo)
-   - Análise de sugestões agrupadas por tema
-   - Ex: "70% dos leads pediram integração com Notion"
+   - [x] Análise de sugestões agrupadas por tema
 
 5. **"Vale a pena continuar investindo nisso?"** (decisão)
-   - ROI projetado se continuar
-   - Comparar com outras ideias
+   - [x] Recomendação: CONTINUAR/AJUSTAR/PIVOTAR/ABANDONAR
 
 6. **"Quando devo desistir?"** (kill switch)
-   - 500 visitas e 0 leads? IA deveria dizer: "Pivote ou abandone"
+   - [x] IA diz quando abandonar (ex: 100+ sessões, 0 leads)
 
 #### 6.2 Frameworks de análise a adicionar no prompt:
 
