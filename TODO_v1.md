@@ -10,10 +10,57 @@
 
 | Categoria | Itens | Esforço Total |
 |-----------|-------|---------------|
+| � Pré-Launch | 6 | ~4h |
 | 🔴 Crítico | 4 | ~6h |
 | 🟡 Importante | 3 | ~10h |
 | 🟢 Desejável | 4 | ~8h |
-| **Total** | **11** | **~24h** |
+| **Total** | **17** | **~28h** |
+
+---
+
+## 🚨 Pré-Launch Checklist (Não lançar sem isso!)
+
+### Checklist Final de Lançamento
+**Esforço:** 3-4h  
+**Status:** ❌ Pendente
+
+**Tarefas obrigatórias antes do lançamento:**
+
+- [ ] **Testar fluxo de compras fora do modo teste**
+  - Colocar um valor mínimo em reais (ex: R$1 para testar)
+  - Verificar se webhook processa corretamente
+  - Confirmar que créditos são creditados
+
+- [ ] **Testar tracking end-to-end**
+  - Criar 3 landing pages diferentes
+  - Gerar alguns leads de teste
+  - Verificar se métricas estão sendo capturadas
+  - Verificar se o chat IA enxerga as métricas
+  - Confirmar notificações de email funcionando
+
+- [ ] **Remover dólares da interface (lançar só no Brasil)**
+  - Esconder toggle de moeda na página de pricing
+  - Remover menções a USD em todos os componentes
+  - Deixar apenas preços em BRL visíveis
+  - Manter código de USD comentado para futuro
+
+- [ ] **Polish mobile**
+  - Revisar todas as telas no mobile (header, dashboard, chat)
+  - Verificar se botão de criar LP bloqueia corretamente
+  - Testar navegação básica (não precisa ser perfeito)
+  - Garantir que não quebra nada crítico
+
+- [ ] **Limpar código de produção**
+  - Remover todos os botões de DEV (SkillSwap, ZenFlow, etc)
+  - Remover botão "Zerar créditos" (DEV)
+  - Limpar console.logs verbosos (deixar apenas erros importantes)
+  - Remover comentários de debug
+
+- [ ] **Validação final**
+  - Fazer signup completo de novo usuário
+  - Testar fluxo: Login → Criar LP → Gerar lead → Ver no dashboard → Perguntar ao chat
+  - Comprar créditos com cartão real
+  - Verificar emails (magic link + notificação de lead)
 
 ---
 
