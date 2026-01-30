@@ -11,9 +11,9 @@
 | Categoria | Itens | Esforço Total |
 |-----------|-------|---------------|
 | 🔴 Crítico | 4 | ~6h |
-| 🟡 Importante | 4 | ~14h |
+| 🟡 Importante | 3 | ~10h |
 | 🟢 Desejável | 4 | ~8h |
-| **Total** | **12** | **~28h** |
+| **Total** | **11** | **~24h** |
 
 ---
 
@@ -132,17 +132,17 @@ Usuário clica em plano → Cria Checkout Session (currency baseada no país)
 
 ### 3.5 Landing Page do Projeto (Home)
 **Esforço:** 4-6h  
-**Status:** ❌ Pendente
+**Status:** ✅ Concluído
 
 **Objetivo:** Criar uma LP que explica o IdeaRadar, substituindo a home atual. O CTA leva para login/signup (dashboard atual).
 
 **Seções planejadas:**
-- [ ] Hero — Headline forte + subheadline + CTA
-- [ ] Como Funciona — 3-4 passos visuais
-- [ ] Features — O que o IdeaRadar oferece
-- [ ] Pricing — Modelo de créditos (ver abaixo)
-- [ ] FAQ — Perguntas comuns
-- [ ] CTA Final — Repetir call to action
+- [x] Hero — Headline forte + subheadline + CTA
+- [x] Como Funciona — 3-4 passos visuais
+- [x] Features — O que o IdeaRadar oferece
+- [x] Pricing — Modelo de créditos (ver abaixo)
+- [x] FAQ — Perguntas comuns
+- [x] CTA Final — Repetir call to action
 
 **Modelo de Pricing proposto (créditos, não mensalidade):**
 ```
