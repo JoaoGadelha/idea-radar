@@ -2,26 +2,18 @@ import { copyFileSync, renameSync } from 'fs';
 import { join } from 'path';
 
 // Após o build do Vite:
-// 1. Renomeia dist/index.html para dist/app.html (React app)
-// 2. Copia public/landing.html para dist/index.html (landing page na raiz)
+// 1. Faz cópia de dist/index.html para dist/app.html (para rewrites do Vercel)
+// 2. Mantém dist/index.html como está (React app na raiz)
 
 const distPath = './dist';
 
 try {
-  // Renomeia o index.html do React app para app.html
-  renameSync(
+  // Copia index.html para app.html (usado pelos rewrites do vercel.json)
+  copyFileSync(
     join(distPath, 'index.html'),
     join(distPath, 'app.html')
   );
-  console.log('✓ Renomeado dist/index.html → dist/app.html');
-
-  // Copia a landing page para ser o index.html
-  copyFileSync(
-    './public/landing.html',
-    join(distPath, 'index.html')
-  );
-  console.log('✓ Copiado public/landing.html → dist/index.html');
-  
+  console.log('✓ Copiado dist/index.html → dist/app.html');
   console.log('✓ Build finalizado com sucesso!');
 } catch (error) {
   console.error('Erro no build script:', error);
