@@ -31,7 +31,7 @@
   ],
   "crons": [
     {
-      "path": "/api/cron/sync-metrics",
+      "path": "/api/cron/sync-metrics?secret=$CRON_SECRET",
       "schedule": "0 8 * * *"
     }
   ]

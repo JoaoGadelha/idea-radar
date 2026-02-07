@@ -14,22 +14,29 @@
 | APIs de Projetos (CRUD) | ✅ Pronto |
 | API de Análise LLM | ✅ Pronto |
 | Webhook de Leads | ✅ Pronto |
+| Landing Page Builder com IA | ✅ Pronto |
+| Sistema de Créditos/Planos | ✅ Pronto |
+| Integração Stripe | ✅ Pronto |
 | Frontend | ✅ Pronto |
-| Integração GA4 | 🔧 Pendente |
-| Deploy | 🔧 Pendente |
+| Integração GA4 | ✅ Pronto |
+| Testes Críticos | ✅ Pronto |
+| Deploy | ✅ Pronto |
 
 ---
-## 📋 Decisões Pendentes
+## 📋 Próximas Melhorias (Opcional)
 
-### Limitação de Planos
-- **Plano Free**: Atualmente limitado a 5 gerações/dia
-- **DECIDIR**: Período da limitação (diário, semanal, mensal?)
-- **DECIDIR**: Reset automático ou manual?
+### UX - Contador de Créditos
 - **TODO**: Mostrar contador de gerações restantes durante loading da geração
   - Exibir abaixo da ampulheta: "Você tem direito a mais X gerações de landing page (hoje)"
   - Apenas para plano free (deixar mais explícito o limite)
   - Texto em negrito para chamar atenção
   - Prevenir uso indiscriminado/aleatório de gerações
+
+### Decisões de Produto
+- **DECIDIR**: Período da limitação (diário, semanal, mensal?)
+  - Atualmente: Limitações diárias implementadas
+- **DECIDIR**: Reset automático ou manual?
+  - Atualmente: Manual via API /api/dev/reset-credits
 
 ---
 ## 💡 Conceito
@@ -85,10 +92,10 @@ Por projeto/landing page:
 - [x] Criar API de Análise (/api/ask)
 - [x] Criar Webhook de Leads (/api/leads)
 
-### 🔧 Fase 2: Setup do Banco (VOCÊ FAZ)
-- [ ] Criar database no Neon (https://neon.tech)
-- [ ] Rodar schema SQL (ver seção abaixo)
-- [ ] Configurar variáveis de ambiente no Vercel
+### ✅ Fase 2: Setup do Banco (COMPLETO)
+- [x] Criar database no Neon (https://neon.tech)
+- [x] Rodar schema SQL (ver seção abaixo)
+- [x] Configurar variáveis de ambiente no Vercel
 
 ### ✅ Fase 3: Frontend (COMPLETO)
 - [x] Tela de Login (input email)
@@ -98,15 +105,16 @@ Por projeto/landing page:
 - [x] Modal/form para adicionar projeto
 - [x] Chat com a LLM (área principal)
 
-### 🔧 Fase 4: Integração GA4
-- [ ] Configurar Service Account no Google Cloud
-- [ ] API de sync de métricas
-- [ ] Cron job diário para coletar métricas
+### ✅ Fase 4: Integração GA4 (COMPLETO)
+- [x] Configurar Service Account no Google Cloud
+- [x] API de sync de métricas (api/cron/sync-metrics.js)
+- [x] Cron job diário para coletar métricas (vercel.json - 8h UTC)
 
-### 🔧 Fase 5: Deploy
-- [ ] Conectar repo ao Vercel
-- [ ] Configurar variáveis de ambiente
-- [ ] Testar fluxo completo
+### ✅ Fase 5: Deploy (COMPLETO)
+- [x] Conectar repo ao Vercel
+- [x] Configurar variáveis de ambiente (39 vars configuradas)
+- [x] Configurar cron automático (sync diário às 8h UTC)
+- [x] Adicionar testes críticos com pre-commit hooks
 
 ---
 
