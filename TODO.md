@@ -28,6 +28,8 @@
 ### Bugs e Verificações
 - **TODO**: Verificar se ao construir landing pages automaticamente e ao conversar com o chatbot está descontando créditos
 - **TODO**: Colocar brand no builder de landing pages
+- **BUG**: Revisar renderização de listas em todos os estilos de template (visualização mostrando marcadores incorretos em variações)
+- **BUG**: Corrigir exibição de miniaturas na galeria de variações geradas anteriormente (componente apresentando falhas de layout)
 
 ### Decisões de Sistema de Créditos
 - **DECIDIR**: Política de cobrança para regeneração de imagens individuais (hero, about, product)
