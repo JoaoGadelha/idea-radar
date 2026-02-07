@@ -39,13 +39,13 @@
   - Atualmente: Manual via API /api/dev/reset-credits
 
 ### Refatoração da Termometragem
-- [ ] Guardrail de amostra: se sessions < 50 → avisar "amostra insuficiente, rode mais tráfego"
-- [ ] Conversão real no prompt: conv_real = leads/sessions (quando sessions > 0), priorizar sobre conversão GA4
-- [ ] Janelas 7d: média de sessions, leads e conv_real, + tendência (último dia vs média 7d)
-- [ ] CTA no diagnóstico: CTA alto/lead baixo → form/offer fracos; CTA baixo → headline/primeira dobra fraca
-- [ ] Ponderar qualidade de lead no score: + corporativo/educacional, – descartável
-- [ ] Diversidade de fonte: se >70% de um único UTM → alertar bolha e sugerir novos canais
-- [ ] Mobile share >70% + conversão baixa → sugerir revisar UX mobile
+- [x] Guardrail de amostra: se sessions < 50 → avisar "amostra insuficiente, rode mais tráfego"
+- [x] Conversão real no prompt: conv_real = leads/sessions (quando sessions > 0), priorizar sobre conversão GA4
+- [x] Janelas 7d: média de sessions, leads e conv_real, + tendência (último dia vs média 7d)
+- [x] CTA no diagnóstico: CTA alto/lead baixo → form/offer fracos; CTA baixo → headline/primeira dobra fraca
+- [x] Ponderar qualidade de lead no score: + corporativo/educacional, – descartável
+- [x] Diversidade de fonte: se >70% de um único UTM → alertar bolha e sugerir novos canais
+- [x] Mobile share >70% + conversão baixa → sugerir revisar UX mobile
 
 ---
 ## 💡 Conceito
