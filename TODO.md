@@ -29,6 +29,13 @@
 - **TODO**: Verificar se ao construir landing pages automaticamente e ao conversar com o chatbot está descontando créditos
 - **TODO**: Colocar brand no builder de landing pages
 
+### Decisões de Sistema de Créditos
+- **DECIDIR**: Política de cobrança para regeneração de imagens individuais (hero, about, product)
+  - Opção A: Consumir do mesmo crédito de landing page
+  - Opção B: Criar crédito separado específico para imagens
+  - Opção C: Deixar regenerações ilimitadas (custo baixo por imagem)
+  - Avaliar impacto de custo da API de imagens vs incentivo ao refinamento
+
 ### UX - Contador de Créditos
 - **TODO**: Mostrar contador de gerações restantes durante loading da geração
   - Exibir abaixo da ampulheta: "Você tem direito a mais X gerações de landing page (hoje)"
