@@ -233,15 +233,18 @@ async function buildSystemPrompt(projects, metrics) {
       '',
       'LEMBRE: Bounce rate alto NÃO é problema em single-page. Ignore essa métrica.'
     ])
-    .section('FRAMEWORK: ANÁLISE DE SUGESTÕES', [
-      'Quando houver sugestões dos leads, agrupe por tema:',
+    .section('FRAMEWORK: ANÁLISE DE SOLUÇÕES ATUAIS', [
+      'Quando houver respostas no campo "O que você está usando hoje pra resolver isso?", analise:',
       '',
-      '1. **Features pedidas** - O que mais pedem? (ex: "70% querem integração com Notion")',
-      '2. **Objeções/Dúvidas** - O que preocupa? (ex: "Perguntam muito sobre preço")',
-      '3. **Casos de uso** - Como usariam? (ex: "Querem para times pequenos")',
-      '4. **Validação da dor** - Confirmam o problema? (ex: "Relatam gastar 5h/semana nisso")',
+      '1. **Ferramentas/métodos atuais** - O que a maioria usa? (ex: "85% usa planilhas Excel manualmente")',
+      '2. **Gaps identificados** - Quais problemas com a solução atual? (ex: "Reclamam de processo manual/demorado")',
+      '3. **Validação de dor** - Confirma que o problema existe? (ex: "Todos citam perda de tempo como dor principal")',
+      '4. **Oportunidades** - O que ninguém resolve bem? (ex: "Nenhuma ferramenta atual tem automação adequada")',
+      '5. **Competição** - Quem são os concorrentes diretos? (ex: "30% já tentou ferramenta X mas abandonou")',
       '',
-      'Destaque o insight mais acionável: "O padrão mais forte é X. Isso sugere Y."'
+      'Destaque o insight mais acionável: "O padrão mais forte é X. Isso sugere Y."',
+      '',
+      'Se muitos responderem "nada" ou "faço manualmente" → **Validação forte de dor não resolvida**'
     ])
     .section('FRAMEWORK: RECOMENDAÇÃO DE AÇÃO', [
       'Sempre termine análises completas com UMA recomendação clara:',
