@@ -155,10 +155,10 @@ async function buildSystemPrompt(projects, metrics) {
    - Taxa de conversão: ${conversionRate}`;
     }
 
-    // Adicionar sugestões dos leads se houver
+    // Adicionar respostas sobre soluções atuais dos leads se houver
     if (leadsWithSuggestions.length > 0) {
       contextText += `\n   
-   💬 Sugestões dos Usuários (${leadsWithSuggestions.length} ${leadsWithSuggestions.length === 1 ? 'sugestão' : 'sugestões'}):`;
+   💬 Soluções Atuais Relatadas (${leadsWithSuggestions.length} ${leadsWithSuggestions.length === 1 ? 'resposta' : 'respostas'}):`;
       
       leadsWithSuggestions.forEach((lead, index) => {
         contextText += `\n   ${index + 1}. "${lead.sugestao}"`;
@@ -179,7 +179,7 @@ async function buildSystemPrompt(projects, metrics) {
       'Analisar métricas de landing pages de validação',
       'Dar SCORE DE VALIDAÇÃO (1-10) quando pedido',
       'Diagnosticar problemas de conversão',
-      'Interpretar feedback de usuários (sugestões de leads)',
+      'Interpretar respostas sobre ferramentas/soluções atuais dos leads',
       'Recomendar ações: CONTINUAR, AJUSTAR, PIVOTAR ou ABANDONAR'
     ])
     .context({
@@ -193,11 +193,11 @@ async function buildSystemPrompt(projects, metrics) {
       '**Leads = Conversões reais**: Cada pessoa que se cadastrou É uma conversão bem-sucedida. Use **conversão real (leads/sessions)** como métrica primária. Campo "conversão" do GA4 pode estar impreciso.',
       '**Amostra mínima**: Se sessions < 50 (últimos 7d), responda que é amostra insuficiente e peça mais tráfego antes de concluir.',
       '**Taxa de rejeição alta é NORMAL**: Landing pages são single-page. 100% de rejeição pode acontecer. Foque em leads/sessions.',
-      '**Sucesso = Leads + Sugestões**: Leads = interesse comprovado. Sugestões = feedback qualitativo. Tempo na página = engajamento (mais tempo = mais interesse).'
+      '**Sucesso = Leads + Respostas**: Leads = interesse comprovado. Respostas sobre ferramentas atuais = validação de dor existente. Tempo na página = engajamento (mais tempo = mais interesse).'
     ])
     .section('TERMINOLOGIA', [
       '**Lead** = pessoa que se cadastrou demonstrando interesse',
-      '**Sugestão** = feedback/comentário que um lead deixou',
+      '**Solução Atual** = ferramenta/método que o lead usa hoje para resolver o problema',
       '**Conversão** = neste contexto, é o mesmo que lead (cadastro = sucesso)'
     ])
     .section('FRAMEWORK: SCORE DE VALIDAÇÃO (1-10)', [
@@ -210,7 +210,7 @@ async function buildSystemPrompt(projects, metrics) {
       '→ Recomendação: PIVOTAR ou ABANDONAR',
       '',
       '**4-6 (SINAIS MISTOS):**',
-      '- Poucos leads mas com sugestões valiosas',
+      '- Poucos leads mas respostas indicam problema real',
       '- Taxa conversão < 2% mas tempo na página alto',
       '- Precisa de mais tráfego para conclusão estatística',
       '→ Recomendação: AJUSTAR copy/CTA e testar mais',
@@ -218,7 +218,7 @@ async function buildSystemPrompt(projects, metrics) {
       '**7-10 (VALIDOU):**',
       '- Taxa conversão > 3% = interesse real',
       '- Leads com emails corporativos = B2B validando',
-      '- Sugestões pedindo features específicas = demanda clara',
+      '- Respostas indicam dor não resolvida ("nada", "manual", "planilha") = gap de mercado',
       '- Múltiplos leads de fontes diferentes = não é bolha',
       '→ Recomendação: CONTINUAR, próximo passo é MVP'
     ])
@@ -263,7 +263,7 @@ async function buildSystemPrompt(projects, metrics) {
       '1. Taxa de conversão (leads/sessões)',
       '2. Qualidade dos leads (corporativo > pessoal > descartável)',
       '3. Engajamento (tempo na página, scroll depth)',
-      '4. Riqueza de feedback (sugestões úteis)',
+      '4. Riqueza de respostas (validam dor e gaps de mercado)',
       '',
       'Dê um ranking claro: "Projeto A (score 7) > Projeto B (score 4) > Projeto C (score 2)"'
     ])
