@@ -16,6 +16,7 @@ import {
   getUserProjects,
   saveAnalysis,
   getProjectLeads,
+  getProjectMetrics,
 } from '../src/services/database.js';
 
 /**
@@ -25,11 +26,15 @@ async function buildSystemPrompt(projects, metrics) {
   // Buscar todos os leads de cada projeto
   const projectLeadsMap = {};
   const projectAllLeadsMap = {};
+  const projectMetrics7d = {};
+  const now = new Date();
+  const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
   
   for (const project of projects) {
     const leads = await getProjectLeads(project.id);
     projectAllLeadsMap[project.id] = leads;
     const leadsWithSuggestions = leads.filter(l => l.sugestao && l.sugestao.trim());
+    projectMetrics7d[project.id] = await getProjectMetrics(project.id, 7);
     
     if (leadsWithSuggestions.length > 0) {
       projectLeadsMap[project.id] = leadsWithSuggestions;
@@ -41,6 +46,19 @@ async function buildSystemPrompt(projects, metrics) {
     const hasMetrics = m.sessions !== null;
     const allLeads = projectAllLeadsMap[m.project_id] || [];
     const leadsWithSuggestions = projectLeadsMap[m.project_id] || [];
+    const leads7d = allLeads.filter(l => {
+      const createdAt = l.created_at ? new Date(l.created_at) : null;
+      return createdAt && createdAt >= sevenDaysAgo;
+    });
+    const metrics7d = projectMetrics7d[m.project_id] || [];
+    const sessions7d = metrics7d.reduce((acc, item) => acc + (item.sessions || 0), 0);
+    const cta7d = metrics7d.reduce((acc, item) => acc + (item.cta_clicks || 0), 0);
+    const convReal7d = sessions7d > 0 ? +(leads7d.length / sessions7d).toFixed(4) : null;
+    const gaConversionRate = m.conversion_rate ? Number(m.conversion_rate) / 100 : null;
+    const trendConv = convReal7d !== null && gaConversionRate !== null
+      ? +(gaConversionRate - convReal7d).toFixed(4)
+      : null;
+    const guardrailLowSample = sessions7d > 0 && sessions7d < 50;
     
     // Analisar qualidade dos leads
     const emailTypes = { corporate: 0, personal: 0, educational: 0, disposable: 0, unknown: 0 };
@@ -62,12 +80,32 @@ async function buildSystemPrompt(projects, metrics) {
       const device = lead.metadata?.device?.device || 'unknown';
       devices[device] = (devices[device] || 0) + 1;
     });
+
+    const totalLeads = allLeads.length;
+    const totalSources = Object.values(utmSources).reduce((acc, v) => acc + v, 0);
+    const dominantSource = Object.entries(utmSources).sort((a, b) => b[1] - a[1])[0];
+    const dominantSourceShare = dominantSource && totalSources > 0 ? dominantSource[1] / totalSources : 0;
+    const mobileShare = devices.mobile && totalLeads > 0 ? devices.mobile / totalLeads : 0;
     
     let contextText = `📦 **${m.project_name}**
    URL: ${m.url || 'Não definida'}
    Status: ${m.status}
-   👥 Leads cadastrados: ${allLeads.length}`;
+   👥 Leads cadastrados: ${totalLeads}`;
+
+    contextText += `
    
+   📈 Amostra & Tendência (7d):
+   - Sessions 7d: ${sessions7d}
+   - Leads 7d: ${leads7d.length}
+   - Conversão real 7d: ${convReal7d !== null ? `${(convReal7d * 100).toFixed(2)}%` : 'N/A'}
+   - Tendência vs último GA4: ${trendConv !== null ? `${(trendConv * 100).toFixed(2)} pts` : 'N/A'}
+   - CTA 7d: ${cta7d}`;
+
+    if (guardrailLowSample) {
+      contextText += `
+   ⚠️ Amostra insuficiente (sessions < 50). Rode mais tráfego antes de concluir.`;
+    }
+
     // Adicionar breakdown de qualidade de leads se houver leads
     if (allLeads.length > 0) {
       const qualityBreakdown = [];
@@ -152,9 +190,10 @@ async function buildSystemPrompt(projects, metrics) {
     .section('CONTEXTO CRÍTICO - LEIA COM ATENÇÃO', 
       'Estas são landing pages de VALIDAÇÃO DE IDEIAS (também chamadas de "termômetro de mercado").\nO objetivo NÃO é vender um produto - é medir interesse antes de construir algo.')
     .section('INTERPRETAÇÃO CORRETA DAS MÉTRICAS', [
-      '**Leads = Conversões reais**: Cada pessoa que se cadastrou É uma conversão bem-sucedida. Se há 4 leads, há 4 conversões REAIS. Ignore o campo "conversões" do GA4 - pode estar mal configurado.',
-      '**Taxa de rejeição alta é NORMAL**: Landing pages são single-page. Não há outras páginas. 100% de rejeição é esperado e NÃO indica problema. O que importa: a pessoa se cadastrou?',
-      '**Sucesso = Leads + Sugestões**: Leads = quantas pessoas demonstraram interesse. Sugestões = feedback qualitativo valioso. Tempo na página = engajamento (mais tempo = mais interesse).'
+      '**Leads = Conversões reais**: Cada pessoa que se cadastrou É uma conversão bem-sucedida. Use **conversão real (leads/sessions)** como métrica primária. Campo "conversão" do GA4 pode estar impreciso.',
+      '**Amostra mínima**: Se sessions < 50 (últimos 7d), responda que é amostra insuficiente e peça mais tráfego antes de concluir.',
+      '**Taxa de rejeição alta é NORMAL**: Landing pages são single-page. 100% de rejeição pode acontecer. Foque em leads/sessions.',
+      '**Sucesso = Leads + Sugestões**: Leads = interesse comprovado. Sugestões = feedback qualitativo. Tempo na página = engajamento (mais tempo = mais interesse).'
     ])
     .section('TERMINOLOGIA', [
       '**Lead** = pessoa que se cadastrou demonstrando interesse',
@@ -320,7 +359,6 @@ export default async function handler(req, res) {
       });
     }
 
-    // Montar prompt
     const systemPrompt = await buildSystemPrompt(projects, metrics);
     const fullPrompt = `${systemPrompt}\n\n---\n\nPergunta do usuário: ${question.trim()}`;
 
@@ -331,8 +369,6 @@ export default async function handler(req, res) {
       maxTokens: 2000,
     });
     const processingTime = Date.now() - startTime;
-
-    // Crédito já foi consumido no início (consumo atômico)
 
     // Salvar análise no histórico
     await saveAnalysis(userId, question.trim(), answer, metrics);
