@@ -623,8 +623,8 @@ Call to Action:
           { question: 'Os dados ficam seguros?', answer: 'Absolutamente. Usamos criptografia de ponta e seguimos as normas da LGPD.' },
           { question: 'Tem suporte em português?', answer: 'Sim, nossa equipe de suporte está disponível 24/7 em português via chat, email e telefone.' }
         ],
-        cta_headline: 'Pronto para começar?',
-        cta_subheadline: 'Junte-se a milhares de pessoas que já transformaram seus resultados',
+        cta_headline: 'Estamos liberando acesso aos poucos',
+        cta_subheadline: 'Queremos liberar primeiro pra quem realmente usaria a ferramenta agora.',
         features: [
           { icon: '⚡', title: 'Super Rápido', description: 'Performance otimizada para máxima velocidade' },
           { icon: '🔒', title: 'Seguro', description: 'Proteção de dados de nível empresarial' },
@@ -697,7 +697,7 @@ Call to Action:
         about_paragraphs: [
           'Desenvolvemos esta solução pensando em você. Cada detalhe foi cuidadosamente planejado para oferecer a melhor experiência possível.',
           'Nossa missão é democratizar o acesso a ferramentas de qualidade profissional, sem complicação e com preço justo.',
-          'Junte-se a milhares de profissionais e empresas que já confiam em nós para transformar seus resultados.'
+          'Estamos construindo algo especial e queremos contar com quem realmente precisa dessa solução agora.'
         ],
         product_title: 'Como funciona na prática',
         product_paragraphs: [
