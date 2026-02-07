@@ -32,8 +32,13 @@
 ### Decisões de Sistema de Créditos
 - **DECIDIR**: Política de cobrança para regeneração de imagens individuais (hero, about, product)
   - Opção A: Consumir do mesmo crédito de landing page
+    * ⚠️ Problema: Descontar LP inteira por 1 imagem parece desproporcional
   - Opção B: Criar crédito separado específico para imagens
-  - Opção C: Deixar regenerações ilimitadas (custo baixo por imagem)
+    * Ex: 1 LP = 1 crédito | 1 Imagem = 0.1 crédito
+  - Opção C: Deixar regenerações ilimitadas (se custo for realmente baixo)
+    * ❓ Como avaliar custo real: monitorar uso em produção por 1-2 semanas
+    * Calcular: (total de regenerações × custo API) ÷ usuários ativos
+    * Benchmark: se <$0.50/usuário/mês → viável deixar free
   - Avaliar impacto de custo da API de imagens vs incentivo ao refinamento
 
 ### UX - Contador de Créditos
