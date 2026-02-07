@@ -41,6 +41,14 @@
     * Benchmark: se <$0.50/usuário/mês → viável deixar free
   - Avaliar impacto de custo da API de imagens vs incentivo ao refinamento
 
+### Decisões de Monetização de Templates
+- **DECIDIR**: Liberar templates diferentes por plano de assinatura
+  - Plano básico: acesso a 2 templates apenas (ex: 1 claro + 1 escuro, como Claude + Stripe)
+  - Plano intermediário: acesso a 4-5 templates
+  - Plano premium: acesso a todos os templates (8 atuais + futuros)
+  - Considerar: templates mais elaborados (Neon, Brutalist) como diferencial de planos superiores
+  - Avaliar se vale criar hierarquia visual clara (básico vs premium) no seletor de templates
+
 ### UX - Contador de Créditos
 - **TODO**: Mostrar contador de gerações restantes durante loading da geração
   - Exibir abaixo da ampulheta: "Você tem direito a mais X gerações de landing page (hoje)"
