@@ -25,6 +25,10 @@
 ---
 ## 📋 Próximas Melhorias (Opcional)
 
+### Bugs e Verificações
+- **TODO**: Verificar se ao construir landing pages automaticamente e ao conversar com o chatbot está descontando créditos
+- **TODO**: Colocar brand no builder de landing pages
+
 ### UX - Contador de Créditos
 - **TODO**: Mostrar contador de gerações restantes durante loading da geração
   - Exibir abaixo da ampulheta: "Você tem direito a mais X gerações de landing page (hoje)"
