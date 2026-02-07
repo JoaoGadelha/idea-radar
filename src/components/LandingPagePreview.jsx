@@ -769,10 +769,10 @@ export default function LandingPagePreview({
         <div className={styles.ctaFinalContainer}>
           <div className={styles.ctaFinalContent}>
             <h2 className={styles.ctaFinalHeadline}>
-              {ctaHeadline || 'Pronto para começar?'}
+              {ctaHeadline || 'Estamos liberando acesso aos poucos'}
             </h2>
             <p className={styles.ctaFinalSubheadline}>
-              {ctaSubheadline || 'Junte-se aos primeiros a experimentar.'}
+              {ctaSubheadline || 'Queremos liberar primeiro pra quem realmente usaria a ferramenta agora.'}
             </p>
           </div>
 
@@ -784,7 +784,7 @@ export default function LandingPagePreview({
             <form onSubmit={handleSubmit} className={styles.ctaFinalForm}>
               <input 
                 type="email" 
-                placeholder="seu@email.com" 
+                placeholder="Email para liberar acesso" 
                 className={styles.ctaFinalInput}
                 disabled={loading}
                 value={formData.email}
@@ -804,13 +804,13 @@ export default function LandingPagePreview({
               )}
               {collectSuggestions && (
                 <textarea 
-                  placeholder="Tem alguma sugestão ou feedback?" 
+                  placeholder="O que te faria usar essa ferramenta imediatamente? (opcional, mas recomendado)" 
                   className={styles.ctaFinalInput}
-                  style={{ minHeight: '100px', resize: 'vertical' }}
+                  style={{ minHeight: '120px', resize: 'vertical' }}
                   disabled={loading}
                   value={formData.suggestions}
                   onChange={(e) => setFormData({ ...formData, suggestions: e.target.value })}
-                  rows={3}
+                  rows={4}
                 />
               )}
               <button 
@@ -818,7 +818,7 @@ export default function LandingPagePreview({
                 className={styles.ctaFinalButton}
                 disabled={loading}
               >
-                {loading ? 'Enviando...' : (ctaText || 'Garantir meu acesso')} →
+                {loading ? 'Enviando...' : (ctaText || 'Entrar na lista de acesso')} →
               </button>
             </form>
           )}
