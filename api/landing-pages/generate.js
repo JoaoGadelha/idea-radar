@@ -457,17 +457,19 @@ export default async function handler(req, res) {
         '  - Curtas (máx 2 frases)',
         '  - Que reforcem benefícios sutilmente',
       ])
-      .section('CTA FINAL - Urgência Ética', [
-        'Último empurrão para conversão.',
+      .section('CTA FINAL - Acesso Gradual e Filtro de Intenção', [
+        'Posicionamento de beta privado para filtrar curiosos.',
         '',
-        'cta_headline: Crie senso de oportunidade, não pressão.',
-        '  - "Seja um dos primeiros a experimentar"',
-        '  - "Garanta seu lugar na lista de espera"',
-        '  - NÃO use: "ÚLTIMA CHANCE", "OFERTA LIMITADA" (fake urgency)',
+        'cta_headline: Use a copy padrão que filtra por intenção real.',
+        '  - Padrão: "Estamos liberando acesso aos poucos"',
+        '  - Alternativas: "Beta privado - Vagas limitadas" ou "Acesso antecipado"',
         '',
-        'cta_subheadline: Reduza o risco percebido.',
-        '  - "Sem compromisso. Avisamos quando estiver pronto."',
-        '  - "Só precisa do email. Sem spam, prometemos."',
+        'cta_subheadline: Deixe claro que quer quem vai usar agora.',
+        '  - Padrão: "Queremos liberar primeiro pra quem realmente usaria a ferramenta agora."',
+        '  - Alternativa: "Prioridade para quem tem a necessidade hoje."',
+        '',
+        'IMPORTANTE: O formulário já tem pergunta de intenção ("O que te faria usar imediatamente?").',
+        'Não prometa acesso imediato - reforce que é gradual e baseado em fit.',
       ])
       .section('NOVAS SEÇÕES - SEMPRE PREENCHA TODAS', [
         '⚠️ REGRA CRÍTICA: Mesmo que o brief seja vago, CRIE conteúdo fictício/genérico para TODAS as seções abaixo.',
@@ -839,8 +841,8 @@ export default async function handler(req, res) {
           }
         : null,
       // CTA Final
-      cta_headline: variation.cta_headline || 'Seja um dos primeiros',
-      cta_subheadline: variation.cta_subheadline || 'Cadastre-se e avisamos quando estiver pronto',
+      cta_headline: variation.cta_headline || 'Estamos liberando acesso aos poucos',
+      cta_subheadline: variation.cta_subheadline || 'Queremos liberar primeiro pra quem realmente usaria a ferramenta agora.',
     };
 
     // ✅ Geração bem-sucedida (crédito já foi consumido no início)
