@@ -784,13 +784,16 @@ export default function LandingPagePreview({
             <form onSubmit={handleSubmit} className={styles.ctaFinalForm}>
               <input 
                 type="email" 
-                placeholder="Email para liberar acesso" 
+                placeholder="Email para entrar na lista de acesso" 
                 className={styles.ctaFinalInput}
                 disabled={loading}
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 required
               />
+              <p className={styles.ctaHint} style={{ fontSize: '0.875rem', color: 'rgba(255, 255, 255, 0.7)', margin: '-0.5rem 0 0.5rem', textAlign: 'center' }}>
+                Liberamos convites aos poucos.
+              </p>
               {collectPhone && (
                 <input 
                   type="tel" 
@@ -804,7 +807,7 @@ export default function LandingPagePreview({
               )}
               {collectSuggestions && (
                 <textarea 
-                  placeholder="O que te faria usar essa ferramenta imediatamente? (opcional, mas recomendado)" 
+                  placeholder="O que te faria usar essa ferramenta imediatamente?" 
                   className={styles.ctaFinalInput}
                   style={{ minHeight: '120px', resize: 'vertical' }}
                   disabled={loading}
