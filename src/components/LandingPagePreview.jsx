@@ -790,10 +790,7 @@ export default function LandingPagePreview({
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 required
-              />
-              <p className={styles.ctaHint} style={{ fontSize: '0.875rem', color: 'rgba(255, 255, 255, 0.7)', margin: '-0.5rem 0 0.5rem', textAlign: 'center' }}>
-                Liberamos convites aos poucos.
-              </p>
+              />             
               {collectPhone && (
                 <input 
                   type="tel" 
@@ -807,7 +804,7 @@ export default function LandingPagePreview({
               )}
               {collectSuggestions && (
                 <textarea 
-                  placeholder="O que te faria usar essa ferramenta imediatamente?" 
+                  placeholder="O que você está usando hoje pra resolver isso?" 
                   className={styles.ctaFinalInput}
                   style={{ minHeight: '120px', resize: 'vertical' }}
                   disabled={loading}
